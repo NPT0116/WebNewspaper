@@ -19,12 +19,14 @@ passport.deserializeUser(async (id: string, done) => {
 export default passport.use(
   "local",
   new LocalStrategy(
-    { usernameField: "email" },
-    async (email: string, password: string, done) => {
+    { usernameField: "username" },
+    async (username: string, password: string, done) => {
       try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         if (!user) {
-          return done(null, false, { message: "Incorrect email or password" });
+          return done(null, false, {
+            message: "Incorrect username or password",
+          });
         }
         const isMatched: boolean = await bcrypt.compare(
           password,
@@ -33,7 +35,7 @@ export default passport.use(
         if (isMatched) {
           return done(null, user);
         }
-        return done(null, false, { message: "Incorrect email or password" });
+        return done(null, false, { message: "Incorrect username or password" });
       } catch (e) {
         return done(e);
       }

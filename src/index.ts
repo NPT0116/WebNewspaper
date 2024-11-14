@@ -6,6 +6,8 @@ import connectDB from "./config/db.js";
 import MongoStore from "connect-mongo";
 import "./strategy/localStrategy.js";
 import passport from "passport";
+import router from "./routes/index.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 dotenv.config();
 connectDB();
 const app = express();
@@ -31,16 +33,8 @@ app.use(
   })
 );
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("helloworld");
-});
-
-app.get("/api", (req: Request, res: Response) => {
-  res.status(200).json({ message: "welcome to the api page" });
-});
-app.get("/error", (req: Request, res: Response, next: NextFunction) => {
-  next(new AppError("this is error page.", 500));
-});
+app.use(router);
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

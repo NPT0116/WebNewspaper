@@ -1,23 +1,25 @@
-// src/middlewares/errorHandler.ts
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 import { AppError } from "../utils/appError.js";
 
-export const errorHandler = (
-  err: AppError | Error,
+export const errorHandler: ErrorRequestHandler = (
+  err: AppError,
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+) => {
   if (err instanceof AppError) {
+    // Kiểm tra nếu có danh sách lỗi chi tiết
     res.status(err.statusCode).json({
-      status: "error",
+      status: err.status,
       message: err.message,
+      errors: err.errors.length ? err.errors : undefined, // Trả về `errors` nếu có
     });
+    return;
   }
 
-  console.error("ERROR 💥", err);
+  // Xử lý các lỗi khác
   res.status(500).json({
     status: "error",
-    message: "Something went wrong!",
+    message: "Something went wrong",
   });
 };
