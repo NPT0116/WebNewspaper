@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import { Request, Response, ErrorRequestHandler } from 'express';
 import { AppError } from '../utils/appError.js';
 
-export const errorHandler: ErrorRequestHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler: ErrorRequestHandler = (err: AppError, req: Request, res: Response) => {
   if (err instanceof AppError) {
     // Kiểm tra nếu có danh sách lỗi chi tiết
     res.status(err.statusCode).json({
