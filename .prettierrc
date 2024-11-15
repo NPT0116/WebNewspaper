@@ -6,6 +6,6 @@
     "endOfLine": "auto",
     "useTabs": false,
     "singleQuote": true,
-    "printWidth": 120,
+    "printWidth": 200,
     "jsxSingleQuote": true
 }

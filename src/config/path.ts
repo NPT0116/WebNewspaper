@@ -1,6 +1,6 @@
 export const PATH = {
   HOME: '/home',
-  USER: {
+  ACCOUNT: {
     PATH: '/account',
     OUTLET: {
       login: '/login',

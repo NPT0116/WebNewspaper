@@ -1,20 +1,19 @@
-import { Request, Response, ErrorRequestHandler } from 'express';
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 import { AppError } from '../utils/appError.js';
 
-export const errorHandler: ErrorRequestHandler = (err: AppError, req: Request, res: Response) => {
+export const errorHandler: ErrorRequestHandler = (err: AppError, req: Request, res: Response, next: NextFunction): void => {
+  // Ensure the function explicitly returns void
   if (err instanceof AppError) {
-    // Kiểm tra nếu có danh sách lỗi chi tiết
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
-      errors: err.errors.length ? err.errors : undefined // Trả về `errors` nếu có
+      errors: err.errors.length ? err.errors : undefined
     });
-    return;
+  } else {
+    console.error('ERROR 💥', err);
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong!'
+    });
   }
-
-  // Xử lý các lỗi khác
-  res.status(500).json({
-    status: 'error',
-    message: 'Something went wrong'
-  });
 };
