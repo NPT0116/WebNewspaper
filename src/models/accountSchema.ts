@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 import { IAccount } from "~/interfaces/Account/accountInterface.js";
 const accountSchema = new Schema<IAccount>({
   username: { type: String, unique: true, sparse: true }, // Chỉ sử dụng cho LocalAccount
-  password: { type: String, select: false }, // Chỉ sử dụng cho LocalAccount
+  password: { type: String, select: true }, // Chỉ sử dụng cho LocalAccount
   googleId: { type: String, unique: true, sparse: true }, // Chỉ sử dụng cho GoogleAccount
   email: { type: String, required: true, unique: true },
   role: {
