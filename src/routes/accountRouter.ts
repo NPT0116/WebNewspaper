@@ -4,7 +4,7 @@ import {
   registerUser,
   loginUser,
   logoutUser,
-} from "../controllers/userController.js";
+} from "../controllers/accountController.js";
 import { PATH } from "../config/path.js";
 import { registerValidationRules } from "~/validator/registerUserValidator.js";
 import { validateRequest } from "~/middlewares/validateUserRegister.js";
