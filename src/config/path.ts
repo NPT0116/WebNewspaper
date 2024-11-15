@@ -8,4 +8,4 @@ export const PATH = {
       logout: '/logout'
     }
   }
-}
+};

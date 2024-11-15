@@ -1,4 +1,4 @@
-import { body } from 'express-validator'
+import { body } from 'express-validator';
 
 export const registerValidationRules = [
   body('username')
@@ -14,4 +14,4 @@ export const registerValidationRules = [
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long'),
   body('email').isEmail().withMessage('Invalid email address').normalizeEmail()
-]
+];
