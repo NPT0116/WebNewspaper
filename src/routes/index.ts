@@ -1,6 +1,6 @@
-import express from "express";
-import { PATH } from "~/config/path.js";
-import userRouter from "./accountRouter.js";
+import express from 'express';
+import { PATH } from '~/config/path.js';
+import userRouter from './accountRouter.js';
 
 const router = express.Router();
 

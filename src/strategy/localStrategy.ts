@@ -1,8 +1,8 @@
-import passport from "passport";
-import bcrypt from "bcrypt";
-import { Strategy as LocalStrategy } from "passport-local";
-import Account from "~/models/accountSchema.js";
-import { ILocalAccount } from "~/interfaces/Account/accountInterface.js"; // Giả sử bạn có interface cho Account
+import passport from 'passport';
+import bcrypt from 'bcrypt';
+import { Strategy as LocalStrategy } from 'passport-local';
+import Account from '~/models/accountSchema.js';
+import { ILocalAccount } from '~/interfaces/Account/accountInterface.js'; // Giả sử bạn có interface cho Account
 
 // Serialize account ID vào session
 passport.serializeUser((account, done) => {
@@ -14,7 +14,7 @@ passport.deserializeUser(async (id: string, done) => {
   try {
     const account = await Account.findById(id);
     if (!account) {
-      return done(new Error("Account not found during deserialization"), null);
+      return done(new Error('Account not found during deserialization'), null);
     }
     return done(null, account);
   } catch (error) {
@@ -25,17 +25,17 @@ passport.deserializeUser(async (id: string, done) => {
 // Local Strategy cho đăng nhập với username và password
 passport.use(
   new LocalStrategy(
-    { usernameField: "username" }, // Sử dụng "username" làm field cho tên đăng nhập
+    { usernameField: 'username' }, // Sử dụng "username" làm field cho tên đăng nhập
     async (username: string, password: string, done) => {
       try {
         // Tìm account theo username
         const account = (await Account.findOne({
-          username,
+          username
         })) as ILocalAccount | null;
 
         if (!account) {
           return done(null, false, {
-            message: "Incorrect username or password",
+            message: 'Incorrect username or password'
           });
         }
 
@@ -43,7 +43,7 @@ passport.use(
         const isMatched = await bcrypt.compare(password, account.password);
         if (!isMatched) {
           return done(null, false, {
-            message: "Incorrect username or password",
+            message: 'Incorrect username or password'
           });
         }
 

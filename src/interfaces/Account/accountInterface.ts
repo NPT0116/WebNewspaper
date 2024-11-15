@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAccountBase extends Document {
   email: string;
-  role: "reader" | "subscriber" | "reporter" | "editor" | "admin";
+  role: 'reader' | 'subscriber' | 'reporter' | 'editor' | 'admin';
   isSubscriber: boolean;
   subscriptionExpiresAt?: Date;
   profileType: string;
