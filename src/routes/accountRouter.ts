@@ -1,13 +1,9 @@
 // src/routes/userRouter.ts
-import express from "express";
-import {
-  registerUser,
-  loginUser,
-  logoutUser,
-} from "../controllers/accountController.js";
-import { PATH } from "../config/path.js";
-import { registerValidationRules } from "~/validator/registerUserValidator.js";
-import { validateRequest } from "~/middlewares/validateUserRegister.js";
+import express from 'express';
+import { registerUser, loginUser, logoutUser } from '../controllers/accountController.js';
+import { PATH } from '../config/path.js';
+import { registerValidationRules } from '~/validator/registerUserValidator.js';
+import { validateRequest } from '~/middlewares/validateUserRegister.js';
 
 const userRouter = express.Router();
 
