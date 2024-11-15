@@ -59,7 +59,7 @@ export const registerUser = async (
   } catch (error) {
     console.log(error);
 
-    next(new AppError("Can't register user", 500));
+    next(new AppError("Error happen when register account", 500));
   }
 };
 
