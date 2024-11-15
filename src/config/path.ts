@@ -1,11 +1,11 @@
 export const PATH = {
-  HOME: "/home",
+  HOME: '/home',
   USER: {
-    PATH: "/user",
+    PATH: '/user',
     OUTLET: {
-      login: "/login",
-      register: "/register",
-      logout: "/logout",
-    },
-  },
-};
+      login: '/login',
+      register: '/register',
+      logout: '/logout'
+    }
+  }
+}
