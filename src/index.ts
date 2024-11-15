@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Response, Request } from 'express';
 import dotenv from 'dotenv';
 import session from 'express-session';
 import connectDB from './config/db.js';
@@ -7,6 +7,7 @@ import './strategy/localStrategy.js';
 import passport from 'passport';
 import router from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import { AppError } from './utils/appError.js';
 dotenv.config();
 connectDB();
 const app = express();
@@ -33,6 +34,9 @@ app.use(
 );
 
 app.use(router);
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
