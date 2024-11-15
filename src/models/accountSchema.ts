@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 const accountSchema = new Schema<IAccount>({
   username: { type: String, unique: true, sparse: true }, // Chỉ sử dụng cho LocalAccount

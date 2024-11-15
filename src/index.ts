@@ -1,6 +1,5 @@
-import express, { Response, Request, NextFunction } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
-import { AppError } from './utils/appError.js';
 import session from 'express-session';
 import connectDB from './config/db.js';
 import MongoStore from 'connect-mongo';

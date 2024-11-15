@@ -3,10 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { AppError } from '../utils/appError.js';
 import passport from 'passport';
-import { IAccount, ILocalAccount } from '~/interfaces/Account/accountInterface.js';
 import Account from '~/models/accountSchema.js';
 import Profile from '~/models/profileSchema.js';
-import { param } from 'express-validator';
 import mongoose from 'mongoose';
 interface IAccountRegister {
   username: string;
