@@ -28,6 +28,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
         new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }])
       );
     }
+    const a = 3;
     const newProfile = new Profile({ name, dob, gender });
     const savedProfile = await newProfile.save();
     const hashedPassword = bcrypt.hashSync(password, 10);
