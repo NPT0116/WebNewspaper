@@ -2,14 +2,14 @@ import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import Account from '~/models/accountSchema.js';
-import { ILocalAccount } from '~/interfaces/Account/accountInterface.js'; // Giả sử bạn có interface cho Account
+import { IAccount } from '~/interfaces/Account/accountInterface.js';
 
-// Serialize account ID vào session
+// Serialize account ID into session
 passport.serializeUser((account, done) => {
-  done(null, (account as ILocalAccount)._id);
+  done(null, (account as IAccount)._id);
 });
 
-// Deserialize account từ ID trong session
+// Deserialize account from ID in session
 passport.deserializeUser(async (id: string, done) => {
   try {
     const account = await Account.findById(id);
@@ -22,33 +22,29 @@ passport.deserializeUser(async (id: string, done) => {
   }
 });
 
-// Local Strategy cho đăng nhập với username và password
+// Local Strategy for login with username and password
 passport.use(
   new LocalStrategy(
-    { usernameField: 'username' }, // Sử dụng "username" làm field cho tên đăng nhập
-    async (username: string, password: string, done) => {
+    { usernameField: 'username' }, // Use "username" as the login field
+    async (usernameOrEmail: string, password: string, done) => {
       try {
-        // Tìm account theo username
-        const account = (await Account.findOne({
-          username
-        })) as ILocalAccount | null;
+        // Find account by localAuth.username
 
-        if (!account) {
-          return done(null, false, {
-            message: 'Incorrect username or password'
-          });
+        const existingAccount = await Account.findOne({ $or: [{ 'localAuth.username': usernameOrEmail }, { email: usernameOrEmail }] });
+
+        // Check if the account exists
+        if (!existingAccount || !existingAccount.localAuth) {
+          return done(null, false, { message: 'Incorrect username or password' });
         }
 
-        // So sánh password đã nhập với password đã lưu (hashed)
-        const isMatched = await bcrypt.compare(password, account.password);
+        // Compare the entered password with the stored hashed password
+        const isMatched = await bcrypt.compare(password, existingAccount.localAuth.password);
         if (!isMatched) {
-          return done(null, false, {
-            message: 'Incorrect username or password'
-          });
+          return done(null, false, { message: 'Incorrect username or password' });
         }
 
-        // Password đúng, trả về account
-        return done(null, account);
+        // Password is correct, return the existingAccount
+        return done(null, existingAccount);
       } catch (error) {
         return done(error);
       }
