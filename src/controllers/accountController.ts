@@ -23,7 +23,9 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
       $or: [{ 'localAuth.username': username }, { email }]
     });
     if (existingUser) {
-      return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));
+      req.flash('error', 'Username or email already exists.');
+      return res.redirect('/register'); // Quay lại trang đăng ký
+      /* return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));*/
     }
     const newProfile = new Profile({ name, dob, gender });
     const savedProfile = await newProfile.save();
@@ -45,7 +47,12 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
     savedProfile.accountId = savedAccount._id as mongoose.Types.ObjectId;
     await savedProfile.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    // res.status(201).json({ message: 'User registered successfully' });
+
+    req.login(savedAccount, (err) => {
+      if (err) return next(err);
+      res.redirect('/');
+    });
   } catch (error) {
     console.log(error);
 
@@ -57,7 +64,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 export const loginUser = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
-  failureFlash: false
+  failureFlash: true
 });
 
 // Đăng xuất người dùng

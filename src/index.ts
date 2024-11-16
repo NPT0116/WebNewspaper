@@ -8,24 +8,32 @@ import passport from 'passport';
 import './strategy/localStrategy.js';
 import './strategy/githubStrategy.js';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
 import router from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { AppError } from './utils/appError.js';
+import { registerUser, loginUser } from './controllers/accountController.js';
 import flash from 'connect-flash';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import Account from './models/accountSchema.js';
+import Profile from './models/profileSchema.js';
+
 dotenv.config();
 
 connectDB();
 const app = express();
 
-const port = process.env.PORT || 3001;
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const port = process.env.PORT || 3001;
+
 app.set('view engine', 'ejs');
+
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static('public'));
+app.use(express.static( 'public'));
+
+app.use(flash()); // Thêm middleware flash
 
 app.use(express.json());
 

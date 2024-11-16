@@ -56,7 +56,7 @@ passport.use(
           });
           const savedProfile = await newProfile.save();
           account.profileId = savedProfile._id as mongoose.Types.ObjectId;
-          savedAccount.save();
+          await account.save();
         }
 
         return done(null, account);
