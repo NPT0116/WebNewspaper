@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>
+      Welcome,
+      <%= profile.name %>!
+    </h1>
+    <p>
+      <strong>Gender:</strong>
+      <%= profile.gender %>
+    </p>
+    <p>
+      <strong>Date of Birth:</strong>
+      <%= profile.dob ? profile.dob.toDateString() : 'Not Provided' %>
+    </p>
+  </body>
+</html>

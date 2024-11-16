@@ -1,6 +1,9 @@
 {
-  "watch": ["src", ".env"],
+  "watch": [
+    "src",
+    ".env"
+  ],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "tsx ./src/index.ts"
+  "exec": "npm run tailwind:css && tsx ./src/index.ts"
 }

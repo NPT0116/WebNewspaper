@@ -1,11 +1,13 @@
 export const PATH = {
-  HOME: '/home',
+  HOME: '/',
   ACCOUNT: {
     PATH: '/account',
     OUTLET: {
       login: '/login',
       register: '/register',
-      logout: '/logout'
+      logout: '/logout',
+      github: '/github/login',
+      githubCallback: '/github/login/callback'
     }
   }
 };
