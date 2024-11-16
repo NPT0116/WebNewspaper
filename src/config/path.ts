@@ -1,5 +1,5 @@
 export const PATH = {
-  HOME: '/home',
+  HOME: '/',
   ACCOUNT: {
     PATH: '/account',
     OUTLET: {

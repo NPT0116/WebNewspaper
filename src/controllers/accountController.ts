@@ -22,9 +22,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
       $or: [{ username }, { email }]
     });
     if (existingUser) {
-      return next(
-        new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }])
-      );
+      return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));
     }
     const newProfile = new Profile({ name, dob, gender });
     const savedProfile = await newProfile.save();
