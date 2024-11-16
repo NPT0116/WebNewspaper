@@ -5,7 +5,9 @@ export const PATH = {
     OUTLET: {
       login: '/login',
       register: '/register',
-      logout: '/logout'
+      logout: '/logout',
+      github: '/github/login',
+      githubCallback: '/github/login/callback'
     }
   }
 };

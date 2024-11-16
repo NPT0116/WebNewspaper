@@ -5,6 +5,7 @@ import { AppError } from '../utils/appError.js';
 import passport from 'passport';
 import Account from '~/models/accountSchema.js';
 import Profile from '~/models/profileSchema.js';
+
 import mongoose from 'mongoose';
 interface IAccountRegister {
   username: string;
@@ -68,4 +69,13 @@ export const logoutUser = (req: Request, res: Response) => {
     res.clearCookie('connect.sid');
     res.status(200).json({ message: 'Logout successful' });
   });
+};
+
+export const loginGithub = passport.authenticate('github', { scope: ['user:email'] });
+
+export const githubCallbackFunction = passport.authenticate('github', { failureRedirect: '/login', failureFlash: true });
+
+export const githubLoginSuccess = (req: Request, res: Response, next: NextFunction) => {
+  req.flash('success', 'Successfully logged in with GitHub');
+  res.redirect('/');
 };
