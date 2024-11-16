@@ -19,24 +19,24 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
   const { username, password, email, dob, name, gender } = req.body;
   try {
     const existingUser = await Account.findOne({
-      $or: [{ username }, { email }]
+      $or: [{ 'localAuth.username': username }, { email }]
     });
     if (existingUser) {
-      return next(
-        new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }])
-      );
+      return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));
     }
     const newProfile = new Profile({ name, dob, gender });
     const savedProfile = await newProfile.save();
     const hashedPassword = bcrypt.hashSync(password, 10);
     const newAccount = new Account({
-      username,
-      password: hashedPassword,
-      profileType: 'reader',
+      localAuth: {
+        username,
+        password: hashedPassword
+      },
+      profileType: 'readerProfile',
       email,
       role: 'reader',
       isSubscriber: false,
-      profileId: savedProfile._id // Liên kết profileId
+      profileId: savedProfile._id
     });
 
     const savedAccount = await newAccount.save();
@@ -56,7 +56,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 export const loginUser = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
-  failureFlash: true
+  failureFlash: false
 });
 
 // Đăng xuất người dùng
