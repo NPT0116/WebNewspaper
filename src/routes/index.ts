@@ -5,4 +5,5 @@ import accountRouter from './accountRouter.js';
 const router = express.Router();
 
 router.use(PATH.ACCOUNT.PATH, accountRouter);
+
 export default router;

@@ -9,5 +9,5 @@ export interface IAccount extends Document {
   profileType?: string; // Specifies the type of profile this account is linked to, e.g., "ReporterProfile" or "SubscriberProfile"
   profileId?: mongoose.Types.ObjectId; // Links to the actual profile document
   localAuth?: { username: string; password: string }; // Only for local accounts
-  facebookAuth?: { facebookId: string }; // Only for Facebook accounts
+  githubAuth?: { facebookId: string }; // Only for Facebook accounts
 }

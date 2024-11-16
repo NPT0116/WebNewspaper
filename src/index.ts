@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import connectDB from './config/db.js';
 import MongoStore from 'connect-mongo';
-import './strategy/localStrategy.js';
+
 import passport from 'passport';
+import './strategy/localStrategy.js';
+import './strategy/githubStrategy.js';
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import router from './routes/index.js';
@@ -16,6 +19,7 @@ import Account from './models/accountSchema.js';
 import Profile from './models/profileSchema.js';
 
 dotenv.config();
+
 connectDB();
 const app = express();
 
@@ -32,7 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash()); // Thêm middleware flash
 
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+app.use(flash()); // Initialize connect-flash
 app.use(passport.initialize());
 
 app.use(
@@ -50,6 +56,8 @@ app.use(
   })
 );
 
+app.use(passport.session());
+
 app.get('/login', (req: Request, res: Response) => {
   res.render('authentication/login', {
     flash: req.flash()
@@ -66,31 +74,45 @@ app.get('/register', (req: Request, res: Response) => {
 
 app.post('account/register', registerUser);
 
-// Route xử lý đăng nhập và hiển thị trang chủ
+// Route: Home page
 app.get('/', async (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
     try {
-      // Kiểm tra xem req.user có tồn tại và có _id không
-      if (!req.user) {
-        return res.redirect('/login'); // Nếu không có thông tin người dùng, chuyển hướng đến trang login
+      // Lấy ID tài khoản từ session
+      const userId = (req.user as any)?._id;
+
+      if (!userId) {
+        return res.redirect('/login');
       }
 
-      // Tìm tài khoản người dùng và populate thông tin profileId từ bảng Profile
-      const user = await Account.findById(req.user._id).populate('profileId');
+      // Tìm tài khoản và populate profileId
+      const account = await Account.findById(userId).populate({
+        path: 'profileId',
+        model: 'Profile' // Đảm bảo đúng model
+      });
 
-      // Kiểm tra nếu không tìm thấy người dùng
-      if (!user || !user.profileId) {
-        return res.redirect('/login'); // Nếu không tìm thấy người dùng hoặc profileId, chuyển hướng về login
+      if (!account) {
+        req.flash('error', 'Tài khoản không tồn tại.');
+        return res.redirect('/login');
       }
 
-      // Gửi thông tin profile của người dùng vào view
-      res.render('home', { user: user.profileId });
+      if (!account.profileId) {
+        req.flash('error', 'Thông tin profile không khả dụng.');
+        return res.redirect('/login');
+      }
+
+      // Render trang home
+      res.render('layouts/reader/reader_home', {
+        profile: account.profileId, // Truyền thông tin profile vào view
+        flash: req.flash()
+      });
     } catch (error) {
-      console.error(error);
-      return res.redirect('/login'); // Nếu có lỗi, chuyển hướng về login
+      console.error('Error fetching profile:', error);
+      req.flash('error', 'Đã xảy ra lỗi khi tải thông tin profile.');
+      return res.redirect('/login');
     }
   } else {
-    res.redirect('/login'); // Nếu người dùng chưa đăng nhập, chuyển hướng tới trang login
+    res.redirect('/login');
   }
 });
 

@@ -16,8 +16,8 @@ const accountSchema = new Schema<IAccount>({
     username: { type: String, unique: true, sparse: true },
     password: { type: String, select: true }
   },
-  facebookAuth: {
-    facebookId: { type: String, unique: true, sparse: true }
+  githubAuth: {
+    githubId: { type: String, unique: true, sparse: true }
   }
 });
 

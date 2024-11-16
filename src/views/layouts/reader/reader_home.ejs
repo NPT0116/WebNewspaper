@@ -6,6 +6,17 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Welcom <%= user.name %>!</h1>
+    <h1>
+      Welcome,
+      <%= profile.name %>!
+    </h1>
+    <p>
+      <strong>Gender:</strong>
+      <%= profile.gender %>
+    </p>
+    <p>
+      <strong>Date of Birth:</strong>
+      <%= profile.dob ? profile.dob.toDateString() : 'Not Provided' %>
+    </p>
   </body>
 </html>
