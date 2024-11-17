@@ -31,7 +31,7 @@ const port = process.env.PORT || 3001;
 app.set('view engine', 'ejs');
 
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static( 'public'));
+app.use(express.static('public'));
 
 app.use(flash()); // Thêm middleware flash
 

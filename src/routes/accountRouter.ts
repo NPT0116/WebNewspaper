@@ -1,12 +1,12 @@
 // src/routes/userRouter.ts
-import express,  { NextFunction, Response, Request } from 'express';
+import express, { NextFunction, Response, Request } from 'express';
 
 import { registerUser, loginUser, logoutUser, loginGithub, githubLoginSuccess, githubCallbackFunction } from '../controllers/accountController.js';
 import { PATH } from '../config/path.js';
 import { registerValidationRules } from '~/validator/registerUserValidator.js';
 import { validateRequest } from '~/middlewares/validateUserRegister.js';
-import flash from "connect-flash";
-import Account from "~/models/accountSchema.js"
+import flash from 'connect-flash';
+import Account from '~/models/accountSchema.js';
 const accountRouter = express.Router();
 
 // Đăng ký người dùng
