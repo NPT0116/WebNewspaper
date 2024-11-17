@@ -9,5 +9,11 @@ export const PATH = {
       github: '/github/login',
       githubCallback: '/github/login/callback'
     }
+  },
+  POST: {
+    PATH: '/post',
+    OUTLET: {
+      detail: '/:id'
+    }
   }
 };
