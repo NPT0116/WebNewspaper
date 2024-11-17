@@ -7,6 +7,7 @@
     "dev": "concurrently \"npm run tailwind:css\" \"npx nodemon\"",
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "rimraf ./dist && tsc && tsc-alias",
+    "seed:build": "npm run build && node dist/seeds/indexSeed.js",
     "start": "node dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

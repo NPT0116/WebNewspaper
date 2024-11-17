@@ -13,10 +13,10 @@ import { fileURLToPath } from 'url';
 import router from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { AppError } from './utils/appError.js';
-import { registerUser, loginUser } from './controllers/accountController.js';
+
 import flash from 'connect-flash';
-import Account from './models/accountSchema.js';
-import Profile from './models/profileSchema.js';
+import apiRouter from './api/indexApi.js';
+import { PATH } from './config/path.js';
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ const port = process.env.PORT || 3001;
 app.set('view engine', 'ejs');
 
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static( 'public'));
+app.use(express.static('public'));
 
 app.use(flash()); // Thêm middleware flash
 
@@ -59,6 +59,7 @@ app.use(
 app.use(passport.session());
 
 app.use(router);
+app.use(PATH.API.BASE, apiRouter);
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

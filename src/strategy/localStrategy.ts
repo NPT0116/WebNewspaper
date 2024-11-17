@@ -1,7 +1,7 @@
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
-import Account from '~/models/accountSchema.js';
+import { Account } from '~/models/Account/accountSchema.js';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 
 // Serialize account ID into session

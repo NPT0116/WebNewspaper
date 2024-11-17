@@ -1,0 +1,86 @@
+Dưới đây là danh sách tất cả các tài khoản đã được tạo trong các script seed ở trên, cùng với thông tin tài khoản và mật khẩu mặc định:
+
+---
+
+### **Tài khoản Reporter**
+1. **Reporter Account**
+   - **Email**: `reporter@example.com`
+   - **Username**: `reporterAccount`
+   - **Password**: `123`
+   - **Role**: `reporter`
+
+---
+
+### **Tài khoản Readers**
+6 tài khoản `Reader` được tạo:
+1. **Reader 1**
+   - **Email**: `reader1@example.com`
+   - **Username**: `reader1`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+2. **Reader 2**
+   - **Email**: `reader2@example.com`
+   - **Username**: `reader2`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+3. **Reader 3**
+   - **Email**: `reader3@example.com`
+   - **Username**: `reader3`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+4. **Reader 4**
+   - **Email**: `reader4@example.com`
+   - **Username**: `reader4`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+5. **Reader 5**
+   - **Email**: `reader5@example.com`
+   - **Username**: `reader5`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+6. **Reader 6**
+   - **Email**: `reader6@example.com`
+   - **Username**: `reader6`
+   - **Password**: `123`
+   - **Role**: `reader`
+
+---
+
+### **Tài khoản Admin**
+1. **Admin Account**
+   - **Email**: `admin@example.com`
+   - **Username**: `adminAccount`
+   - **Password**: `123`
+   - **Role**: `admin`
+
+
+
+Tài khoản Editors
+Các tài khoản Editor được tạo cho từng section:
+
+Politics Editor
+
+Email: politicsEditor@example.com
+Username: politicsEditorAccount
+Password: 123
+Role: editor
+Section: Politics
+Arts Editor
+
+Email: artsEditor@example.com
+Username: artsEditorAccount
+Password: 123
+Role: editor
+Section: Arts
+Sports Editor
+
+Email: sportsEditor@example.com
+Username: sportsEditorAccount
+Password: 123
+Role: editor
+Section: Sports
