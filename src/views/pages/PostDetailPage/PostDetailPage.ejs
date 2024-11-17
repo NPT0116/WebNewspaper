@@ -9,24 +9,24 @@
   <body>
     <%- include('Header') %>
     <div class="">
-      <div id="header" class="w-full bg-white flex justify-center fixed top-16 transition-all duration-300 transform origin-top ease-header-ease">
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">The latest</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">News</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Magazine</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Video</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Goings on</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Shop</div>
+      <div id="header" class="px-4 w-full bg-white flex justify-center fixed top-16 transition-all duration-300 transform origin-top ease-header-ease">
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">The latest</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">News</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Magazine</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Video</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Goings on</div>
+        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Shop</div>
       </div>
     </div>
 
     <div class="h-dvh bg-violet-600"><img class="h-full w-full" src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/0932/live/ef8093c0-a310-11ef-95e1-3f87b53caa3f.jpg.webp" alt="" /></div>
     <div class="flex justify-center mt-32">
-      <div class="w-1/2">
+      <div class="w-4/5 md:w-1/2">
         In India, if you ask a pedestrian how many obstacles they've encountered on a footpath, they may not be able to count them - but they'll certainly tell you that most footpaths are in poor
         condition. This is what Arun Pai says he learnt when he started asking people about their experience walking on the streets of his city, Bengaluru (formerly Bangalore), in southern India. This
         month he set up a "fun challenge" - called the 'world's longest footpath run' - which invited people to walk or jog on an 11km (8 miles) stretch of footpath and make a note of all the
@@ -62,8 +62,12 @@
         also says that the federal government should make it mandatory for states to implement the guidelines issued by the Indian Road Congress - a national organisation that lays down designing
         standards for roads and highways. She says that cities can also implement their own Non-Motorised Transport Policy (NMTP) to create better infrastructure for cyclists and pedestrians. "At the
         moment, only a handful of cities in India have experimented with a NMTP but its time more cities step up to the plate," she adds.
+        <div class="mt-8"><%- include('CommentList') %></div>
       </div>
     </div>
+
+    <div><%- include('ReadMore') %></div>
+    <div><%- include('../../layouts/LandingPageLayout/Footer') %></div>
     <script src="/js/header.js"></script>
   </body>
 </html>
