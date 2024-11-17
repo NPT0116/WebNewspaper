@@ -24,7 +24,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
     });
     if (existingUser) {
       req.flash('error', 'Username or email already exists.');
-      return res.redirect('/register'); // Quay lại trang đăng ký
+      return res.redirect('/account/register'); // Quay lại trang đăng ký
       /* return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));*/
     }
     const newProfile = new ReaderProfile({ name, dob, gender });
@@ -35,7 +35,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
         username,
         password: hashedPassword
       },
-      profileType: 'readerProfile',
+      profileType: 'ReaderProfile',
       email,
       role: 'reader',
       isSubscriber: false,
@@ -63,7 +63,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 // Đăng nhập người dùng
 export const loginUser = passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/login',
+  failureRedirect: '/account/login',
   failureFlash: true
 });
 

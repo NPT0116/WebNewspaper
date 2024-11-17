@@ -46,7 +46,7 @@ passport.use(
             role: 'reader',
             isSubscriber: false,
             githubAuth: { githubId: profile.id },
-            profileType: 'readerProfile',
+            profileType: 'ReaderProfile',
             profileId: null
           });
           const savedAccount = await account.save();
