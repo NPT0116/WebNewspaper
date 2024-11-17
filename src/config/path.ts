@@ -23,5 +23,11 @@ export const PATH = {
       BASE: '/articles',
       DETAILS: '/:articleSlug'
     }
+  },
+  POST: {
+    PATH: '/post',
+    OUTLET: {
+      detail: '/:id'
+    }
   }
 };

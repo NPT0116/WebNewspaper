@@ -5,7 +5,6 @@ import { registerUser, loginUser, logoutUser, loginGithub, githubLoginSuccess, g
 import { PATH } from '../config/path.js';
 import { registerValidationRules } from '~/validator/registerUserValidator.js';
 import { validateRequest } from '~/middlewares/validateUserRegister.js';
-
 const accountRouter = express.Router();
 
 // Đăng ký người dùng
