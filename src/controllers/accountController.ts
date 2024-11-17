@@ -35,7 +35,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
         username,
         password: hashedPassword
       },
-      profileType: 'readerProfile',
+      profileType: 'ReaderProfile',
       email,
       role: 'reader',
       isSubscriber: false,
