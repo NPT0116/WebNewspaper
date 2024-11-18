@@ -27,6 +27,7 @@ export const PATH = {
   POST: {
     PATH: '/post',
     OUTLET: {
+      edit: '/edit',
       detail: '/:id'
     }
   }

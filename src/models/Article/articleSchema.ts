@@ -39,7 +39,7 @@ const articleSchema = new Schema<IArticle>(
 // Middleware để tạo slug tự động trước khi lưu
 articleSchema.pre('save', async function (next) {
   if (!this.slug) {
-    let baseSlug = generateSlug(this.title);
+    const baseSlug = generateSlug(this.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
@@ -58,7 +58,7 @@ articleSchema.pre('save', async function (next) {
 articleSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as Partial<IArticle>;
   if (update && update.title) {
-    let baseSlug = generateSlug(update.title);
+    const baseSlug = generateSlug(update.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
