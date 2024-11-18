@@ -4,11 +4,12 @@ export const uploadFile = async (req: Request, res: Response): Promise<void> => 
   try {
     console.log('Run here');
     // Ensure `req.file` is properly typed
-    const file = req.file as Express.Multer.File | undefined;
+    const file = req.file as Express.MulterS3.File | undefined;
+    console.log(file);
 
     if (file) {
       // Construct the URL for the uploaded image
-      const imageUrl = `/uploads/${file.filename}`;
+      const imageUrl = `${file.location}`;
 
       // Create the new image metadata object
       //   const newImage = {
