@@ -1,8 +1,8 @@
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import Account from '~/models/accountSchema.js';
+import { Account } from '~/models/Account/accountSchema.js';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
-import Profile from '~/models/profileSchema.js';
+import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import mongoose from 'mongoose';
 import { Profile as githubProfile } from 'passport-github2';
 import { VerifyCallback } from 'passport-oauth2';
@@ -46,11 +46,11 @@ passport.use(
             role: 'reader',
             isSubscriber: false,
             githubAuth: { githubId: profile.id },
-            profileType: 'readerProfile',
+            profileType: 'ReaderProfile',
             profileId: null
           });
           const savedAccount = await account.save();
-          const newProfile = new Profile({
+          const newProfile = new ReaderProfile({
             name: profile.username || 'Unnamed User',
             accountId: savedAccount._id
           });

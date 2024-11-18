@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { AppError } from '../utils/appError.js';
 import passport from 'passport';
-import Account from '~/models/accountSchema.js';
-import Profile from '~/models/profileSchema.js';
+import { Account } from '~/models/Account/accountSchema.js';
+import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 
 import mongoose from 'mongoose';
 interface IAccountRegister {
@@ -24,10 +24,10 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
     });
     if (existingUser) {
       req.flash('error', 'Username or email already exists.');
-      return res.redirect('/register'); // Quay lại trang đăng ký
+      return res.redirect('/account/register'); // Quay lại trang đăng ký
       /* return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));*/
     }
-    const newProfile = new Profile({ name, dob, gender });
+    const newProfile = new ReaderProfile({ name, dob, gender });
     const savedProfile = await newProfile.save();
     const hashedPassword = bcrypt.hashSync(password, 10);
     const newAccount = new Account({
@@ -35,7 +35,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
         username,
         password: hashedPassword
       },
-      profileType: 'readerProfile',
+      profileType: 'ReaderProfile',
       email,
       role: 'reader',
       isSubscriber: false,
@@ -63,7 +63,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 // Đăng nhập người dùng
 export const loginUser = passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/login',
+  failureRedirect: '/account/login',
   failureFlash: true
 });
 
