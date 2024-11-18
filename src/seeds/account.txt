@@ -9,6 +9,12 @@ Dưới đây là danh sách tất cả các tài khoản đã được tạo tr
    - **Password**: `123`
    - **Role**: `reporter`
 
+1. **Reporter Account**
+   - **Email**: `davidremnick@example.com`
+   - **Username**: `davidreminck`
+   - **Password**: `davidremnickpassword`
+   - **Role**: `reporter`
+
 ---
 
 ### **Tài khoản Readers**
