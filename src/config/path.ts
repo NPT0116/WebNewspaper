@@ -22,6 +22,9 @@ export const PATH = {
     ARTICLE: {
       BASE: '/articles',
       DETAILS: '/:articleSlug'
+    },
+    UPLOAD: {
+      BASE: '/upload-image'
     }
   },
   POST: {
