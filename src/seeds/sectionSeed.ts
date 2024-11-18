@@ -13,6 +13,7 @@ export const seedSections = async () => {
       { name: 'Technology', parentSection: null },
       { name: 'World News', parentSection: null },
       { name: 'Politics', parentSection: null },
+      { name: 'Health', parentSection: null },
       { name: 'Economy', parentSection: null }
     ];
 
