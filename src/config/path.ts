@@ -17,11 +17,17 @@ export const PATH = {
     BASE: '/api',
     SECTION: {
       BASE: '/sections', // lấy list các sections
-      DETAILS: '/:section' // lấy list các bài viết thuộc 1 section
+      DETAILS: '/:section', // lấy list các bài viết thuộc 1 section
+      SECTION_TREE: '/tree'
     },
     ARTICLE: {
       BASE: '/articles',
-      DETAILS: '/:articleSlug'
+      DETAILS: '/:articleSlug',
+      CREATE_ARTICLE: '/create',
+      UPDATE_ARTICLE: '/:articleId/update'
+    },
+    TAG: {
+      BASE: '/tags'
     },
     UPLOAD: {
       BASE: '/upload-image'

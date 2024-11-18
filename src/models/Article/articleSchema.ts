@@ -12,13 +12,19 @@ const generateSlug = (title: string): string => {
 
 const articleSchema = new Schema<IArticle>(
   {
-    slug: { type: String, required: true, unique: true },
-    title: { type: String, required: true },
-    content: { type: String, required: true },
+    slug: { type: String, unique: true },
+    title: { type: String },
+    description: { type: String },
+    content: { type: String },
     author: { type: Schema.Types.ObjectId, ref: 'ReporterProfile' },
     editor: { type: Schema.Types.ObjectId, ref: 'EditorProfile' },
     images: [{ type: String }], // URLs for article images
     videoUrl: { type: String }, // Optional YouTube link or other video URL
+    layout: {
+      type: String,
+      enum: ['layout1', 'layout2', 'default'],
+      default: 'default'
+    },
     status: {
       type: String,
       enum: ['draft', 'pending', 'approved', 'rejected', 'published'],
