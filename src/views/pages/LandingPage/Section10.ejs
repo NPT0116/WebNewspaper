@@ -1,0 +1,102 @@
+<div id="card-container" class="relative mt-4 mb-4" style="border-bottom: 1px solid black">
+  <div class="relative text-center py-4 font-bold font-serif text-4xl"><%= title %></div>
+
+  <!-- Carousel Wrapper -->
+  <div id="carousel-wrapper" class="relative overflow-hidden mb-4">
+    <!-- Carousel Items -->
+    <div id="carousel-items" class="flex gap-4 transition-transform duration-500">
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+    </div>
+  </div>
+  <div id="carousel-nav" class="h-10 relative flex justify-center items-center bottom-2 gap-2"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Set up
+    const carouselItems = document.getElementById('carousel-items');
+    const carouselWrapper = document.getElementById('carousel-wrapper');
+    const cardElements = document.querySelectorAll('#card-element');
+    const itemsToShow = 4;
+    const totalItems = carouselItems.children.length;
+
+    let carouselWrapperWidth = carouselWrapper.offsetWidth;
+    let itemWidth = carouselWrapperWidth / itemsToShow - 12;
+    let distance = (parseFloat(carouselWrapperWidth) - itemWidth * 4.0) / 3.0;
+    let offsetMove = itemWidth + distance;
+
+    cardElements.forEach((element) => {
+      element.style.minWidth = `${itemWidth}px`;
+    });
+
+    window.addEventListener('resize', () => {
+      carouselWrapperWidth = carouselWrapper.offsetWidth;
+      itemWidth = carouselWrapperWidth / itemsToShow - 12;
+      distance = (parseFloat(carouselWrapperWidth) - itemWidth * 4.0) / 3.0;
+      offsetMove = itemWidth + distance;
+      cardElements.forEach((element) => {
+        element.style.minWidth = `${itemWidth}px`;
+      });
+    });
+
+    let currentIndex = 0;
+    const slideNumber = totalItems - itemsToShow;
+
+    // nav dot
+    const navContainer = document.getElementById('carousel-nav');
+    for (let i = 0; i <= slideNumber; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('h-3', 'w-3', 'rounded-full', 'bg-black', 'cursor-pointer');
+      dot.dataset.index = i;
+      navContainer.appendChild(dot);
+    }
+
+    const navDots = document.querySelectorAll('#carousel-nav div');
+    navDots.forEach((element) => {
+      element.addEventListener('click', (event) => {
+        console.log(event.target.dataset.index);
+        index = event.target.dataset.index;
+        currentIndex = index;
+        navDots.forEach((dot) => {
+          dot.classList.remove('bg-red-500');
+          dot.classList.add('bg-black');
+        });
+        event.target.classList.remove('bg-black');
+        event.target.classList.add('bg-red-500');
+        console.log(event.target);
+        carouselItems.style.transform = `translateX(${-currentIndex * offsetMove}px)`;
+      });
+    });
+    function updateActiveDot(currentIndex) {
+      navDots.forEach((element) => {
+        element.classList.remove('bg-red-500');
+        element.classList.add('bg-black');
+      });
+      navDots[currentIndex].classList.remove('bg-black');
+      navDots[currentIndex].classList.add('bg-red-500');
+    }
+
+    // Carousel moving
+    function moveCarousel() {
+      const offset = -currentIndex * offsetMove;
+      carouselItems.style.transform = `translateX(${offset}px)`;
+      updateActiveDot(currentIndex);
+      if (currentIndex >= slideNumber) {
+        currentIndex = 0;
+      } else {
+        currentIndex++;
+      }
+    }
+    moveCarousel();
+    setInterval(moveCarousel, 2000);
+  });
+</script>

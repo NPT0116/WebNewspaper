@@ -1,49 +1,62 @@
 <!doctype html>
 <html lang="en">
   <head>
-    landingpage
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #categories::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        padding-bottom: 8px;
+        border-bottom: 2px solid black;
+        /* background-color: aqua; */
+      }
+    </style>
     <title>Document</title>
   </head>
   <body>
-    <div class="w-11/12">
-      <div id="categories" class="flex justify-center">
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">The latest</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">News</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Magazine</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Video</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Goings on</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Shop</div>
-      </div>
-      <%- include('Section', { title: 'Today\'s Mix' }) %>
-
-      <%- include('Section', { title: 'Trump\'s Team'  } ) %>
+    <div  class="relative pt-2 pb-2 " style="width: 95vw;">
+      <div id="categories" class="relative font-serif" style="border-bottom: 4px solid black">
+        <!-- Horizontal layout for medium and larger screens -->
+        <div class="hidden sm:flex justify-evenly items-center overflow-x-auto whitespace-nowrap"
+             style="font-size: 1.1vw;">
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">The latest</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">News</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Books & Culture</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Magazine</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Puzzles & Games</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Video</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Podcasts</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Goings on</div>
+          <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Shop</div>
+        </div>
       
-      <%- include('Banner') %>
+        <!-- Dropdown for xs and sm screens -->
+        <div class="sm:hidden px-2 py-2">
+          <select class="w-full border border-black rounded p-2">
+            <option value="latest">The latest</option>
+            <option value="news">News</option>
+            <option value="books">Books & Culture</option>
+            <option value="fiction">Fiction & Poetry</option>
+            <option value="humor">Humor & Cartoons</option>
+            <option value="magazine">Magazine</option>
+            <option value="puzzles">Puzzles & Games</option>
+            <option value="video">Video</option>
+            <option value="podcasts">Podcasts</option>
+            <option value="goings-on">Goings on</option>
+            <option value="shop">Shop</option>
+          </select>
+        </div>
+      </div>
+      
+      <%- include('Section4', { title: 'Featured Articles of the Week' }) %>
 
-      <%- include('Section', { title: 'THE LEDGE'  }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'Our Columnists' }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'The Critics' }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'Goings on' }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'Ideas' }) %>
+      <%- include('Section10', { title: 'Top 10 Most Viewed Articles' }) %>
+      
+      <%- include('Section4', { title: 'THE LEDGE'  }) %>
 
       <%- include('Banner') %>
       
