@@ -1,3 +1,7 @@
+import mongoose from 'mongoose';
+import { IArticle, IAuthor } from '~/interfaces/Article/articleInterface.js';
+import { ISection } from '~/interfaces/Section/sectionInterface.js';
+import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
@@ -6,12 +10,14 @@ import { Tag } from '~/models/Tag/tagSchema.js';
 export const getHotNews = async () => {
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  const hotNewsTag = await Tag.findOne({ name: 'Hot News' });
+
+  const hotNewsTag = (await Tag.findOne({ name: 'Hot News' })) as ITag | null;
   if (!hotNewsTag) {
     console.log("Can't find tag hot news");
     return null;
   }
-  const hotNews = await Article.find({
+
+  const hotNews = (await Article.find({
     status: 'published',
     tags: { $in: [hotNewsTag._id] },
     publishedAt: { $gte: oneWeekAgo }
@@ -20,7 +26,11 @@ export const getHotNews = async () => {
     .limit(4)
     .populate('sectionId', 'name') // Populate sectionName
     .populate('tags', 'name') // Populate tagNames
-    .populate('author', 'name'); // Populate authorName
+    .populate('author', 'name')) as (IArticle & {
+    sectionId: ISection;
+    tags: ITag[];
+    author: IAuthor;
+  })[];
 
   return hotNews.map((article) => ({
     title: article.title,
@@ -32,7 +42,7 @@ export const getHotNews = async () => {
       id: article.sectionId?._id,
       name: article.sectionId?.name
     },
-    tags: article.tags.map((tag) => ({
+    tags: (article.tags as ITag[]).map((tag) => ({
       id: tag._id,
       name: tag.name
     })),
@@ -44,12 +54,16 @@ export const getHotNews = async () => {
 
 // Lấy bài viết được xem nhiều nhất
 export const getMostViewedArticles = async () => {
-  const mostViewedArticles = await Article.find({ status: 'published' })
+  const mostViewedArticles = (await Article.find({ status: 'published' })
     .sort({ views: -1 })
     .limit(10)
     .populate('sectionId', 'name') // Populate sectionName
     .populate('tags', 'name') // Populate tagNames
-    .populate('author', 'name'); // Populate authorName
+    .populate('author', 'name')) as (IArticle & {
+    sectionId: ISection;
+    tags: ITag[];
+    author: IAuthor;
+  })[];
 
   return mostViewedArticles.map((article) => ({
     title: article.title,
@@ -61,7 +75,7 @@ export const getMostViewedArticles = async () => {
       id: article.sectionId?._id,
       name: article.sectionId?.name
     },
-    tags: article.tags.map((tag) => ({
+    tags: (article.tags as ITag[]).map((tag) => ({
       id: tag._id,
       name: tag.name
     })),
@@ -74,12 +88,16 @@ export const getMostViewedArticles = async () => {
 
 // Lấy bài viết mới nhất
 export const getLatestArticles = async () => {
-  const latestArticles = await Article.find({ status: 'published' })
+  const latestArticles = (await Article.find({ status: 'published' })
     .sort({ publishedAt: -1 })
     .limit(10)
     .populate('sectionId', 'name') // Populate sectionName
     .populate('tags', 'name') // Populate tagNames
-    .populate('author', 'name'); // Populate authorName
+    .populate('author', 'name')) as (IArticle & {
+    sectionId: ISection;
+    tags: ITag[];
+    author: IAuthor;
+  })[];
 
   return latestArticles.map((article) => ({
     title: article.title,
@@ -91,7 +109,7 @@ export const getLatestArticles = async () => {
       id: article.sectionId?._id,
       name: article.sectionId?.name
     },
-    tags: article.tags.map((tag) => ({
+    tags: (article.tags as ITag[]).map((tag) => ({
       id: tag._id,
       name: tag.name
     })),
@@ -130,14 +148,19 @@ export const getTopSectionsWithLatestArticles = async () => {
 
   const topSectionArticles = await Promise.all(
     topSections.map(async (section) => {
-      const latestArticle = await Article.findOne({
+      const latestArticle = (await Article.findOne({
         sectionId: section._id,
         status: 'published'
       })
         .sort({ publishedAt: -1 })
-        .select('_id title views publishedAt description images tags author')
-        .populate('tags', 'name')
-        .populate('author', 'name');
+        .populate('author', 'name') // Populate author's name
+        .populate('tags', 'name') // Populate tag names
+        .populate('sectionId', 'name')
+        .lean()) as IArticle & {
+        author: IAuthor;
+        tags: ITag[];
+        sectionId: ISection;
+      };
 
       return {
         sectionId: section._id,
@@ -148,14 +171,14 @@ export const getTopSectionsWithLatestArticles = async () => {
               id: latestArticle._id,
               title: latestArticle.title,
               author: {
-                id: latestArticle.author?._id,
-                name: latestArticle.author?.name
+                id: latestArticle.author._id,
+                name: latestArticle.author.name
               },
               publishedAt: latestArticle.publishedAt,
               views: latestArticle.views,
               description: latestArticle.description,
               images: latestArticle.images,
-              tags: latestArticle.tags.map((tag) => ({
+              tags: (latestArticle.tags as ITag[]).map((tag) => ({
                 id: tag._id,
                 name: tag.name
               }))
