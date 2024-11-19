@@ -1,7 +1,9 @@
-<div class="text-center text-lg py-4"><%= title %></div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-  <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-  <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-  <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-  <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
+<div id="card-container" class="mt-4 mb-4 z-0">
+  <div class="text-center py-4 font-bold font-serif text-4xl"><%= title %></div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+    <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard')%></div>
+    <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+    <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+    <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+  </div>
 </div>
