@@ -1,24 +1,14 @@
-import { Request } from 'express';
-import { Article } from '~/models/Article/articleSchema.js';
+import express from 'express';
+import { PATH } from '~/config/path.js';
 
-export const articleQuery = async (req: Request) => {
-  try {
-    const { search_value } = req.query;
-    if (!search_value) {
-      return;
-    }
+import { articleQuery, authorArticleQuery } from '~/controllers/articleController.js';
 
-    const query = {
-      $or: [{ title: { $regex: search_value, $options: 'i' } }, { content: { $regex: search_value, $options: 'i' } }]
-    };
+const queryArticleRouter = express.Router();
 
-    const articles = await Article.find(query);
+const authorQueryArticleRouter = express.Router();
 
-    console.log(articles);
+queryArticleRouter.get(PATH.HOME, articleQuery);
 
-    return articles;
-  } catch (err) {
-    console.error('Error querying articles:', err);
-    throw err;
-  }
-};
+authorQueryArticleRouter.get(PATH.HOME, authorArticleQuery);
+
+export { queryArticleRouter, authorQueryArticleRouter };

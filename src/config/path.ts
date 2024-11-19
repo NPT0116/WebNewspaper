@@ -22,6 +22,15 @@ export const PATH = {
     ARTICLE: {
       BASE: '/articles',
       DETAILS: '/:articleSlug'
+    },
+    AUTHOR: {
+      ARTICLE: '/author/articles'
+    },
+    REPORTER: {
+      BASE: '/:reporterId',
+      SECTION: '/:reporterId/section',
+      TAG: '/:reporterId/tag',
+      QUERY: '/query'
     }
   },
   POST: {

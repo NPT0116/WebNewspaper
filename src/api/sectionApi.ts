@@ -3,9 +3,10 @@ import { PATH } from '~/config/path.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 
 import { AppError } from '~/utils/appError.js';
+import { sectionQuery } from '~/controllers/sectionController.js';
 
 const sectionApiRouter = express.Router();
-
+const authorSectionApiRouter = express.Router();
 /**
  * GET /api/sections
     trả về menu section bao gồm đầy đủ tất cả các cấp
@@ -36,4 +37,6 @@ sectionApiRouter.get(PATH.HOME, async (req: Request, res: Response, next: NextFu
   }
 });
 
-export default sectionApiRouter;
+authorSectionApiRouter.get(PATH.HOME, sectionQuery);
+
+export default { sectionApiRouter, authorSectionApiRouter };

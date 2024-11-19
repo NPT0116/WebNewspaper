@@ -1,8 +1,11 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { Article } from '~/models/Article/articleSchema.js';
 
-export const articleQuery = async (req: Request) => {
+export const searchArticleQuery = async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!req.query) {
+      return;
+    }
     const { search_value } = req.query;
     if (!search_value) {
       return;
@@ -14,11 +17,10 @@ export const articleQuery = async (req: Request) => {
 
     const articles = await Article.find(query);
 
-    console.log(articles);
-
-    return articles;
+    res.json(articles);
+    return;
   } catch (err) {
-    console.error('Error querying articles:', err);
-    throw err;
+    res.status(500).json({ error: `Error querying articles: ${err}` });
+    return;
   }
 };
