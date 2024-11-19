@@ -5,7 +5,8 @@ module.exports = {
       fontFamily: {
         niconne: ['Niconne', 'cursive'],
         sans: ['Be VietNam', 'sans-serif'],
-        serif: ['EB Garamond', 'serif']
+        serif: ['EB Garamond', 'serif'],
+        dancing: ['Dancing Script', 'serif']
       }
     }
   },
