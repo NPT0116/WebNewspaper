@@ -3,29 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <title>Document</title>
   </head>
   <body>
-    <div class="relative pb-2 z-10" style="width: 95vw">
-      <%- include('CatBar') %>
+    <div class="w-11/12">
+      <div id="categories" class="flex justify-center">
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">The latest</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">News</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Magazine</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Video</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Goings on</div>
+        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Shop</div>
+      </div>
+      <%- include('Section', { title: 'Today\'s Mix' }) %>
+
+      <%- include('Section', { title: 'Trump\'s Team'  } ) %>
+      
+      <%- include('Banner') %>
 
       <%- include('Section', { title: 'THE LEDGE'  }) %>
+
+      <%- include('Banner') %>
+
+      <%- include('Section', { title: 'Our Columnists' }) %>
+
+      <%- include('Banner') %>
+
+      <%- include('Section', { title: 'The Critics' }) %>
+
+      <%- include('Banner') %>
+
+      <%- include('Section', { title: 'Goings on' }) %>
+
+      <%- include('Banner') %>
+
+      <%- include('Section', { title: 'Ideas' }) %>
 
       <%- include('Banner') %>
       
-      <%- include('Section', { title: 'THE LEDGE'  }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'THE LEDGE'  }) %>
-
-      <%- include('Banner') %>
-      
-      <%- include('Section', { title: 'THE LEDGE'  }) %>
-
-      <%- include('Banner') %>
-
     </div>
   </body>
-
 </html>
