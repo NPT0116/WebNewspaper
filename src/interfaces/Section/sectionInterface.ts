@@ -7,3 +7,11 @@ export interface ISection extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ISectionBranch {
+  id: string;
+  name: string;
+  childSections: ISectionBranch[];
+}
+
+export type ISectionTree = ISectionBranch[];

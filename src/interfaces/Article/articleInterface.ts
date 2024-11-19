@@ -19,4 +19,15 @@ export interface IArticle extends Document {
   sectionId: mongoose.Types.ObjectId;
   tags: ITag[];
   comments: IComment[];
+  views: number;
+  bannerTheme: string;
+}
+
+export interface IArticleBasicInfo {
+  title: string;
+  section: string;
+  tags: string[];
+  publishedAt?: Date;
+  description: string;
+  coverImage: string;
 }

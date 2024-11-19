@@ -57,6 +57,7 @@ app.use(
 );
 
 app.use(passport.session());
+app.use('/uploads', express.static('uploads'));
 
 app.use(router);
 app.use(PATH.API.BASE, apiRouter);

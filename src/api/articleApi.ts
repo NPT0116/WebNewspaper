@@ -1,5 +1,6 @@
-import express from 'express';
+import express, { Response, Request, NextFunction } from 'express';
 import { PATH } from '~/config/path.js';
+export { queryArticleRouter, authorQueryArticleRouter };
 
 import { articleQuery, authorArticleQuery } from '~/controllers/articleController.js';
 
@@ -11,4 +12,6 @@ queryArticleRouter.get(PATH.HOME, articleQuery);
 
 authorQueryArticleRouter.get(PATH.HOME, authorArticleQuery);
 
-export { queryArticleRouter, authorQueryArticleRouter };
+const articleApiRouter = express.Router();
+
+export default articleApiRouter;

@@ -1,7 +1,6 @@
 import express, { Response, Request, NextFunction } from 'express';
 import { PATH } from '~/config/path.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-
 import { AppError } from '~/utils/appError.js';
 import { sectionQuery, getArticlesBySection } from '~/controllers/sectionController.js';
 

@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+  body {
+    margin: 0 !important;
+  }
+}
+
+.main-container {
+  font-family: 'Lato';
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ck-content {
+  font-family: 'Lato';
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+  /* min-width: 795px;
+  max-width: 795px; */
+}
+
+.edit-article-container {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-article-wrapper {
+  width: 96%;
+}
+
+/* Grouping for inputs */
+.input-group {
+  margin-bottom: 15px;
+}
+
+/* Styling for input fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+}
+
+/* Button styling */
+.button-group {
+  text-align: center;
+}
+
+.save-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.save-button:active {
+  background-color: #004494;
+}
+
+.input-group-inline {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  gap: 10px; /* Space between input and button */
+}
+
+/* Styling for the title input field */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Styling for the tags input field */
+.input-field-inline {
+  flex: 1; /* Takes the available space */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus,
+.input-field-inline:focus {
+  border-color: #007bff;
+}
+
+/* Button styling */
+.save-button-inline {
+  padding: 10px 20px;
+  width: 200px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button-inline:hover {
+  background-color: #0056b3;
+}
+
+.save-button-inline:active {
+  background-color: #004494;
+}
