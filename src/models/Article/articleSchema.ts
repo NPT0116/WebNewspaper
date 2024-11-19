@@ -22,7 +22,7 @@ const articleSchema = new Schema<IArticle>(
     videoUrl: { type: String }, // Optional YouTube link or other video URL
     layout: {
       type: String,
-      enum: ['layout1', 'layout2', 'default'],
+      enum: ['text-left', 'text-right', 'default'],
       default: 'default'
     },
     status: {
@@ -35,7 +35,9 @@ const articleSchema = new Schema<IArticle>(
     updatedAt: { type: Date, default: Date.now },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
-    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' }
+    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
+    views: { type: Number },
+    bannerTheme: { type: String, enum: ['dark', 'white'], default: 'dark' }
   },
   {
     timestamps: true // Automatically adds createdAt and updatedAt fields
