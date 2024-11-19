@@ -18,19 +18,20 @@ export const PATH = {
     SECTION: {
       BASE: '/sections', // lấy list các sections
       DETAILS: '/:section', // lấy list các bài viết thuộc 1 section
-      SECTION_TREE: '/tree'
+      ARTICLE: '/:sectionId'
     },
     ARTICLE: {
       BASE: '/articles',
-      DETAILS: '/:articleSlug',
-      CREATE_ARTICLE: '/create',
-      UPDATE_ARTICLE: '/:articleId/update'
+      DETAILS: '/:articleSlug'
     },
-    TAG: {
-      BASE: '/tags'
+    AUTHOR: {
+      ARTICLE: '/author/articles'
     },
-    UPLOAD: {
-      BASE: '/upload-image'
+    REPORTER: {
+      BASE: '/:reporterId',
+      SECTION: '/:reporterId/section',
+      TAG: '/:reporterId/tag',
+      QUERY: '/query'
     }
   },
   POST: {
