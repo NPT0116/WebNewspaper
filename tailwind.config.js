@@ -3,12 +3,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        niconne: ['Niconne', 'cursive'],
         sans: ['Be VietNam', 'sans-serif'],
-        serif: ['EB Garamond', 'serif'],
-        eb: ['EB Garamond']
-      },
-      fontSize: {
-        '2xs': ['0.5rem', { lineHeight: '0.75rem' }]
+        serif: ['EB Garamond', 'serif']
       }
     }
   },

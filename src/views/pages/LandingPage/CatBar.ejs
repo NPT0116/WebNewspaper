@@ -1,0 +1,80 @@
+<div id="categories" class="font-serif sticky top-24 bg-white z-10" style="border-bottom: 4px solid black">
+  <!-- Horizontal layout for medium and larger screens -->
+  <div class="hidden xl:flex justify-evenly items-center overflow-x-auto whitespace-nowrap" style="font-size: 0.8vw">
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">The latest</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">News</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Books & Culture</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Magazine</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Puzzles & Games</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Video</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Podcasts</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Goings on</div>
+    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Shop</div>
+  </div>
+
+  <!-- Dropdown for xs and sm screens -->
+  <div class="xl:hidden px-2 py-2">
+    <select class="w-full border border-black rounded p-2">
+      <option value="latest">The latest</option>
+      <option value="news">News</option>
+      <option value="books">Books & Culture</option>
+      <option value="fiction">Fiction & Poetry</option>
+      <option value="humor">Humor & Cartoons</option>
+      <option value="magazine">Magazine</option>
+      <option value="puzzles">Puzzles & Games</option>
+      <option value="video">Video</option>
+      <option value="podcasts">Podcasts</option>
+      <option value="goings-on">Goings on</option>
+      <option value="shop">Shop</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const catsBar = document.getElementById('categories');
+    const catsBarHeight = catsBar.offsetHeight;
+    const headerBar = document.getElementById('header');
+    const headerHeight = headerBar.offsetHeight;
+    const headerText = headerBar.querySelectorAll('*');
+    document.addEventListener('scroll', () => {
+      if (catsBar.getBoundingClientRect().top === 96) {
+        catsBar.style.borderTop = '2px solid black';
+        catsBar.style.borderBottom = '2px solid black';
+
+        if (headerBar.classList.contains('bg-opacity-50')) {
+          headerBar.classList.remove('bg-opacity-50');
+        }
+        headerText.forEach((content) => {
+          if (content.classList.contains('text-5xl')) {
+            content.classList.remove('text-5xl');
+            content.classList.add('text-4xl');
+          }
+          if (content.classList.contains('text-xl')) {
+            content.classList.remove('text-xl');
+            content.classList.add('text-lg');
+          }
+        });
+      } else {
+        catsBar.style.borderTop = '';
+        catsBar.style.borderBottom = '4px solid black';
+
+        if (!headerBar.classList.contains('bg-opacity-50')) {
+          headerBar.classList.add('bg-opacity-50');
+        }
+        headerText.forEach((content) => {
+          if (content.classList.contains('text-4xl')) {
+            content.classList.remove('text-4xl');
+            content.classList.add('text-5xl');
+          }
+          if (content.classList.contains('text-lg')) {
+            content.classList.remove('text-lg');
+            content.classList.add('text-xl');
+          }
+        });
+      }
+    });
+  });
+</script>
