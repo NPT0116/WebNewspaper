@@ -18,6 +18,7 @@ export const PATH = {
     SECTION: {
       BASE: '/sections', // lấy list các sections
       DETAILS: '/:section', // lấy list các bài viết thuộc 1 section
+      ARTICLE: '/:sectionId',
       SECTION_TREE: '/tree'
     },
     ARTICLE: {
@@ -34,6 +35,15 @@ export const PATH = {
     },
     LANDINGPAGE: {
       BASE: '/landingpage'
+    },
+    AUTHOR: {
+      ARTICLE: '/author/articles'
+    },
+    // /api/reporter/section
+    REPORTER: {
+      SECTION: '/reporter/section',
+      TAG: '/reporter/tag',
+      QUERY: '/query'
     }
   },
   POST: {

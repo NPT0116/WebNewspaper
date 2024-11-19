@@ -64,18 +64,6 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(router);
 app.use(PATH.API.BASE, apiRouter);
-app.get('/test-articles', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const articles = await getHotNews();
-    res.status(200).json({
-      status: 'success',
-      data: articles
-    });
-  } catch (error) {
-    console.error(error);
-    next(new AppError('Error fetching articles', 500));
-  }
-});
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
@@ -83,8 +71,3 @@ app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-const articles = Article.find()
-  .populate('author', 'name') // Populate author with only the 'name' field
-  .populate('tags', 'name') // Populate tags with only the 'name' field
-  .populate('sectionId', 'name') // Populate sectionId with only the 'name' field
-  .populate('comments'); // Populate all comment fields

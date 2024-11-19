@@ -7,6 +7,7 @@ const landingPageApiRouter = express.Router();
 landingPageApiRouter.use(PATH.HOME, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await getLandingPageData();
+
     res.status(200).json({ data });
   } catch (error) {
     console.error(error);

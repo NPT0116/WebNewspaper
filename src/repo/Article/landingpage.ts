@@ -1,6 +1,7 @@
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
+
 // Lấy bài viết nổi bật nhất trong tuần qua
 export const getHotNews = async () => {
   const oneWeekAgo = new Date();
@@ -18,10 +19,15 @@ export const getHotNews = async () => {
     .sort({ publishedAt: -1 })
     .limit(4)
     .populate('sectionId', 'name') // Populate sectionName
-    .populate('tags', 'name'); // Populate tagNames
+    .populate('tags', 'name') // Populate tagNames
+    .populate('author', 'name'); // Populate authorName
 
   return hotNews.map((article) => ({
     title: article.title,
+    author: {
+      id: article.author?._id,
+      name: article.author?.name
+    },
     section: {
       id: article.sectionId?._id,
       name: article.sectionId?.name
@@ -36,18 +42,21 @@ export const getHotNews = async () => {
   }));
 };
 
-// Lấy 10 bài viết được xem nhiều nhấ
-
-// Lấy bài viết được xem nhiều nhất (các trường dữ liệu cụ thể)
+// Lấy bài viết được xem nhiều nhất
 export const getMostViewedArticles = async () => {
   const mostViewedArticles = await Article.find({ status: 'published' })
     .sort({ views: -1 })
     .limit(10)
     .populate('sectionId', 'name') // Populate sectionName
-    .populate('tags', 'name'); // Populate tagNames
+    .populate('tags', 'name') // Populate tagNames
+    .populate('author', 'name'); // Populate authorName
 
   return mostViewedArticles.map((article) => ({
     title: article.title,
+    author: {
+      id: article.author?._id,
+      name: article.author?.name
+    },
     section: {
       id: article.sectionId?._id,
       name: article.sectionId?.name
@@ -63,16 +72,21 @@ export const getMostViewedArticles = async () => {
   }));
 };
 
-// Lấy bài viết mới nhất (các trường dữ liệu cụ thể)
+// Lấy bài viết mới nhất
 export const getLatestArticles = async () => {
   const latestArticles = await Article.find({ status: 'published' })
     .sort({ publishedAt: -1 })
     .limit(10)
     .populate('sectionId', 'name') // Populate sectionName
-    .populate('tags', 'name'); // Populate tagNames
+    .populate('tags', 'name') // Populate tagNames
+    .populate('author', 'name'); // Populate authorName
 
   return latestArticles.map((article) => ({
     title: article.title,
+    author: {
+      id: article.author?._id,
+      name: article.author?.name
+    },
     section: {
       id: article.sectionId?._id,
       name: article.sectionId?.name
@@ -87,7 +101,7 @@ export const getLatestArticles = async () => {
   }));
 };
 
-// Lấy top 10 chuyên mục (với bài viết mới nhất, các trường cụ thể)
+// Lấy top 10 chuyên mục với bài viết mới nhất
 export const getTopSectionsWithLatestArticles = async () => {
   const topSections = await Section.aggregate([
     {
@@ -121,8 +135,9 @@ export const getTopSectionsWithLatestArticles = async () => {
         status: 'published'
       })
         .sort({ publishedAt: -1 })
-        .select('_id title views publishedAt description images tags')
-        .populate('tags', 'name');
+        .select('_id title views publishedAt description images tags author')
+        .populate('tags', 'name')
+        .populate('author', 'name');
 
       return {
         sectionId: section._id,
@@ -132,6 +147,10 @@ export const getTopSectionsWithLatestArticles = async () => {
           ? {
               id: latestArticle._id,
               title: latestArticle.title,
+              author: {
+                id: latestArticle.author?._id,
+                name: latestArticle.author?.name
+              },
               publishedAt: latestArticle.publishedAt,
               views: latestArticle.views,
               description: latestArticle.description,
