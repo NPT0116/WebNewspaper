@@ -1,5 +1,6 @@
 import { Article } from '~/models/Article/articleSchema.js';
 import { Request, Response } from 'express';
+import { paginate } from './paginationController.js';
 
 export const articleQuery = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -36,7 +37,7 @@ export const articleQuery = async (req: Request, res: Response): Promise<void> =
     const skip = (pageNum - 1) * size;
 
     // Tìm các bài viết theo điều kiện tìm kiếm và phân trang
-    const articles = await Article.find(query).skip(skip).limit(size);
+    const articles = await paginate(Article, query, pageNum, size);
     const totalArticleCount = await Article.countDocuments(query);
 
     if (skip > totalArticleCount) {
@@ -47,10 +48,6 @@ export const articleQuery = async (req: Request, res: Response): Promise<void> =
     }
 
     res.json({
-      totalItems: totalArticleCount,
-      totalPages: Math.ceil(totalArticleCount / size),
-      currentPage: pageNum,
-      itemsPerPage: size,
       data: articles
     });
   } catch (err) {

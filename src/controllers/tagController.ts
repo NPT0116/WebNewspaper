@@ -1,27 +1,28 @@
 import { Request, Response } from 'express';
 import { Tag } from '~/models/Tag/tagSchema.js';
-import { Section } from '~/models/Section/sectionSchema.js';
-
+import { paginate } from './paginationController.js';
 export const tagQuery = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { search_value } = req.query;
+    const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
 
-    // Validate the search_value
     if (!search_value || typeof search_value !== 'string') {
       res.status(400).json({ error: 'Invalid search_value' });
+      return;
     }
 
-    // Create a regex to match names that start with search_value (case-insensitive)
-    const regex = new RegExp(`^${search_value}`, 'i');
+    const regex = new RegExp(search_value, 'i');
+    const pageNum = parseInt(pageNumber as string, 10);
+    const size = parseInt(pageSize as string, 10);
 
-    // Search for tags whose names start with search_value
-    const tags = await Tag.find({ name: regex }).select('name description createdAt updatedAt');
+    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
+      res.status(400).json({ error: 'Invalid pagination parameters' });
+      return;
+    }
 
-    // Return the search results
-    res.status(200).json({
-      status: 'success',
-      tags
-    });
+    // Sử dụng hàm paginate để phân trang
+    const result = await paginate(Tag, { name: regex }, pageNum, size);
+
+    res.json(result);
   } catch (err) {
     console.error('Error searching tags:', err);
     res.status(500).json({ error: 'Internal server error' });
