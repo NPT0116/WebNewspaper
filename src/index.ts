@@ -17,6 +17,9 @@ import { AppError } from './utils/appError.js';
 import flash from 'connect-flash';
 import apiRouter from './api/indexApi.js';
 import { PATH } from './config/path.js';
+import { Article } from './models/Article/articleSchema.js';
+import { Tag } from './models/Tag/tagSchema.js';
+import { getHotNews } from './repo/Article/landingpage.js';
 
 dotenv.config();
 

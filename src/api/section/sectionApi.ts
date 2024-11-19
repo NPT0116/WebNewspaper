@@ -2,6 +2,7 @@ import express, { Response, Request, NextFunction } from 'express';
 import { PATH } from '~/config/path.js';
 import { getSectionsList, getSectionTree } from '~/repo/Section/index.js';
 import { AppError } from '~/utils/appError.js'; // Custom error class
+import { sectionQuery, getArticlesBySection } from '~/controllers/sectionController.js';
 
 const sectionApiRouter = express.Router();
 
@@ -27,5 +28,8 @@ sectionApiRouter.get(PATH.API.SECTION.SECTION_TREE, async (req: Request, res: Re
     next(new AppError("Can't get sections from DB", 500));
   }
 });
-sectionApiRouter.get(PATH.HOME, getSectionsList);
+sectionApiRouter.get(PATH.HOME, sectionQuery);
+
+sectionApiRouter.get(PATH.API.SECTION.ARTICLE, getArticlesBySection);
+
 export default sectionApiRouter;
