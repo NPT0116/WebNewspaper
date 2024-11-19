@@ -31,6 +31,9 @@ export const PATH = {
     },
     UPLOAD: {
       BASE: '/upload-image'
+    },
+    LANDINGPAGE: {
+      BASE: '/landingpage'
     }
   },
   POST: {
