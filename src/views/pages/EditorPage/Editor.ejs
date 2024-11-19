@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CKEditor 5 Sample</title>
+    <!-- <link rel="stylesheet" href="/css/styles.css" /> -->
+    <link rel="stylesheet" href="/css/editor.css" />
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
+  </head>
+  <body>
+    <div class="">
+      <div class="edit-article-container">
+        <div class="edit-article-wrapper">
+          <div class="input-group">
+            <input type="text" placeholder="Title" class="input-field" />
+          </div>
+          <div class="input-group-inline">
+            <input type="search" placeholder="Tags (at least 5)" class="input-field-inline" />
+            <button class="save-button-inline">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center">
+        <div class="main-container" style="width: 96%">
+          <div class="editor-container editor-container_classic-editor" id="editor-container">
+            <div class="editor-container__editor"><div id="editor"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
+          "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.1/"
+        }
+      }
+    </script>
+    <script type="module" src="/js/editor.js"></script>
+  </body>
+</html>

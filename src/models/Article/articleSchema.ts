@@ -12,8 +12,8 @@ const generateSlug = (title: string): string => {
 
 const articleSchema = new Schema<IArticle>(
   {
-    slug: { type: String, required: true, unique: true },
-    title: { type: String, required: true },
+    slug: { type: String, unique: true },
+    title: { type: String },
     description: { type: String },
     content: { type: String },
     author: { type: Schema.Types.ObjectId, ref: 'ReporterProfile' },
@@ -22,7 +22,7 @@ const articleSchema = new Schema<IArticle>(
     videoUrl: { type: String }, // Optional YouTube link or other video URL
     layout: {
       type: String,
-      enum: ['layout1', 'layout2', 'default'],
+      enum: ['text-left', 'text-right', 'default'],
       default: 'default'
     },
     status: {
@@ -35,7 +35,9 @@ const articleSchema = new Schema<IArticle>(
     updatedAt: { type: Date, default: Date.now },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
-    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' }
+    sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
+    views: { type: Number },
+    bannerTheme: { type: String, enum: ['dark', 'white'], default: 'dark' }
   },
   {
     timestamps: true // Automatically adds createdAt and updatedAt fields
@@ -45,7 +47,7 @@ const articleSchema = new Schema<IArticle>(
 // Middleware để tạo slug tự động trước khi lưu
 articleSchema.pre('save', async function (next) {
   if (!this.slug) {
-    let baseSlug = generateSlug(this.title);
+    const baseSlug = generateSlug(this.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
@@ -64,7 +66,7 @@ articleSchema.pre('save', async function (next) {
 articleSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as Partial<IArticle>;
   if (update && update.title) {
-    let baseSlug = generateSlug(update.title);
+    const baseSlug = generateSlug(update.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
