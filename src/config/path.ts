@@ -17,7 +17,8 @@ export const PATH = {
     BASE: '/api',
     SECTION: {
       BASE: '/sections', // lấy list các sections
-      DETAILS: '/:section' // lấy list các bài viết thuộc 1 section
+      DETAILS: '/:section', // lấy list các bài viết thuộc 1 section
+      ARTICLE: '/:sectionId'
     },
     ARTICLE: {
       BASE: '/articles',

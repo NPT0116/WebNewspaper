@@ -15,6 +15,8 @@ apiRouter.use(PATH.API.AUTHOR.ARTICLE, authorQueryArticleRouter);
 
 apiRouter.use(PATH.API.REPORTER.TAG, tagApiRouter);
 
-apiRouter.use(PATH.API.REPORTER.SECTION, sectionApi.authorSectionApiRouter);
+apiRouter.use(PATH.API.REPORTER.SECTION, sectionApi.sectionAuthorApiRouter);
+
+apiRouter.use(PATH.API.SECTION.ARTICLE, sectionApi.sectionArticleApiRouter);
 
 export default apiRouter;
