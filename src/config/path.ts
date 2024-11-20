@@ -26,7 +26,7 @@ export const PATH = {
       DETAILS: '/:articleSlug',
       CREATE_ARTICLE: '/create',
       UPDATE_ARTICLE: '/:articleId/update',
-      COMMENTS: '/:sectionSlug/:articleSlug/comments'
+      COMMENTS: '/:articleSlug/comments'
     },
     TAG: {
       BASE: '/tags'

@@ -5,10 +5,10 @@ import { AppError } from '~/utils/appError.js';
 
 export const getCommentsByArticle = async (req: Request<{ sectionSlug: string; articleSlug: string }>, res: Response<ICommentResponse[]>, next: NextFunction) => {
   try {
-    const { sectionSlug, articleSlug } = req.params;
+    const { articleSlug } = req.params;
 
     // Get comments from the service/repository
-    const comments: ICommentResponse[] = await getCommentsByArticleSlug(sectionSlug, articleSlug);
+    const comments: ICommentResponse[] = await getCommentsByArticleSlug(articleSlug);
 
     // Send the response with status 200
     res.status(200).json(comments);

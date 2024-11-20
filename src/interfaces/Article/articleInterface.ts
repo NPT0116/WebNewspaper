@@ -1,32 +1,54 @@
 import mongoose, { Document } from 'mongoose';
-import { ITag } from '../Tag/tagSchema.js';
-import { IComment } from '../Comment/ commentInterface.js';
-import { ISection } from '../Section/sectionInterface.js';
 export interface IAuthor {
   _id: mongoose.Types.ObjectId;
   name: string;
 }
+
+export interface ITag {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+}
+
+export interface ISection {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+}
+
+export interface IComment {
+  _id: mongoose.Types.ObjectId;
+  content: string;
+}
+
+// Unpopulated IArticle (default)
 export interface IArticle extends Document {
+  _id: mongoose.Types.ObjectId;
   slug: string;
   title: string;
   description: string;
   content: string;
-  author: IAuthor | mongoose.Types.ObjectId; // Can be either populated or ObjectId
-  editor: mongoose.Types.ObjectId; // Refers to editorProfile
-  images: string[]; // Array of image URLs
-  videoUrl?: string; // Optional video URL (e.g., YouTube link)
-  layout: string;
-  status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending'; // Article status
-  publishedAt?: Date; // Publication date if published
+  author: mongoose.Types.ObjectId;
+  editor: mongoose.Types.ObjectId;
+  images: string[];
+  videoUrl?: string;
+  layout: 'text-left' | 'text-right' | 'default';
+  status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
+  publishedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
-  sectionId: ISection | mongoose.Types.ObjectId;
-  tags: (ITag | mongoose.Types.ObjectId)[]; // Array of populated or ObjectId
-  comments: IComment[];
+  sectionId: mongoose.Types.ObjectId;
+  tags: mongoose.Types.ObjectId[];
+  comments: mongoose.Types.ObjectId[];
   views: number;
   bannerTheme: string;
 }
 
+// Populated IArticle
+export interface IArticlePopulated extends Omit<IArticle, 'author' | 'sectionId' | 'tags' | 'comments'> {
+  author: IAuthor;
+  sectionId: ISection;
+  tags: ITag[];
+  comments: IComment[];
+}
 export interface IArticleBasicInfo {
   title: string;
   section: string;
