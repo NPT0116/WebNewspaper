@@ -574,7 +574,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
     reporterProfile.reportArticles = insertedArticles.map((article) => article._id) as mongoose.Types.ObjectId[];
     await reporterProfile.save();
 
-    console.log('Articles seeded successfully and linked to reporter and editors:', insertedArticles);
+    console.log('Articles seeded successfully and linked to reporter and editors');
   } catch (err) {
     console.error('Error seeding articles, reporter, and editors:', err);
   }

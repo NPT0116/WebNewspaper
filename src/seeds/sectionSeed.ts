@@ -1,4 +1,5 @@
 import { Section } from '~/models/Section/sectionSchema.js';
+import { generateSlug } from '~/utils/common.js';
 
 export const seedSections = async () => {
   try {
@@ -8,14 +9,19 @@ export const seedSections = async () => {
 
     // Tạo danh sách main sections
     const mainSections = [
-      { name: 'News', parentSection: null },
-      { name: 'Sports', parentSection: null },
-      { name: 'Technology', parentSection: null },
-      { name: 'World News', parentSection: null },
-      { name: 'Politics', parentSection: null },
-      { name: 'Health', parentSection: null },
-      { name: 'Economy', parentSection: null }
+      { name: 'News', parentSection: null, slug: '' },
+      { name: 'Sports', parentSection: null, slug: '' },
+      { name: 'Technology', parentSection: null, slug: '' },
+      { name: 'World News', parentSection: null, slug: '' },
+      { name: 'Politics', parentSection: null, slug: '' },
+      { name: 'Health', parentSection: null, slug: '' },
+      { name: 'Economy', parentSection: null, slug: '' }
     ];
+
+    // Generate slugs for main sections
+    for (const section of mainSections) {
+      section.slug = generateSlug(section.name);
+    }
 
     // Chèn các main sections
     const insertedMainSections = await Section.insertMany(mainSections);
@@ -26,12 +32,17 @@ export const seedSections = async () => {
 
     // Tạo danh sách child sections
     const childSections = [
-      { name: 'Football', parentSection: sports },
-      { name: 'Basketball', parentSection: sports },
-      { name: 'Elections', parentSection: politics },
-      { name: 'Government Policies', parentSection: politics },
-      { name: 'Stock Market', parentSection: economy }
+      { name: 'Football', parentSection: sports, slug: '' },
+      { name: 'Basketball', parentSection: sports, slug: '' },
+      { name: 'Elections', parentSection: politics, slug: '' },
+      { name: 'Government Policies', parentSection: politics, slug: '' },
+      { name: 'Stock Market', parentSection: economy, slug: '' }
     ];
+
+    // Generate slugs for child sections
+    for (const section of childSections) {
+      section.slug = generateSlug(section.name);
+    }
 
     // Chèn các child sections
     const insertedChildSections = await Section.insertMany(childSections);
