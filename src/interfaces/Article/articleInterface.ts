@@ -7,11 +7,13 @@ export interface IAuthor {
 export interface ITag {
   _id: mongoose.Types.ObjectId;
   name: string;
+  slug: string;
 }
 
 export interface ISection {
   _id: mongoose.Types.ObjectId;
   name: string;
+  slug: string;
 }
 
 export interface IComment {

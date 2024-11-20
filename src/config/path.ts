@@ -12,7 +12,7 @@ export const PATH = {
       }
     }
   },
-
+  ARTICLE: {},
   API: {
     BASE: '/api',
     SECTION: {
@@ -26,7 +26,7 @@ export const PATH = {
       DETAILS: '/:articleSlug',
       CREATE_ARTICLE: '/create',
       UPDATE_ARTICLE: '/:articleId/update',
-      COMMENTS: '/:articleSlug/comments'
+      COMMENTS: '/:sectionSlug/:articleSlug/comments'
     },
     TAG: {
       BASE: '/tags'

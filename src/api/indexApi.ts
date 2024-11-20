@@ -21,5 +21,4 @@ apiRouter.use(PATH.API.TAG.BASE, tagRouter);
 apiRouter.use(PATH.HOME, commentApiRouter);
 apiRouter.use(PATH.HOME, articleApiRouter);
 apiRouter.use(PATH.API.LANDINGPAGE.BASE, landingPageApiRouter);
-
 export default apiRouter;
