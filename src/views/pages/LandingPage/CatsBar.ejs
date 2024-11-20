@@ -1,17 +1,27 @@
 <div id="categories" class="font-serif sticky top-24 bg-white z-10" style="border-bottom: 4px solid black">
   <!-- Horizontal layout for medium and larger screens -->
-  <div class="hidden xl:flex justify-evenly items-center overflow-x-auto whitespace-nowrap" style="font-size: 0.8vw">
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">The latest</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">News</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Books & Culture</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Magazine</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Puzzles & Games</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Video</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Podcasts</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Goings on</div>
-    <div class="py-2 px-2 hover:underline cursor-pointer font-bold">Shop</div>
+  <div class="hidden xl:flex justify-center items-center overflow-x-auto whitespace-nowrap" style="font-size: 0.8vw">
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100cursor-pointer font-bold w-full text-center">
+      <a href="">News</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">Sports</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">Technology</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">World News</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">Politics</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">Health</a>
+    </div>
+    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
+      <a href="">Economy</a>
+    </div>
   </div>
 
   <!-- Dropdown for xs and sm screens -->
@@ -34,13 +44,33 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Take all the section for the
+
+    // Animation
     const catsBar = document.getElementById('categories');
     const catsBarHeight = catsBar.offsetHeight;
     const headerBar = document.getElementById('header');
     const headerHeight = headerBar.offsetHeight;
     const headerText = headerBar.querySelectorAll('*');
+    let lastScrollY = window.scrollY;
     document.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      console.log(currentScrollY);
+
+      if (currentScrollY > lastScrollY) {
+        if (currentScrollY >= 1000) {
+          catsBar.style.transform = 'translateY(-100%)';
+          catsBar.style.transition = 'transform 0.3s ease-in-out';
+        }
+      } else {
+        catsBar.style.transform = 'translateY(0)';
+        catsBar.style.transition = 'transform 0.3s ease-in-out';
+      }
+
+      lastScrollY = currentScrollY;
+
       if (catsBar.getBoundingClientRect().top === 96) {
+        headerBar.style.backgroundColor = 'white';
         catsBar.style.borderTop = '2px solid black';
         catsBar.style.borderBottom = '2px solid black';
 
