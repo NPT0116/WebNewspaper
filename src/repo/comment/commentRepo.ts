@@ -3,13 +3,13 @@ import { Comment } from '../../models/Comment/commentSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { IComment, ICommentResponse } from '~/interfaces/Comment/ commentInterface.js';
 import { AppError } from '~/utils/appError.js';
-import { IAccount } from '~/interfaces/Account/accountInterface.js';
-import { Account } from '~/models/Account/accountSchema.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 
-export const getCommentsByArticleSlug = async (articleSlug: string): Promise<ICommentResponse[]> => {
+export const getCommentsByArticleSlug = async (sectionSlug: string, articleSlug: string): Promise<ICommentResponse[]> => {
+  const section = await Section.findOne({ slug: sectionSlug });
   const article = await Article.findOne({ slug: articleSlug });
 
-  if (!article) {
+  if (!section || !article || section._id.toString() !== article.sectionId.toString()) {
     throw new AppError('Article not found', 404, []);
   }
 
