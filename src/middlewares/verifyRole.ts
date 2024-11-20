@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { Account } from '~/models/Account/accountSchema.js';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 
 export const verifyRole = (allowedRoles: string[]) => {
