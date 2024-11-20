@@ -20,7 +20,8 @@ import { PATH } from './config/path.js';
 import { Article } from './models/Article/articleSchema.js';
 import { Tag } from './models/Tag/tagSchema.js';
 import { getHotNews } from './repo/Article/landingpage.js';
-
+import { configureSocketIO } from './config/socket.js';
+import { createServer } from 'http';
 dotenv.config();
 
 connectDB();
@@ -64,6 +65,8 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(router);
 app.use(PATH.API.BASE, apiRouter);
+const server = createServer(app);
+const io = configureSocketIO(server);
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

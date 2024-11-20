@@ -49,3 +49,11 @@ export interface IArticlePopulated extends Omit<IArticle, 'author' | 'sectionId'
   tags: ITag[];
   comments: IComment[];
 }
+export interface IArticleBasicInfo {
+  title: string;
+  section: string;
+  tags: string[];
+  publishedAt?: Date;
+  description: string;
+  coverImage: string;
+}
