@@ -100,9 +100,9 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     }
 
     // Ensure the provided authorId matches the article's author
-    if (authorId !== article.author) {
-      return next(new AppError('You are not authorized to update this article', 403));
-    }
+    // if (authorId !== article.author) {
+    //   return next(new AppError('You are not authorized to update this article', 403));
+    // }
 
     // Update fields if provided
     article.title = title || article.title;

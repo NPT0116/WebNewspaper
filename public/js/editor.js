@@ -311,7 +311,7 @@ const renderPreviewLayout = (layout) => {
   const backgroundString = `background-color: ${theme === 'light' ? 'white' : 'black'}`;
   const textColorString = `color: ${theme === 'dark' ? 'white' : 'black'}`;
   if (imageUrl) {
-    if (layout === '1') {
+    if (layout === 'text-right') {
       layoutPreview.innerHTML = `
         <div style="display: flex; align-items: center; ${backgroundString}">
           <div  style="width:50%; display: flex; justify-content: center"><img src="${imageUrl}" style="max-height: 150px; max-width: 50%; margin-right: 16px;" alt="Uploaded Image" /></div>
@@ -324,7 +324,7 @@ const renderPreviewLayout = (layout) => {
               </div>
           </div>
         </div>`;
-    } else if (layout === '2') {
+    } else if (layout === 'text-left') {
       layoutPreview.innerHTML = `
         <div style="display: flex; align-items: center; ${backgroundString}">
           <div style="width:50%; display:flex; justify-content: center">
@@ -561,14 +561,37 @@ document.addEventListener('click', (e) => {
   }
 });
 
-const handleSubmit = () => {
+const sectionSelect = document.getElementById('section');
+
+const sections = (await (await fetch('/api/sections')).json()).sections;
+sections.forEach((section) => {
+  const option = document.createElement('option');
+  option.value = section._id;
+  option.textContent = section.name;
+  sectionSelect.appendChild(option);
+});
+
+const handleSubmit = async () => {
   const title = document.getElementById('title')?.value;
   const description = document.getElementById('desc')?.value;
   const layout = document.getElementById('layout')?.value;
   const theme = document.getElementById('theme')?.value;
-  const image = serverImageUrl;
+  const images = [serverImageUrl];
   const content = editorInstance.getData();
-  console.log({ title, description, layout, theme, image, content });
+  const section = sectionSelect.value;
+  console.log({ title, description, layout, theme, images, content, section });
+  try {
+    const res = await fetch('/api/articles/673d5607e42ae42bd084fb0d/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description, layout, bannerTheme: theme, images, content, sectionId: section, authorId: '673d5607e42ae42bd084fb02', tags: tags.map((tag) => tag._id) })
+    });
+    console.log(await res.json());
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const saveBtn = document.getElementById('save-button');
