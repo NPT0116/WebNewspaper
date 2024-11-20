@@ -12,7 +12,7 @@ export const getLandingPage = async (req: Request, res: Response, next: NextFunc
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
       data: data,
-      section: sectionTree
+      sections: sectionTree
     });
   } catch (error) {
     console.error(error);

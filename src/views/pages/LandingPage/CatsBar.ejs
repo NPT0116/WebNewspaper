@@ -1,46 +1,43 @@
-<div id="categories" class="font-serif sticky top-24 bg-white z-10" style="border-bottom: 4px solid black">
-  <!-- Horizontal layout for medium and larger screens -->
-  <div class="hidden xl:flex justify-center items-center overflow-x-auto whitespace-nowrap" style="font-size: 0.8vw">
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100cursor-pointer font-bold w-full text-center">
-      <a href="">News</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">Sports</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">Technology</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">World News</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">Politics</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">Health</a>
-    </div>
-    <div class="py-2 px-2 hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center">
-      <a href="">Economy</a>
-    </div>
+<div id="categories" class=" font-serif sticky top-24 bg-white z-10" >
+  <div  class="hidden xl:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full ">
+    
+    <% sections.forEach((section) => {%>
+      <div id="section-container" class="group flex flex-col justify-center items-center hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center " style="border-bottom: 4px solid black">
+        <a id='section-name' class="group w-full h-full p-2 text-sm" href="\post\<%=section.slug%>"><%=section.name%></a>
+
+        <div id="sub-section-container" class="absolute top-10  w-1/6 p-2 font-dancing">
+          <% if (section.childSections && section.childSections.length > 0) {%>
+            <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200 ">
+              <% section.childSections.forEach((child) => {%>
+                  <li id="" value="" class="w-full hover:bg-gray-300  flex justify-center items-center p-2">
+                    <a id="sub-item" href="<%=child.slug%>"><%=child.name%></a>
+                   </li>
+                <%}) %>
+            </ul>    
+            <%} %>
+        </div>
+      </div>
+      <%})%>
   </div>
 
   <!-- Dropdown for xs and sm screens -->
   <div class="xl:hidden px-2 py-2">
     <select class="w-full border border-black rounded p-2">
-      <option value="latest">The latest</option>
-      <option value="news">News</option>
-      <option value="books">Books & Culture</option>
-      <option value="fiction">Fiction & Poetry</option>
-      <option value="humor">Humor & Cartoons</option>
-      <option value="magazine">Magazine</option>
-      <option value="puzzles">Puzzles & Games</option>
-      <option value="video">Video</option>
-      <option value="podcasts">Podcasts</option>
-      <option value="goings-on">Goings on</option>
-      <option value="shop">Shop</option>
+      <% sections.forEach((section) => {%>
+        <option value=""><%=section.name%></option>
+        <%}) %>
     </select>
   </div>
 </div>
+<!-- 
+<style>
+  #sub-section-container {
+    display: none;
+  }
+  a:hover + #sub-section-container{
+    display:block;
+  }
+</style> -->
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -52,14 +49,15 @@
     const headerBar = document.getElementById('header');
     const headerHeight = headerBar.offsetHeight;
     const headerText = headerBar.querySelectorAll('*');
+    const sectionContainer = document.querySelectorAll('#section-container');
+
     let lastScrollY = window.scrollY;
     document.addEventListener('scroll', () => {
       const currentScrollY = window.scrollY;
-      console.log(currentScrollY);
 
       if (currentScrollY > lastScrollY) {
         if (currentScrollY >= 1000) {
-          catsBar.style.transform = 'translateY(-100%)';
+          catsBar.style.transform = 'translateY(-200%)';
           catsBar.style.transition = 'transform 0.3s ease-in-out';
         }
       } else {
@@ -71,8 +69,12 @@
 
       if (catsBar.getBoundingClientRect().top === 96) {
         headerBar.style.backgroundColor = 'white';
-        catsBar.style.borderTop = '2px solid black';
-        catsBar.style.borderBottom = '2px solid black';
+        // catsBar.style.borderTop = '2px solid black';
+        // catsBar.style.borderBottom = '2px solid black';
+        sectionContainer.forEach((children) => {
+          children.style.borderBottom = '2px solid black';
+          children.style.borderTop = '2px solid black';
+        })
 
         if (headerBar.classList.contains('bg-opacity-50')) {
           headerBar.classList.remove('bg-opacity-50');
@@ -87,9 +89,17 @@
             content.classList.add('text-lg');
           }
         });
+      } else if(catsBar.getBoundingClientRect().top > 96) {
+        sectionContainer.forEach((children) => {
+          children.style.borderBottom = '4px solid black';
+          children.style.borderTop = '';
+        })
       } else {
-        catsBar.style.borderTop = '';
-        catsBar.style.borderBottom = '4px solid black';
+        // catsBar.style.borderTop = '';
+        // catsBar.style.borderBottom = '4px solid black';
+        sectionContainer.forEach((children) => {
+          children.style.borderTop = '';
+        })
 
         if (!headerBar.classList.contains('bg-opacity-50')) {
           headerBar.classList.add('bg-opacity-50');
