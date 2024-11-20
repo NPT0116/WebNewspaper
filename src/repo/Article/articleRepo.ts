@@ -26,7 +26,7 @@ export const getArticlesBySectionId = async (sectionId: string): Promise<IArticl
   const formattedArticles: IArticleBasicInfo[] = articles.map((article) => ({
     title: article.title,
     section: section.name, // Assuming section has a 'name' field
-    tags: article.tags ? (article.tags as ITag[]).map((tag) => tag.name) : [], // Handle empty or missing tags
+    tags: article.tags ? article.tags.map((tag) => tag.name) : [], // Handle empty or missing tags
     publishedAt: article.publishedAt || new Date(), // Ensure publishedAt is valid
     description: article.description || '', // Ensure description is valid
     coverImage: article.images.length > 0 ? article.images[0] : ''

@@ -12,6 +12,7 @@ export interface ISection extends Document {
 
 export interface ISectionBranch {
   id: string;
+  slug: string;
   name: string;
   childSections: ISectionBranch[];
 }
