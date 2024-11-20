@@ -8,6 +8,7 @@ import { Account } from '~/models/Account/accountSchema.js';
 import { NextFunction, Request, Response } from 'express';
 import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { getIO } from '~/config/socket.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 
 export const getCommentsByArticleSlug = async (articleSlug: string): Promise<ICommentResponse[]> => {
   const article = await Article.findOne({ slug: articleSlug });

@@ -28,6 +28,7 @@ export const getHotNews = async () => {
     .exec(); // Use `.exec()` to enforce Promise-based query
 
   return hotNews.map((article) => ({
+    slug: article.slug, // Add slug
     title: article.title,
     author: {
       id: article.author._id,
@@ -58,6 +59,7 @@ export const getMostViewedArticles = async () => {
     .exec(); // Use `.exec()` to enforce Promise-based query
 
   return mostViewedArticles.map((article) => ({
+    slug: article.slug, // Add slug
     title: article.title,
     author: {
       id: article.author._id,
@@ -89,6 +91,7 @@ export const getLatestArticles = async () => {
     .exec(); // Use `.exec()` to enforce Promise-based query
 
   return latestArticles.map((article) => ({
+    slug: article.slug, // Add slug
     title: article.title,
     author: {
       id: article.author._id,
@@ -153,6 +156,7 @@ export const getTopSectionsWithLatestArticles = async () => {
         totalViews: section.totalViews,
         latestArticle: latestArticle
           ? {
+              slug: latestArticle.slug, // Add slug
               id: latestArticle._id,
               title: latestArticle.title,
               author: {
