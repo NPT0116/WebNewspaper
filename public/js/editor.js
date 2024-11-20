@@ -274,7 +274,15 @@ const editorConfig = {
   }
 };
 
-ClassicEditor.create(document.querySelector('#editor'), editorConfig);
+let editorInstance;
+
+ClassicEditor.create(document.querySelector('#editor'), editorConfig)
+  .then((editor) => {
+    editorInstance = editor; // Store the editor instance for later use
+  })
+  .catch((error) => {
+    console.error('Error initializing CKEditor:', error);
+  });
 const uploadInput = document.getElementById('upload');
 const filenameLabel = document.getElementById('filename');
 const imagePreview = document.getElementById('image-preview');
@@ -341,7 +349,8 @@ const renderPreviewLayout = (layout) => {
   }
 };
 
-uploadInput.addEventListener('change', (event) => {
+let serverImageUrl = '';
+uploadInput.addEventListener('change', async (event) => {
   const file = event.target.files[0];
   if (file) {
     filenameLabel.textContent = file.name;
@@ -362,6 +371,30 @@ uploadInput.addEventListener('change', (event) => {
       console.log(layout.value);
       renderPreviewLayout(layout.value);
     };
+    try {
+      const formData = new FormData();
+      formData.append('upload', file);
+
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+
+      const result = await response.json();
+      serverImageUrl = result.url; // Assuming server returns { url: 'image_url' }
+
+      console.log('Image uploaded successfully:', serverImageUrl);
+
+      // Optionally update the preview with the server URL
+      imagePreview.innerHTML = `<img src="${serverImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+
     reader.readAsDataURL(file);
   } else {
     filenameLabel.textContent = '';
@@ -425,11 +458,15 @@ async function fetchSearchResults(query) {
   try {
     // Simulate server delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-    const response = await fetch(`/api/tags`);
-    results = await response.json();
+    console.log(query);
+    const params = new URLSearchParams({
+      search_value: query
+    });
+    const response = await fetch(`/api/tags?${params.toString()}`);
+    results = (await response.json()).tags;
     console.log(results);
 
-    renderDropdown(results.data);
+    renderDropdown(results);
   } catch (error) {
     console.error('Search error:', error);
     dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">Error loading results</div>';
@@ -438,15 +475,15 @@ async function fetchSearchResults(query) {
 
 let tags = [];
 
-function addTag(tagName) {
-  if (!tags.includes(tagName)) {
-    tags.push(tagName);
+function addTag(tag) {
+  if (!tags.some((_tag) => _tag._id === tag._id)) {
+    tags.push(tag);
     updateTags();
   }
 }
 
-function removeTag(tagName) {
-  tags = tags.filter((tag) => tag !== tagName);
+function removeTag(tag) {
+  tags = tags.filter((_tag) => _tag._id !== tag._id);
   updateTags();
 }
 
@@ -456,10 +493,11 @@ function updateTags() {
   const tagWrappers = document.getElementsByClassName('tag-wrapper');
   Array.from(tagWrappers).forEach((wrapper) => tagContainer.removeChild(wrapper));
   tags.forEach((tag) => {
+    console.log(tag);
     const ele = document.createElement('span');
     ele.classList.add('tag-wrapper');
-    ele.innerHTML = `<span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">${tag} 
-    <div class="cursor-pointer tag" data="${tag}">x</div>
+    ele.innerHTML = `<span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">${tag.name} 
+    <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
     </span>`;
     // Insert at the beginning of the container
     tagContainer.insertBefore(ele, tagContainer.firstChild);
@@ -469,10 +507,10 @@ function updateTags() {
     tag.addEventListener('click', (e) => {
       const data = e.currentTarget.getAttribute('data');
       console.log(data);
-      removeTag(data); // Call the function to remove the tag
+      removeTag(JSON.parse(data)); // Call the function to remove the tag
     });
   });
-  renderDropdown(results.data);
+  renderDropdown(results);
 }
 
 // Render dropdown with search results
@@ -482,8 +520,9 @@ function renderDropdown(results) {
   } else {
     const resultItems = results
       .map((result) => {
-        if (!tags.includes(result.tagName)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.tagName}</div>`;
-        return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.tagName}</div>`;
+        console.log(result);
+        if (!tags.some((tag) => tag._id === result._id)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.name}</div>`;
+        return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>`;
       })
       .join('');
     dropdown.innerHTML = resultItems;
@@ -491,8 +530,8 @@ function renderDropdown(results) {
     dropdownItems.forEach((item) => {
       item.addEventListener('click', (e) => {
         const result = JSON.parse(e.currentTarget.getAttribute('data-result'));
-        if (!tags.includes(result.tagName)) addTag(result.tagName);
-        else removeTag(result.tagName);
+        if (!tags.some((tag) => tag._id === result._id)) addTag(result);
+        else removeTag(result);
       });
     });
   }
@@ -522,26 +561,15 @@ document.addEventListener('click', (e) => {
   }
 });
 
-function positionDropdown() {
-  const inputRect = searchInput.getBoundingClientRect();
-  const verticalOffset = -600; // Adjust this value as needed to bring the dropdown closer
+const handleSubmit = () => {
+  const title = document.getElementById('title')?.value;
+  const description = document.getElementById('desc')?.value;
+  const layout = document.getElementById('layout')?.value;
+  const theme = document.getElementById('theme')?.value;
+  const image = serverImageUrl;
+  const content = editorInstance.getData();
+  console.log({ title, description, layout, theme, image, content });
+};
 
-  // Calculate the dropdown's position based on the input's position
-  dropdown.style.left = `${inputRect.left}px`; // Align the dropdown with the left edge of the input
-  dropdown.style.top = `${inputRect.bottom + 200 + verticalOffset}px`; // Bring the dropdown closer to the input
-}
-
-// Listen for input events to position the dropdown dynamically
-// searchInput.addEventListener('focus', () => {
-//   positionDropdown(); // Position the dropdown when input is focused
-// });
-
-// Example: call this when search results are fetched or dropdown should appear
-function showDropdown() {
-  dropdown.classList.remove('hidden');
-  positionDropdown(); // Reposition the dropdown each time it shows
-}
-
-function hideDropdown() {
-  dropdown.classList.add('hidden');
-}
+const saveBtn = document.getElementById('save-button');
+saveBtn?.addEventListener('click', handleSubmit);

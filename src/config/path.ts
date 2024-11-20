@@ -23,6 +23,7 @@ export const PATH = {
     },
     ARTICLE: {
       BASE: '/articles',
+      EDIT: '/edit',
       DETAILS: '/:articleSlug',
       CREATE_ARTICLE: '/create',
       UPDATE_ARTICLE: '/:articleId/update'
@@ -30,14 +31,14 @@ export const PATH = {
     TAG: {
       BASE: '/tags'
     },
+    AUTHOR: {
+      ARTICLE: '/author/articles'
+    },
     UPLOAD: {
       BASE: '/upload-image'
     },
     LANDINGPAGE: {
       BASE: '/landingpage'
-    },
-    AUTHOR: {
-      ARTICLE: '/author/articles'
     },
     // /api/reporter/section
     REPORTER: {
