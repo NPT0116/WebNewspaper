@@ -5,8 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Article Detail</title>
-  <link rel="stylesheet" href="/styles.css"> <!-- Thêm CSS nếu cần -->
-  <script src="/socket.io/socket.io.js"></script> <!-- Kết nối Socket.IO -->
   <style>
     .container {
   max-width: 800px;
@@ -68,18 +66,19 @@ button:hover {
     <ul id="comment-list">
       <% comments.forEach(comment => { %>
         <li>
-          <strong><%= comment.commentName %></strong>: <%= comment.content %>
+          <strong><%= comment.commenterName %></strong>: <%= comment.content %>
           <span class="timestamp"><%= new Date(comment.createdAt).toLocaleString() %></span>
         </li>
       <% }); %>
     </ul>
 
     <!-- Form bình luận -->
-    <form id="comment-form" method="POST" action="/api/<%= article.slug %>/comments/save">
+    <form id="comment-form" >
       <textarea id="comment-input" name="content" placeholder="Enter your comment" required></textarea>
       <button type="submit">Post Comment</button>
     </form>
   </div>
+  <script src="/socket.io/socket.io.js"></script> <!-- Kết nối Socket.IO -->
 
   <script>
     // Kết nối với Socket.IO
@@ -98,11 +97,13 @@ button:hover {
     });
 
     // Gửi bình luận qua API mà không reload trang
-    document.getElementById('comment-form').addEventListener('submit', (event) => {
+    document.getElementById('comment-form').addEventListener('submit',async (event) => {
       event.preventDefault();
       const content = document.getElementById('comment-input').value;
-
-      fetch(`/api/<%= article.slug %>/comments/save`, {
+      const url = `/api/<%= article.slug %>/comments/save`;
+      console.log(url);
+      
+      await fetch(`/api/<%= article.slug %>/comments/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content }),

@@ -4,12 +4,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 let io: SocketIOServer | null = null;
 
 export const configureSocketIO = (server: HttpServer) => {
-  io = new SocketIOServer(server, {
-    cors: {
-      origin: '*', // Hoặc giới hạn theo domain của bạn, ví dụ: ['http://localhost:3000']
-      methods: ['GET', 'POST']
-    }
-  });
+  io = new SocketIOServer(server);
 
   io.on('connection', (socket: Socket) => {
     console.log('A user connected:', socket.id);
