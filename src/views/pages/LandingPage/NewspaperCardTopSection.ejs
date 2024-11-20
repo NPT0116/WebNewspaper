@@ -4,7 +4,7 @@
   </div>
 
   <div id="card-image" class="relative w-full h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">
-    <a href="">
+    <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>">
       <img
         class="w-full h-full object-cover"
         src="<%= latestArticle && latestArticle.images ? latestArticle.images[0] : '' %>"
@@ -16,13 +16,13 @@
   <div id="card-content" class="z-0 relative h-3/5 flex flex-col justify-evenly bg-white">
     <div class="flex justify-between items-center flex-col h-full pt-4">
       <h1 id="card-title" class="h-3/6 flex justify-start items-start font-bold font-serif text-xl hover:text-red-500 transition-all duration-300">
-        <a href=""><%= latestArticle && latestArticle.title ? latestArticle.title : 'Unknown title' %> </a>
+        <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"><%= latestArticle && latestArticle.title ? latestArticle.title : 'Unknown title' %> </a>
       </h1>
-      <h1 id="card-description" class="h-3/6 flex justify-start items-start italic font-serif text-lg hover:text-blue-500 transition-all duration-300">
-        <a href=""><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %> </a>
+      <h1 id="card-description" class="h-3/6 flex justify-start items-start italic font-serif text-lg hover:text-blue-800 transition-all duration-300">
+        <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %> </a>
       </h1>
       <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic">
-        <a href="" class="hover:text-green-500">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
+        <a href="" class="hover:text-blue-500">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
       </div>
     </div>
   </div>
