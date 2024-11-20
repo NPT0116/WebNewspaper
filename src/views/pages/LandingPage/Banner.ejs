@@ -1,28 +1,31 @@
 <% if (code == 1) { %> 
-  <div class="pb-5 grid grid-cols-1 md:grid-cols-2 h-screen">
-    <div class="shadow-xl rounded flex justify-center items-center flex-col p-5 h-full">
-      <div id="top-title" class="text-4xl font-dancing"><%= article.title %></div>
+  <div class=" grid grid-cols-1 md:grid-cols-2 h-screen ">
+    <div class="shadow-xl rounded flex justify-center items-center flex-col  p-5 h-full ">
+      <div id="top-title" class="text-4xl font-dancing text-center"><%= article.title %></div>
   
-      <div id="top-content" class="flex justify-center items-center flex-col">
-        <p class="text-center text-lg"><%= article.summary %></p>
+      <div id="top-content" class="flex justify-center items-center flex-col ">
+        <p class="text-center font-dancing text-lg italic"><%= article.description %></p>
       </div>
   
-      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author %></div>
+      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author && article.author.name ? article.author.name : 'Unknown author' %></div>
     </div>
-    <div class="bg-violet-500 bg-no-repeat bg-cover bg-[url('https://img.kyodonews.net/english/public/images/posts/4822001f7d7fa33ae83b130dc27145f8/photo_l.jpg')]"></div>
+
+    <div class="h-full w-full bg-center bg-violet-500 bg-no-repeat bg-cover bg-[url('<%=article.images%>')]"></div>
   </div>
 <% } else {%> 
   
-  <div class="pb-5 grid grid-cols-1 md:grid-cols-2 h-screen">
-    <div class="bg-violet-500 bg-no-repeat bg-cover bg-[url('https://img.kyodonews.net/english/public/images/posts/4822001f7d7fa33ae83b130dc27145f8/photo_l.jpg')]"></div>
-    <div class="shadow-xl rounded flex justify-center items-center flex-col p-5 h-full">
-      <div id="top-title" class="text-4xl font-dancing"><%= article.title %></div>
+  <div class=" grid grid-cols-1 md:grid-cols-2 h-screen ">
+    <div class="h-full w-full bg-center bg-violet-500 bg-no-repeat bg-cover bg-[url('<%=article.images%>')]"></div>
+
+    <div class="shadow-xl rounded flex justify-center items-center flex-col  p-5 h-full ">
+      <div id="top-title" class="text-4xl font-dancing text-center"><%= article.title %></div>
   
-      <div id="top-content" class="flex justify-center items-center flex-col">
-        <p class="text-center text-lg"><%= article.summary %></p>
+      <div id="top-content" class="flex justify-center items-center flex-col ">
+        <p class="text-center font-dancing text-lg italic"><%= article.description %></p>
       </div>
   
-      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author %></div>
+      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author && article.author.name ? article.author.name : 'Unknown author' %></div>
     </div>
+
   </div>
 <% } %>

@@ -9,15 +9,24 @@
       
     <%- include('CatsBar') %>
       
-    <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1) }) %>
-    <%- include('Banner', { article: data.mostViewedArticles[0], code: 1  }) %>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %>
+    </div>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5) }) %>
+      <%- include('Banner', { article: data.mostViewedArticles[0], code: 1  }) %>    
+    </div>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %>
+      <%- include('Banner', { article: data.latestArticles[0], code: 2  }) %>    
+    </div>
+    <div id="layout" class=""> 
+
+      <%- include('Section10', { title: 'Top Sections', articles:data.topSections })%>
+    </div>
 
 
-    <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1) }) %>
-    <%- include('Banner', { article: data.latestArticles[0], code: 2  }) %>
 
-    <%- include('Section', { title: 'Top Sections', articles: data.topSections.slice(1) }) %>
-    <%- include('Banner', { article: data.topSections[0], code: 1 }) %>
 
     
     </div>

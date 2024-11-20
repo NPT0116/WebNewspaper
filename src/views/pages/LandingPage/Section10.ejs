@@ -3,20 +3,15 @@
 
   <!-- Carousel Wrapper -->
   <div id="carousel-wrapper" class="relative overflow-hidden mb-4">
-    <!-- Carousel Items -->
     <div id="carousel-items" class="flex gap-4 transition-transform duration-500">
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
-      <div id="card-element" class="p-4 bg-white shadow-lg rounded-lg"><%- include('./NewspaperCard') %></div>
+      <% articles.forEach((article) => { %>
+        <div id="card-element" class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh">
+          <%- include('NewspaperCardTopSection', { article: article, latestArticle: article.latestArticle }) %>
+        </div>
+      <% }) %>
     </div>
   </div>
+  
   <div id="carousel-nav" class="h-10 relative flex justify-center items-center bottom-2 gap-2"></div>
 </div>
 
