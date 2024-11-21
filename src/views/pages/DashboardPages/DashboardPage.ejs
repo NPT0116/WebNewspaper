@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataTable with Server-Side Fetching</title>
+
+    <!-- Include DataTable CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+
+    <!-- Include DataTable JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <style>
+      /* Custom Pagination Styling */
+      .dataTables_wrapper .dataTables_paginate .paginate_button {
+        background-color: #f3f4f6 !important;
+        padding: 0.5em 0.9em !important;
+      }
+      .paginate_button:hover {
+        background-color: #d1d5db !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex justify-between">
+      <h1 class="text-2xl font-bold">Article List</h1>
+      <div>
+        <button
+          type="button"
+          class="gap-2 inline-flex items-center text-white font-bold px-5 py-2.5 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
+        >
+          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+              d="M368.4 18.3L312.7 74.1 437.9 199.3l55.7-55.7c21.9-21.9 21.9-57.3 0-79.2L447.6 18.3c-21.9-21.9-57.3-21.9-79.2 0zM288 94.6l-9.2 2.8L134.7 140.6c-19.9 6-35.7 21.2-42.3 41L3.8 445.8c-3.8 11.3-1 23.9 7.3 32.4L164.7 324.7c-3-6.3-4.7-13.3-4.7-20.7c0-26.5 21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48c-7.4 0-14.4-1.7-20.7-4.7L33.7 500.9c8.6 8.3 21.1 11.2 32.4 7.3l264.3-88.6c19.7-6.6 35-22.4 41-42.3l43.2-144.1 2.7-9.2L288 94.6z"
+            />
+          </svg>
+          Create new article
+        </button>
+      </div>
+    </div>
+
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter">
+      <option value="published">Published</option>
+      <option value="pending">Pending</option>
+      <option value="rejected">Rejected</option>
+    </select>
+
+    <table id="example" class="display">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Published At</th>
+          <th>Actions</th>
+          <!-- New Actions Column -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be populated here by DataTables -->
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+      // eslint-disable-next-line
+      const data = <%- JSON.stringify(data) %>;
+      console.log(typeof data); // Logs the data object
+      console.log(data[0]); // Logs the articles array
+      const table = $(document).ready(function () {
+        $('#example').DataTable({
+          data: data.articles,
+          columns: [
+            { data: 'title' },
+            { data: 'description' },
+            { data: 'status' },
+            { data: 'publishedAt' },
+            {
+              // Actions column
+              data: null, // `null` because this column doesn't map to any field in the data source
+              render: function (data, type, row) {
+                console.log(row);
+                // Customize the action buttons for each row
+                return `
+                      <div class="flex space-x-2">
+                          <button data-id="${row._id}" type="button" class="edit-btn text-white gap-2 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/></svg>
+                            <span>Edit</span>
+                          </button>
+
+                          <button data-id="${row._id}" type="button" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/></svg>
+                            <span>Delete</span>
+                          </button>
+                      </div>
+                  `;
+              },
+              orderable: false, // Prevent ordering on the actions column
+              searchable: false // Prevent searching on the actions column
+            }
+          ],
+          columnDefs: [
+            {
+              // Add Tailwind class to the "title" column
+              targets: 0, // 2nd column (title)
+              render: function (data, type, row, meta) {
+                return `<div class="flex gap-2 px-4">
+                  <img class="w-10 h-10 rounded" src="${row.images[0]}" alt="Rounded avatar">
+                  <div>${data}</div>
+                </div>`;
+              }
+            },
+            {
+              // Add Tailwind class to the "description" column
+              targets: 1, // 3rd column (description)
+              createdCell: function (td, cellData, rowData, row, col) {
+                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+              }
+            },
+            {
+              // Add Tailwind class to the "status" column
+              targets: 2, // 5th column (status)
+              render: function (data, type, row, meta) {
+                if (data === 'published')
+                  return `<div class="flex gap-2">
+                  <div class="flex items-center"><span class="flex w-2 h-2 bg-green-500 rounded-full "></span></div>
+                  <div class="flex items-center text-green-600">${data}</div>
+                </div>`;
+              },
+            },
+            {
+              // Add Tailwind class to the "publishedAt" column
+              targets: 3, // 6th column (publishedAt)
+              render: function (data, type, row, meta) {
+
+                // Create a Date object
+                const date = new Date(data);
+
+                // Use toLocaleString for a readable format
+                const readableDate = date.toLocaleString('en-US', {
+                  weekday: 'long', // Long weekday name (e.g., "Monday")
+                  year: 'numeric', // Full year (e.g., 2024)
+                  month: 'long', // Full month name (e.g., "November")
+                  day: 'numeric', // Day of the month (e.g., 20)
+                  hour: '2-digit', // Hour in 2-digit format (e.g., "03")
+                  minute: '2-digit', // Minute in 2-digit format (e.g., "22")
+                  second: '2-digit', // Second in 2-digit format (e.g., "47")
+                  hour12: true // 12-hour format (AM/PM)
+                });
+
+                return `<div class="text-xs">${readableDate}</div>`;
+              }
+            }
+          ],
+          rowCallback: function (row, data, index) {
+            // Apply styling to the entire row if necessary
+            $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
+            if (data.status === 'Failed') {
+              $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
+            }
+          },
+          drawCallback: function (settings) {
+            // Optional: Apply styles to pagination buttons
+          },
+          language: {
+            // Custom language settings (optional)
+            search: 'Search articles:',
+            lengthMenu: 'Show _MENU_ entries per page'
+          },
+          pageLength: 10, // Default page size
+          lengthMenu: [10, 25, 50] // Options for page size selection
+        });
+      });
+      $('#statusFilter').on('change', function () {
+        const selectedFilter = $(this).val();  // Get the selected filter value
+
+        // Assuming `data` is your local array of items
+        const filteredData = data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
+        console.log(filteredData);
+        // Now, update the table with the filtered data
+        _table = $('#example').DataTable();
+        _table.clear();
+        _table.rows.add(filteredData);
+        _table.draw();
+      });
+
+      $('#example').on('click', '.edit-btn', function () {
+        const id = $(this).data('id');
+        const url = `/articles/${id}/edit`; // Construct the URL
+        window.open(url, '_blank'); // Open the URL in a new window or tab
+        // Add your edit logic here
+      });
+
+      // Handle delete button click
+      $('#example').on('click', '.delete-btn', function () {
+        const id = $(this).data('id');
+        console.log('Delete ID:', id);
+        // Add your delete logic here
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="../../../../node_modules/flowbite/dist/flowbite.min.js"></script>
+  </body>
+</html>

@@ -1,52 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
-    landingpage
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
   </head>
   <body>
-    <div class="w-11/12">
-      <div id="categories" class="flex justify-center">
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">The latest</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">News</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Magazine</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Video</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Goings on</div>
-        <div class="py-2 px-2 text-sm hover:underline cursor-pointer font-bold">Shop</div>
-      </div>
-      <%- include('Section', { title: 'Today\'s Mix' }) %>
-
-      <%- include('Section', { title: 'Trump\'s Team'  } ) %>
+    <div class="relative pb-2 z-10" style="width: 95vw">
+    <%- include('../../layouts/partials/Header', { sections: sections }) %>
       
-      <%- include('Banner') %>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %>
+    </div>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5) }) %>
+      <%- include('Banner', { article: data.mostViewedArticles[0], code: 1  }) %>    
+    </div>
+    <div id="layout" class="">
+      <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %>
+      <%- include('Banner', { article: data.latestArticles[0], code: 2  }) %>    
+    </div>
+    <div id="layout" class=""> 
 
-      <%- include('Section', { title: 'THE LEDGE'  }) %>
+      <%- include('Section10', { title: 'Top Sections', articles:data.topSections })%>
+    </div>
 
-      <%- include('Banner') %>
 
-      <%- include('Section', { title: 'Our Columnists' }) %>
 
-      <%- include('Banner') %>
 
-      <%- include('Section', { title: 'The Critics' }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'Goings on' }) %>
-
-      <%- include('Banner') %>
-
-      <%- include('Section', { title: 'Ideas' }) %>
-
-      <%- include('Banner') %>
-      
+    
     </div>
   </body>
 </html>

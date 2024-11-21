@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-export const uploadFile = async (req: Request, res: Response): Promise<void> => {
+export const uploadFile = async (req: Request<{}, {}, { file?: Express.MulterS3.File }>, res: Response): Promise<void> => {
   try {
     console.log('Run here');
     // Ensure `req.file` is properly typed
