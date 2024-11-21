@@ -12,6 +12,10 @@ export const PATH = {
       }
     }
   },
+  ARTICLE: {
+    BASE: '/articles',
+    EDIT: '/:articleId/edit'
+  },
 
   API: {
     BASE: '/api',
@@ -23,7 +27,6 @@ export const PATH = {
     },
     ARTICLE: {
       BASE: '/articles',
-      EDIT: '/edit',
       DETAILS: '/:articleSlug',
       CREATE_ARTICLE: '/create',
       UPDATE_ARTICLE: '/:articleId/update'
@@ -46,6 +49,9 @@ export const PATH = {
       TAG: '/reporter/tag',
       QUERY: '/query'
     }
+  },
+  DASHBOARD: {
+    BASE: '/dashboard'
   },
   POST: {
     PATH: '/post',
