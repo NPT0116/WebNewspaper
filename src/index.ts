@@ -20,11 +20,13 @@ import { PATH } from './config/path.js';
 import { Article } from './models/Article/articleSchema.js';
 import { Tag } from './models/Tag/tagSchema.js';
 import { getHotNews } from './repo/Article/landingpage.js';
-
+import { configureSocketIO } from './config/socket.js';
+import { createServer } from 'http';
 dotenv.config();
 
 connectDB();
 const app = express();
+const server = createServer(app);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,14 +62,16 @@ app.use(
 );
 
 app.use(passport.session());
+const io = configureSocketIO(server);
 app.use('/uploads', express.static('uploads'));
 
 app.use(router);
 app.use(PATH.API.BASE, apiRouter);
+
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 app.use(errorHandler);
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

@@ -1,14 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { IArticle } from '~/interfaces/Article/articleInterface.js';
-
-// Tạo function để sinh slug từ tiêu đề
-const generateSlug = (title: string): string => {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/ /g, '-') // Thay khoảng trắng bằng dấu gạch ngang
-    .replace(/[^\w-]+/g, ''); // Loại bỏ ký tự đặc biệt
-};
+import { generateSlug } from '~/utils/common.js';
 
 const articleSchema = new Schema<IArticle>(
   {

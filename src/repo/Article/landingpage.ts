@@ -22,12 +22,13 @@ export const getHotNews = async () => {
   })
     .sort({ publishedAt: -1 })
     .limit(4)
-    .populate<{ sectionId: ISection }>('sectionId', 'name') // Strict typing for sectionId
-    .populate<{ tags: ITag[] }>('tags', 'name') // Strict typing for tags
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
+    .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
     .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
-    .exec(); // Use `.exec()` to enforce Promise-based query
+    .exec();
 
   return hotNews.map((article) => ({
+    slug: article.slug,
     title: article.title,
     author: {
       id: article.author._id,
@@ -35,11 +36,13 @@ export const getHotNews = async () => {
     },
     section: {
       id: article.sectionId._id,
-      name: article.sectionId.name
+      name: article.sectionId.name,
+      slug: article.sectionId.slug // Include slug
     },
     tags: article.tags.map((tag) => ({
       id: tag._id,
-      name: tag.name
+      name: tag.name,
+      slug: tag.slug // Include slug
     })),
     publishedAt: article.publishedAt,
     description: article.description,
@@ -52,12 +55,13 @@ export const getMostViewedArticles = async () => {
   const mostViewedArticles = await Article.find({ status: 'published' })
     .sort({ views: -1 })
     .limit(10)
-    .populate<{ sectionId: ISection }>('sectionId', 'name') // Strict typing for sectionId
-    .populate<{ tags: ITag[] }>('tags', 'name') // Strict typing for tags
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
+    .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
     .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
-    .exec(); // Use `.exec()` to enforce Promise-based query
+    .exec();
 
   return mostViewedArticles.map((article) => ({
+    slug: article.slug,
     title: article.title,
     author: {
       id: article.author._id,
@@ -65,11 +69,13 @@ export const getMostViewedArticles = async () => {
     },
     section: {
       id: article.sectionId._id,
-      name: article.sectionId.name
+      name: article.sectionId.name,
+      slug: article.sectionId.slug // Include slug
     },
     tags: article.tags.map((tag) => ({
       id: tag._id,
-      name: tag.name
+      name: tag.name,
+      slug: tag.slug // Include slug
     })),
     publishedAt: article.publishedAt,
     description: article.description,
@@ -83,12 +89,13 @@ export const getLatestArticles = async () => {
   const latestArticles = await Article.find({ status: 'published' })
     .sort({ publishedAt: -1 })
     .limit(10)
-    .populate<{ sectionId: ISection }>('sectionId', 'name') // Strict typing for sectionId
-    .populate<{ tags: ITag[] }>('tags', 'name') // Strict typing for tags
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
+    .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
     .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
-    .exec(); // Use `.exec()` to enforce Promise-based query
+    .exec();
 
   return latestArticles.map((article) => ({
+    slug: article.slug,
     title: article.title,
     author: {
       id: article.author._id,
@@ -96,11 +103,13 @@ export const getLatestArticles = async () => {
     },
     section: {
       id: article.sectionId._id,
-      name: article.sectionId.name
+      name: article.sectionId.name,
+      slug: article.sectionId.slug // Include slug
     },
     tags: article.tags.map((tag) => ({
       id: tag._id,
-      name: tag.name
+      name: tag.name,
+      slug: tag.slug // Include slug
     })),
     publishedAt: article.publishedAt,
     description: article.description,
@@ -130,6 +139,7 @@ export const getTopSectionsWithLatestArticles = async () => {
       $project: {
         _id: 1,
         name: 1,
+        slug: 1, // Include slug for section
         totalViews: 1
       }
     }
@@ -142,17 +152,19 @@ export const getTopSectionsWithLatestArticles = async () => {
         status: 'published'
       })
         .sort({ publishedAt: -1 })
-        .populate<{ sectionId: ISection }>('sectionId', 'name') // Strict typing for sectionId
-        .populate<{ tags: ITag[] }>('tags', 'name') // Strict typing for tags
+        .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
+        .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
         .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
-        .exec(); // Use `.exec()` to enforce Promise-based query
+        .exec();
 
       return {
         sectionId: section._id,
         sectionName: section.name,
+        slug: section.slug, // Include slug for section
         totalViews: section.totalViews,
         latestArticle: latestArticle
           ? {
+              slug: latestArticle.slug,
               id: latestArticle._id,
               title: latestArticle.title,
               author: {
@@ -165,7 +177,8 @@ export const getTopSectionsWithLatestArticles = async () => {
               images: latestArticle.images,
               tags: latestArticle.tags.map((tag) => ({
                 id: tag._id,
-                name: tag.name
+                name: tag.name,
+                slug: tag.slug // Include slug for tags
               }))
             }
           : null

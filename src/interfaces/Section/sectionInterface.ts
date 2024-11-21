@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 export interface ISection extends Document {
   _id: mongoose.Types.ObjectId;
+  slug: string;
   name: string;
   parentSection?: mongoose.Types.ObjectId | null; // Reference to parent section
   childSections?: mongoose.Types.ObjectId[]; // References to child sections
@@ -11,6 +12,7 @@ export interface ISection extends Document {
 
 export interface ISectionBranch {
   id: string;
+  slug: string;
   name: string;
   childSections: ISectionBranch[];
 }
