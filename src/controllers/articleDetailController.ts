@@ -1,9 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
+import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
+export const relatedArticleFunc = async (sectionSlug: string) => {
+  try {
+    const section = await Section.findOne({ slug: sectionSlug });
+    const relatedArticle = await Article.find({ sectionId: section?._id })
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+      .populate<{ tags: ITag[] }>('tags', 'name slug')
+      .populate<{ author: IAuthor }>('author', 'name')
+      .limit(8)
+      .exec();
+    if (!relatedArticle) return null;
+    const response: IArticleCard[] = relatedArticle.map((article) => ({
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      sectionId: {
+        name: article.sectionId.name,
+        _id: article.sectionId._id,
+        slug: article.sectionId.slug
+      },
+      tags: article.tags.map((tag) => ({
+        name: tag.name,
+        slug: tag.slug,
+        _id: tag._id
+      })),
+      author: {
+        name: article.author.name,
+        _id: article.author._id
+      },
+      images: article.images
+    }));
+    return response;
+  } catch (e) {
+    return null;
+  }
+};
 
 interface IArticleDetailParams {
   sectionSlug: string;
@@ -83,7 +119,6 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
     const commentWithNames = await Promise.all(
       article.comments.map(async (comment) => {
         const account = await mongoose.model('Account').findById(comment.account).populate('profileId', 'name');
-
         return {
           content: comment.content,
           createdAt: comment.createdAt,
@@ -91,14 +126,21 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
         };
       })
     );
+    let relatedArticle: IArticleCard[] | null = await relatedArticleFunc(sectionSlug);
+    if (relatedArticle === null) {
+      relatedArticle = [];
+    }
+
     console.log({
       ...article.toObject(),
-      comments: commentWithNames
+      comments: commentWithNames,
+      relatedArticle
     });
 
     res.render('pages/PostDetailPage/PostDetailPage', {
       ...article.toObject(),
-      comments: commentWithNames
+      comments: commentWithNames,
+      relatedArticle
     });
   } catch (e) {
     next(new AppError("can't get detail article", 500));

@@ -79,3 +79,13 @@ export interface IReporterArticleDetailInfo {
 export interface getArticleByIdParams {
   articleId: string;
 }
+
+export interface IArticleCard {
+  slug: string;
+  title: string;
+  description: string;
+  sectionId: ISection;
+  tags: ITag[];
+  author: IAuthor;
+  images: string[];
+}
