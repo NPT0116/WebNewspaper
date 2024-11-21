@@ -1,0 +1,9 @@
+<div class="">
+    <p class="">Page <%= pagination.currentPage %> of <%= pagination.totalPages %></p>
+    <% if (pagination.currentPage > 1) { %>
+      <a href="/section/<%= section.slug %>?pageNumber=<%= pagination.currentPage - 1 %>">Previous</a>
+    <% } %>
+    <% if (pagination.currentPage < pagination.totalPages) { %>
+      <a href="/section/<%= section.slug %>?pageNumber=<%= pagination.currentPage + 1 %>">Next</a>
+    <% } %>
+</div>

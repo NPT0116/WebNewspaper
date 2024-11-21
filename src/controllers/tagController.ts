@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Tag } from '~/models/Tag/tagSchema.js';
+import { AppError } from '~/utils/appError.js';
 
 interface TagQuery {
   search_value: string;
@@ -7,14 +8,14 @@ interface TagQuery {
   pageSize: string;
 }
 
-export const tagQuery = async (req: Request<{}, {}, {}, TagQuery>, res: Response): Promise<void> => {
+export const tagQuery = async (req: Request<{}, {}, {}, TagQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
     const pageNum = parseInt(pageNumber as string, 10);
     const size = parseInt(pageSize as string, 10);
 
     if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
+      next(new AppError('Invalid pagination parameters', 400));
       return;
     }
 
@@ -32,7 +33,7 @@ export const tagQuery = async (req: Request<{}, {}, {}, TagQuery>, res: Response
     const totalPages = Math.ceil(totalSections / size);
 
     if (skip >= totalSections && skip !== 0) {
-      res.status(404).json({ error: 'Page not found' });
+      next(new AppError('Page not found', 404));
       return;
     }
 
@@ -44,7 +45,6 @@ export const tagQuery = async (req: Request<{}, {}, {}, TagQuery>, res: Response
       itemsPerPage: size
     });
   } catch (err) {
-    console.error('Error searching tags:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    next(new AppError('Internal server error', 500));
   }
 };

@@ -3,7 +3,7 @@ import { PATH } from '~/config/path.js';
 import { getSectionsList, getSectionTree } from '~/repo/Section/index.js';
 import { AppError } from '~/utils/appError.js'; // Custom error class
 import { sectionQuery } from '~/controllers/sectionController.js';
-import { getArticlesBySectionId } from '~/controllers/articleController.js';
+import { getArticlesBySectionSlug } from '~/controllers/articleController.js';
 
 const sectionApiRouter = express.Router();
 
@@ -31,6 +31,6 @@ sectionApiRouter.get(PATH.API.SECTION.SECTION_TREE, async (req: Request, res: Re
 });
 sectionApiRouter.get(PATH.HOME, sectionQuery);
 
-sectionApiRouter.get(PATH.API.SECTION.ARTICLE, getArticlesBySectionId);
+sectionApiRouter.get(PATH.API.SECTION.SLUG, getArticlesBySectionSlug);
 
 export default sectionApiRouter;

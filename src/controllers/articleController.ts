@@ -5,7 +5,8 @@ import { NextFunction, Request, Response } from 'express';
 import { AppError } from '~/utils/appError.js';
 import { reporterGetArticleById } from '~/repo/Article/articleRepo.js';
 import { ObjectId } from 'mongoose';
-import { getArticleByIdParams } from '~/interfaces/Article/articleInterface.js';
+import { getArticleByIdParams, IArticleCard } from '~/interfaces/Article/articleInterface.js';
+import { IAuthor, ISection, ITag } from './articleDetailController.js';
 
 interface ArticleQuery {
   search_value: string;
@@ -22,7 +23,10 @@ interface GetArticleByStatusQuery {
   pageSize: string;
 }
 
-export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: Response): Promise<void> => {
+interface getArticlesBySlugParams {
+  sectionSlug: string;
+}
+export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { search_value, pageNumber, pageSize, sectionId, tagId, authorId } = req.query;
 
@@ -48,7 +52,7 @@ export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: 
     const size = pageSize ? parseInt(pageSize as string, 10) : 10;
 
     if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
+      next(new AppError('Invalid pagination parameters', 400));
       return;
     }
 
@@ -59,21 +63,42 @@ export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: 
       .sort({ publishedAt: -1 })
       .skip(skip)
       .limit(size)
-      .select('title sectionId tags publishedAt description images slug')
-      .populate('author', 'name')
-      .populate('tags', 'name')
-      .populate('sectionId', 'name');
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+      .populate<{ tags: ITag[] }>('tags', 'name slug')
+      .populate<{ author: IAuthor }>('author', 'name');
 
     const totalArticles = await Article.countDocuments(query);
     const totalPages = Math.ceil(totalArticles / size);
 
     if (skip >= totalArticles && skip !== 0) {
-      res.status(404).json({ error: 'Page not found' });
+      next(new AppError('Page not found', 404));
       return;
     }
 
+    // Chuyển dữ liệu bài viết thành định dạng IArticleCard
+    const response: IArticleCard[] = articles.map((article) => ({
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      sectionId: {
+        name: article.sectionId.name,
+        _id: article.sectionId._id,
+        slug: article.sectionId.slug
+      },
+      tags: article.tags.map((tag) => ({
+        name: tag.name,
+        slug: tag.slug,
+        _id: tag._id
+      })),
+      author: {
+        name: article.author.name,
+        _id: article.author._id
+      },
+      images: article.images
+    }));
+
     res.json({
-      data: articles,
+      data: response,
       pagination: {
         totalItems: totalArticles,
         totalPages: totalPages,
@@ -82,12 +107,11 @@ export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: 
       }
     });
   } catch (err) {
-    console.error('Error in article query and pagination:', err);
-    res.status(500).json({ error: `Error querying articles: ${err}` });
+    next(new AppError(`Error querying articles: ${err}`, 500));
   }
 };
 
-export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleByStatusQuery>, res: Response): Promise<void> => {
+export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleByStatusQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Kiểm tra nếu có tham số tìm kiếm (search_value)
     const { status = 'published', pageNumber, pageSize } = req.query;
@@ -98,7 +122,7 @@ export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleBySt
     const size = pageSize ? parseInt(pageSize as string, 10) : 10;
 
     if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
+      next(new AppError('Invalid pagination parameters', 400));
       return;
     }
 
@@ -108,20 +132,42 @@ export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleBySt
       .sort({ publishedAt: -1 })
       .skip(skip)
       .limit(size)
-      .select('title sectionId tags publishedAt description images slug')
-      .populate('author', 'name')
-      .populate('tags', 'name')
-      .populate('sectionId', 'name');
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+      .populate<{ tags: ITag[] }>('tags', 'name slug')
+      .populate<{ author: IAuthor }>('author', 'name');
+
+    // Chuyển dữ liệu bài viết thành định dạng IArticleCard
+    const response: IArticleCard[] = articles.map((article) => ({
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      sectionId: {
+        name: article.sectionId.name,
+        _id: article.sectionId._id,
+        slug: article.sectionId.slug
+      },
+      tags: article.tags.map((tag) => ({
+        name: tag.name,
+        slug: tag.slug,
+        _id: tag._id
+      })),
+      author: {
+        name: article.author.name,
+        _id: article.author._id
+      },
+      images: article.images
+    }));
+
     const totalArticles = await Article.countDocuments(query);
     const totalPages = Math.ceil(totalArticles / size);
 
     if (skip >= totalArticles && skip !== 0) {
-      res.status(404).json({ error: 'Page not found' });
+      next(new AppError('Page not found', 404));
       return;
     }
 
     res.json({
-      data: articles,
+      data: response,
       pagination: {
         totalItems: totalArticles,
         totalPages: totalPages,
@@ -130,30 +176,21 @@ export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleBySt
       }
     });
   } catch (err) {
-    res.status(500).json({ error: `Error querying articles: ${err}` });
+    next(new AppError(`Error querying articles: ${err}`, 500));
   }
 };
 
-//Tìm kiếm bài viết theo sectionId
-export const getArticlesBySectionId = async (req: Request, res: Response): Promise<void> => {
+//Tìm kiếm bài viết theo sectionSlug
+export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugParams>, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { pageNumber = 1, pageSize = 10 } = req.query;
+    const { sectionSlug } = req.params;
 
-    const sectionIdMatch = req.originalUrl.match(/\/api\/sections\/([a-fA-F0-9]{24})/);
+    // Cố định giá trị pageNumber và pageSize (Ví dụ: page 1, pageSize 5)
+    const pageNum = parseInt(req.query.pageNumber as string) || 1;
+    const size = 2;
 
-    if (!sectionIdMatch || !sectionIdMatch[1]) {
-      res.status(400).json({ message: 'sectionId is required in the URL' });
-      return;
-    }
-
-    const sectionId = sectionIdMatch[1];
-
-    if (!mongoose.isValidObjectId(sectionId)) {
-      res.status(400).json({ message: 'Invalid sectionId' });
-      return;
-    }
-
-    const rootSection = await Section.findById(sectionId).populate({
+    // Tìm root section dựa trên slug
+    const rootSection = await Section.findOne({ slug: sectionSlug }).populate({
       path: 'childSections',
       populate: {
         path: 'childSections',
@@ -164,44 +201,61 @@ export const getArticlesBySectionId = async (req: Request, res: Response): Promi
     });
 
     if (!rootSection) {
-      res.status(404).json({ message: 'Section not found' });
+      next(new AppError('Section not found', 404));
       return;
     }
 
+    // Thu thập tất cả các ID của rootSection và các childSections
     const collectSectionIds = (section: any): string[] => {
       const childIds = section.childSections?.map(collectSectionIds) || [];
       return [section._id.toString(), ...childIds.flat()];
     };
     const sectionIds = collectSectionIds(rootSection);
-    const query = { sectionId: { $in: sectionIds } };
 
-    const pageNum = parseInt(pageNumber as string, 10);
-    const size = parseInt(pageSize as string, 10);
-
-    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
-      return;
-    }
-
+    // Xử lý phân trang
     const skip = (pageNum - 1) * size;
-
-    const articles = await Article.find(query)
-      .sort({ publishedAt: -1 })
-      .skip(skip)
-      .limit(size)
-      .select('title sectionId tags publishedAt description images slug')
-      .populate('author', 'name')
-      .populate('tags', 'name')
-      .populate('sectionId', 'name');
-    const totalArticles = await Article.countDocuments(query);
+    const totalArticles = await Article.countDocuments({ sectionId: { $in: sectionIds } });
     const totalPages = Math.ceil(totalArticles / size);
+
     if (skip >= totalArticles && skip !== 0) {
       res.status(404).json({ error: 'Page not found' });
       return;
     }
 
-    res.json({
-      data: articles,
+    // Tìm bài viết dựa trên sectionIds
+    const articles = await Article.find({ sectionId: { $in: sectionIds } })
+      .sort({ publishedAt: -1 })
+      .skip(skip)
+      .limit(size)
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+      .populate<{ tags: ITag[] }>('tags', 'name slug')
+      .populate<{ author: IAuthor }>('author', 'name');
+
+    const response: IArticleCard[] = articles.map((article) => ({
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      sectionId: {
+        _id: article.sectionId._id,
+        name: article.sectionId.name,
+        slug: article.sectionId.slug
+      },
+      tags: article.tags.map((tag) => ({
+        name: tag.name,
+        slug: tag.slug,
+        _id: tag._id
+      })),
+      author: {
+        name: article.author.name,
+        _id: article.author._id
+      },
+      images: article.images
+    }));
+
+    // Render kết quả lên view
+    res.render('pages/SectionPage/sectionPage', {
+      section: rootSection,
+      articles: response,
       pagination: {
         totalItems: totalArticles,
         totalPages: totalPages,
@@ -210,8 +264,7 @@ export const getArticlesBySectionId = async (req: Request, res: Response): Promi
       }
     });
   } catch (err) {
-    console.error('Error fetching articles by section:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    next(new AppError('Internal server error', 500));
   }
 };
 

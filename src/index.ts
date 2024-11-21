@@ -22,6 +22,7 @@ import { Tag } from './models/Tag/tagSchema.js';
 import { getHotNews } from './repo/Article/landingpage.js';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
+import sectionRoutes from './routes/sectionRouter.js';
 dotenv.config();
 
 connectDB();
@@ -67,6 +68,8 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(router);
 app.use(PATH.API.BASE, apiRouter);
+
+app.use('/section', sectionRoutes);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
