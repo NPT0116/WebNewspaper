@@ -47,8 +47,8 @@
     <label for="statusFilter">Filter by Status:</label>
     <select id="statusFilter">
       <option value="">All</option>
+      <option value="published">Published</option>
       <option value="pending">Pending</option>
-      <option value="approved">Approved</option>
       <option value="rejected">Rejected</option>
     </select>
 
@@ -57,7 +57,6 @@
         <tr>
           <th>Title</th>
           <th>Description</th>
-          <th>Author</th>
           <th>Status</th>
           <th>Published At</th>
           <th>Actions</th>
@@ -69,37 +68,18 @@
       </tbody>
     </table>
 
-    <script>
+    <script type="">
+      // eslint-disable-next-line
+      console.log(_data);
+      const data = <%= JSON.stringify(data) %>;
+      console.log(typeof data); // Logs the data object
+      console.log(data[0]); // Logs the articles array
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          serverSide: true, // Enable server-side processing
-          processing: true, // Show processing indicator while fetching data
-          ajax: {
-            url: '/api/articles', // Your server endpoint
-            type: 'GET', // or 'POST' based on your server setup
-            data: function (d) {
-              return {
-                draw: d.draw, // Required for DataTables
-                pageNumber: d.start / d.length + 1, // Page number
-                pageSize: d.length, // Items per page
-                search_value: d.search.value, // Search term
-                sortColumn: d.order[0]?.column, // Sort column index
-                sortDirection: d.order[0]?.dir,
-                status: $('#statusFilter').val() // Sort direction
-              };
-            },
-            dataFilter: function (data) {
-              var json = jQuery.parseJSON(data);
-              json.recordsTotal = json.totalItems;
-              json.recordsFiltered = json.totalItems;
-
-              return JSON.stringify(json); // return JSON string
-            }
-          },
+          data: data.articles,
           columns: [
             { data: 'title' },
             { data: 'description' },
-            { data: 'author' },
             { data: 'status' },
             { data: 'publishedAt' },
             {
@@ -145,21 +125,8 @@
               }
             },
             {
-              // Add Tailwind class to the "author" column
-              targets: 2, // 4th column (author)
-              render: function (data, type, row, meta) {
-                return `<div class="flex gap-2 px-4">
-                  <img class="w-10 h-10 rounded-full" src="https://static.vecteezy.com/system/resources/thumbnails/019/896/012/small_2x/female-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png" alt="Rounded avatar">
-                  <div class="">
-                    <div class="text-sm">Adam Smith</div>
-                    <div class="text-xs italic text-gray-500 font-bold">adamsmith@gmail.com</div>
-                  </div>
-                </div>`;
-              }
-            },
-            {
               // Add Tailwind class to the "status" column
-              targets: 3, // 5th column (status)
+              targets: 2, // 5th column (status)
               render: function (data, type, row, meta) {
                 if (data === 'published')
                   return `<div class="flex gap-2">
@@ -180,9 +147,8 @@
             },
             {
               // Add Tailwind class to the "publishedAt" column
-              targets: 4, // 6th column (publishedAt)
+              targets: 3, // 6th column (publishedAt)
               render: function (data, type, row, meta) {
-                const timestamp = '2024-11-20T03:22:47.405Z';
 
                 // Create a Date object
                 const date = new Date(data);
@@ -223,8 +189,18 @@
         });
       });
       $('#statusFilter').on('change', function () {
-        table.ajax.reload(); // Reload table with new filter value
+        const selectedFilter = $(this).val();  // Get the selected filter value
+
+        // Assuming `data` is your local array of items
+        const filteredData = data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
+        console.log(filteredData);
+        // Now, update the table with the filtered data
+        _table = $('#example').DataTable();
+        _table.clear();
+        _table.rows.add(filteredData);
+        _table.draw();
       });
+
       $('#example').on('click', '.edit-btn', function () {
         const id = $(this).data('id');
         const url = `/articles/${id}/edit`; // Construct the URL

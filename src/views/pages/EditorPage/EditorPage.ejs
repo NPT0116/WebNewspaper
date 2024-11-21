@@ -12,21 +12,22 @@
     <div class="">
       <div class="edit-article-container">
         <div class="edit-article-wrapper">
-          <div><%- include('Header') %></div>
-          <div class="input-group-inline">
-            <div class="relative w-1/2 mx-auto">
-              <!-- Tag container with fixed width and overflow behavior -->
-              <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
-                <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+          <form method="post" action="/api/articles/673d5607e42ae42bd084fb0d/update">
+            <div><%- include('Header') %></div>
+            <div class="input-group-inline">
+              <div class="relative w-1/2 mx-auto">
+                <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
+                  <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+                </div>
+                <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                  <div class="text-center text-gray-500 py-2">Loading...</div>
+                </div>
               </div>
-              <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                <div class="text-center text-gray-500 py-2">Loading...</div>
-              </div>
-            </div>
-
-            <select id="section" placeholder="Section" class="input-field-inline"></select>
-            <button id="save-button" class="save-button-inline">Save</button>
-            <button class="preview-button-inline">Preview</button>
+  
+              <select name="section" id="section" placeholder="Section" class="input-field-inline"></select>
+              <button id="save-button" type="submit" class="save-button-inline">Save</button>
+              <button class="preview-button-inline">Preview</button>
+          </form>
           </div>
         </div>
       </div>
