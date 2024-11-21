@@ -6,11 +6,11 @@ import { AppError } from '~/utils/appError.js';
 export const getLandingPage = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = await getLandingPageData();
-    const sectionTree = await getSectionTree();
+    const sections = await getSectionTree();
 
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
-      sectionTree,
+      sections,
       data
     });
   } catch (error) {
