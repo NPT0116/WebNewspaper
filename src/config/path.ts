@@ -12,7 +12,7 @@ export const PATH = {
       }
     }
   },
-
+  ARTICLE: {},
   API: {
     BASE: '/api',
     SECTION: {
@@ -43,6 +43,7 @@ export const PATH = {
     // /api/reporter/section
     REPORTER: {
       SECTION: '/reporter/section',
+      ARTICLE: '/reporter/:articleId',
       TAG: '/reporter/tag',
       QUERY: '/query'
     }

@@ -7,11 +7,13 @@ export interface IAuthor {
 export interface ITag {
   _id: mongoose.Types.ObjectId;
   name: string;
+  slug: string;
 }
 
 export interface ISection {
   _id: mongoose.Types.ObjectId;
   name: string;
+  slug: string;
 }
 
 export interface IComment {
@@ -56,4 +58,34 @@ export interface IArticleBasicInfo {
   publishedAt?: Date;
   description: string;
   coverImage: string;
+}
+
+export interface IReporterArticleDetailInfo {
+  title: string;
+  description: string;
+  content: string;
+  images: string[];
+  videoUrl?: string;
+  section: string;
+  tags: string[];
+  publishedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  layout: string;
+  status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
+  bannerTheme: string;
+}
+
+export interface getArticleByIdParams {
+  articleId: string;
+}
+
+export interface IArticleCard {
+  slug: string;
+  title: string;
+  description: string;
+  sectionId: ISection;
+  tags: ITag[];
+  author: IAuthor;
+  images: string[];
 }

@@ -91,7 +91,18 @@ export const seedComments = async () => {
     // Chèn comment vào database
     const insertedComments = await Comment.insertMany(filteredComments);
 
-    console.log('Comments seeded successfully:', insertedComments);
+    console.log('Comments inserted successfully:', insertedComments);
+
+    // Cập nhật các bài viết với danh sách comment
+    for (const comment of insertedComments) {
+      await Article.findByIdAndUpdate(
+        comment.article,
+        { $push: { comments: comment._id } }, // Thêm comment._id vào danh sách comments
+        { new: true, useFindAndModify: false }
+      );
+    }
+
+    console.log('Comments added to articles successfully.');
   } catch (err) {
     console.error('Error seeding comments:', err);
   }
