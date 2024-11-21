@@ -15,18 +15,13 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { AppError } from './utils/appError.js';
 
 import flash from 'connect-flash';
-import apiRouter from './api/indexApi.js';
-import { PATH } from './config/path.js';
-import { Article } from './models/Article/articleSchema.js';
-import { Tag } from './models/Tag/tagSchema.js';
-import { getHotNews } from './repo/Article/landingpage.js';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
 dotenv.config();
 
-connectDB();
 const app = express();
 const server = createServer(app);
+connectDB();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +61,6 @@ const io = configureSocketIO(server);
 app.use('/uploads', express.static('uploads'));
 
 app.use(router);
-app.use(PATH.API.BASE, apiRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

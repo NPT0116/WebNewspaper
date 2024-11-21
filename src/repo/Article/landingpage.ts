@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import { IArticlePopulated, IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
+import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
-
+import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 // Lấy bài viết nổi bật nhất trong tuần qua
 export const getHotNews = async () => {
   const oneWeekAgo = new Date();
@@ -14,6 +14,7 @@ export const getHotNews = async () => {
     console.log("Can't find tag hot news");
     return null;
   }
+  console.log(mongoose.modelNames());
 
   const hotNews = await Article.find({
     status: 'published',
