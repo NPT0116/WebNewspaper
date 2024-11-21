@@ -1,5 +1,6 @@
+import flowbite from 'flowbite/plugin';
 export default {
-  content: ['./src/*.{html,js,css}', './src/views/**/*.ejs', './public/js/**/*.js'],
+  content: ['./src/*.{html,js,css}', './src/views/**/*.ejs', './public/js/**/*.js', './node_modules/flowbite/**/*.js'],
   theme: {
     extend: {
       transitionTimingFunction: {
@@ -26,10 +27,5 @@ export default {
     'hover:bg-gray-100',
     'cursor-pointer'
   ],
-  plugins: [
-    {
-      tailwindcss: {},
-      autoprefixer: {}
-    }
-  ]
+  plugins: [flowbite]
 };
