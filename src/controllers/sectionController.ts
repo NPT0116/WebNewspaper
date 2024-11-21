@@ -9,12 +9,7 @@ export const sectionQuery = async (req: Request, res: Response): Promise<void> =
     const { search_value } = req.query;
 
     if (!search_value || typeof search_value !== 'string') {
-      // res.status(400).json({ error: 'Invalid search_value' });
-      const sections = await Section.find({}).select('name parentSection childSections createdAt updatedAt');
-      res.status(200).json({
-        status: 'success',
-        sections
-      });
+      res.status(400).json({ error: 'Invalid search_value' });
       return;
     }
 

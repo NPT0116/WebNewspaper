@@ -47,7 +47,3 @@ export const reporterGetArticleById = async (articleId: string, reporterProfileI
 
   return formattedArticle;
 };
-
-export const getAllArticles = async () => {
-  return await Article.find({});
-};
