@@ -12,8 +12,6 @@ router.use(PATH.HOME, accountRouter);
 
 // landing page router
 router.use(PATH.HOME, landingRouter);
-
-// detail article router
 router.use(PATH.HOME, detailArticleRouter);
 // All dashboard router here
 router.use(PATH.DASHBOARD.PATH, dashboardRouter);
@@ -23,4 +21,5 @@ router.use('/api', uploadRouter);
 // test
 router.use(PATH.HOME, commentRouterTest);
 
+router.use(dashboardRouter);
 export default router;
