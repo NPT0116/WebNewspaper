@@ -46,7 +46,6 @@
 
     <label for="statusFilter">Filter by Status:</label>
     <select id="statusFilter">
-      <option value="">All</option>
       <option value="published">Published</option>
       <option value="pending">Pending</option>
       <option value="rejected">Rejected</option>
@@ -68,10 +67,9 @@
       </tbody>
     </table>
 
-    <script type="">
+    <script type="text/javascript">
       // eslint-disable-next-line
-      console.log(_data);
-      const data = <%= JSON.stringify(data) %>;
+      const data = <%- JSON.stringify(data) %>;
       console.log(typeof data); // Logs the data object
       console.log(data[0]); // Logs the articles array
       const table = $(document).ready(function () {
@@ -134,16 +132,6 @@
                   <div class="flex items-center text-green-600">${data}</div>
                 </div>`;
               },
-              createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('px-4 py-2 text-center');
-                if (cellData === 'published') {
-                  $(td).addClass('text-green-600'); // Green color for "Completed"
-                } else if (cellData === 'Pending') {
-                  $(td).addClass('text-yellow-500'); // Yellow color for "Pending"
-                } else if (cellData === 'Failed') {
-                  $(td).addClass('text-red-600'); // Red color for "Failed"
-                }
-              }
             },
             {
               // Add Tailwind class to the "publishedAt" column
