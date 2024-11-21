@@ -3,7 +3,6 @@ import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.j
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
-import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 // Lấy bài viết nổi bật nhất trong tuần qua
 export const getHotNews = async () => {
   const oneWeekAgo = new Date();

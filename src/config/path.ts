@@ -10,7 +10,8 @@ export const PATH = {
     REPORTER: {
       PATH: '/reporter',
       WRITE_ARTICLE: '/write-article/:articleId',
-      SAVE_ARTICLE: 'write-article/:articleId/save'
+      SAVE_ARTICLE: '/write-article/:articleId/save',
+      CREATE_ARTICLE: '/create-article'
     }
   },
   AUTHENTICATION: {

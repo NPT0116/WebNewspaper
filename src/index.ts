@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import connectDB from './config/db.js';
 import MongoStore from 'connect-mongo';
-
 import passport from 'passport';
 import './strategy/localStrategy.js';
 import './strategy/githubStrategy.js';
@@ -13,6 +12,7 @@ import { fileURLToPath } from 'url';
 import router from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { AppError } from './utils/appError.js';
+import './models/index.js';
 
 import flash from 'connect-flash';
 import { configureSocketIO } from './config/socket.js';
