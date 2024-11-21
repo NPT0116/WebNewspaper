@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 
 interface IArticleDetailParams {
@@ -55,7 +56,16 @@ interface IArtcileDetailLandingpageResponse {
 export const renderArticleDetail = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
   try {
     const { sectionSlug, articleSlug } = req.params;
-
+    const existingArticle = await Article.findOne({ slug: articleSlug });
+    const existingSection = await Section.findOne({ slug: sectionSlug });
+    if (sectionSlug === 'api') {
+      next();
+      return;
+    }
+    if (!existingArticle || !existingSection) {
+      next();
+      return;
+    }
     const article = await Article.findOne({ slug: articleSlug })
       .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
       .populate<{ tags: ITag[] }>('tags', 'name slug') // Populate tags
@@ -63,12 +73,12 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       .populate<{ comments: IComment[] }>('comments', 'content createdAt account') // Populate comments
       .exec();
     if (!article) {
-      next(new AppError('Cant find the sectionSlug', 500));
+      next(new AppError('Cant find the articleSlug', 500));
       return;
     }
     if (article.sectionId.slug !== sectionSlug) {
       next(new AppError('different in section slug between section and article', 500));
-      return;
+      next();
     }
     const commentWithNames = await Promise.all(
       article.comments.map(async (comment) => {

@@ -26,7 +26,7 @@ export const PATH = {
       DETAILS: '/:articleSlug',
       CREATE_ARTICLE: '/create',
       UPDATE_ARTICLE: '/:articleId/update',
-      COMMENTS: '/:sectionSlug/:articleSlug/comments'
+      COMMENTS: '/:articleSlug/comments'
     },
     TAG: {
       BASE: '/tags'
@@ -43,6 +43,7 @@ export const PATH = {
     // /api/reporter/section
     REPORTER: {
       SECTION: '/reporter/section',
+      ARTICLE: '/reporter/:articleId',
       TAG: '/reporter/tag',
       QUERY: '/query'
     }
