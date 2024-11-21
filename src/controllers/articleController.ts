@@ -1,19 +1,35 @@
 import { Article } from '~/models/Article/articleSchema.js';
 import { Request, Response } from 'express';
-import { paginate } from './paginationController.js';
+import mongoose from 'mongoose';
+import { Section } from '~/models/Section/sectionSchema.js';
+import { IArticleBasicInfo } from '~/interfaces/Article/articleInterface.js';
+import { Tag } from '~/models/Tag/tagSchema.js';
 
-export const articleQuery = async (req: Request, res: Response): Promise<void> => {
+interface ArticleQuery {
+  search_value: string;
+  pageNumber: string;
+  pageSize: string;
+  sectionId: string;
+  tagId: string;
+  authorId: string;
+}
+
+interface GetArticleByStatusQuery {
+  status: string;
+  pageNumber: string;
+  pageSize: string;
+}
+
+export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: Response): Promise<void> => {
   try {
-    // Kiểm tra nếu có tham số tìm kiếm (search_value)
-
     const { search_value, pageNumber, pageSize, sectionId, tagId, authorId } = req.query;
 
     let query: any = { status: 'published' };
 
     if (search_value) {
       query = {
-        ...query, // Giữ lại điều kiện trạng thái
-        $or: [{ title: { $regex: search_value, $options: 'i' } }, { content: { $regex: search_value, $options: 'i' } }]
+        ...query,
+        $or: [{ title: { $regex: search_value, $options: 'i' } }, { content: { $regex: search_value, $options: 'i' } }, { description: { $regex: search_value, $options: 'i' } }]
       };
     }
     if (sectionId) {
@@ -25,6 +41,56 @@ export const articleQuery = async (req: Request, res: Response): Promise<void> =
     if (authorId) {
       query.author = authorId;
     }
+
+    const pageNum = pageNumber ? parseInt(pageNumber as string, 10) : 1;
+    const size = pageSize ? parseInt(pageSize as string, 10) : 10;
+
+    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
+      res.status(400).json({ error: 'Invalid pagination parameters' });
+      return;
+    }
+
+    const skip = (pageNum - 1) * size;
+
+    // Lấy danh sách articles
+    const articles = await Article.find(query)
+      .sort({ publishedAt: -1 })
+      .skip(skip)
+      .limit(size)
+      .select('title sectionId tags publishedAt description images slug')
+      .populate('author', 'name')
+      .populate('tags', 'name')
+      .populate('sectionId', 'name');
+
+    const totalArticles = await Article.countDocuments(query);
+    const totalPages = Math.ceil(totalArticles / size);
+
+    if (skip >= totalArticles && skip !== 0) {
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
+
+    res.json({
+      data: articles,
+      pagination: {
+        totalItems: totalArticles,
+        totalPages: totalPages,
+        currentPage: pageNum,
+        pageSize: size
+      }
+    });
+  } catch (err) {
+    console.error('Error in article query and pagination:', err);
+    res.status(500).json({ error: `Error querying articles: ${err}` });
+  }
+};
+
+export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleByStatusQuery>, res: Response): Promise<void> => {
+  try {
+    // Kiểm tra nếu có tham số tìm kiếm (search_value)
+    const { status = 'published', pageNumber, pageSize } = req.query;
+    const query: any = {};
+    query.status = status;
     // Kiểm tra nếu có tham số phân trang
     const pageNum = pageNumber ? parseInt(pageNumber as string, 10) : 1;
     const size = pageSize ? parseInt(pageSize as string, 10) : 10;
@@ -36,41 +102,113 @@ export const articleQuery = async (req: Request, res: Response): Promise<void> =
 
     const skip = (pageNum - 1) * size;
 
-    // Tìm các bài viết theo điều kiện tìm kiếm và phân trang
-    const articles = await paginate(Article, query, pageNum, size);
-    const totalArticleCount = await Article.countDocuments(query);
+    const articles = await Article.find(query)
+      .sort({ publishedAt: -1 })
+      .skip(skip)
+      .limit(size)
+      .select('title sectionId tags publishedAt description images slug')
+      .populate('author', 'name')
+      .populate('tags', 'name')
+      .populate('sectionId', 'name');
+    const totalArticles = await Article.countDocuments(query);
+    const totalPages = Math.ceil(totalArticles / size);
 
-    if (skip > totalArticleCount) {
-      console.log(skip);
-      console.log(totalArticleCount);
+    if (skip >= totalArticles && skip !== 0) {
       res.status(404).json({ error: 'Page not found' });
       return;
     }
 
     res.json({
-      data: articles
+      data: articles,
+      pagination: {
+        totalItems: totalArticles,
+        totalPages: totalPages,
+        currentPage: pageNum,
+        pageSize: size
+      }
     });
   } catch (err) {
-    console.error('Error in article query and pagination:', err);
     res.status(500).json({ error: `Error querying articles: ${err}` });
   }
 };
 
-export const authorArticleQuery = async (req: Request, res: Response): Promise<void> => {
+//Tìm kiếm bài viết theo sectionId
+export const getArticlesBySectionId = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Kiểm tra nếu có tham số tìm kiếm (search_value)
-    const { status } = req.query;
-    const query: any = {};
-    if (!status) {
+    const { pageNumber = 1, pageSize = 10 } = req.query;
+
+    const sectionIdMatch = req.originalUrl.match(/\/api\/sections\/([a-fA-F0-9]{24})/);
+
+    if (!sectionIdMatch || !sectionIdMatch[1]) {
+      res.status(400).json({ message: 'sectionId is required in the URL' });
       return;
     }
-    query.status = status;
-    const articles = await Article.find(query);
+
+    const sectionId = sectionIdMatch[1];
+
+    if (!mongoose.isValidObjectId(sectionId)) {
+      res.status(400).json({ message: 'Invalid sectionId' });
+      return;
+    }
+
+    const rootSection = await Section.findById(sectionId).populate({
+      path: 'childSections',
+      populate: {
+        path: 'childSections',
+        populate: {
+          path: 'childSections'
+        }
+      }
+    });
+
+    if (!rootSection) {
+      res.status(404).json({ message: 'Section not found' });
+      return;
+    }
+
+    const collectSectionIds = (section: any): string[] => {
+      const childIds = section.childSections?.map(collectSectionIds) || [];
+      return [section._id.toString(), ...childIds.flat()];
+    };
+    const sectionIds = collectSectionIds(rootSection);
+    const query = { sectionId: { $in: sectionIds } };
+
+    const pageNum = parseInt(pageNumber as string, 10);
+    const size = parseInt(pageSize as string, 10);
+
+    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
+      res.status(400).json({ error: 'Invalid pagination parameters' });
+      return;
+    }
+
+    const skip = (pageNum - 1) * size;
+
+    const articles = await Article.find(query)
+      .sort({ publishedAt: -1 })
+      .skip(skip)
+      .limit(size)
+      .select('title sectionId tags publishedAt description images slug')
+      .populate('author', 'name')
+      .populate('tags', 'name')
+      .populate('sectionId', 'name');
+    const totalArticles = await Article.countDocuments(query);
+    const totalPages = Math.ceil(totalArticles / size);
+    if (skip >= totalArticles && skip !== 0) {
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
 
     res.json({
-      data: articles
+      data: articles,
+      pagination: {
+        totalItems: totalArticles,
+        totalPages: totalPages,
+        currentPage: pageNum,
+        pageSize: size
+      }
     });
   } catch (err) {
-    res.status(500).json({ error: `Error querying articles: ${err}` });
+    console.error('Error fetching articles by section:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };

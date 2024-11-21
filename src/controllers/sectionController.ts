@@ -1,10 +1,14 @@
 import { Request, Response } from 'express';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { Article } from '~/models/Article/articleSchema.js';
-import mongoose from 'mongoose';
-import { paginate } from './paginationController.js';
+
+interface GetSecTionByNameQuery {
+  search_value: string;
+  pageNumber: string;
+  pageSize: string;
+}
+
 //Tìm kiếm secion theo tên section
-export const sectionQuery = async (req: Request, res: Response): Promise<void> => {
+export const sectionQuery = async (req: Request<{}, {}, {}, GetSecTionByNameQuery>, res: Response): Promise<void> => {
   try {
     const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
 
@@ -22,72 +26,26 @@ export const sectionQuery = async (req: Request, res: Response): Promise<void> =
       res.status(400).json({ error: 'Invalid pagination parameters' });
       return;
     }
+    const query = { name: regex };
+    const skip = (pageNum - 1) * size;
+    const sections = await Section.find(query).skip(skip).limit(size);
 
-    // Sử dụng hàm paginate để phân trang
-    const result = await paginate(Section, { name: regex }, pageNum, size);
+    const totalSections = await Section.countDocuments(query);
+    const totalPages = Math.ceil(totalSections / size);
+    if (skip >= totalSections && skip !== 0) {
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
 
-    res.status(200).json({
-      status: 'success',
-      ...result
+    res.json({
+      data: sections,
+      totalItems: totalSections,
+      totalPages: totalPages,
+      currentPage: pageNum,
+      itemsPerPage: size
     });
   } catch (err) {
     console.error('Error searching sections:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-//Tìm kiếm bài viết theo sectionId
-export const getArticlesBySection = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const sectionIdMatch = req.originalUrl.match(/\/api\/sections\/([a-fA-F0-9]{24})/);
-
-    if (!sectionIdMatch || !sectionIdMatch[1]) {
-      res.status(400).json({ message: 'sectionId is required in the URL' });
-      return;
-    }
-
-    const sectionId = sectionIdMatch[1];
-
-    if (!mongoose.isValidObjectId(sectionId)) {
-      res.status(400).json({ message: 'Invalid sectionId' });
-      return;
-    }
-
-    const rootSection = await Section.findById(sectionId).populate({
-      path: 'childSections',
-      populate: {
-        path: 'childSections',
-        populate: {
-          path: 'childSections'
-        }
-      }
-    });
-
-    if (!rootSection) {
-      res.status(404).json({ message: 'Section not found' });
-      return;
-    }
-
-    const collectSectionIds = (section: any): string[] => {
-      const childIds = section.childSections?.map(collectSectionIds) || [];
-      return [section._id.toString(), ...childIds.flat()];
-    };
-    const sectionIds = collectSectionIds(rootSection);
-
-    const { pageNumber = 1, pageSize = 10 } = req.query;
-    const pageNum = parseInt(pageNumber as string, 10);
-    const size = parseInt(pageSize as string, 10);
-
-    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
-      return;
-    }
-
-    const result = await paginate(Article, { sectionId: { $in: sectionIds } }, pageNum, size);
-
-    res.json(result);
-  } catch (err) {
-    console.error('Error fetching articles by section:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
