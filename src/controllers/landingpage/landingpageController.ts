@@ -7,6 +7,7 @@ export const getLandingPage = async (req: Request, res: Response, next: NextFunc
   try {
     const data = await getLandingPageData();
     const sectionTree = await getSectionTree();
+    // const accountInfo = getAccountInfo();
 
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
