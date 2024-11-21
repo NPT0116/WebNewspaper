@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="relative pb-2 z-10" style="width: 95vw">
-    <%- include('CatsBar', { sections: sections }) %>
+    <%- include('../../layouts/partials/Header', { sections: sections }) %>
       
     <div id="layout" class="">
       <%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %>

@@ -1,6 +1,6 @@
 <div class="flex flex-col jusitfy-between items-center z-0 h-full">
   <div id="card-image" class="h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">
-    <a href="<%=article.slug%>">
+    <a href="/section/<%=section.slug%>/article/<%=article.slug%>">
       <img class="h-full w-full object-cover" src="<%=article.images%>" alt="Image of <%= article.description%>" />
     </a>
   </div>
@@ -11,10 +11,10 @@
 
     <div class="flex justify-between items-center flex-col h-full pt-4">
       <h1 id="card-title" class="h-3/6 flex justify-start items-start font-bold font-serif text-xl hover:text-red-500 transition-all duration-300">
-        <a href="<%=article.slug%>"><%= article.title %> </a>
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>"><%= article.title %> </a>
       </h1>
       <h1 id="card-description" class="h-3/6 flex justify-start items-start italic font-serif text-lg hover:text-blue-800 transition-all duration-300">
-        <a href="<%=article.slug%>"><%= article.description %> </a>
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>"><%= article.description %> </a>
       </h1>
       <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic">
         <a href="" class="hover:text-blue-500">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</a>
