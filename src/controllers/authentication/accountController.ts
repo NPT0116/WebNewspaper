@@ -1,7 +1,7 @@
 // src/controllers/userController.ts
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import { AppError } from '../utils/appError.js';
+import { AppError } from '../../utils/appError.js';
 import passport from 'passport';
 import { Account } from '~/models/Account/accountSchema.js';
 import { ReaderProfile } from '~/models/Profile/readerProfile.js';
@@ -24,7 +24,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
     });
     if (existingUser) {
       req.flash('error', 'Username or email already exists.');
-      return res.redirect('/account/register'); // Quay lại trang đăng ký
+      return res.redirect('/register'); // Quay lại trang đăng ký
       /* return next(new AppError('Username or email exists.', 404, [{ param: 'username or email', msg: 'Already exists' }]));*/
     }
     const newProfile = new ReaderProfile({ name, dob, gender });
@@ -63,7 +63,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 // Đăng nhập người dùng
 export const loginUser = passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/account/login',
+  failureRedirect: '/login',
   failureFlash: true
 });
 
