@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CKEditor 5 Sample</title>
+    <!-- <link rel="stylesheet" href="/css/styles.css" /> -->
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
+    <link rel="stylesheet" href="/css/editor.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="">
+      <div class="edit-article-container">
+        <div class="edit-article-wrapper">
+          <form method="post" action="/api/articles/673d5607e42ae42bd084fb0d/update">
+            <div><%- include('Header') %></div>
+            <div class="input-group-inline">
+              <div class="relative w-1/2 mx-auto">
+                <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
+                  <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+                </div>
+                <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                  <div class="text-center text-gray-500 py-2">Loading...</div>
+                </div>
+              </div>
+  
+              <select name="section" id="section" placeholder="Section" class="input-field-inline"></select>
+              <button id="save-button" type="submit" class="save-button-inline">Save</button>
+              <button class="preview-button-inline">Preview</button>
+          </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-tailwindcss-base" style="display: flex; justify-content: center">
+        <div class="main-container" style="width: 96%">
+          <div class="editor-container editor-container_classic-editor" id="editor-container">
+            <div class="editor-container__editor"><div id="editor"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="importmap">
+      {
+        "imports": {
+          "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
+          "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.1/"
+        }
+      }
+    </script>
+    <script type="module" src="/js/editor.js"></script>
+  </body>
+</html>
