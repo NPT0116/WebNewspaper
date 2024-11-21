@@ -21,6 +21,7 @@ export const getSectionTree: () => Promise<ISectionTree | null> = async () => {
     const buildSectionTree = (section: any): ISectionBranch => ({
       id: section._id.toString(),
       name: section.name,
+      slug: section.slug,
       childSections: section.childSections.map(buildSectionTree) // Đệ quy
     });
 

@@ -1,9 +1,11 @@
 import { Article } from '~/models/Article/articleSchema.js';
-import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { IArticleBasicInfo } from '~/interfaces/Article/articleInterface.js';
-import { Tag } from '~/models/Tag/tagSchema.js';
+import { NextFunction, Request, Response } from 'express';
+import { AppError } from '~/utils/appError.js';
+import { reporterGetArticleById } from '~/repo/Article/articleRepo.js';
+import { ObjectId } from 'mongoose';
+import { getArticleByIdParams } from '~/interfaces/Article/articleInterface.js';
 
 interface ArticleQuery {
   search_value: string;
@@ -210,5 +212,26 @@ export const getArticlesBySectionId = async (req: Request, res: Response): Promi
   } catch (err) {
     console.error('Error fetching articles by section:', err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const reporterGetArticleByIdQuery = async (req: Request<getArticleByIdParams>, res: Response, next: NextFunction) => {
+  try {
+    const user = req.user as unknown as { profileId: ObjectId };
+    const reporterProfileId = user.profileId;
+    if (!reporterProfileId) {
+      return next(new AppError('Profile not found', 400));
+    }
+
+    const { articleId } = req.params;
+    const article = await reporterGetArticleById(articleId, reporterProfileId.toString());
+
+    res.status(200).json(article);
+  } catch (err) {
+    const statusCode = err instanceof AppError ? err.statusCode : 500;
+    const message = err instanceof AppError ? err.message : 'Error fetching article';
+
+    // If the error has a status code, use it, else default to 500
+    next(new AppError(message, statusCode));
   }
 };
