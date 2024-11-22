@@ -1,21 +1,46 @@
 import { Request, Response, NextFunction } from 'express';
-import { Article } from '~/models/Article/articleSchema.js';
+import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
+import { ISectionBasicInfo } from '~/interfaces/Section/sectionInterface.js';
 import { countArticles, getListArticleInfoCards } from '~/repo/Article/articleRepo.js';
-import { getAllSections, getSectionSlug } from '~/repo/Section/index.js';
+import { getAllSections } from '~/repo/Section/index.js';
 import { AppError } from '~/utils/appError.js';
 
-export const getSearchPage = async (req: Request, res: Response, next: NextFunction) => {
+interface ISearchPageRequestQuery {
+  time: string;
+  searchValue: string;
+  sections: string[];
+  pageNumber: number;
+  pageSize: number;
+}
+
+interface ISearchPageData {
+  body: string;
+  sections: ISectionBasicInfo[];
+  time: string;
+  searchValue: string;
+  selectedSections: string[];
+  articles: IArticleCard[];
+  pagination: {
+    pageSize: number;
+    currentPageNumber: number;
+    totalPagesCount: number;
+    totalArticlesCount: number;
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
+    prevPage: number | null;
+    nextPage: number | null;
+  };
+}
+
+export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQuery>, res: Response, next: NextFunction) => {
   try {
     const { time = 'all', searchValue = '', sections = [], pageNumber, pageSize } = req.query;
 
-    // Parse `sections` into an array if it's passed as a single string
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
-
-    // Fetch all available sections
     const allSections = await getAllSections();
 
-    const currentPageNumber = pageNumber ? parseInt(pageNumber as string, 10) : 1;
-    const size = pageSize ? parseInt(pageSize as string, 10) : 10;
+    const currentPageNumber = pageNumber ? parseInt(pageNumber as unknown as string, 10) : 1;
+    const size = pageSize ? parseInt(pageSize as unknown as string, 10) : 10;
     const skip = (currentPageNumber - 1) * size;
 
     if (isNaN(currentPageNumber) || isNaN(size) || currentPageNumber <= 0 || size <= 0) {
@@ -23,11 +48,9 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
       return;
     }
 
-    // Fetch filtered articles based on the query (search, section, and time logic can be added here)
     let query: any = { status: 'published' };
 
     if (typeof searchValue === 'string') {
-      // Proceed with the string operations
       const searchTokens = searchValue.split(/\s+/); // Split by spaces
       query = {
         ...query,
@@ -36,16 +59,14 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
         }))
       };
     } else if (Array.isArray(searchValue)) {
-      // If searchValue is an array, process each element
-      const searchTokens = searchValue.join(' ').split(/\s+/); // Join array elements and split
+      const searchTokens = (searchValue as string[]).join(' ').split(/\s+/); // Join array elements and split
       query = {
         ...query,
-        $or: searchTokens.map((token) => ({
+        $or: searchTokens.map((token: any) => ({
           $or: [{ title: { $regex: token, $options: 'i' } }, { content: { $regex: token, $options: 'i' } }]
         }))
       };
     } else {
-      // Handle cases where searchValue is neither string nor array
       console.log('Invalid search value');
     }
 
@@ -54,15 +75,6 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
         ...query,
         sectionId: { $in: selectedSections }
       };
-    }
-
-    const articles = await getListArticleInfoCards(query, skip, size);
-    const totalArticlesCount = await countArticles(query);
-    if (skip > totalArticlesCount) {
-      console.log(skip);
-      console.log(totalArticlesCount);
-      res.status(404).json({ error: 'Page not found' });
-      return;
     }
 
     const currentDate = new Date();
@@ -74,8 +86,17 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
       query = { ...query, publishedAt: { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) } }; // last 30 days
     }
 
+    const articles = await getListArticleInfoCards(query, skip, size);
+    const totalArticlesCount = await countArticles(query);
     const totalPagesCount = Math.ceil(totalArticlesCount / size);
-    res.render('layouts/SearchPageLayout/SearchPageLayout', {
+    if (skip > totalArticlesCount) {
+      console.log(skip);
+      console.log(totalArticlesCount);
+      res.status(404).json({ error: 'Page not found' });
+      return;
+    }
+
+    const searchPageData: ISearchPageData = {
       body: '../../pages/SearchPage/SearchPage',
       sections: allSections,
       time,
@@ -92,7 +113,9 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
         prevPage: currentPageNumber > 1 ? currentPageNumber - 1 : null,
         nextPage: currentPageNumber < totalPagesCount ? currentPageNumber + 1 : null
       }
-    });
+    };
+
+    res.render('layouts/SearchPageLayout/SearchPageLayout', searchPageData);
   } catch (error) {
     console.error(error);
     next(new AppError('Error fetching search page data.', 500));
