@@ -6,5 +6,4 @@ const dashboardRouter = express.Router();
 
 dashboardRouter.use(PATH.DASHBOARD.REPORTER.PATH, reporterDashboardRouter);
 dashboardRouter.use(PATH.DASHBOARD.EDITOR.PATH, editorDashboardRouter);
-
 export default dashboardRouter;

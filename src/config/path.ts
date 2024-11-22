@@ -15,7 +15,8 @@ export const PATH = {
     },
     EDITOR: {
       PATH: '/editor',
-      REVIEW: '/:articleId/preview'
+      PREVIEW: '/:articleId/preview',
+      APPROVE: '/:articleId/approve'
     }
   },
   AUTHENTICATION: {
