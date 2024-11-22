@@ -1,4 +1,4 @@
-<div id="categories" class=" font-serif sticky top-24 bg-white z-10" >
+<div id="categories" class=" font-serif sticky top-24 bg-white z-10 transition-all duration-300 transform origin-top ease-header-ease" >
   <div  class="hidden xl:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full ">
     
     <% sections.forEach((section) => {%>
@@ -29,19 +29,8 @@
     </select>
   </div>
 </div>
-<!-- 
-<style>
-  #sub-section-container {
-    display: none;
-  }
-  a:hover + #sub-section-container{
-    display:block;
-  }
-</style> -->
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Take all the section for the
 
     // Animation
     const catsBar = document.getElementById('categories');
@@ -52,33 +41,38 @@
     const sectionContainer = document.querySelectorAll('#section-container');
 
     let lastScrollY = window.scrollY;
-    document.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY) {
-        if (currentScrollY >= 1000) {
-          catsBar.style.transform = 'translateY(-200%)';
-          catsBar.style.transition = 'transform 0.3s ease-in-out';
-        }
-      } else {
-        catsBar.style.transform = 'translateY(0)';
-        catsBar.style.transition = 'transform 0.3s ease-in-out';
-      }
+    let pastY = window.scrollY
+    if (catsBar.getBoundingClientRect().top === 96) {
+      headerBar.classList.remove('bg-opacity-50')
+    } else {
+      headerBar.classList.add('bg-opacity-50')
 
-      lastScrollY = currentScrollY;
+    }
 
+    document.addEventListener('scroll', () => {      
       if (catsBar.getBoundingClientRect().top === 96) {
+        if (headerBar.classList.contains('bg-opacity-50')) {
+          headerBar.classList.remove('bg-opacity-50');
+        }
+
+        if (window.scrollY > 2000 && window.scrollY > pastY) {
+          catsBar.classList.add('scale-y-0')
+          catsBar.classList.remove('scale-y-100')
+        } else {
+          catsBar.classList.remove('scale-y-0')
+          catsBar.classList.add('scale-y-100')
+        }
+        pastY = window.scrollY
+        console.log(pastY)
+      
+
         headerBar.style.backgroundColor = 'white';
-        // catsBar.style.borderTop = '2px solid black';
-        // catsBar.style.borderBottom = '2px solid black';
         sectionContainer.forEach((children) => {
           children.style.borderBottom = '2px solid black';
           children.style.borderTop = '2px solid black';
         })
 
-        if (headerBar.classList.contains('bg-opacity-50')) {
-          headerBar.classList.remove('bg-opacity-50');
-        }
         headerText.forEach((content) => {
           if (content.classList.contains('text-5xl')) {
             content.classList.remove('text-5xl');
@@ -90,30 +84,22 @@
           }
         });
       } else if(catsBar.getBoundingClientRect().top > 96) {
+        console.log(headerBar)
         sectionContainer.forEach((children) => {
           children.style.borderBottom = '4px solid black';
           children.style.borderTop = '';
         })
+        if (!headerBar.classList.contains('bg-opacity-50')) {
+          headerBar.classList.add('bg-opacity-50');
+          headerBar.classList.add('white');
+        }
       } else {
-        // catsBar.style.borderTop = '';
-        // catsBar.style.borderBottom = '4px solid black';
         sectionContainer.forEach((children) => {
           children.style.borderTop = '';
         })
-
         if (!headerBar.classList.contains('bg-opacity-50')) {
           headerBar.classList.add('bg-opacity-50');
         }
-        headerText.forEach((content) => {
-          if (content.classList.contains('text-4xl')) {
-            content.classList.remove('text-4xl');
-            content.classList.add('text-5xl');
-          }
-          if (content.classList.contains('text-lg')) {
-            content.classList.remove('text-lg');
-            content.classList.add('text-xl');
-          }
-        });
       }
     });
   });
