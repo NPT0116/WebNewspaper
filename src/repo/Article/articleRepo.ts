@@ -56,7 +56,7 @@ export const getListArticleInfoCards = async (query: any, skip: number, limit: n
     const articles = await Article.find(query)
       .skip(skip)
       .limit(limit)
-      .populate<{ sectionId: ISection }>('sectionId', 'name') // Include slug for section
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
       .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
       .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
       .exec();
@@ -69,7 +69,8 @@ export const getListArticleInfoCards = async (query: any, skip: number, limit: n
         sectionId: article.sectionId,
         tags: article.tags,
         author: article.author,
-        images: article.images
+        images: article.images,
+        publishedAt: article.publishedAt
       };
     });
 

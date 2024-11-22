@@ -6,7 +6,7 @@ import { AppError } from '~/utils/appError.js';
 
 export const getSearchPage = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { time = 'all', searchValue, sections = [], pageNumber, pageSize } = req.query;
+    const { time = 'all', searchValue = '', sections = [], pageNumber, pageSize } = req.query;
 
     // Parse `sections` into an array if it's passed as a single string
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
@@ -26,11 +26,27 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
     // Fetch filtered articles based on the query (search, section, and time logic can be added here)
     let query: any = { status: 'published' };
 
-    if (searchValue) {
+    if (typeof searchValue === 'string') {
+      // Proceed with the string operations
+      const searchTokens = searchValue.split(/\s+/); // Split by spaces
       query = {
-        ...query, // Giữ lại điều kiện trạng thái
-        $or: [{ title: { $regex: searchValue, $options: 'i' } }, { content: { $regex: searchValue, $options: 'i' } }]
+        ...query,
+        $or: searchTokens.map((token) => ({
+          $or: [{ title: { $regex: token, $options: 'i' } }, { content: { $regex: token, $options: 'i' } }]
+        }))
       };
+    } else if (Array.isArray(searchValue)) {
+      // If searchValue is an array, process each element
+      const searchTokens = searchValue.join(' ').split(/\s+/); // Join array elements and split
+      query = {
+        ...query,
+        $or: searchTokens.map((token) => ({
+          $or: [{ title: { $regex: token, $options: 'i' } }, { content: { $regex: token, $options: 'i' } }]
+        }))
+      };
+    } else {
+      // Handle cases where searchValue is neither string nor array
+      console.log('Invalid search value');
     }
 
     if (selectedSections.length > 0 && selectedSections[0] !== 'Any') {
@@ -41,7 +57,6 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
     }
 
     const articles = await getListArticleInfoCards(query, skip, size);
-    console.log(articles.length);
     const totalArticlesCount = await countArticles(query);
     if (skip > totalArticlesCount) {
       console.log(skip);
@@ -50,9 +65,16 @@ export const getSearchPage = async (req: Request, res: Response, next: NextFunct
       return;
     }
 
-    const totalPagesCount = Math.ceil(totalArticlesCount / size);
-    console.log(totalArticlesCount);
+    const currentDate = new Date();
+    if (time === 'latest') {
+      query = { ...query, publishedAt: { $gte: new Date(currentDate.setDate(currentDate.getDate() - 1)) } }; // last 24 hours
+    } else if (time === 'last-week') {
+      query = { ...query, publishedAt: { $gte: new Date(currentDate.setDate(currentDate.getDate() - 7)) } }; // last 7 days
+    } else if (time === 'last-month') {
+      query = { ...query, publishedAt: { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) } }; // last 30 days
+    }
 
+    const totalPagesCount = Math.ceil(totalArticlesCount / size);
     res.render('layouts/SearchPageLayout/SearchPageLayout', {
       body: '../../pages/SearchPage/SearchPage',
       sections: allSections,
