@@ -57,6 +57,6 @@ const upload = multer({
   })
 });
 
-uploadRouter.post(PATH.API.UPLOAD.BASE, upload.single('upload'), uploadFile);
+uploadRouter.post('/upload-image', upload.single('upload'), uploadFile);
 
 export default uploadRouter;

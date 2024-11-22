@@ -6,7 +6,7 @@ import { AppError } from '~/utils/appError.js';
 import { reporterGetArticleById } from '~/repo/Article/articleRepo.js';
 import { ObjectId } from 'mongoose';
 import { getArticleByIdParams, IArticleCard } from '~/interfaces/Article/articleInterface.js';
-import { IAuthor, ISection, ITag } from './articleDetailController.js';
+import { IAuthor, ISection, ITag } from './landingpage/articleDetail/articleDetailController.js';
 
 interface ArticleQuery {
   search_value: string;
@@ -187,7 +187,7 @@ export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugPar
 
     // Cố định giá trị pageNumber và pageSize (Ví dụ: page 1, pageSize 5)
     const pageNum = parseInt(req.query.pageNumber as string) || 1;
-    const size = 2;
+    const size = 1;
 
     // Tìm root section dựa trên slug
     const rootSection = await Section.findOne({ slug: sectionSlug }).populate({
@@ -253,7 +253,7 @@ export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugPar
     }));
 
     // Render kết quả lên view
-    res.render('pages/SectionPage/sectionPage', {
+    res.render('pages/LandingPage/SectionPage/sectionPage', {
       section: rootSection,
       articles: response,
       pagination: {

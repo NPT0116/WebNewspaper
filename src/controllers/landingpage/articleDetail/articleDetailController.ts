@@ -92,22 +92,14 @@ interface IArtcileDetailLandingpageResponse {
 export const renderArticleDetail = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
   try {
     const { sectionSlug, articleSlug } = req.params;
-    const existingArticle = await Article.findOne({ slug: articleSlug });
-    const existingSection = await Section.findOne({ slug: sectionSlug });
-    if (sectionSlug === 'api') {
-      next();
-      return;
-    }
-    if (!existingArticle || !existingSection) {
-      next();
-      return;
-    }
+
     const article = await Article.findOne({ slug: articleSlug })
       .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
       .populate<{ tags: ITag[] }>('tags', 'name slug') // Populate tags
       .populate<{ author: IAuthor }>('author', 'name') // Populate author
       .populate<{ comments: IComment[] }>('comments', 'content createdAt account') // Populate comments
       .exec();
+
     if (!article) {
       next(new AppError('Cant find the articleSlug', 500));
       return;
