@@ -7,6 +7,7 @@ import detailArticleRouter from './landingpage/articleDetail/detailArticleRouter
 import uploadRouter from './uploadRouter.js';
 import dashboardRouter from './Dashboard/dashboardRouter.js';
 import searchPageRouter from './SearchPage/searchPageRouter.js';
+import sectionRouter from './sectionRouter.js';
 const router = express.Router();
 
 router.use(PATH.HOME, accountRouter);
@@ -22,6 +23,8 @@ router.use(PATH.DASHBOARD.PATH, dashboardRouter);
 router.use('/api', uploadRouter);
 // test
 router.use(PATH.HOME, commentRouterTest);
+
+router.use(PATH.HOME, sectionRouter);
 
 router.use(dashboardRouter);
 export default router;

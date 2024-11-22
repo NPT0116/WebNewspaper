@@ -2,7 +2,6 @@ import { IArticleBasicInfo, IArticleCard, IAuthor, IReporterArticleDetailInfo, I
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { Tag } from '~/models/Tag/tagSchema.js';
 import { AppError } from '~/utils/appError.js';
 
 export const reporterGetArticleById = async (articleId: string, reporterProfileId: string): Promise<IReporterArticleDetailInfo> => {
@@ -91,4 +90,35 @@ export const countArticles = async (query: any): Promise<number> => {
   } catch (error) {
     throw new AppError('Error get articles count', 404);
   }
+};
+
+export const findRootSectionBySlug = async (sectionSlug: string) => {
+  return await Section.findOne({ slug: sectionSlug }).populate({
+    path: 'childSections',
+    populate: {
+      path: 'childSections',
+      populate: {
+        path: 'childSections'
+      }
+    }
+  });
+};
+
+export const collectSectionIds = (section: any): string[] => {
+  const childIds = section.childSections?.map(collectSectionIds) || [];
+  return [section._id.toString(), ...childIds.flat()];
+};
+
+export const countArticlesBySectionIds = async (sectionIds: string[]) => {
+  return await Article.countDocuments({ sectionId: { $in: sectionIds } });
+};
+
+export const findArticlesBySectionIds = async (sectionIds: string[], skip: number, limit: number) => {
+  return await Article.find({ sectionId: { $in: sectionIds } })
+    .sort({ publishedAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+    .populate<{ tags: ITag[] }>('tags', 'name slug')
+    .populate<{ author: IAuthor }>('author', 'name');
 };
