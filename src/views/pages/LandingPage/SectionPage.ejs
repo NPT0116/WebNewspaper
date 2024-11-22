@@ -15,6 +15,6 @@
       <%- include('../../components/Article/ArticleCard.ejs') %>
       <%- include('../../components/Pagination/Pagination.ejs', { pagination, section }) %>
     </div>
-    <div id="layout" class=""><%- include('../../layouts/partials/Footer.ejs', { title: 'Top Sections', articles:data.topSections })%></div>
+    <div id="layout" class=""><%- include('../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
   </body>
 </html>

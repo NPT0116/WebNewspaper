@@ -28,20 +28,6 @@
   <body>
     <div class="flex justify-between">
       <h1 class="text-2xl font-bold">Article List</h1>
-      <div>
-        <button
-          type="button"
-          class="gap-2 inline-flex items-center text-white font-bold px-5 py-2.5 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-        >
-          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-            <path
-              d="M368.4 18.3L312.7 74.1 437.9 199.3l55.7-55.7c21.9-21.9 21.9-57.3 0-79.2L447.6 18.3c-21.9-21.9-57.3-21.9-79.2 0zM288 94.6l-9.2 2.8L134.7 140.6c-19.9 6-35.7 21.2-42.3 41L3.8 445.8c-3.8 11.3-1 23.9 7.3 32.4L164.7 324.7c-3-6.3-4.7-13.3-4.7-20.7c0-26.5 21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48c-7.4 0-14.4-1.7-20.7-4.7L33.7 500.9c8.6 8.3 21.1 11.2 32.4 7.3l264.3-88.6c19.7-6.6 35-22.4 41-42.3l43.2-144.1 2.7-9.2L288 94.6z"
-            />
-          </svg>
-          Create new article
-        </button>
-      </div>
     </div>
 
     <label for="statusFilter">Filter by Status:</label>
@@ -88,15 +74,12 @@
                 // Customize the action buttons for each row
                 return `
                       <div class="flex space-x-2">
-                          <button data-id="${row._id}" type="button" class="edit-btn text-white gap-2 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/></svg>
-                            <span>Edit</span>
-                          </button>
-
-                          <button data-id="${row._id}" type="button" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/></svg>
-                            <span>Delete</span>
-                          </button>
+                          <a href="editor/${row._id}/preview" target="_blank">
+                          <button data-id="${row._id}" type="button" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                                <span>Preview</span>
+                            </button>
+                        </a>
                       </div>
                   `;
               },
@@ -126,18 +109,37 @@
               // Add Tailwind class to the "status" column
               targets: 2, // 5th column (status)
               render: function (data, type, row, meta) {
-                if (data === 'published')
-                  return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 bg-green-500 rounded-full "></span></div>
-                  <div class="flex items-center text-green-600">${data}</div>
-                </div>`;
-                else
-                {
-                  return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 bg-green-500 rounded-full "></span></div>
-                  <div class="flex items-center text-green-600">${data}</div>
-                </div>`;
+
+              const getColorByStatus = (status) => {
+                switch (status) {
+                  case('draft'):
+                    return {
+                      dot: 'bg-gray-500',
+                      text: 'text-gray-600'
+                  }
+                  case 'pending':
+                    return {
+                      dot: 'bg-yellow-500',
+                      text: 'text-yellow-600'
+                    }
+                  case 'rejected':
+                    return {
+                      dot: 'bg-red-500',
+                      text: 'text-red-600'
+                  }
+
+                  case 'published':
+                  return {
+                    dot: 'bg-green-500',
+                    text: 'text-green-600'
                 }
+
+                }
+              }
+                  return `<div class="flex gap-2">
+                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data).dot} rounded-full "></span></div>
+                  <div class="flex items-center ${getColorByStatus(data).text}">${data}</div>
+                </div>`;
               },
             },
             {
