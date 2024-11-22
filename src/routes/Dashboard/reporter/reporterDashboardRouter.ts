@@ -1,6 +1,6 @@
 import express from 'express';
 import { PATH } from '~/config/path.js';
-import { createArticle, updateArticle } from '~/controllers/Dashboard/Reporter/reporterDashboardController.js';
+import { createArticle, submitArticle, updateArticle } from '~/controllers/Dashboard/Reporter/reporterDashboardController.js';
 import { getReporterDashboardPage } from '~/controllers/dashboardController.js';
 const reporterDashboardRouter = express.Router();
 
@@ -11,4 +11,5 @@ reporterDashboardRouter.get(PATH.DASHBOARD.REPORTER.WRITE_ARTICLE, (req, res) =>
 reporterDashboardRouter.get(PATH.DASHBOARD.REPORTER.CREATE_ARTICLE, createArticle);
 reporterDashboardRouter.get(PATH.DASHBOARD.REPORTER.SAVE_ARTICLE, updateArticle);
 reporterDashboardRouter.get(PATH.HOME, getReporterDashboardPage);
+reporterDashboardRouter.get(PATH.DASHBOARD.REPORTER.SUBMIT_ARTICLE, submitArticle);
 export default reporterDashboardRouter;

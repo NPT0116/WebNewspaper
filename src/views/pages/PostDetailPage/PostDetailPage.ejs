@@ -7,21 +7,19 @@
     <title>Document</title>
   </head>
   <body>
-    <%- include('../../layouts/partials/HeaderTitle') %>
+    <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
     <div class="h-dvh bg-cover"><img class="bg-contain h-full w-full" src="<%=images%>" alt="" /></div>
     <%- include('../../layouts/partials/Header', { sections: sections }) %>
 
-    <div class="flex flex-col justify-center items-center  w-screen  ">
-      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif text-5xl font-bold " style="padding-top: 40px; padding-bottom: 40px">
-        <%=title%>
-      </div>
-      <div class="w-11/12 text-justify flex justify-center items-center flex-col" >
-        <div id="article-content" class=" font-dancing text-xl text-justify" style="width: 60%"><%=content%></div>
-        <hr>
+    <div class="flex flex-col justify-center items-center w-screen">
+      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif text-5xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
+      <div class="w-11/12 text-justify flex justify-center items-center flex-col">
+        <div id="article-content" class="font-dancing text-xl text-justify" style="width: 60%"><%=content%></div>
+        <hr />
         <div class="mt-8" style="width: 80%"><%- include('CommentList', { comments: comments }) %></div>
       </div>
     </div>
-    
+
     <%- include('ReadMore', { articles: relatedArticle }) %>
 
     <div><%- include('../../layouts/partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>

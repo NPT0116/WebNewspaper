@@ -6,6 +6,7 @@ import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 import { getSectionTree } from '~/repo/Section/index.js';
+import { getProfile } from '../landingpageController.js';
 
 export const relatedArticleFunc = async (sectionSlug: string) => {
   try {
@@ -126,6 +127,11 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       relatedArticle = [];
     }
 
+    let profile = null;
+    if (req.isAuthenticated()) {
+      profile = await getProfile(req.user._id);
+    }
+
     console.log({
       ...article.toObject(),
       comments: commentWithNames,
@@ -137,11 +143,13 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
     //   relatedArticle,
     //   sections
     // });
+
     res.render('pages/PostDetailPage/PostDetailPage', {
       ...article.toObject(),
       comments: commentWithNames,
       relatedArticle,
-      sections
+      sections,
+      profile
     });
   } catch (e) {
     next(new AppError("can't get detail article", 500));

@@ -9,7 +9,7 @@ interface IProfile {
   id: mongoose.Types.ObjectId;
   name: string;
 }
-const getProfile = async (accountId: mongoose.Types.ObjectId) => {
+export const getProfile = async (accountId: mongoose.Types.ObjectId) => {
   try {
     const account = await Account.findById(accountId).populate<{ profileId: IProfile }>('profileId', 'name');
     return {

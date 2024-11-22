@@ -4,6 +4,7 @@ import { IComment } from '../Comment/ commentInterface.js';
 import { IArticle } from '../Article/articleInterface.js';
 import { ISection } from '../Section/sectionInterface.js';
 export interface IProfileBase extends Document {
+  _id: mongoose.Types.ObjectId;
   accountId?: mongoose.Types.ObjectId | IAccount;
   name: string;
   dob: Date | null;

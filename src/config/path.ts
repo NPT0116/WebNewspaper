@@ -11,7 +11,13 @@ export const PATH = {
       PATH: '/reporter',
       WRITE_ARTICLE: '/write-article/:articleId',
       SAVE_ARTICLE: '/write-article/:articleId/save',
-      CREATE_ARTICLE: '/create-article'
+      CREATE_ARTICLE: '/create-article',
+      SUBMIT_ARTICLE: '/:articleId/submit'
+    },
+    EDITOR: {
+      PATH: '/editor',
+      PREVIEW: '/:articleId/preview',
+      APPROVE: '/:articleId/approve'
     }
   },
   AUTHENTICATION: {
