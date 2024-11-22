@@ -27,8 +27,10 @@ export const getLandingPage = async (req: Request, res: Response, next: NextFunc
     const sections = await getSectionTree();
     let profile = null;
     if (req.isAuthenticated()) {
-      profile = getProfile(req.user._id);
+      profile = await getProfile(req.user._id);
     }
+    console.log(profile);
+
     // res.json(data);
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
