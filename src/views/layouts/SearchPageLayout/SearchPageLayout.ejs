@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Search</title>
+  </head>
+  <body>
+    <header><%- include('../partials/Header.ejs') %></header>
+    <main><%- include(body) %></main>
+    <footer><%- include('../partials/Footer.ejs') %></footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const sectionToggle = document.getElementById('sectionToggle');
+        const sectionDropdown = document.getElementById('sectionDropdown');
+        const anyCheckbox = document.getElementById('section-any');
+        const sectionCheckboxes = document.querySelectorAll('input[name="sections"]:not(#section-any)');
+
+        // Show/Hide dropdown menu when toggling
+        sectionToggle.addEventListener('click', () => {
+          sectionDropdown.classList.toggle('hidden');
+        });
+
+        // Hide the dropdown when clicking outside of it
+        document.addEventListener('click', (e) => {
+          if (!sectionDropdown.contains(e.target) && e.target !== sectionToggle) {
+            sectionDropdown.classList.add('hidden');
+          }
+        });
+
+        // Function to handle "Any" checkbox logic
+        function handleAnyCheckbox() {
+          if (anyCheckbox.checked) {
+            sectionCheckboxes.forEach((checkbox) => (checkbox.checked = false)); // Uncheck all other checkboxes
+          } else if ([...sectionCheckboxes].every((checkbox) => !checkbox.checked)) {
+            anyCheckbox.checked = true; // Re-check "Any" if no other checkboxes are selected
+          }
+          anyCheckbox.form.submit();
+        }
+
+        // Function to handle individual section checkboxes logic
+        function handleSectionCheckbox() {
+          if ([...sectionCheckboxes].some((checkbox) => checkbox.checked)) {
+            anyCheckbox.checked = false; // Uncheck "Any" if any section is selected
+          } else {
+            anyCheckbox.checked = true; // Re-check "Any" if no other sections are selected
+          }
+          this.form.submit();
+        }
+
+        // Event listener for "Any" checkbox
+        anyCheckbox.addEventListener('change', handleAnyCheckbox);
+
+        // Event listener for each section checkbox
+        sectionCheckboxes.forEach((checkbox) => {
+          checkbox.addEventListener('change', handleSectionCheckbox);
+        });
+      });
+    </script>
+  </body>
+</html>
