@@ -137,7 +137,6 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
     //   relatedArticle,
     //   sections
     // });
-
     res.render('pages/PostDetailPage/PostDetailPage', {
       ...article.toObject(),
       comments: commentWithNames,

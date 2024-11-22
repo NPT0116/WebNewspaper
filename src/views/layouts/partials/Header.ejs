@@ -3,9 +3,9 @@
     
     <% sections.forEach((section) => {%>
       <div id="section-container" class="group flex flex-col justify-center items-center hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center " style="border-bottom: 4px solid black">
-        <a id='section-name' class="group w-full h-full p-2 text-sm" href="\post\<%=section.slug%>"><%=section.name%></a>
+        <a id='section-name' class="group w-full h-full p-2 text-lg xl:text-xl" href="\post\<%=section.slug%>"><%=section.name%></a>
 
-        <div id="sub-section-container" class="absolute top-10  w-1/6 p-2 font-dancing">
+        <div id="sub-section-container" class="absolute top-10 w-1/6 p-2 font-dancing">
           <% if (section.childSections && section.childSections.length > 0) {%>
             <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200 ">
               <% section.childSections.forEach((child) => {%>
@@ -63,9 +63,7 @@
           catsBar.classList.remove('scale-y-0')
           catsBar.classList.add('scale-y-100')
         }
-        pastY = window.scrollY
-        console.log(pastY)
-      
+        pastY = window.scrollY      
 
         headerBar.style.backgroundColor = 'white';
         sectionContainer.forEach((children) => {
@@ -84,14 +82,15 @@
           }
         });
       } else if(catsBar.getBoundingClientRect().top > 96) {
-        console.log(headerBar)
         sectionContainer.forEach((children) => {
           children.style.borderBottom = '4px solid black';
           children.style.borderTop = '';
         })
         if (!headerBar.classList.contains('bg-opacity-50')) {
           headerBar.classList.add('bg-opacity-50');
-          headerBar.classList.add('white');
+          headerBar.style.backgroundColor = '';
+
+          console.log(headerBar)
         }
       } else {
         sectionContainer.forEach((children) => {

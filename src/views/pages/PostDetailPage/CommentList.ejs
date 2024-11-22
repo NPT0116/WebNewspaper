@@ -6,23 +6,25 @@
     <title>Document</title>
   </head>
   <body>
-    <h1 class="text-2xl font-bold">Comments (4)</h1>
-    <div class="mt-8">
-      <div class="mb-8"><%- include('../../components/Comment/Comment') %></div>
-      <div class="mb-8"><%- include('../../components/Comment/Comment') %></div>
-      <div class="mb-8"><%- include('../../components/Comment/Comment') %></div>
-      <div class="mb-8"><%- include('../../components/Comment/Comment') %></div>
-      <div class="flex flex-col space-y-2">
-        <label for="message" class="text-gray-700 font-medium">Your Message</label>
-        <textarea
-          id="message"
-          placeholder="Write something..."
-          rows="4"
-          class="px-4 py-2 overflow-y-hidden bg-gray-100 border border-gray-300 rounded-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out auto-expand"
-        ></textarea>
-        <div class="flex justify-between">
-          <small id="text-count" class="text-gray-500"></small>
-          <button class="rounded-lg bg-blue-400 px-4 py-2 text-white font-bold hover:bg-blue-500 hover:shadow-lg transition-all duration-200">Submit your comment</button>
+    <div class="border p-5 rounded-lg">
+    <h1 class="text-2xl font-bold">Comments (<%=comments.length%>)</h1>
+    <div class="mt-8 w-full">
+      <%comments.forEach((comment) => {%>
+          <div class="mb-8  w-full"><%- include('../../components/Comment/Comment', {comment: comment}) %></div>
+      <%})%>
+
+        <div class="flex flex-col space-y-2">
+          <label for="message" class="text-gray-700 font-medium">Your Message</label>
+          <textarea
+            id="message"
+            placeholder="Write something..."
+            rows="4"
+            class="px-4 py-2 overflow-y-hidden bg-gray-100 border border-gray-300 rounded-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out auto-expand"
+          ></textarea>
+          <div class="flex justify-between">
+            <small id="text-count" class="text-gray-500"></small>
+            <button class="rounded-lg bg-blue-400 px-4 py-2 text-white font-bold hover:bg-blue-500 hover:shadow-lg transition-all duration-200">Submit your comment</button>
+          </div>
         </div>
       </div>
     </div>

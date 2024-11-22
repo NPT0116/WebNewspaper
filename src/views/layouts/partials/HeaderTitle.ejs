@@ -1,13 +1,16 @@
-<div id="header" class="font-serif sticky top-0 w-full bg-white bg-opacity-50 h-24 flex justify-center items-center z-50">
+<div id="header" class="font-serif sticky top-0 w-full bg-white bg-opacity-50 h-24 flex justify-center items-center z-50 transition-opacity duration-300">
   <div id="header-title" class="flex justify-center items-center flex-col text-black">
-    <div class="sm:text-xl text-lg font-bold">THE</div>
-    <div class="sm:text-5xl text-4xl">KIM JONG UN</div>
+    <div class="sm:text-xl text-lg font-bold">
+      <a href="/">THE</a>
+    </div>
+    <div class="sm:text-5xl text-4xl">
+      <a href="/">KIM JONG UN</a>
+    </div>
   </div>
 
   <div id="header-navbar" class="hidden lg:absolute lg:right-0 w-2/6 lg:flex flex-row justify-evenly items-center">
-    <a class="text-sm xl:text-lg hover:underline" href="#">Newsletter</a>
-    <a class="text-sm xl:text-lg hover:underline" href="#">Sign In</a>
-    <a class="text-sm xl:text-lg hover:underline" href="#">Subscribe</a>
+    <a class="text-sm xl:text-lg hover:underline" href="/login">Login</a>
+    <a class="text-sm xl:text-lg hover:underline" href="/register">Register</a>
     <svg class="w-4 h-4 text-gray-500 hover:text-gray-700 hover:scale-110 transition-all" focusable="false">
       <title>Search</title>
       <path fill="#000" fill-rule="evenodd" clip-rule="evenodd" d="M12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Zm-1.126 4.582a6 6 0 1 1 .707-.707l3.773 3.771-.707.708-3.773-3.772Z"></path>

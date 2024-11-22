@@ -16,6 +16,6 @@
 
     <div class="flex justify-center"><%- include(body, {data: data, sections: sections}) %></div>
 
-    <%- include('../partials/Footer') %>
+    <%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %>
   </body>
 </html>
