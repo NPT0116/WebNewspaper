@@ -9,7 +9,7 @@
   <body>
     <header><%- include('../partials/Header.ejs') %></header>
     <main><%- include(body) %></main>
-    <footer><%- include('../partials/Footer.ejs') %></footer>
+    <footer><%- include('../partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></footer>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const sectionToggle = document.getElementById('sectionToggle');
