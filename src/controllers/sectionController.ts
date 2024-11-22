@@ -14,7 +14,12 @@ export const sectionQuery = async (req: Request<{}, {}, {}, GetSecTionByNameQuer
     const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
 
     if (!search_value || typeof search_value !== 'string') {
-      next(new AppError('Invalid search_value', 400));
+      // res.status(400).json({ error: 'Invalid search_value' });
+      const sections = await Section.find({}).select('name parentSection childSections createdAt updatedAt');
+      res.status(200).json({
+        status: 'success',
+        sections
+      });
       return;
     }
 

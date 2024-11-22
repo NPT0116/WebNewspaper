@@ -1,12 +1,13 @@
 import { Article } from '~/models/Article/articleSchema.js';
-import mongoose from 'mongoose';
-import { Section } from '~/models/Section/sectionSchema.js';
+
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '~/utils/appError.js';
-import { reporterGetArticleById } from '~/repo/Article/articleRepo.js';
+import { findRootSectionBySlug, collectSectionIds, countArticlesBySectionIds, findArticlesBySectionIds, reporterGetArticleById } from '~/repo/Article/articleRepo.js';
 import { ObjectId } from 'mongoose';
 import { getArticleByIdParams, IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { IAuthor, ISection, ITag } from './landingpage/articleDetail/articleDetailController.js';
+import { getSectionTree } from '~/repo/Section/index.js';
+import { getLandingPageData } from '~/repo/Article/landingpage.js';
 
 interface ArticleQuery {
   search_value: string;
@@ -23,8 +24,12 @@ interface GetArticleByStatusQuery {
   pageSize: string;
 }
 
-interface getArticlesBySlugParams {
+interface GetArticlesBySlugParams {
   sectionSlug: string;
+}
+
+interface GetArticlesBySlugQuery {
+  pageNumber: string;
 }
 export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -181,40 +186,27 @@ export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleBySt
 };
 
 //Tìm kiếm bài viết theo sectionSlug
-export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugParams>, res: Response, next: NextFunction): Promise<void> => {
+export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugParams, {}, {}>, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { sectionSlug } = req.params;
 
-    // Cố định giá trị pageNumber và pageSize (Ví dụ: page 1, pageSize 5)
+    // Pagination setup
     const pageNum = parseInt(req.query.pageNumber as string) || 1;
-    const size = 1;
+    const size = 10;
 
-    // Tìm root section dựa trên slug
-    const rootSection = await Section.findOne({ slug: sectionSlug }).populate({
-      path: 'childSections',
-      populate: {
-        path: 'childSections',
-        populate: {
-          path: 'childSections'
-        }
-      }
-    });
-
+    // Find root section by slug
+    const rootSection = await findRootSectionBySlug(sectionSlug);
     if (!rootSection) {
       next(new AppError('Section not found', 404));
       return;
     }
 
-    // Thu thập tất cả các ID của rootSection và các childSections
-    const collectSectionIds = (section: any): string[] => {
-      const childIds = section.childSections?.map(collectSectionIds) || [];
-      return [section._id.toString(), ...childIds.flat()];
-    };
+    // Collect section IDs
     const sectionIds = collectSectionIds(rootSection);
 
-    // Xử lý phân trang
+    // Pagination logic
     const skip = (pageNum - 1) * size;
-    const totalArticles = await Article.countDocuments({ sectionId: { $in: sectionIds } });
+    const totalArticles = await countArticlesBySectionIds(sectionIds);
     const totalPages = Math.ceil(totalArticles / size);
 
     if (skip >= totalArticles && skip !== 0) {
@@ -222,15 +214,10 @@ export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugPar
       return;
     }
 
-    // Tìm bài viết dựa trên sectionIds
-    const articles = await Article.find({ sectionId: { $in: sectionIds } })
-      .sort({ publishedAt: -1 })
-      .skip(skip)
-      .limit(size)
-      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
-      .populate<{ tags: ITag[] }>('tags', 'name slug')
-      .populate<{ author: IAuthor }>('author', 'name');
+    // Find articles
+    const articles = await findArticlesBySectionIds(sectionIds, skip, size);
 
+    // Map articles for response
     const response: IArticleCard[] = articles.map((article) => ({
       slug: article.slug,
       title: article.title,
@@ -252,10 +239,16 @@ export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugPar
       images: article.images
     }));
 
-    // Render kết quả lên view
-    res.render('pages/LandingPage/SectionPage/sectionPage', {
+    // Fetch additional data
+    const sections = await getSectionTree();
+    const data = await getLandingPageData();
+
+    // Render view
+    res.render('pages/LandingPage/SectionPage', {
+      data: data,
       section: rootSection,
       articles: response,
+      sections: sections,
       pagination: {
         totalItems: totalArticles,
         totalPages: totalPages,
@@ -268,7 +261,7 @@ export const getArticlesBySectionSlug = async (req: Request<getArticlesBySlugPar
   }
 };
 
-export const reporterGetArticleByIdQuery = async (req: Request<getArticleByIdParams>, res: Response, next: NextFunction) => {
+export const reporterGetArticleByIdQuery = async (req: Request<getArticleByIdParams, {}, {}, GetArticlesBySlugQuery>, res: Response, next: NextFunction) => {
   try {
     const user = req.user as unknown as { profileId: ObjectId };
     const reporterProfileId = user.profileId;

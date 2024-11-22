@@ -2,21 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import { Tag } from '~/models/Tag/tagSchema.js';
 import { AppError } from '~/utils/appError.js';
 
-interface TagQuery {
-  search_value: string;
-  pageNumber: string;
-  pageSize: string;
-}
-
-export const tagQuery = async (req: Request<{}, {}, {}, TagQuery>, res: Response, next: NextFunction): Promise<void> => {
+export const tagQuery = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
     const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
     const pageNum = parseInt(pageNumber as string, 10);
     const size = parseInt(pageSize as string, 10);
 
-    if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      next(new AppError('Invalid pagination parameters', 400));
-      return;
+    // Validate the search_value
+    if (!search_value || typeof search_value !== 'string') {
+      return res.status(400).json({ error: 'Invalid search_value' });
     }
 
     // Tạo điều kiện tìm kiếm
