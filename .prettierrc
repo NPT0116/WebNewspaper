@@ -1,4 +1,5 @@
 {
+  "plugins": ["prettier-plugin-ejs"],
   "arrowParens": "always",
   "semi": true,
   "trailingComma": "none",

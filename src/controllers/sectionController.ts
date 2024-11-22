@@ -1,12 +1,17 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { Article } from '~/models/Article/articleSchema.js';
-import mongoose from 'mongoose';
+import { AppError } from '~/utils/appError.js';
+
+interface GetSecTionByNameQuery {
+  search_value: string;
+  pageNumber: string;
+  pageSize: string;
+}
 
 //Tìm kiếm secion theo tên section
-export const sectionQuery = async (req: Request, res: Response): Promise<void> => {
+export const sectionQuery = async (req: Request<{}, {}, {}, GetSecTionByNameQuery>, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { search_value } = req.query;
+    const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
 
     if (!search_value || typeof search_value !== 'string') {
       // res.status(400).json({ error: 'Invalid search_value' });
@@ -18,102 +23,34 @@ export const sectionQuery = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    // Create a regex to match strings that start with search_value (case-insensitive)
+    // Tạo regex tìm kiếm
     const regex = new RegExp(`^${search_value}`, 'i');
-
-    // Search for sections whose names start with search_value
-    const sections = await Section.find({ name: regex }).select('name parentSection childSections createdAt updatedAt');
-
-    // Return the search results
-    res.status(200).json({
-      status: 'success',
-      sections
-    });
-  } catch (err) {
-    console.error('Error searching sections:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-//Tìm kiếm bài viết theo sectionId
-export const getArticlesBySection = async (req: Request, res: Response): Promise<void> => {
-  try {
-    // Lấy sectionId từ req.originalUrl
-    const sectionIdMatch = req.originalUrl.match(/\/api\/([^/]+)\//);
-
-    if (!sectionIdMatch || !sectionIdMatch[1]) {
-      res.status(400).json({ message: 'sectionId is required in the URL' });
-      return;
-    }
-
-    const sectionId = sectionIdMatch[1];
-
-    // Xác minh sectionId
-    if (!mongoose.isValidObjectId(sectionId)) {
-      res.status(400).json({ message: 'Invalid sectionId' });
-      return;
-    }
-
-    console.log(sectionId);
-
-    // Tìm root section dựa trên sectionId
-    const rootSection = await Section.findById(sectionId).populate({
-      path: 'childSections',
-      populate: {
-        path: 'childSections',
-        populate: {
-          path: 'childSections'
-        }
-      }
-    });
-
-    if (!rootSection) {
-      res.status(404).json({ message: 'Section not found' });
-      return;
-    }
-
-    // Hàm thu thập tất cả các sectionId con
-    const collectSectionIds = (section: any): string[] => {
-      const childIds = section.childSections?.map(collectSectionIds) || [];
-      return [section._id.toString(), ...childIds.flat()];
-    };
-    const sectionIds = collectSectionIds(rootSection);
-
-    // Lấy các tham số phân trang
-    const { pageNumber = 1, pageSize = 10 } = req.query;
-
     const pageNum = parseInt(pageNumber as string, 10);
     const size = parseInt(pageSize as string, 10);
 
     if (isNaN(pageNum) || isNaN(size) || pageNum <= 0 || size <= 0) {
-      res.status(400).json({ error: 'Invalid pagination parameters' });
+      next(new AppError('Invalid pagination parameters', 400));
       return;
     }
-
+    const query = { name: regex };
     const skip = (pageNum - 1) * size;
+    const sections = await Section.find(query).skip(skip).limit(size);
 
-    const articles = await Article.find({ sectionId: { $in: sectionIds } })
-      .skip(skip)
-      .limit(size)
-      .select('title content createdAt updatedAt');
-
-    const totalArticleCount = await Article.countDocuments({ sectionId: { $in: sectionIds } });
-
-    if (skip > totalArticleCount) {
-      res.status(404).json({ error: 'Page not found' });
+    const totalSections = await Section.countDocuments(query);
+    const totalPages = Math.ceil(totalSections / size);
+    if (skip >= totalSections && skip !== 0) {
+      next(new AppError('Page not found', 404));
       return;
     }
 
-    // Trả về kết quả với phân trang
     res.json({
-      totalItems: totalArticleCount,
-      totalPages: Math.ceil(totalArticleCount / size),
+      data: sections,
+      totalItems: totalSections,
+      totalPages: totalPages,
       currentPage: pageNum,
-      itemsPerPage: size,
-      data: articles
+      itemsPerPage: size
     });
   } catch (err) {
-    console.error('Error fetching articles by section:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    next(new AppError('Internal server error', 500));
   }
 };
