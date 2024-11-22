@@ -1,29 +1,44 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Tag } from '~/models/Tag/tagSchema.js';
-import { Section } from '~/models/Section/sectionSchema.js';
+import { AppError } from '~/utils/appError.js';
 
-export const tagQuery = async (req: Request, res: Response): Promise<any> => {
+export const tagQuery = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const { search_value } = req.query;
+    const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
+    const pageNum = parseInt(pageNumber as string, 10);
+    const size = parseInt(pageSize as string, 10);
 
     // Validate the search_value
     if (!search_value || typeof search_value !== 'string') {
       return res.status(400).json({ error: 'Invalid search_value' });
     }
 
-    // Create a regex to match names that start with search_value (case-insensitive)
-    const regex = new RegExp(`^${search_value}`, 'i');
+    // Tạo điều kiện tìm kiếm
+    let query: Record<string, any> = {};
+    if (search_value) {
+      const regex = new RegExp(`^${search_value}`, 'i');
+      query = { name: regex };
+    }
 
-    // Search for tags whose names start with search_value
-    const tags = await Tag.find({ name: regex }).select('name description createdAt updatedAt');
+    const skip = (pageNum - 1) * size;
+    const sections = await Tag.find(query).skip(skip).limit(size);
 
-    // Return the search results
-    res.status(200).json({
-      status: 'success',
-      tags
+    const totalSections = await Tag.countDocuments(query);
+    const totalPages = Math.ceil(totalSections / size);
+
+    if (skip >= totalSections && skip !== 0) {
+      next(new AppError('Page not found', 404));
+      return;
+    }
+
+    res.json({
+      data: sections,
+      totalItems: totalSections,
+      totalPages: totalPages,
+      currentPage: pageNum,
+      itemsPerPage: size
     });
   } catch (err) {
-    console.error('Error searching tags:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    next(new AppError('Internal server error', 500));
   }
 };
