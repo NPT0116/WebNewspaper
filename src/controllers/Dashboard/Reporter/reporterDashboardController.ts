@@ -5,6 +5,7 @@ import { IArticle } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { AppError } from '~/utils/appError.js';
+import { reporterDashboardPage } from '~/utils/pages/page.js';
 
 // Request params and body for updating an article
 interface UpdateArticleParams {
@@ -109,5 +110,61 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
   } catch (e) {
     console.error(e);
     next(new AppError('Unable to update the article', 500));
+  }
+};
+
+interface submitArticleParams {
+  articleId: string;
+}
+interface ISubmitError {
+  errorCode: number;
+  errorMessage: string;
+  details?: string;
+}
+
+export const submitArticle = async (req: Request<submitArticleParams>, res: Response, next: NextFunction) => {
+  try {
+    const { articleId } = req.params;
+
+    // Tìm bài viết cần chuyển trạng thái
+    const article = await Article.findById(articleId);
+
+    // Nếu bài viết không tồn tại
+    if (!article) {
+      const submitError: ISubmitError = {
+        errorCode: 404,
+        errorMessage: 'Article not found',
+        details: `No article found with ID: ${articleId}`
+      };
+      return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
+    }
+
+    // Kiểm tra trạng thái hiện tại
+    if (article.status !== 'draft') {
+      const submitError: ISubmitError = {
+        errorCode: 400,
+        errorMessage: 'Invalid article status',
+        details: 'Only articles with "draft" status can be submitted for approval'
+      };
+      return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article });
+    }
+
+    // Cập nhật trạng thái bài viết
+    article.status = 'pending';
+    article.updatedAt = new Date();
+
+    // Lưu thay đổi
+    await article.save();
+
+    // Render lại trang với bài viết đã cập nhật
+    return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError: null, article });
+  } catch (e) {
+    // Xử lý lỗi không mong muốn
+    const submitError: ISubmitError = {
+      errorCode: 500,
+      errorMessage: 'Server error',
+      details: 'An unexpected error occurred while submitting the article'
+    };
+    return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
   }
 };
