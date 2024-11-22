@@ -2,10 +2,8 @@ import { UpdateArtifactResponse } from 'aws-sdk/clients/sagemaker.js';
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { IArticle } from '~/interfaces/Article/articleInterface.js';
-import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
-import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { AppError } from '~/utils/appError.js';
 
 // Request params and body for updating an article
