@@ -94,3 +94,34 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
 export const getAllArticles = async () => {
   return await Article.find({});
 };
+
+export const findRootSectionBySlug = async (sectionSlug: string) => {
+  return await Section.findOne({ slug: sectionSlug }).populate({
+    path: 'childSections',
+    populate: {
+      path: 'childSections',
+      populate: {
+        path: 'childSections'
+      }
+    }
+  });
+};
+
+export const collectSectionIds = (section: any): string[] => {
+  const childIds = section.childSections?.map(collectSectionIds) || [];
+  return [section._id.toString(), ...childIds.flat()];
+};
+
+export const countArticlesBySectionIds = async (sectionIds: string[]) => {
+  return await Article.countDocuments({ sectionId: { $in: sectionIds } });
+};
+
+export const findArticlesBySectionIds = async (sectionIds: string[], skip: number, limit: number) => {
+  return await Article.find({ sectionId: { $in: sectionIds } })
+    .sort({ publishedAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+    .populate<{ tags: ITag[] }>('tags', 'name slug')
+    .populate<{ author: IAuthor }>('author', 'name');
+};
