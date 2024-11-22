@@ -126,18 +126,37 @@
               // Add Tailwind class to the "status" column
               targets: 2, // 5th column (status)
               render: function (data, type, row, meta) {
-                if (data === 'published')
-                  return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 bg-green-500 rounded-full "></span></div>
-                  <div class="flex items-center text-green-600">${data}</div>
-                </div>`;
-                else
-                {
-                  return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 bg-green-500 rounded-full "></span></div>
-                  <div class="flex items-center text-green-600">${data}</div>
-                </div>`;
+
+              const getColorByStatus = (status) => {
+                switch (status) {
+                  case('draft'):
+                    return {
+                      dot: 'bg-gray-500',
+                      text: 'text-gray-600'
+                  }
+                  case 'pending':
+                    return {
+                      dot: 'bg-yellow-500',
+                      text: 'text-yellow-600'
+                    }
+                  case 'rejected':
+                    return {
+                      dot: 'bg-red-500',
+                      text: 'text-red-600'
+                  }
+
+                  case 'published':
+                  return {
+                    dot: 'bg-green-500',
+                    text: 'text-green-600'
                 }
+
+                }
+              }
+                  return `<div class="flex gap-2">
+                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data).dot} rounded-full "></span></div>
+                  <div class="flex items-center ${getColorByStatus(data).text}">${data}</div>
+                </div>`;
               },
             },
             {
