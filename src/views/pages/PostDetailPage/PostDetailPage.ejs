@@ -7,67 +7,34 @@
     <title>Document</title>
   </head>
   <body>
-    <%- include('Header') %>
-    <div class="">
-      <div id="header" class="px-4 w-full bg-white flex justify-center fixed top-16 transition-all duration-300 transform origin-top ease-header-ease">
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">The latest</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">News</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Books & Culture</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Fiction & Poetry</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Humor & Cartoons</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Magazine</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Puzzles & Games</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Video</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Podcasts</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Goings on</div>
-        <div class="py-2 px-2 text-xs md:text-sm hover:underline cursor-pointer font-bold">Shop</div>
+    <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
+    <div class="h-dvh bg-cover"><img class="bg-contain h-full w-full" src="<%=images%>" alt="" /></div>
+    <%- include('../../layouts/partials/Header', { sections: sections }) %>
+
+    <div class="flex flex-col justify-center items-center w-screen">
+      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif text-5xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
+      <div class="w-11/12 text-justify flex justify-center items-center flex-col">
+        <div id="article-content" class="font-dancing text-xl text-justify" style="width: 60%"><%=content%></div>
+        <hr />
+        <div class="mt-8" style="width: 80%"><%- include('CommentList', { comments: comments }) %></div>
       </div>
     </div>
 
-    <div class="h-dvh bg-violet-600"><img class="h-full w-full" src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/0932/live/ef8093c0-a310-11ef-95e1-3f87b53caa3f.jpg.webp" alt="" /></div>
-    <div class="flex justify-center mt-32">
-      <div class="w-4/5 md:w-1/2">
-        In India, if you ask a pedestrian how many obstacles they've encountered on a footpath, they may not be able to count them - but they'll certainly tell you that most footpaths are in poor
-        condition. This is what Arun Pai says he learnt when he started asking people about their experience walking on the streets of his city, Bengaluru (formerly Bangalore), in southern India. This
-        month he set up a "fun challenge" - called the 'world's longest footpath run' - which invited people to walk or jog on an 11km (8 miles) stretch of footpath and make a note of all the
-        obstacles they encountered, like hawkers, garbage or broken slabs of concrete. Next, they were asked to rate the footpath on a scale of one to five. "When you have specifics, it gets easier to
-        ask the authorities to take action. Instead of telling your local politician "the footpaths are bad", you can ask him or her "to fix specific spots on a street," Mr Pai says. Mr Pai, who is
-        the founder of Bangalore Walks, a non-profit that promotes walking, is among several citizen activists who are pushing to make the country's roads more pedestrian-friendly. In India's capital,
-        a tour company called Delhi by Cycle has been advocating for making the city more cycle-friendly and walkable. These walking-enthusiasts are holding awareness walks, building walking apps and
-        lobbying with politicians to make a change. Even in India's biggest cities, proper footpaths are few and far between and they are often overrun by hawkers and shops, parked vehicles and even
-        cattle. In some places, they double up as homes for the poor. Even footpaths that exist are often not built to standard or properly maintained. Navigating roads on foot through crowds and
-        traffic can be a nightmare.
-        <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/84fe/live/2f617340-a30e-11ef-95e1-3f87b53caa3f.jpg.webp" alt="" />
-        Last month, Walking Project, a citizen's group in India's financial capital, Mumbai, released a 'pedestrian manifesto' ahead of Maharashtra state elections to highlight the poor condition of
-        the city's roads and encourage local politicians to take action. The manifesto included demands for better parking, designated hawking zones, pedestrian-friendly corridors on arterial roads
-        and to make footpaths more accessible to those with mobility challenges. "Government statistics show that almost 50% of the city's population relies on walking, which is far greater than the
-        11% that uses private transport and the combined 15% that uses tuk-tuks and buses," says Vendant Mhatre, convener of Walking Project. "And yet, pedestrians are the most ignored group of users
-        when it comes to framing policies around transport or road safety," he adds. According to the latest government estimates on road accidents, pedestrian fatalities were the second-highest after
-        those of two-wheeler riders. In 2022, over 10,000 pedestrians lost their lives on national highways across the country, with around 21,000 more sustaining injuries in accidents. "Authorities
-        often resort to band-aid solutions like adding speed bumps or a signal to curb road accidents. But what is really needed is inter-connected footpaths that can accommodate high footfall," Mr
-        Mhatre says. Studies have found that addressing the problems of this forgotten group of road users can reap benefits for multiple stakeholders. In 2019, researchers in the southern city of
-        Chennai studied the impact the construction of new footpaths on 100km (62 miles) of the city's streets had on the environment, economy and the health and safety of citizens. They found that
-        the new footpaths encouraged 9% to 27% of the surveyed respondents to walk instead of using motorized transport, which led to a reduction in greenhouse gases and particulate matter. They also
-        learned that the footpaths provided new opportunities for women and lower-income groups, helping them save money as well. The survey highlighted how people with disabilities and women might
-        have nuanced requirements from footpaths and that tailoring improvements to meet their needs could enhance accessibility and equity.
-        <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/df73/live/48269620-a30f-11ef-95e1-3f87b53caa3f.jpg.webp" alt="" />
-        "Very often, people don't have a benchmark for footpath quality, especially if they haven't travelled abroad or been exposed to places that have good facilities for pedestrians," Mr Mhatre
-        says. He reasons that that's why there isn't enough outrage about the quality or absence of footpaths in the country. He also points out that most people see walking as an activity performed
-        for leisure or exercise. And so, the infrastructure they associate with walking stops at gardens or walking tracks. In reality, however, people walk to various destinations daily, so the scope
-        of walking infrastructure is far broader. "Walking is the most economical and environment-friendly way to navigate one's city and it's high time our leaders paid as much attention to walking
-        infrastructure as they do to public transport," Mr Mhatre says. Geetam Tiwari, a professor of civil engineering, says that the main problem is that too much focus is given to solving the
-        problem of car congestion on roads. "To improve the flow of traffic, authorities often narrow down footpaths or eliminate them entirely," she says. Ms Tiwari says that this approach is
-        problematic because doing so makes it difficult for pedestrians to access public transport systems, like buses and metros, which can take the pressure off the roads. "It might seem
-        counter-intuitive, but allowing the congestion to persist and focussing on improving infrastructure for pedestrians will help solve the traffic problem in the long run," she says. Ms Tiwari
-        also says that the federal government should make it mandatory for states to implement the guidelines issued by the Indian Road Congress - a national organisation that lays down designing
-        standards for roads and highways. She says that cities can also implement their own Non-Motorised Transport Policy (NMTP) to create better infrastructure for cyclists and pedestrians. "At the
-        moment, only a handful of cities in India have experimented with a NMTP but its time more cities step up to the plate," she adds.
-        <div class="mt-8"><%- include('CommentList') %></div>
-      </div>
-    </div>
+    <%- include('ReadMore', { articles: relatedArticle }) %>
 
-    <div><%- include('ReadMore') %></div>
-    <div><%- include('../../layouts/partials/Footer') %></div>
-    <script script src="/js/header.js"></script>
+    <div><%- include('../../layouts/partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
   </body>
 </html>
+<style>
+  #article-content {
+    line-height: 2rem;
+  }
+  #article-content::first-letter {
+    font-size: 8rem;
+    float: left;
+
+    padding-right: 10px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+  }
+</style>
