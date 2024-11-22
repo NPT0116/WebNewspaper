@@ -3,6 +3,7 @@ import { IAccount } from '../Account/accountInterface.js';
 import { IComment } from '../Comment/ commentInterface.js';
 import { IArticle } from '../Article/articleInterface.js';
 import { ISection } from '../Section/sectionInterface.js';
+import { IWatchedArticle } from '../WatchedArticle/watchedArticleInterface.js';
 export interface IProfileBase extends Document {
   accountId?: mongoose.Types.ObjectId | IAccount;
   name: string;
@@ -12,6 +13,7 @@ export interface IProfileBase extends Document {
 
 export interface IReaderProfile extends IProfileBase {
   comments: mongoose.Types.ObjectId[];
+  watchedArticles: IWatchedArticle[];
 }
 export interface IReporterProfile extends IProfileBase {
   reportArticles: mongoose.Types.ObjectId[];

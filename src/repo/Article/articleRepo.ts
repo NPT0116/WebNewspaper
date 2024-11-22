@@ -1,4 +1,5 @@
-import { IArticleBasicInfo, IReporterArticleDetailInfo } from '~/interfaces/Article/articleInterface.js';
+import { IAuthor, IReporterArticleDetailInfo } from '~/interfaces/Article/articleInterface.js';
+import { ISection } from '~/interfaces/Section/sectionInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
