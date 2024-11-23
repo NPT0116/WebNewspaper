@@ -13,7 +13,6 @@ export const getHotNews = async () => {
     console.log("Can't find tag hot news");
     return null;
   }
-  console.log(mongoose.modelNames());
 
   const hotNews = await Article.find({
     status: 'published',

@@ -1,5 +1,5 @@
 <div id="categories" class="font-serif sticky top-24 bg-white z-10 transition-all duration-300 transform origin-top ease-header-ease">
-  <div class="hidden xl:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full">
+  <div class="hidden lg:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full">
     <% sections.forEach((section) => {%>
     <div
       id="section-container"
@@ -24,10 +24,10 @@
   </div>
 
   <!-- Dropdown for xs and sm screens -->
-  <div class="xl:hidden px-2 py-2">
-    <select class="w-full border border-black rounded p-2">
+  <div class="lg:hidden px-2 py-2">
+    <select class="w-full border border-black rounded p-2" onchange="location=this.value">
       <% sections.forEach((section) => {%>
-      <option value=""><%=section.name%></option>
+      <option value="section/<%=section.slug%>"><%=section.name%></option>
       <%}) %>
     </select>
   </div>

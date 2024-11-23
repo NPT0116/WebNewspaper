@@ -49,10 +49,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 
     // res.status(201).json({ message: 'User registered successfully' });
 
-    req.login(savedAccount, (err) => {
-      if (err) return next(err);
-      res.redirect('/');
-    });
+    res.redirect('/login');
   } catch (error) {
     console.log(error);
 
@@ -74,7 +71,7 @@ export const logoutUser = (req: Request, res: Response) => {
       return res.status(500).json({ message: 'Logout failed' });
     }
     res.clearCookie('connect.sid');
-    res.status(200).json({ message: 'Logout successful' });
+    res.redirect('/login');
   });
 };
 

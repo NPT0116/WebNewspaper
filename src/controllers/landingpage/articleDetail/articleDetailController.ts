@@ -132,11 +132,6 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       profile = await getProfile(req.user._id);
     }
 
-    console.log({
-      ...article.toObject(),
-      comments: commentWithNames,
-      relatedArticle
-    });
     // res.json({
     //   ...article.toObject(),
     //   comments: commentWithNames,

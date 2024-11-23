@@ -13,8 +13,11 @@ export const getProfile = async (accountId: mongoose.Types.ObjectId) => {
   try {
     const account = await Account.findById(accountId).populate<{ profileId: IProfile }>('profileId', 'name');
     return {
+      email: account?.email,
+      isSubscriber: account?.isSubscriber,
       profileId: account?.profileId.id,
-      profileName: account?.profileId.name
+      profileName: account?.profileId.name,
+      role: account?.role
     };
   } catch (e) {
     return null;

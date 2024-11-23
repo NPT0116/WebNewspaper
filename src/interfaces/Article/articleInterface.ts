@@ -88,4 +88,5 @@ export interface IArticleCard {
   tags: ITag[];
   author: IAuthor;
   images: string[];
+  publishedAt?: Date;
 }

@@ -9,67 +9,37 @@ import { NextFunction, Request, Response } from 'express';
 import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { getIO } from '~/config/socket.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-
-export const getCommentsByArticleSlug = async (articleSlug: string): Promise<ICommentResponse[]> => {
-  const article = await Article.findOne({ slug: articleSlug });
-
-  if (!article) {
-    throw new AppError('Article not found', 404, []);
-  }
-
-  const comments: IComment[] = await Comment.find({ article: article._id })
-    .populate({
-      path: 'account',
-      populate: {
-        path: 'profileId',
-        select: 'name'
-      }
-    })
-    .select('content createdAt');
-
-  const formattedComments: ICommentResponse[] = comments.map((comment) => {
-    const account = comment.account as any;
-    const profile = account?.profileId as any;
-
-    return {
-      commenterName: profile?.name || 'Unknown',
-      content: comment.content,
-      createdAt: comment.createdAt
-    };
-  });
-
-  return formattedComments;
-};
-
+import { articleDetailPage } from '~/utils/pages/page.js';
 interface saveCommentRequest {
   content: string;
 }
 interface saveCommentParams {
   articleSlug: string;
+  sectionSlug: string;
 }
 
 export const saveComment = async (req: Request<saveCommentParams, {}, saveCommentRequest>, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { articleSlug } = req.params;
+    const { articleSlug, sectionSlug } = req.params;
     const { content } = req.body;
 
     if (!content || content.trim() == '') {
-      next(new AppError("content can't be blanked", 404));
+      res.redirect(`/section/${sectionSlug}/article/${articleSlug}`);
       return;
     }
     const article = await Article.findOne({ slug: articleSlug });
     if (!article) {
-      next(new AppError('Article not found', 404));
+      res.redirect(`/section/${sectionSlug}/article/${articleSlug}`);
       return;
     }
     if (!req.user || !req.isAuthenticated()) {
-      next(new AppError('User not authorize or not found', 401));
+      res.redirect(`/section/${sectionSlug}/article/${articleSlug}`);
       return;
     }
 
     const readerProfile = await ReaderProfile.findOne({ accountId: req.user._id });
     if (!readerProfile) {
-      next(new AppError('Reader profile not found for this user', 404));
+      res.redirect(`/section/${sectionSlug}/article/${articleSlug}`);
       return;
     }
     const newComment = new Comment({
@@ -79,16 +49,29 @@ export const saveComment = async (req: Request<saveCommentParams, {}, saveCommen
       createdAt: new Date(),
       updatedAt: new Date()
     });
+
     const savedComment = await newComment.save();
+    article.comments.push(savedComment._id);
+    await article.save();
     const io = getIO();
     io.to(articleSlug).emit('newComment', {
-      content,
-      account: { name: readerProfile.name }, // Hiển thị tên người dùng
-      createdAt: newComment.createdAt
+      content: savedComment.content,
+      account: { name: readerProfile.name },
+      createdAt: savedComment.createdAt
     });
+    console.log('Emitting newComment:', {
+      content: savedComment.content,
+      account: { name: readerProfile.name },
+      createdAt: savedComment.createdAt
+    });
+
     res.status(201).json({
       status: 'success',
-      data: savedComment
+      data: {
+        content,
+        account: { name: readerProfile.name },
+        createdAt: newComment.createdAt
+      }
     });
   } catch (e) {
     next(new AppError("can't save comment.", 500));
