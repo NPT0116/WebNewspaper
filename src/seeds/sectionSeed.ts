@@ -9,13 +9,15 @@ export const seedSections = async () => {
 
     // Tạo danh sách main sections
     const mainSections = [
-      { name: 'News', parentSection: null, slug: '' },
+      // { name: 'News', parentSection: null, slug: '' },
       { name: 'Sports', parentSection: null, slug: '' },
       { name: 'Technology', parentSection: null, slug: '' },
-      { name: 'World News', parentSection: null, slug: '' },
       { name: 'Politics', parentSection: null, slug: '' },
+      { name: 'Entertainment', parentSection: null, slug: '' },
       { name: 'Health', parentSection: null, slug: '' },
-      { name: 'Economy', parentSection: null, slug: '' }
+      { name: 'Economy', parentSection: null, slug: '' },
+      { name: 'Life', parentSection: null, slug: '' },
+      { name: 'Education', parentSection: null, slug: '' }
     ];
 
     // Generate slugs for main sections
@@ -29,14 +31,21 @@ export const seedSections = async () => {
     const sports = insertedMainSections.find((s) => s.name === 'Sports')?._id;
     const politics = insertedMainSections.find((s) => s.name === 'Politics')?._id;
     const economy = insertedMainSections.find((s) => s.name === 'Economy')?._id;
+    const entertainment = insertedMainSections.find((s) => s.name === 'Entertainment')?._id;
+    const life = insertedMainSections.find((s) => s.name === 'Life')?._id;
 
     // Tạo danh sách child sections
     const childSections = [
       { name: 'Football', parentSection: sports, slug: '' },
       { name: 'Basketball', parentSection: sports, slug: '' },
+      { name: 'Tennis', parentSection: sports, slug: '' },
       { name: 'Elections', parentSection: politics, slug: '' },
-      { name: 'Government Policies', parentSection: politics, slug: '' },
-      { name: 'Stock Market', parentSection: economy, slug: '' }
+      { name: 'Stock Market', parentSection: economy, slug: '' },
+      { name: 'Music', parentSection: entertainment, slug: '' },
+      { name: 'Film', parentSection: entertainment, slug: '' },
+      { name: 'Cars', parentSection: life, slug: '' },
+      { name: 'Food', parentSection: life, slug: '' },
+      { name: 'Book', parentSection: life, slug: '' }
     ];
 
     // Generate slugs for child sections

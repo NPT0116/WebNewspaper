@@ -10,7 +10,7 @@
 
   <div id="header-navbar" class="hidden lg:absolute lg:right-0 w-2/6 lg:flex flex-row justify-evenly items-center">
     <% if (profile) { %>
-    <span class="text-sm xl:text-lg"><%= profile.profileName %></span>
+    <a href="/profile"><span class="text-sm xl:text-lg"><%= profile.profileName %></span></a>
     <% } else { %>
     <a class="text-sm xl:text-lg hover:underline" href="/login">Login</a>
     <a class="text-sm xl:text-lg hover:underline" href="/register">Register</a>

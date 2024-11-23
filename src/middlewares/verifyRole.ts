@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const verifyRole = (allowedRoles: string[]) => {
-  return (req: any, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user; // TypeScript giờ đây nhận biết req.user là kiểu IAccount
     if (!user) {
       // Chuyển hướng hoặc render trang Unauthorized

@@ -7,7 +7,7 @@
     <title>Search</title>
   </head>
   <body>
-    <header><%- include('../partials/Header.ejs') %></header>
+    <header><%- include('../partials/Header.ejs', {sections: sectionTree}) %></header>
     <main><%- include(body) %></main>
     <footer><%- include('../partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></footer>
     <script>
