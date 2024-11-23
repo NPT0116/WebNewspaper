@@ -17,7 +17,7 @@ import './models/index.js';
 import flash from 'connect-flash';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
-import sectionRoutes from './routes/sectionRouter.js';
+import sectionRoutes from './routes/landingpage/sectionRouter/sectionRouter.js';
 dotenv.config();
 
 const app = express();

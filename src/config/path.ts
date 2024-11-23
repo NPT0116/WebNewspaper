@@ -3,7 +3,9 @@ export const PATH = {
   LANDINGPAGE: {
     SEARCH_PAGE: '/search-page',
     SECTION: '/section/:sectionSlug',
-    ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug'
+    ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug',
+    PROFILE: '/profile',
+    WATCHED_ARTICLE: '/profile/watched-articles'
   },
   DASHBOARD: {
     PATH: '/dashboard',
