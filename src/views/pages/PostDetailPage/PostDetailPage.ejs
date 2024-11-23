@@ -16,7 +16,7 @@
       <div class="w-11/12 text-justify flex justify-center items-center flex-col">
         <div id="article-content" class="font-dancing text-xl text-justify" style="width: 60%"><%=content%></div>
         <hr />
-        <div class="mt-8" style="width: 80%"><%- include('CommentList', { comments: comments }) %></div>
+        <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments }) %></div>
       </div>
     </div>
 
