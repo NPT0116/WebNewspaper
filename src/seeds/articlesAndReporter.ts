@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
@@ -6,6 +7,7 @@ import { Account } from '~/models/Account/accountSchema.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
+import db from '~/config/db.js';
 
 // Hàm tạo slug từ tiêu đề
 const generateSlug = (title: string): string => {
@@ -21,6 +23,13 @@ export const seedArticlesWithReporterAndEditor = async () => {
     // Xóa dữ liệu cũ
     await Article.deleteMany({});
     console.log('Old articles cleared.');
+
+    const MONGO_URI = process.env.MONGO_URI || '';
+    const client = new MongoClient(MONGO_URI);
+    await client.connect();
+    const db = client.db('newspaper');
+    await db.collection('articles').createIndex({ title: 'text', description: 'text', content: 'text' });
+    console.log('Text index created on `title`, `description` and `content` fields.');
 
     // Tạo tài khoản và profile cho Reporter
     const reporterAccount = new Account({
@@ -569,6 +578,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
 
     // Chèn bài viết vào database
     const insertedArticles = await Article.insertMany(articleData);
+    await db.collection('articles').createIndex({ title: 'text', content: 'text' });
 
     // Cập nhật bài viết vào ReporterProfile
     reporterProfile.reportArticles = insertedArticles.map((article) => article._id) as mongoose.Types.ObjectId[];

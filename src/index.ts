@@ -17,7 +17,7 @@ import './models/index.js';
 import flash from 'connect-flash';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
-import sectionRoutes from './routes/landingpage/sectionRouter/sectionRouter.js';
+import { attAccountToView } from './middlewares/authMiddleware.js';
 dotenv.config();
 
 const app = express();
@@ -59,6 +59,7 @@ app.use(
 
 app.use(passport.session());
 const io = configureSocketIO(server);
+app.use(attAccountToView);
 app.use('/uploads', express.static('uploads'));
 
 app.use(router);

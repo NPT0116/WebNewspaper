@@ -1,9 +1,7 @@
-import { IAuthor, IReporterArticleDetailInfo } from '~/interfaces/Article/articleInterface.js';
-import { ISection } from '~/interfaces/Section/sectionInterface.js';
+import { IArticleBasicInfo, IArticleCard, IAuthor, IReporterArticleDetailInfo, ISection } from '~/interfaces/Article/articleInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { Tag } from '~/models/Tag/tagSchema.js';
 import { AppError } from '~/utils/appError.js';
 
 export const reporterGetArticleById = async (articleId: string, reporterProfileId: string): Promise<IReporterArticleDetailInfo> => {
@@ -94,6 +92,48 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
 
 export const getAllArticles = async () => {
   return await Article.find({});
+};
+
+export const getListArticleInfoCards = async (query: any, skip: number, limit: number): Promise<IArticleCard[]> => {
+  try {
+    const articles = await Article.find(query)
+      .skip(skip)
+      .limit(limit)
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
+      .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags
+      .populate<{ author: IAuthor }>('author', 'name') // Strict typing for author
+      .exec();
+
+    const formattedArticle: IArticleCard[] = articles.map((article) => {
+      return {
+        slug: article.slug,
+        title: article.title,
+        description: article.description,
+        sectionId: article.sectionId,
+        tags: article.tags,
+        author: article.author,
+        images: article.images,
+        publishedAt: article.publishedAt
+      };
+    });
+
+    return formattedArticle;
+  } catch (error) {
+    throw new AppError('Error get articles', 404);
+  }
+};
+
+export const countArticles = async (query: any): Promise<number> => {
+  try {
+    const articlesCount = await Article.countDocuments(query);
+    if (!articlesCount) {
+      return 0;
+    }
+
+    return articlesCount;
+  } catch (error) {
+    throw new AppError('Error get articles count', 404);
+  }
 };
 
 export const findRootSectionBySlug = async (sectionSlug: string) => {

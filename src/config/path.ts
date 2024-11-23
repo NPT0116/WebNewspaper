@@ -5,7 +5,8 @@ export const PATH = {
     SECTION: '/section/:sectionSlug',
     ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug',
     PROFILE: '/profile',
-    WATCHED_ARTICLE: '/profile/watched-articles'
+    WATCHED_ARTICLE: '/profile/watched-articles',
+    SAVE_COMMENT: '/section/:sectionSlug/article/:articleSlug/save-comment'
   },
   DASHBOARD: {
     PATH: '/dashboard',

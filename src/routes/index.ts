@@ -8,6 +8,8 @@ import uploadRouter from './uploadRouter.js';
 import dashboardRouter from './Dashboard/dashboardRouter.js';
 import sectionRouter from './landingpage/sectionRouter/sectionRouter.js';
 import profileRouter from './landingpage/profile/profileRouter.js';
+import searchPageRouter from './SearchPage/searchPageRouter.js';
+import { verifyRole } from '~/middlewares/verifyRole.js';
 const router = express.Router();
 
 router.use(PATH.HOME, accountRouter);
@@ -17,8 +19,9 @@ router.use(PATH.HOME, landingRouter);
 router.use(PATH.HOME, detailArticleRouter);
 router.use(PATH.HOME, sectionRouter);
 router.use(PATH.HOME, profileRouter);
+router.use(PATH.HOME, searchPageRouter);
 // All dashboard router here
-router.use(PATH.DASHBOARD.PATH, dashboardRouter);
+router.use(PATH.DASHBOARD.PATH, verifyRole(['admin', 'reporter', 'editor']), dashboardRouter);
 
 // upload image router for write article
 router.use('/api', uploadRouter);
@@ -26,4 +29,5 @@ router.use('/api', uploadRouter);
 router.use(PATH.HOME, commentRouterTest);
 
 router.use(dashboardRouter);
+
 export default router;

@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 
 import { Article } from '~/models/Article/articleSchema.js';
-import { getCommentsByArticleSlug } from '~/repo/comment/commentRepo.js';
 
 const commentRouterTest = express.Router();
 

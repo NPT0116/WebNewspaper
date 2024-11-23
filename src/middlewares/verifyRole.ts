@@ -4,12 +4,12 @@ export const verifyRole = (allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user; // TypeScript giờ đây nhận biết req.user là kiểu IAccount
     if (!user) {
-      res.status(401).json({ message: 'Unauthorized' });
-      return;
+      // Chuyển hướng hoặc render trang Unauthorized
+      return res.status(401).render('pages/Forbiddenpage/forbiddenPage', { message: 'Unauthorized' });
     }
     if (!allowedRoles.includes(user.role)) {
-      res.status(403).json({ message: 'Forbidden' });
-      return;
+      // Chuyển hướng hoặc render trang Forbidden
+      return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
     }
     next();
   };
