@@ -22,7 +22,7 @@ export const getReaderProfile = async (req: Request, res: Response, next: NextFu
     res.render('pages/LandingPage/ProfilePage', {
       sections: sections,
       data: data,
-      profile: readerProfile,
+      readerProfile: readerProfile,
       account: readerAccount
     });
   } catch (error) {

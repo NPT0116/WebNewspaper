@@ -41,18 +41,20 @@
             </div>
           </a>
           <hr />
-          <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-                />
-              </svg>
+          <a href="/logout">
+            <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                  />
+                </svg>
+              </div>
+              <div>Log Out</div>
             </div>
-            <div>Log Out</div>
-          </div>
+          </a>
         </div>
 
         <div class="w-[100%] md:w-[60%]">
@@ -66,7 +68,7 @@
             </div>
             <div class="text-[14px] font-medium">
               <div class="text-[#888888]">DISPLAY NAME</div>
-              <div class="text-[#0879BF]"><%=profile.name%></div>
+              <div class="text-[#0879BF]"><%=readerProfile.name%></div>
             </div>
           </div>
           <div class="font-bold text-[30px] mt-[70px] mb-[25px]">MANAGE ACCOUNT</div>
@@ -116,7 +118,7 @@
               </div>
               <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
                 <div class="text-[#8F918F] text-[14px] font-medium">FULL NAME</div>
-                <div><%= profile.name %></div>
+                <div><%= readerProfile.name %></div>
               </div>
             </div>
             <div class="flex space-x-[27px] w-full mb-4">
@@ -132,7 +134,7 @@
               <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
                 <div class="text-[#8F918F] text-[14px] font-medium">DATE OF BIRTH</div>
                 <div>
-                  <%= (() => { const dob = new Date(profile.dob); const month = String(dob.getMonth() + 1).padStart(2, '0'); const day = String(dob.getDate()).padStart(2, '0'); const year =
+                  <%= (() => { const dob = new Date(readerProfile.dob); const month = String(dob.getMonth() + 1).padStart(2, '0'); const day = String(dob.getDate()).padStart(2, '0'); const year =
                   dob.getFullYear(); return `${month}/${day}/${year}`; })() %>
                 </div>
               </div>
@@ -150,7 +152,7 @@
               <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
                 <div class="text-[#8F918F] text-[14px] font-medium">GENDER</div>
                 <div>
-                  <%= profile.gender %>
+                  <%= readerProfile.gender %>
                 </div>
               </div>
             </div>
