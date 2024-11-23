@@ -13,8 +13,11 @@ export const getProfile = async (accountId: mongoose.Types.ObjectId) => {
   try {
     const account = await Account.findById(accountId).populate<{ profileId: IProfile }>('profileId', 'name');
     return {
+      email: account?.email,
+      isSubscriber: account?.isSubscriber,
       profileId: account?.profileId.id,
-      profileName: account?.profileId.name
+      profileName: account?.profileId.name,
+      role: account?.role
     };
   } catch (e) {
     return null;
@@ -25,16 +28,11 @@ export const getLandingPage = async (req: Request, res: Response, next: NextFunc
   try {
     const data = await getLandingPageData();
     const sections = await getSectionTree();
-    let profile = null;
-    if (req.isAuthenticated()) {
-      profile = await getProfile(req.user._id);
-    }
     // res.json(data);
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
       sections,
-      data,
-      profile
+      data
     });
   } catch (error) {
     console.error(error);
