@@ -1211,6 +1211,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         sectionId: getSectionId('Tennis'),
         tags: getTagIds(['Roger Federer', 'Tennis', 'Sports']),
         ' author': reporterProfile3._id,
+        author: reporterProfile2._id,
         editor: getEditorForSection(getSectionId('Tennis')),
         slug: generateSlug('Roger Federer: A Tennis Legend'),
         status: 'published',
