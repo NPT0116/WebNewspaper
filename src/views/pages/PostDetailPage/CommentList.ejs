@@ -6,29 +6,47 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="border p-5 rounded-lg">
-      <h1 class="text-2xl font-bold">Comments (<%=comments.length%>)</h1>
+    <div class="border-2 p-5 rounded-lg">
+      <div id="comment-header" class="flex flex-row justify-between items-center">
+        <h1 class="text-2xl font-bold">Comments (<%=comments.length%>)</h1>
+        <%if (profile) {%>
+        <%} else {%>
+        <div id="comment-guest-nav">
+          <a href="/login" class="text-blue-500 font-bold hover:text-blue-700 cursor-pointer">Login</a>
+          |
+          <a href="/register" class="text-blue-500 font-bold hover:text-blue-700 cursor-pointer">Register</a>
+          To send comment
+        </div>
+        <%} %>
+      </div>
+
       <div class="mt-8 w-full">
-        <div class="flex flex-col space-y-2">
-          <label for="message" class="text-gray-700 font-medium">Your Message</label>
-          <form id="comment-form" action="/section/<%= sectionSlug %>/article/<%= articleSlug %>/save-comment" method="POST" class="w-full">
+        <div class="flex flex-col space-y-2" style="padding-bottom: 30px; border-bottom: 2px solid black">
+          <form id="comment-form" action="/section/<%= sectionSlug %>/article/<%= articleSlug %>/save-comment" method="POST" class="w-full" <%=profile ? '' : 'disabled' %>>
             <textarea
               id="message"
               name="content"
-              placeholder="Write something..."
+              placeholder="What do you think about this article ?"
               rows="4"
               required
-              class="px-4 py-2 overflow-y-hidden bg-gray-100 border border-gray-300 rounded-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out auto-expand"
+              class="w-full px-4 py-2 overflow-y-hidden bg-gray-200 rounded-lg shadow-sm resize-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition duration-200 ease-in-out auto-expand"
+              <%=profile ? '' : 'disabled' %>
             ></textarea>
+
             <div class="flex justify-between">
+              <button type="submit" class="rounded-lg <%=profile ? 'bg-gray-900 hover:bg-gray-500' : 'bg-gray-500' %>   px-4 py-2 text-white font-bold transition-all duration-200" <%=profile ? '' : 'disabled' %>>Submit your comment</button>
               <small id="text-count" class="text-gray-500"></small>
-              <button type="submit" class="rounded-lg bg-blue-400 px-4 py-2 text-white font-bold hover:bg-blue-500 hover:shadow-lg transition-all duration-200">Submit your comment</button>
             </div>
           </form>
         </div>
-        <%comments.forEach((comment) => {%>
-        <div class="mb-8 w-full"><%- include('../../components/Comment/Comment', {comment: comment}) %></div>
+      </div>
+      <div id="commentList" class="mt-20" style="margin-top: 30px">
+        <% if (comments.length) {%> <%comments.forEach((comment) => {%>
+        <div class="w-full"><%- include('../../components/Comment/Comment', {comment: comment}) %></div>
         <%})%>
+        <%} else {%>
+        <div id="message-no-comment" class="w-full flex justify-center items-center font-serif text-xl">There are currently no comments, be the first to comment on the post!</div>
+        <%} %>
       </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
@@ -40,26 +58,26 @@
       socket.emit('joinArticleRoom', articleSlug);
       socket.on('newComment', (comment) => {
         console.log('Received new comment:', comment); // Debug
+        document.querySelector('#message-no-comment').textContent = '';
 
         // Find the comment input block
         const commentInputBlock = document.querySelector('.flex.flex-col.space-y-2');
         if (commentInputBlock) {
           // Create the new comment HTML
           const newCommentHTML = `
-      <div class="mb-8 w-full">
-        <div class="flex flex-row w-full shadow-lg rounded-lg p-2 cursor-pointer hover:bg-gray-100">
-          <div class="rounded-full w-12 h-12">
-            <img class="h-full object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAXKkELt_XuteDLQY_HKcilbvgT3LDOm5WkQ&s" alt="Profile" />
-          </div>
-          <div class="ml-4 w-full">
-            <div class="font-bold text-sm font-sans hover:text-red-500 transition-colors duration-300 hover:scale-105 transform">
-              ${comment.account?.name || 'Unknown commenter'}
+          <div class="flex flex-row w-full p-2 my-10 cursor-pointer hover:bg-gray-100">
+            <div class="rounded-full w-12 h-12">
+              <img class="h-full object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAXKkELt_XuteDLQY_HKcilbvgT3LDOm5WkQ&s" alt="Profile" />
             </div>
-            <div class="mt-4 w-full font-serif">${comment.content || 'No content'}</div>
+            <div class="ml-4 w-full">
+              <div class="font-bold text-sm font-sans hover:text-red-500 transition-colors duration-300">
+                ${comment.account?.name || 'Unknown commenter'}
+              </div>
+              <div class="mt-4 w-full font-serif">${comment.content || 'No content'}</div>
+            </div>
           </div>
-        </div>
-      </div>
-    `;
+          <hr />
+      `;
 
           // Insert the new comment directly after the input block
           commentInputBlock.insertAdjacentHTML('afterend', newCommentHTML);
@@ -86,7 +104,6 @@
         textCount.innerHTML = `${value.length} / 500 words`;
       });
       // Kết nối Socket.IO
-
       // Lắng nghe sự kiện newComment
       // Xử lý gửi form bằng AJAX
       const commentForm = document.getElementById('comment-form');
@@ -115,8 +132,5 @@
         }
       });
     </script>
-
-    <!-- Kết nối Socket.IO -->
-    <!-- <script src="/js/comment.js"></script> -->
   </body>
 </html>

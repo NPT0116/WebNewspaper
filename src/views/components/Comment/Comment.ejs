@@ -1,12 +1,11 @@
-<div class="flex flex-row w-full shadow-lg rounded-lg p-2 cursor-pointer hover:bg-gray-100">
+<div class="flex flex-row w-full p-2 my-10 cursor-pointer hover:bg-gray-100">
   <div class="rounded-full w-12 h-12">
     <img class="h-full object-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAXKkELt_XuteDLQY_HKcilbvgT3LDOm5WkQ&s" alt="Profile" />
   </div>
   <div class="ml-4 w-full">
-    <div class="font-bold text-sm font-sans hover:text-red-500 transition-colors duration-300 hover:scale-105 transform">
-      <%= comment && comment.commenterName ? comment.commenterName : 'Unknown commenter'%>
-    </div>
+    <div class="font-bold text-sm font-sans hover:text-red-500 transition-colors duration-300"><%= comment && comment.commenterName ? comment.commenterName : 'Unknown commenter'%></div>
     <!-- <div class="text-sm text-gray-400">27 minutes ago</div> -->
     <div class="mt-4 w-full font-serif"><%= comment && comment.content ? comment.content : 'No content'%></div>
   </div>
 </div>
+<hr />
