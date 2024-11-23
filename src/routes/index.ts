@@ -6,6 +6,7 @@ import commentRouterTest from './test Comment/detailPost.js';
 import detailArticleRouter from './landingpage/articleDetail/detailArticleRouter.js';
 import uploadRouter from './uploadRouter.js';
 import dashboardRouter from './Dashboard/dashboardRouter.js';
+import searchPageRouter from './SearchPage/searchPageRouter.js';
 import sectionRouter from './sectionRouter.js';
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.use(PATH.HOME, accountRouter);
 // landing page router
 router.use(PATH.HOME, landingRouter);
 router.use(PATH.HOME, detailArticleRouter);
+router.use(PATH.HOME, searchPageRouter);
 // All dashboard router here
 router.use(PATH.DASHBOARD.PATH, dashboardRouter);
 
