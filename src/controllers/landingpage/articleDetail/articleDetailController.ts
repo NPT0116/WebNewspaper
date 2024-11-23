@@ -5,6 +5,9 @@ import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
+import { getSectionTree } from '~/repo/Section/index.js';
+import { getProfile } from '../landingpageController.js';
+
 export const relatedArticleFunc = async (sectionSlug: string) => {
   try {
     const section = await Section.findOne({ slug: sectionSlug });
@@ -92,6 +95,7 @@ interface IArtcileDetailLandingpageResponse {
 export const renderArticleDetail = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
   try {
     const { sectionSlug, articleSlug } = req.params;
+    const sections = await getSectionTree();
 
     const article = await Article.findOne({ slug: articleSlug })
       .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
@@ -123,16 +127,29 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       relatedArticle = [];
     }
 
+    let profile = null;
+    if (req.isAuthenticated()) {
+      profile = await getProfile(req.user._id);
+    }
+
     console.log({
       ...article.toObject(),
       comments: commentWithNames,
       relatedArticle
     });
+    // res.json({
+    //   ...article.toObject(),
+    //   comments: commentWithNames,
+    //   relatedArticle,
+    //   sections
+    // });
 
     res.render('pages/PostDetailPage/PostDetailPage', {
       ...article.toObject(),
       comments: commentWithNames,
-      relatedArticle
+      relatedArticle,
+      sections,
+      profile
     });
   } catch (e) {
     next(new AppError("can't get detail article", 500));
