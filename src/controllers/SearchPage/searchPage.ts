@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
-import { ISectionBasicInfo } from '~/interfaces/Section/sectionInterface.js';
+import { ISectionBasicInfo, ISectionTree } from '~/interfaces/Section/sectionInterface.js';
 import { countArticles, getListArticleInfoCards } from '~/repo/Article/articleRepo.js';
-import { getAllSections } from '~/repo/Section/index.js';
+import { getAllSections, getSectionTree } from '~/repo/Section/index.js';
 import { AppError } from '~/utils/appError.js';
 
 interface ISearchPageRequestQuery {
@@ -20,6 +20,7 @@ interface ISearchPageData {
   searchValue: string;
   selectedSections: string[];
   articles: IArticleCard[];
+  sectionTree: ISectionTree | null;
   pagination: {
     pageSize: number;
     currentPageNumber: number;
@@ -38,6 +39,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
     const allSections = await getAllSections();
+    const sectionTree = await getSectionTree();
 
     const currentPageNumber = pageNumber ? parseInt(pageNumber as unknown as string, 10) : 1;
     const size = pageSize ? parseInt(pageSize as unknown as string, 10) : 10;
@@ -94,6 +96,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       searchValue,
       selectedSections,
       articles,
+      sectionTree,
       pagination: {
         pageSize: size,
         currentPageNumber,

@@ -59,7 +59,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 
 // Đăng nhập người dùng
 export const loginUser = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('local', (err: any, user: any, info) => {
+  passport.authenticate('local', (err: any, user: any, info: any) => {
     if (err) {
       return next(err); // Handle any errors during authentication
     }
