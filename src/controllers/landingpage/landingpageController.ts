@@ -29,13 +29,18 @@ export const getLandingPage = async (req: Request, res: Response, next: NextFunc
     if (req.isAuthenticated()) {
       profile = await getProfile(req.user._id);
     }
-    // res.json(data);
     res.render('layouts/LandingPageLayout/LandingPageLayout', {
       body: '../../pages/LandingPage/LandingPage',
       sections,
       data,
       profile
     });
+    // res.json({
+    //   body: '../../pages/LandingPage/LandingPage',
+    //   sections,
+    //   data,
+    //   profile
+    // });
   } catch (error) {
     console.error(error);
     next(new AppError('Error fetching landing page data.', 500));

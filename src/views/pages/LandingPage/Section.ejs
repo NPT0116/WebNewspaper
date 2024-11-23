@@ -2,7 +2,9 @@
   <div class="text-center py-4 font-bold font-serif text-4xl"><%= title %></div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
     <% articles.forEach((article) => { %>
-    <div class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh"><%- include('../../components/Newspaper/NewspaperCard', { article: article, section: article.section }) %></div>
+    <div id="card-section4" class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh">
+      <%- include('../../components/Newspaper/NewspaperCard', { article: article, section: article.section }) %>
+    </div>
     <% }) %>
   </div>
 </div>
