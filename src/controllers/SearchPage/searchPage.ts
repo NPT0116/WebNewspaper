@@ -50,24 +50,15 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     let query: any = { status: 'published' };
 
-    if (typeof searchValue === 'string') {
-      const searchTokens = searchValue.split(/\s+/); // Split by spaces
+    if (searchValue) {
       query = {
         ...query,
-        $or: searchTokens.map((token) => ({
-          $or: [{ title: { $regex: token, $options: 'i' } }, { content: { $regex: token, $options: 'i' } }]
-        }))
+        $or: [
+          { title: { $regex: `\\b${searchValue}\\b`, $options: 'i' } },
+          { content: { $regex: `\\b${searchValue}\\b`, $options: 'i' } },
+          { description: { $regex: `\\b${searchValue}\\b`, $options: 'i' } }
+        ]
       };
-    } else if (Array.isArray(searchValue)) {
-      const searchTokens = (searchValue as string[]).join(' ').split(/\s+/); // Join array elements and split
-      query = {
-        ...query,
-        $or: searchTokens.map((token: any) => ({
-          $or: [{ title: { $regex: token, $options: 'i' } }, { content: { $regex: token, $options: 'i' } }]
-        }))
-      };
-    } else {
-      console.log('Invalid search value');
     }
 
     if (selectedSections.length > 0 && selectedSections[0] !== 'Any') {
