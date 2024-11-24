@@ -5,7 +5,7 @@
     <div>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         <% articles.forEach((article) => { %>
-          <div class="p-4 bg-white shadow-lg rounded-lg" style="height: 75vh"><%- include('../../components/Newspaper/NewspaperCard', { article: article, section: article.sectionId })%></div>
+        <div class="p-4 bg-white shadow-lg rounded-lg" style="height: 75vh"><%- include('../../components/Newspaper/NewspaperCard', { article: article, section: article.sectionId })%></div>
         <% })%>
       </div>
     </div>

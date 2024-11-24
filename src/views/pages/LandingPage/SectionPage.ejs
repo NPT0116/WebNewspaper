@@ -11,14 +11,18 @@
       <div><%- include('../../layouts/partials/HeaderTitle', { profile: profile }) %></div>
       <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
     </div>
-
     <div class="flex justify-center items-center flex-col">
       <div class="">
         <h1 class="text-center text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
       </div>
-      <div id="section-article-container" class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 20px"><%- include('../../components/Article/ArticleCard.ejs') %></div>
+      <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 20px">
+        <% articles.forEach(article => { %>
+        <%- include('../../components/Article/ArticleCard.ejs',{ article: article}) %>
+        <% }) %>
+      </div>
     </div>
-
-    <div id="layout" class=""><%- include('../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
+    <div style="padding-top: 20px"><%- include('../../components/Pagination/Pagination.ejs', { pagination, section }) %></div>
+    <%- include('../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%>
+    <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
 </html>

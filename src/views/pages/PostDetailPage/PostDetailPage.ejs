@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <title>Document</title>
+    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <title><%= title %></title>
   </head>
+
   <body>
     <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
     <div class="h-screen"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
@@ -23,6 +25,7 @@
     <%- include('ReadMore', { articles: relatedArticle }) %>
 
     <div><%- include('../../layouts/partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
+    <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
 </html>
 

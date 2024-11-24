@@ -17,7 +17,6 @@ import './models/index.js';
 import flash from 'connect-flash';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
-import sectionRoutes from './routes/sectionRouter.js';
 import { attAccountToView } from './middlewares/authMiddleware.js';
 dotenv.config();
 

@@ -99,7 +99,8 @@ export const articleQuery = async (req: Request<{}, {}, {}, ArticleQuery>, res: 
         name: article.author.name,
         _id: article.author._id
       },
-      images: article.images
+      images: article.images,
+      isSubscribed: article.isSubscribed
     }));
 
     res.json({
@@ -160,7 +161,8 @@ export const getArticleByStatus = async (req: Request<{}, {}, {}, GetArticleBySt
         name: article.author.name,
         _id: article.author._id
       },
-      images: article.images
+      images: article.images,
+      isSubscribed: article.isSubscribed
     }));
 
     const totalArticles = await Article.countDocuments(query);
@@ -236,7 +238,8 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
         name: article.author.name,
         _id: article.author._id
       },
-      images: article.images
+      images: article.images,
+      isSubscribed: article.isSubscribed
     }));
 
     // Fetch additional data
@@ -244,6 +247,18 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
     const data = await getLandingPageData();
 
     // Render view
+    // res.json({
+    //   data: data,
+    //   section: rootSection,
+    //   articles: response,
+    //   sections: sections,
+    //   pagination: {
+    //     totalItems: totalArticles,
+    //     totalPages: totalPages,
+    //     currentPage: pageNum,
+    //     pageSize: size
+    //   }
+    // });
     res.render('pages/LandingPage/SectionPage', {
       data: data,
       section: rootSection,
@@ -256,6 +271,18 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
         pageSize: size
       }
     });
+    // res.json({
+    //   data: data,
+    //   section: rootSection,
+    //   articles: response,
+    //   sections: sections,
+    //   pagination: {
+    //     totalItems: totalArticles,
+    //     totalPages: totalPages,
+    //     currentPage: pageNum,
+    //     pageSize: size
+    //   }
+    // });
   } catch (err) {
     next(new AppError('Internal server error', 500));
   }

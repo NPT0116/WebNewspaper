@@ -22,34 +22,35 @@ export const seedEditors = async () => {
 
     // Tạo editor profile và account cho từng section
     for (const section of sections) {
-      const editorProfile = new EditorProfile({
-        accountId: null, // Sẽ được cập nhật sau khi tạo account
-        section: section.name,
-        name: `${section.name} Editor`,
-        dob: null,
-        gender: 'other',
-        editArticles: []
-      });
+      for (let i = 1; i <= 3; i++) {
+        const editorProfile = new EditorProfile({
+          accountId: null, // Sẽ được cập nhật sau khi tạo account
+          section: section.name,
+          name: `${section.name} Editor ${i}`,
+          dob: new Date(`198${i + 1}-0${i}-${i - 1}5`),
+          gender: i % 2 === 0 ? 'male' : 'female',
+          editArticles: []
+        });
 
-      await editorProfile.save();
+        await editorProfile.save();
 
-      const editorAccount = new Account({
-        email: `${section.name.toLowerCase()}editor@example.com`,
-        role: 'editor',
-        profileType: 'EditorProfile',
-        profileId: editorProfile._id,
-        localAuth: {
-          username: `${section.name.toLowerCase()}EditorAccount`,
-          password: defaultPassword // Mật khẩu mặc định: "123"
-        }
-      });
+        const editorAccount = new Account({
+          email: `${section.name.toLowerCase()}editor${i}@example.com`,
+          role: 'editor',
+          profileType: 'EditorProfile',
+          profileId: editorProfile._id,
+          localAuth: {
+            username: `${section.name.toLowerCase()}EditorAccount${i}`,
+            password: defaultPassword // Mật khẩu mặc định: "123"
+          }
+        });
 
-      await editorAccount.save();
+        await editorAccount.save();
 
-      // Cập nhật accountId trong editorProfile
-      editorProfile.accountId = editorAccount._id;
-      await editorProfile.save();
-
+        // Cập nhật accountId trong editorProfile
+        editorProfile.accountId = editorAccount._id;
+        await editorProfile.save();
+      }
       console.log(`Editor and account created for section: ${section.name}`);
     }
 

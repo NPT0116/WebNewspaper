@@ -35,11 +35,11 @@
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
       <p class="text-center font-dancing text-lg italic">
-        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:text-blue-800"><%= article.description %></a>
+        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="text-gray-700 hover:text-gray-900"><%= article.description %></a>
       </p>
     </div>
 
-    <div id="top-author" class="self-end font-sans italic font-bold">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
   </div>
 </div>
 <% } %>

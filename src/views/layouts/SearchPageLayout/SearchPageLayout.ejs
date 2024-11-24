@@ -7,7 +7,7 @@
     <title>Search</title>
   </head>
   <body>
-    <header><%- include('../partials/Header.ejs') %></header>
+    <div class="sticky top-0 z-50"><%- include('../partials/HeaderTitle.ejs') %> <%- include('../partials/Header.ejs', {sections: sectionTree}) %></div>
     <main><%- include(body) %></main>
     <footer><%- include('../partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></footer>
     <script>
@@ -58,5 +58,6 @@
         });
       });
     </script>
+    <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
 </html>

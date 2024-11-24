@@ -1,24 +1,27 @@
 <div class="flex flex-col jusitfy-between items-center z-0 h-full">
-  <div id="card-image" class="h-1/2 bg-violet-400 transition-all">
-    <a href="/section/<%=section.slug%>/article/<%=article.slug%>">
+  <div id="card-image" class="h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">
+    <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>">
       <img class="h-full w-full object-cover" src="<%=article.images%>" alt="Image of <%= article.description%>" />
     </a>
   </div>
 
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
-    <div id="card-cat" class="absolute bg-red-600 font-serif text-white p-1 pl-2 pr-2 text-sm hover:bg-red-700 transition-all duration-300" style="top: -5%; left: 4%">
-      <a href=""><%= article.section && article.section.name ? article.section.name : "Unknown section" %></a>
+    <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300 <% if (article.isSubscribed) { %>text-red-500<% } %>" style="top: -5%; left: 4%">
+      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : '' %>" class="bg-red-600 p-2">
+        <%= article.section && article.section.name ? article.section.name : "Unknown section" %>
+      </a>
+      <a href="/profile" class="ml-2 text-white font-bold font-serif p-2 <% if (article.isSubscribed) { %> bg-yellow-500 <% } %>"><% if (article.isSubscribed) { %> Subscribe <% } %></a>
     </div>
 
-    <div class="flex justify-start items-start flex-col h-full pt-2">
-      <h1 id="card-title" class="xl:text-xl text-lg flex justify-start items-start font-bold font-serif hover:text-red-500 transition-all duration-300" style="margin-bottom: 10px; margin-top: 10px">
-        <a href="/section/<%=section.slug%>/article/<%=article.slug%>"><%= article.title %> </a>
+    <div class="flex justify-start items-center flex-col h-full pt-4">
+      <h1 id="card-title" class="text-xl flex justify-start items-start font-bold font-serif hover:underline transition-all duration-300" style="margin-bottom: 20px; margin-top: 20px">
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class="<% if (article.isSubscribed) { %> text-red-700 <% } %>"><%= article.title %> </a>
       </h1>
-      <h1 id="card-description" class="xl:text-lg lg:text-sm text-lg h-full flex justify-start items-start italic font-serif hover:text-blue-800 transition-all duration-300">
-        <a href="/section/<%=section.slug%>/article/<%=article.slug%>"><%= article.description %> </a>
+      <h1 id="card-description" class="text-[1rem] h-full flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300">
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class=""><%= article.description %> </a>
       </h1>
       <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic">
-        <a href="" class="hover:text-blue-500">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</a>
+        <a href="" class="text-gray-600 hover:text-gray-800">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</a>
       </div>
     </div>
   </div>

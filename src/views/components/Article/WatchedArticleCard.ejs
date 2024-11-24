@@ -1,0 +1,19 @@
+<a href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>">
+  <div class="flex my-[38px] border-b border-[#E5E5E5] pb-[50px]">
+    <div class="w-[60%] mr-auto">
+      <div class="flex flex-wrap mb-2 space-x-2">
+        <div class="font-bold">Tags:</div>
+        <% article.tags.forEach(tag => { %>
+        <div class="bg-[#B8B9BD] py-[5px] md:py-[2px] px-[10px] rounded-lg text-white font-bold text-[10px] md:text-[16px] mb-2"><%= tag.name %></div>
+        <% }) %>
+      </div>
+      <div>
+        <h2 class="sm:text-[20px] my-[27px] font-bold <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
+        <div class="font-bold">By <%= article.author.name %></div>
+      </div>
+    </div>
+    <div class="w-[30%]">
+      <img class="w-[100%] h-[80%] lg:h-[250px] object-contain lg:object-cover lg:object-top" src="<%= article.images[0] %>" alt="<%= article.title %>" />
+    </div>
+  </div>
+</a>

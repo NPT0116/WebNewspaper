@@ -42,6 +42,7 @@ export interface IArticle extends Document {
   comments: mongoose.Types.ObjectId[];
   views: number;
   bannerTheme: string;
+  isSubscribed: boolean;
 }
 
 // Populated IArticle
@@ -89,4 +90,5 @@ export interface IArticleCard {
   author: IAuthor;
   images: string[];
   publishedAt?: Date;
+  isSubscribed: boolean;
 }
