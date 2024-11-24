@@ -142,7 +142,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('The Future of 5G: What It Means for Global Connectivity'),
         status: 'published',
         publishedAt: '2024-11-12T10:45:00Z',
-        views: 2100
+        views: 2100,
+        isSubscribed: true
       },
       {
         title: 'Blockchain: The Future of Secure Transactions',
@@ -278,7 +279,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('The Importance of Mental Health: Breaking the Stigma'),
         status: 'published',
         publishedAt: '2024-11-14T11:00:01Z',
-        views: 3000
+        views: 3000,
+        isSubscribed: true
       },
       {
         title: 'Nutrition and Its Impact on Overall Health',
@@ -352,7 +354,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('The Future of Work: Trends Shaping the Labor Market'),
         status: 'published',
         publishedAt: '2024-11-17T09:30:00Z',
-        views: 1800
+        views: 1800,
+        isSubscribed: true
       },
       {
         title: 'The Effects of Government Spending on Economic Growth',
@@ -459,7 +462,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('The Role of Mental Toughness in Sports Success'),
         status: 'published',
         publishedAt: '2024-11-18T09:30:00Z',
-        views: 2400
+        views: 2400,
+        isSubscribed: true
       },
       {
         title: 'The Impact of Technology on Sports Performance and Training',
@@ -474,7 +478,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('The Impact of Technology on Sports Performance and Training'),
         status: 'published',
         publishedAt: '2024-11-19T10:00:00Z',
-        views: 2600
+        views: 2600,
+        isSubscribed: true
       },
       {
         title: 'The Impact of Social Media on Modern Politics',
@@ -504,7 +509,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('Climate Change Policy: The Battle Between Environmentalism and Economic Growth'),
         status: 'published',
         publishedAt: '2024-11-16T09:00:00Z',
-        views: 2300
+        views: 2300,
+        isSubscribed: true
       },
       {
         title: 'The Rise of Populism in Global Politics',
@@ -551,7 +557,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         slug: generateSlug('Global Trade Wars: The Geopolitical Struggle for Economic Supremacy'),
         status: 'published',
         publishedAt: '2024-11-19T11:00:00Z',
-        views: 2700
+        views: 2700,
+        isSubscribed: true
       },
       {
         title: 'The Role of International Organizations in Global Diplomacy',
@@ -598,7 +605,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-11T14:23:00Z',
         views: 1800,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'Basketball: The Game That Unites and Inspires',
@@ -952,7 +959,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-23T10:00:00Z',
         views: 2500,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'Salad: A Fresh and Versatile Dish',
@@ -1004,7 +1011,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-23T10:20:00Z',
         views: 5000,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'Studying Abroad: A Gateway to Global Opportunities',
@@ -1036,7 +1043,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-22T19:40:00Z',
         views: 2000,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: "Pursuing a Master's Degree: A Pathway to Advanced Knowledge and Career Growth",
@@ -1150,7 +1157,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-23T10:00:00Z',
         views: 4500,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'Understanding Healthcare: Importance, Components, and Current Trends',
@@ -1249,7 +1256,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-23T10:00:00Z',
         views: 1200,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'The Art of Foot Massage: Benefits and Techniques',
@@ -1281,7 +1288,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-11-23T10:00:00Z',
         views: 1200,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: 'Understanding Stress: Causes, Effects, and Management Techniques',
@@ -1361,7 +1368,7 @@ export const seedArticlesWithReporterAndEditor = async () => {
         status: 'published',
         publishedAt: '2024-10-21T10:08:00Z',
         views: 4500,
-        isSubscribed: false
+        isSubscribed: true
       },
       {
         title: "The Enduring Legacy of Sherlock Holmes: A Journey into Arthur Conan Doyle's Masterpiece",

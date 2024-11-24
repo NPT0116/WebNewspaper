@@ -92,3 +92,8 @@ Role: editor
 Section: Sports
 
 
+** Subscriber Account
+**Email**: subscriber@example.com
+   - **Username**: subscriberReader
+   - **Password**: 123
+   - **Role**: subscriber
