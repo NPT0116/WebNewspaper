@@ -8,35 +8,16 @@
     </div>
   </a>
   <% } else { %>
-  <div class="w-[47px] h-[47px]"></div> <!-- Placeholder for the left arrow -->
+  <div class="w-[47px] h-[47px]"></div>
+  <!-- Placeholder for the left arrow -->
   <% } %>
 
   <!-- Các trang số -->
   <div class="flex space-x-2">
-    <% 
-      let startPage = 1; 
-      let endPage = 3; 
-
-      // Nếu trang hiện tại là số lẻ (ví dụ: trang 3, 5, 7...) và có các trang tiếp theo
-      if (pagination.currentPage > 2 && pagination.currentPage % 2 !== 0) {
-        startPage = pagination.currentPage;
-        endPage = Math.min(pagination.currentPage + 2, pagination.totalPages);
-      }
-
-      // Nếu trang hiện tại là số chẵn (ví dụ: trang 2, 4, 6...), hiển thị 3 trang liên tiếp
-      if (pagination.currentPage % 2 === 0) {
-        startPage = pagination.currentPage - 1;
-        endPage = Math.min(pagination.currentPage + 1, pagination.totalPages);
-      }
-
-      // Nếu tổng số trang nhỏ hơn hoặc bằng 3, hiển thị tất cả các trang còn lại
-      if (pagination.totalPages <= 3) {
-        startPage = 1;
-        endPage = pagination.totalPages;
-      }
-
-      for (let i = startPage; i <= endPage; i++) { 
-    %>
+    <% let startPage = 1; let endPage = 3; // Nếu trang hiện tại là số lẻ (ví dụ: trang 3, 5, 7...) và có các trang tiếp theo if (pagination.currentPage > 2 && pagination.currentPage % 2 !== 0) {
+    startPage = pagination.currentPage; endPage = Math.min(pagination.currentPage + 2, pagination.totalPages); } // Nếu trang hiện tại là số chẵn (ví dụ: trang 2, 4, 6...), hiển thị 3 trang liên tiếp
+    if (pagination.currentPage % 2 === 0) { startPage = pagination.currentPage - 1; endPage = Math.min(pagination.currentPage + 1, pagination.totalPages); } // Nếu tổng số trang nhỏ hơn hoặc bằng 3,
+    hiển thị tất cả các trang còn lại if (pagination.totalPages <= 3) { startPage = 1; endPage = pagination.totalPages; } for (let i = startPage; i <= endPage; i++) { %>
     <a href="/section/<%= section.slug %>?pageNumber=<%= i %>">
       <div class="w-[47px] h-[47px] flex justify-center items-center rounded-md font-bold text-[14px] <%= pagination.currentPage === i ? 'bg-[#0879BF] text-white' : 'bg-[#F5F5F5] text-black' %>">
         <%= i %>
@@ -54,6 +35,7 @@
     </div>
   </a>
   <% } else { %>
-  <div class="w-[47px] h-[47px]"></div> <!-- Placeholder for the right arrow -->
+  <div class="w-[47px] h-[47px]"></div>
+  <!-- Placeholder for the right arrow -->
   <% } %>
 </div>

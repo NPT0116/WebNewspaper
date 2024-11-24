@@ -1,25 +1,27 @@
-<div class="w-[100%] md:w-[70%]">
+<div class="flex justify-center items-center flex-col" style="width: 70vw">
   <% articles.forEach(article => { %>
-  <a href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>">
-    <div class="flex my-[38px] border-b border-[#E5E5E5] pb-[50px]">
-      <div class="w-[60%] mr-auto">
-        <div class="flex flex-wrap mb-2 space-x-2">
-          <div class="font-bold">Tags:</div>
-          <% article.tags.forEach(tag => { %>
-          <div class="bg-[#B8B9BD] py-[5px] md:py-[2px] px-[10px] rounded-lg text-white font-bold text-[10px] md:text-[16px]"><%= tag.name %></div>
-          <% }) %>
-        </div>
-        <div>
-          <h2 class="sm:text-[20px] my-[27px] font-bold"><%= article.title %></h2>
-          <div class="text-[#333646] my-[2px]"><%= article.description %></div>
-          <div class="font-bold">By <%= article.author.name %></div>
-        </div>
+  <a
+    href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>"
+    class="flex flex-row justify-between items-center w-full border-b-2 border-gray-700"
+    style="height: 40vh; padding-left: 20px; padding: 40px 20px"
+  >
+    <div class="w-3/5" style="height: 30vh; padding-right: 20px">
+      <div class="hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
+        <% article.tags.forEach(tag => { %>
+        <div class="bg-green-500 text-xs text-white rounded-lg p-1 font-bold hover:bg-green-600 transition-color duration-300">#<%= tag.name %></div>
+        <% }) %>
       </div>
-      <div class="w-[30%]">
-        <img class="w-[100%] h-[80%] lg:h-[220px] object-contain lg:object-cover lg:object-top" src="<%= article.images[0] %>" alt="<%= article.title %>" />
+
+      <div class="font-serif flex justify-between items-start flex-col sm:h-4/5 h-full">
+        <h2 class="lg:text-2xl sm:text-xl text-[14px] font-bold hover:underline"><%= article.title %></h2>
+        <div class="hidden md:block lg:text-lg text-sm font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-200"><%= article.description %></div>
+        <div class="sm:text-sm text-[10px] self-end font-bold hover:text-red-600 transition-color duration-200">By <%= article.author.name %></div>
       </div>
     </div>
-  </a>
 
+    <div class="w-2/5 flex justify-end items-center">
+      <img class="object-cover rounded-lg shadow-lg" style="height: 30vh; width: 40vh" src="<%= article.images[0] %>" alt="<%= article.title %>" />
+    </div>
+  </a>
   <% }) %>
 </div>

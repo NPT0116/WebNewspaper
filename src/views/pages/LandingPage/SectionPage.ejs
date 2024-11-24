@@ -7,14 +7,18 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
-    <div class="px-4 sm:px-[5%] lg:px-[11%] pb-[50px]">
-      <div class="block mt-[50px]">
-        <h1 class="text-center text-[34px]"><%= section.name %></h1>
-      </div>
-      <%- include('../../components/Article/ArticleCard.ejs') %>
-      <%- include('../../components/Pagination/Pagination.ejs', { pagination, section }) %>
+    <div id="header-section-page" class="sticky top-0 w-full">
+      <div><%- include('../../layouts/partials/HeaderTitle', { profile: profile }) %></div>
+      <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
     </div>
+
+    <div class="flex justify-center items-center flex-col">
+      <div class="">
+        <h1 class="text-center text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
+      </div>
+      <div id="section-article-container" class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 20px"><%- include('../../components/Article/ArticleCard.ejs') %></div>
+    </div>
+
     <div id="layout" class=""><%- include('../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
   </body>
 </html>

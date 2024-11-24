@@ -11,7 +11,7 @@
   <div id="header-navbar" class="hidden lg:absolute lg:right-0 w-2/6 lg:flex flex-row justify-evenly items-center">
     <% if (profile) { %>
     <span class="text-lg xl:text-lg"><%= profile.profileName %></span>
-    <a class="text-lg xl:text-lg hover:underline" href="#">Logout</a>
+    <a class="text-lg xl:text-lg hover:underline" href="/logout">Logout</a>
     <% } else { %>
     <a class="text-lg xl:text-lg hover:underline" href="/login">Login</a>
     <a class="text-lg xl:text-lg hover:underline" href="/register">Register</a>
@@ -25,7 +25,7 @@
   <div id="header-navbar-small" class="lg:hidden w-11/12 flex flex-row justify-between items-center border-y-2">
     <% if (profile) { %>
     <span class="text-lg xl:text-lg"><%= profile.profileName %></span>
-    <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="#">Logout</a>
+    <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/logout">Logout</a>
     <% } else { %>
     <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/login">Login</a>
     <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/register">Register</a>
@@ -36,11 +36,3 @@
     <% } %>
   </div>
 </div>
-
-<script>
-  const tham = document.querySelector('.tham');
-
-  tham.addEventListener('click', () => {
-    tham.classList.toggle('tham-active');
-  });
-</script>

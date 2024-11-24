@@ -13,7 +13,7 @@
         <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200">
           <% section.childSections.forEach((child) => {%>
           <li id="" value="" class="w-full hover:bg-gray-300 flex justify-center items-center p-2">
-            <a id="sub-item" href="\section\<%= child.slug %>"><%=child.name%></a>
+            <a id="sub-item" href="/section/<%= child.slug %>"><%=child.name%></a>
           </li>
           <%}) %>
         </ul>
@@ -25,15 +25,19 @@
 
   <!-- Dropdown for xs and sm screens -->
   <div class="lg:hidden px-2 py-2">
-    <select class="w-full border border-black rounded p-2" onchange="location=this.value">
+    <select id="dropdown-headbar" class="w-full border border-black rounded p-2">
       <% sections.forEach((section) => {%>
-      <option value="section/<%=section.slug%>"><%=section.name%></option>
+      <option id="/section/<%=section.slug%>" value="/section/<%=section.slug%>"><%=section.name%></option>
       <%}) %>
     </select>
   </div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const dropdownHeadBar = document.querySelector('#dropdown-headbar');
+    dropdownHeadBar.addEventListener('change', (event) => {
+      window.location.href = event.target.value;
+    });
     // Animation
     const catsBar = document.getElementById('categories');
     const catsBarHeight = catsBar.offsetHeight;
