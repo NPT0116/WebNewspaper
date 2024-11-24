@@ -7,58 +7,22 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div><%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
-    <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
+    <div><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
+    <div><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
     <div class="flex mx-[5%] lg:ml-[17%]">
-      <div class="my-[5%] mt-[50px] flex lg:space-x-[5%] sm:space-x-[5%] h-[90vh] w-[80%]">
-        <div class="h-[100vh] hidden sm:block sm:w-[40%]">
-          <a href="/profile">
-            <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-                  />
-                </svg>
-              </div>
-              <div>Account Information</div>
-            </div>
-          </a>
-          <a href="/profile/watched-articles">
-            <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
-                  />
-                </svg>
-              </div>
-              <div>Watched Articles</div>
-            </div>
-          </a>
-          <hr />
-          <a href="/logout">
-            <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-                  />
-                </svg>
-              </div>
-              <div>Log Out</div>
-            </div>
-          </a>
-        </div>
+      <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
+        <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile'}) %>
 
-        <div class="w-[100%] md:w-[60%]">
+        <div class="w-[100%] md:w-[60%] lg:w-[65%]">
+          <% if (isSubscriber) { %>
+          <div class="w-full text-center text-[14px]">
+            <div class="w-full bg-gradient-to-r from-[#053549] via-[#BCE5D1] to-[#053549] text-[#0A3981] font-extrabold text-lg rounded-md shadow-lg transform transition-all hover:scale-105">
+              Premium
+            </div>
+          </div>
+          <% } %>
           <div class="flex items-center bg-[#F9F9F9] p-[24px] space-x-[30px]">
+            <!-- Hình ảnh tròn của người dùng -->
             <div class="rounded-full h-[100px] w-[100px] overflow-hidden">
               <img
                 src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeE5rAIGBbWuNTJ8VBNUgiegWt9TLzuBU1Ba31MvO4FTUDbTPhgw156ODMHI3wjsu2AWBkJKWf8cPIQ0dcKJjA05&_nc_ohc=8yv9TBiBjIsQ7kNvgHefTpr&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=ApxmOVFo4Y8i9aNthD9hypb&oh=00_AYBgz0KrZ5BvnRshspd82RxSbECKoRDYIFdkNZi92uv3NQ&oe=67695D7A"
@@ -66,11 +30,13 @@
                 class="object-cover h-full w-full"
               />
             </div>
+            <!-- Thông tin người dùng -->
             <div class="text-[14px] font-medium">
               <div class="text-[#888888]">DISPLAY NAME</div>
-              <div class="text-[#0879BF]"><%=readerProfile.name%></div>
+              <div class="text-[#0879BF]"><%= readerProfile.name %></div>
             </div>
           </div>
+
           <div class="font-bold text-[30px] mt-[70px] mb-[25px]">MANAGE ACCOUNT</div>
           <div class="">
             <div class="flex space-x-[27px] w-full mb-4">
@@ -160,6 +126,6 @@
         </div>
       </div>
     </div>
-    <div id="layout" class=""><%- include('../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
+    <div id="layout" class=""><%- include('../../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
   </body>
 </html>

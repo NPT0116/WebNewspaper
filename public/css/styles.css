@@ -1178,6 +1178,9 @@ input:checked + .toggle-bg {
 .ml-4 {
   margin-left: 1rem;
 }
+.ml-\[-10px\] {
+  margin-left: -10px;
+}
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -1295,8 +1298,11 @@ input:checked + .toggle-bg {
 .h-\[100px\] {
   height: 100px;
 }
-.h-\[100vh\] {
-  height: 100vh;
+.h-\[30px\] {
+  height: 30px;
+}
+.h-\[40px\] {
+  height: 40px;
 }
 .h-\[47px\] {
   height: 47px;
@@ -1312,9 +1318,6 @@ input:checked + .toggle-bg {
 }
 .h-\[80\%\] {
   height: 80%;
-}
-.h-\[90vh\] {
-  height: 90vh;
 }
 .h-\[calc\(100\%-1rem\)\] {
   height: calc(100% - 1rem);
@@ -1399,6 +1402,12 @@ input:checked + .toggle-bg {
 }
 .w-\[30\%\] {
   width: 30%;
+}
+.w-\[30px\] {
+  width: 30px;
+}
+.w-\[40px\] {
+  width: 40px;
 }
 .w-\[47px\] {
   width: 47px;
@@ -1763,6 +1772,10 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(8 121 191 / var(--tw-bg-opacity, 1));
 }
+.bg-\[\#248BDA\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(36 139 218 / var(--tw-bg-opacity, 1));
+}
 .bg-\[\#B8B9BD\] {
   --tw-bg-opacity: 1;
   background-color: rgb(184 185 189 / var(--tw-bg-opacity, 1));
@@ -1892,10 +1905,25 @@ input:checked + .toggle-bg {
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+.from-\[\#053549\] {
+  --tw-gradient-from: #053549 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(5 53 73 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .from-green-400 {
   --tw-gradient-from: #31C48D var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(49 196 141 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.via-\[\#BCE5D1\] {
+  --tw-gradient-to: rgb(188 229 209 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), #BCE5D1 var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.to-\[\#053549\] {
+  --tw-gradient-to: #053549 var(--tw-gradient-to-position);
 }
 .to-blue-600 {
   --tw-gradient-to: #1C64F2 var(--tw-gradient-to-position);
@@ -2117,6 +2145,9 @@ input:checked + .toggle-bg {
 .font-bold {
   font-weight: 700;
 }
+.font-extrabold {
+  font-weight: 800;
+}
 .font-medium {
   font-weight: 500;
 }
@@ -2138,6 +2169,10 @@ input:checked + .toggle-bg {
 .text-\[\#0879BF\] {
   --tw-text-opacity: 1;
   color: rgb(8 121 191 / var(--tw-text-opacity, 1));
+}
+.text-\[\#0A3981\] {
+  --tw-text-opacity: 1;
+  color: rgb(10 57 129 / var(--tw-text-opacity, 1));
 }
 .text-\[\#333646\] {
   --tw-text-opacity: 1;
@@ -2341,6 +2376,10 @@ input:checked + .toggle-bg {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
+.hover\:bg-\[\#3d82b8\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(61 130 184 / var(--tw-bg-opacity, 1));
+}
 .hover\:bg-\[\#F9F9F9\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 249 249 / var(--tw-bg-opacity, 1));
@@ -2372,6 +2411,10 @@ input:checked + .toggle-bg {
 .hover\:bg-gray-300:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+.hover\:bg-gray-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
@@ -2698,8 +2741,8 @@ input:checked + .toggle-bg {
     display: none;
   }
 
-  .sm\:w-\[40\%\] {
-    width: 40%;
+  .sm\:min-h-\[20vh\] {
+    min-height: 20vh;
   }
 
   .sm\:flex-1 {
@@ -2768,12 +2811,20 @@ input:checked + .toggle-bg {
     width: 75%;
   }
 
+  .md\:w-\[45\%\] {
+    width: 45%;
+  }
+
   .md\:w-\[60\%\] {
     width: 60%;
   }
 
   .md\:w-\[70\%\] {
     width: 70%;
+  }
+
+  .md\:w-\[80\%\] {
+    width: 80%;
   }
 
   .md\:grid-cols-2 {
@@ -2815,8 +2866,8 @@ input:checked + .toggle-bg {
     display: none;
   }
 
-  .lg\:h-\[220px\] {
-    height: 220px;
+  .lg\:h-\[250px\] {
+    height: 250px;
   }
 
   .lg\:h-dvh {
@@ -2825,6 +2876,14 @@ input:checked + .toggle-bg {
 
   .lg\:w-1\/2 {
     width: 50%;
+  }
+
+  .lg\:w-\[35\%\] {
+    width: 35%;
+  }
+
+  .lg\:w-\[65\%\] {
+    width: 65%;
   }
 
   .lg\:grid-cols-4 {
@@ -2842,8 +2901,8 @@ input:checked + .toggle-bg {
     background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
   }
 
-  .lg\:bg-\[url\(\'https\:\/\/mrwallpaper\.com\/images\/hd\/north-korea-kim-jong-un-serious-8jdq18vtsyq3c9r4\.jpg\'\)\] {
-    background-image: url('https://mrwallpaper.com/images/hd/north-korea-kim-jong-un-serious-8jdq18vtsyq3c9r4.jpg');
+  .lg\:bg-\[url\(\'https\:\/\/media\.newyorker\.com\/photos\/6740adf115ada29979d23ea0\/master\/w_2240\2c c_limit\/nyorker_rap_world\.gif\'\)\] {
+    background-image: url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif');
   }
 
   .lg\:bg-cover {

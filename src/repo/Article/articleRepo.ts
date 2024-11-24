@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import { IArticleBasicInfo, IArticleCard, IAuthor, IReporterArticleDetailInfo, ISection } from '~/interfaces/Article/articleInterface.js';
+import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
@@ -166,4 +168,30 @@ export const findArticlesBySectionIds = async (sectionIds: string[], skip: numbe
     .populate<{ sectionId: ISection }>('sectionId', 'name slug')
     .populate<{ tags: ITag[] }>('tags', 'name slug')
     .populate<{ author: IAuthor }>('author', 'name');
+};
+
+export const profileReaderFindArticlesByIds = async (readerProfile: IReaderProfile, limit: number) => {
+  // Lấy danh sách watchedArticles từ readerProfile, đã được sắp xếp theo viewedAt (giảm dần)
+  const watchedArticles = readerProfile.watchedArticles.sort((a, b) => b.viewedAt.getTime() - a.viewedAt.getTime());
+
+  // Lấy 10 bài viết gần đây nhất
+  const recentWatchedArticles = watchedArticles.slice(0, limit);
+  const recentArticleIds = recentWatchedArticles.map((watchedArticle) => watchedArticle.articleId.toString());
+
+  // Tìm các bài viết từ bảng Article dựa trên các articleId
+  const articles = await Article.find({ _id: { $in: recentArticleIds.map((id) => new mongoose.Types.ObjectId(id)) } })
+    .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+    .populate<{ tags: ITag[] }>('tags', 'name slug')
+    .populate<{ author: IAuthor }>('author', 'name');
+
+  // Sắp xếp lại các bài viết theo thứ tự trong watchedArticles
+  const articlesSorted = recentWatchedArticles
+    .map((watchedArticle) => {
+      const article = articles.find((article) => article._id.toString() === watchedArticle.articleId.toString());
+      return article;
+    })
+    .filter((article) => article !== undefined); // Loại bỏ các giá trị undefined nếu không tìm thấy bài viết
+
+  // Trả về các bài viết đã sắp xếp
+  return articlesSorted;
 };
