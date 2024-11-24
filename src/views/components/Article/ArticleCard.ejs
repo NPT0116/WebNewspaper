@@ -1,6 +1,6 @@
 <div class="w-[100%] md:w-[70%]">
   <% articles.forEach(article => { %>
-  <a href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>">
+  <a href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>">
     <div class="flex my-[38px] border-b border-[#E5E5E5] pb-[50px]">
       <div class="w-[60%] mr-auto">
         <div class="flex flex-wrap mb-2 space-x-2">
@@ -10,7 +10,8 @@
           <% }) %>
         </div>
         <div>
-          <h2 class="sm:text-[20px] my-[27px] font-bold"><%= article.title %></h2>
+          <!-- Title with conditional class -->
+          <h2 class="sm:text-[20px] my-[27px] font-bold <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
           <div class="text-[#333646] my-[2px]"><%= article.description %></div>
           <div class="font-bold">By <%= article.author.name %></div>
         </div>
@@ -20,6 +21,5 @@
       </div>
     </div>
   </a>
-
   <% }) %>
 </div>

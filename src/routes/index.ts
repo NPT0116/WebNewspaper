@@ -2,7 +2,7 @@ import express from 'express';
 import { PATH } from '~/config/path.js';
 import accountRouter from './authentication/accountRouter.js';
 import landingRouter from './landingpage/landingRouter.js';
-import commentRouterTest from './test Comment/detailPost.js';
+
 import detailArticleRouter from './landingpage/articleDetail/detailArticleRouter.js';
 import uploadRouter from './uploadRouter.js';
 import dashboardRouter from './Dashboard/dashboardRouter.js';
@@ -26,7 +26,6 @@ router.use(PATH.DASHBOARD.PATH, verifyRole(['admin', 'reporter', 'editor']), das
 // upload image router for write article
 router.use('/api', uploadRouter);
 // test
-router.use(PATH.HOME, commentRouterTest);
 
 router.use(dashboardRouter);
 
