@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run tailwind:css\" \"npx nodemon\"",
     "format": "prettier --write \"src/**/*.ts\"",
-    "build": "rimraf ./dist && tsc && tsc-alias",
+    "build": "rimraf ./dist && tsc && tsc-alias && cpx \"src/views/**/*\" dist/views",
     "seed:build": "npm run build && node dist/seeds/indexSeed.js",
     "start": "node dist/index.js",
     "lint": "eslint .",
@@ -64,6 +64,7 @@
     "@types/socket.io": "^3.0.1",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.0",
+    "cpx": "^1.5.0",
     "eslint": "^9.14.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.12.0",
