@@ -58,6 +58,7 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
       slug: article.slug,
       title: article.title,
       description: article.description,
+      isSubscribed: article.isSubscribed,
       sectionId: {
         _id: article.sectionId._id,
         name: article.sectionId.name,

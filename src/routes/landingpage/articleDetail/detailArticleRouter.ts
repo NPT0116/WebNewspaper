@@ -1,6 +1,6 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { PATH } from '~/config/path.js';
-import { renderArticleDetail } from '~/controllers/landingpage/articleDetail/articleDetailController.js';
+import { renderArticleDetail, verifySubscription } from '~/controllers/landingpage/articleDetail/articleDetailController.js';
 import { watchArticleHandler } from '~/middlewares/watchArticleHandler.js';
 import { saveComment } from '~/repo/comment/commentRepo.js';
 
@@ -13,6 +13,7 @@ interface IArticleDetailParams {
 
 detailArticleRouter.get(
   PATH.LANDINGPAGE.ARTICLE_DETAIL,
+  verifySubscription,
   (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
     watchArticleHandler(req, res, next);
   },

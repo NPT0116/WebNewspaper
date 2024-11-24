@@ -115,7 +115,8 @@ export const getListArticleInfoCards = async (query: any, skip: number, limit: n
         tags: article.tags,
         author: article.author,
         images: article.images,
-        publishedAt: article.publishedAt
+        publishedAt: article.publishedAt,
+        isSubscribed: article.isSubscribed
       };
     });
 

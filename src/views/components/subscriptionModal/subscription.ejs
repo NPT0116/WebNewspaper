@@ -1,0 +1,57 @@
+<style>
+  #subscription-modal.hidden {
+    display: none;
+  }
+</style>
+<div id="subscription-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+    <h2 class="text-xl font-bold mb-4">Access Restricted</h2>
+    <p class="mb-4">This article is for subscribers only. Please purchase a subscription to access it.</p>
+    <div class="flex justify-end">
+      <button id="close-modal" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('subscription-modal');
+    const closeModal = document.getElementById('close-modal');
+    const links = document.querySelectorAll('a[href*="isSubscribed=true"]');
+
+    links.forEach((link) => {
+      link.addEventListener('click', async (event) => {
+        event.preventDefault(); // Prevent the default behavior of the link
+
+        const url = link.getAttribute('href');
+
+        try {
+          const response = await fetch(url, { method: 'GET' });
+
+          if (response.status === 403) {
+            // If the server responds with 403, show the modal
+            modal.classList.remove('hidden');
+          } else if (response.ok) {
+            // Redirect if the user has access
+            window.location.href = url;
+          } else {
+            console.error('Unexpected error:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error fetching article:', error);
+        }
+      });
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden'); // Hide modal
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.classList.add('hidden');
+      }
+    });
+  });
+</script>

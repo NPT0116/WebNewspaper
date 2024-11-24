@@ -90,4 +90,5 @@ export interface IArticleCard {
   author: IAuthor;
   images: string[];
   publishedAt?: Date;
+  isSubscribed: boolean;
 }

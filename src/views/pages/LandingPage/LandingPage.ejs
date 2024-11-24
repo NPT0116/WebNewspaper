@@ -15,7 +15,8 @@
       <div id="layout" class="">
         <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.latestArticles[0], code: 2 }) %>
       </div>
-      <div id="layout" class=""><%- include('Section10', { title: 'Top Sections', articles:data.topSections })%></div>
+      <div id="layout" class=""><%- include('Section10', { title: 'Top Sections', articles: data.topSections }) %></div>
     </div>
+    <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
 </html>

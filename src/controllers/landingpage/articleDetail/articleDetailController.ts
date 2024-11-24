@@ -36,7 +36,8 @@ export const relatedArticleFunc = async (sectionSlug: string) => {
         name: article.author.name,
         _id: article.author._id
       },
-      images: article.images
+      images: article.images,
+      isSubscribed: article.isSubscribed
     }));
     return response;
   } catch (e) {
@@ -91,6 +92,7 @@ interface IArtcileDetailLandingpageResponse {
   comments: IComment[];
   views: number;
   bannerTheme: string;
+  isSubscribed: boolean;
 }
 export const renderArticleDetail = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
   try {
@@ -127,11 +129,6 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       relatedArticle = [];
     }
 
-    let profile = null;
-    if (req.isAuthenticated()) {
-      profile = await getProfile(req.user._id);
-    }
-
     // res.json({
     //   ...article.toObject(),
     //   comments: commentWithNames,
@@ -143,10 +140,38 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       ...article.toObject(),
       comments: commentWithNames,
       relatedArticle,
-      sections,
-      profile
+      sections
     });
   } catch (e) {
     next(new AppError("can't get detail article", 500));
   }
+};
+
+export const verifySubscription = (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
+  const { isSubscribed } = req.query;
+
+  // Chuyển query thành boolean
+  const isArticleSubscribed = isSubscribed === 'true';
+
+  // Nếu bài viết không yêu cầu subscription, tiếp tục
+  if (!isArticleSubscribed) {
+    next();
+    return;
+  }
+
+  // Kiểm tra người dùng đã đăng ký hay chưa
+  const user = req.user;
+
+  if (!user || !user.isSubscriber) {
+    // Trả về thông báo cần mua subscription (JSON cho AJAX hoặc HTML cho modal)
+    res.status(403).json({
+      success: false,
+      message: 'This article is for subscribers only. Please purchase a subscription to access it.'
+    });
+    return;
+  }
+
+  // Người dùng có quyền truy cập
+  next();
+  return;
 };
