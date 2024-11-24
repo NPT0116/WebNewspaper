@@ -2866,8 +2866,8 @@ input:checked + .toggle-bg {
     display: none;
   }
 
-  .lg\:h-\[220px\] {
-    height: 220px;
+  .lg\:h-\[250px\] {
+    height: 250px;
   }
 
   .lg\:h-dvh {
@@ -2901,8 +2901,8 @@ input:checked + .toggle-bg {
     background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
   }
 
-  .lg\:bg-\[url\(\'https\:\/\/mrwallpaper\.com\/images\/hd\/north-korea-kim-jong-un-serious-8jdq18vtsyq3c9r4\.jpg\'\)\] {
-    background-image: url('https://mrwallpaper.com/images/hd/north-korea-kim-jong-un-serious-8jdq18vtsyq3c9r4.jpg');
+  .lg\:bg-\[url\(\'https\:\/\/media\.newyorker\.com\/photos\/6740adf115ada29979d23ea0\/master\/w_2240\2c c_limit\/nyorker_rap_world\.gif\'\)\] {
+    background-image: url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif');
   }
 
   .lg\:bg-cover {
