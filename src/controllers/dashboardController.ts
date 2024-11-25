@@ -24,3 +24,31 @@ export const getEditorReviewPage = async (req: Request<getArticleByIdParams>, re
   const article = await editorGetArticleById(articleId, '');
   res.render('pages/DashboardPages/EditorReviewPage', { article });
 };
+
+export const getAdminDashboardPage = async (req: Request, res: Response) => {
+  const articles = await getAllArticles();
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/Admin/AdminArticlesPage',
+    data: { articles }
+  });
+};
+
+export const getAdminReadersPage = async (req: Request, res: Response) => {
+  const articles = await getAllArticles();
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/Admin/ReadersPage',
+    data: { articles }
+  });
+};
+
+export const getAdminEditorsPage = async (req: Request, res: Response) => {
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/Admin/EditorsPage'
+  });
+};
+
+export const getAdminReportersPage = async (req: Request, res: Response) => {
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/Admin/ReportersPage'
+  });
+};

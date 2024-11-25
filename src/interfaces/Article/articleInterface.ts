@@ -61,6 +61,7 @@ export interface IArticleBasicInfo {
 }
 
 export interface IReporterArticleDetailInfo {
+  _id: mongoose.Types.ObjectId;
   title: string;
   description: string;
   content: string;

@@ -17,6 +17,15 @@ export const PATH = {
       PATH: '/editor',
       PREVIEW: '/:articleId/preview',
       APPROVE: '/:articleId/approve'
+    },
+    ADMIN: {
+      PATH: '/admin',
+      USERS: {
+        PATH: '/users',
+        REPORTERS: '/reporters',
+        EDITORS: '/editors',
+        READERS: '/readers'
+      }
     }
   },
   AUTHENTICATION: {
