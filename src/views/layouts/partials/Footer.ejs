@@ -4,42 +4,34 @@
     <div class="text-center text-3xl text-white font-serif">KIM JONG UN</div>
   </div>
   <div id="footer-table">
-    <div class="grid grid-cols-2 grid-rows-2 text-white border-b-2 border-b-white p-4 w-full">
+    <div class="hidden sm:grid grid-cols-2 grid-rows-2 text-white border-b-2 border-b-white p-4 w-full">
       <div id="footer-section" class="flex justify-start items-center flex-col w-full">
         <div class="self-start font-serif text-lg">SECTION</div>
         <div class="grid grid-cols-2 w-full font-dancing text-gray-400">
           <div>
             <%section1.forEach((section) => {%>
-              <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
-              <%})%>
+            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <%})%>
           </div>
           <div>
             <%section2.forEach((section) => {%>
-              <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
-              <%})%>
+            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <%})%>
           </div>
         </div>
       </div>
 
-      <div id="footer-more" class="flex justify-start items-center flex-col w-full">
+      <div class="flex justify-start items-center flex-col w-full">
         <div class="self-start font-serif text-lg">MORE</div>
         <div class="grid grid-cols-2 w-full font-dancing text-gray-400">
           <div>
-            <div >Manage Account</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
+            <div>Manage Account</div>
           </div>
-          <div>
-            <div >Manage Account</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
-            <div class="hover:text-gray-100 cursor-pointer">Kim Jong Un</div>
-          </div>
+          <div></div>
         </div>
       </div>
 
-      <div id="footer-more" class="flex justify-start items-center flex-col w-full">
+      <div class="flex justify-start items-center flex-col w-full">
         <div class="self-start font-serif text-lg"></div>
         <div class="grid grid-cols-2 font-dancing text-gray-400 items-center w-full h-full">
           <div>
@@ -55,7 +47,7 @@
         </div>
       </div>
 
-      <div id="footer-more" class="flex justify-start items-center flex-col w-full">
+      <div class="flex justify-start items-center flex-col w-full">
         <div class="self-start font-serif text-lg"></div>
         <div class="grid grid-cols-2 font-dancing text-gray-400 items-center w-full h-full">
           <div>
@@ -64,7 +56,41 @@
           </div>
           <div>
             <div class="hover:text-gray-100 cursor-pointer">Privacy Policy</div>
-            <div class="hover:text-gray-100 cursor-pointer">Your VietNam Privacy Rights</div>
+            <div class="hover:text-gray-100 cursor-pointer">Your Privacy Rights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="sm:hidden grid grid-cols-1 grid-rows-2 text-white border-b-2 border-b-white p-4 w-full">
+      <div id="footer-section" class="flex justify-start items-center flex-col w-full">
+        <div class="self-start font-serif text-lg">SECTION</div>
+        <div class="grid grid-cols-2 w-full font-dancing text-gray-400">
+          <div>
+            <%section1.forEach((section) => {%>
+            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <%})%>
+          </div>
+          <div>
+            <%section2.forEach((section) => {%>
+            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <%})%>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-start items-center flex-col w-full">
+        <div class="self-start font-serif text-lg"></div>
+        <div class="grid grid-cols-2 font-dancing text-gray-400 items-center w-full h-full">
+          <div>
+            <div class="hover:text-gray-100 cursor-pointer">About</div>
+            <div class="hover:text-gray-100 cursor-pointer">Careers</div>
+            <div class="hover:text-gray-100 cursor-pointer">Contact</div>
+          </div>
+          <div>
+            <div class="hover:text-gray-100 cursor-pointer">F.A.Q</div>
+            <div class="hover:text-gray-100 cursor-pointer">Media Kit</div>
+            <div class="hover:text-gray-100 cursor-pointer">Press</div>
           </div>
         </div>
       </div>

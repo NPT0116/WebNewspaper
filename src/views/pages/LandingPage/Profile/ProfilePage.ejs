@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
-    <div><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
+    <div class="sticky top-0 z-50"><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
     <div class="flex mx-[5%] lg:ml-[17%]">
       <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
         <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile'}) %>

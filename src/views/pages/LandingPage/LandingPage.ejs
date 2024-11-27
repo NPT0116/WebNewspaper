@@ -8,14 +8,15 @@
     <div class="relative pb-2 z-10" style="width: 95vw">
       <%- include('../../layouts/partials/Header', { sections: sections }) %>
 
-      <div id="layout" class=""><%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %></div>
-      <div id="layout" class="">
+      <div class="pb-10 border-b-2 border-black"><%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %></div>
+
+      <div class="pb-10 border-b-2 border-black">
         <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.mostViewedArticles[0], code: 1 }) %>
       </div>
-      <div id="layout" class="">
+      <div class="pb-10 border-b-2 border-black">
         <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.latestArticles[0], code: 2 }) %>
       </div>
-      <div id="layout" class=""><%- include('Section10', { title: 'Top Sections', articles: data.topSections }) %></div>
+      <div><%- include('Section10', { title: 'Top Sections', articles:data.topSections })%></div>
     </div>
     <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
