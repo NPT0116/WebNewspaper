@@ -1,0 +1,41 @@
+<div id="input-box" class="w-full relative">
+  <input id="<%=id%>" class="w-full relative input-content" type="<%=type%>" name="<%=name%>" placeholder="" />
+  <label for="<%=id%>" class="w-fit absolute px-2 text-sm" id="input-label"><%=title%></label>
+</div>
+<style>
+  .input-content {
+    border-radius: 50px;
+    height: 8vh;
+    outline: none;
+  }
+  #input-label {
+    top: 50%;
+    transform: translateY(-50%);
+    left: 3%;
+    transition:
+      top 0.4s ease,
+      left 0.4s ease,
+      font-size 0.4s ease,
+      color 0.4s ease;
+  }
+  .input-content:focus {
+    outline: none;
+  }
+  .input-content:focus + #input-label {
+    top: -5%;
+    left: 3%;
+    background-color: white;
+  }
+  .input-content:not(:placeholder-shown) + #input-label {
+    top: -5%;
+    left: 3%;
+    background-color: white;
+  }
+  /* Remove the blue background for autofill */
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important; /* Set desired background */
+    box-shadow: 0 0 0px 1000px white inset !important; /* Ensure cross-browser support */
+    -webkit-text-fill-color: black !important; /* Set text color */
+    border-radius: 50px; /* Retain your custom border radius */
+  }
+</style>

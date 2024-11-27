@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        niconne: ['Niconne', 'cursive'],
+        niconne: ['Niconne', 'serif'],
         sans: ['Be VietNam', 'sans-serif'],
         serif: ['EB Garamond', 'serif'],
         dancing: ['Dancing Script', 'serif']
