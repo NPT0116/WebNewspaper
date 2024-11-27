@@ -1,8 +1,11 @@
 <div id="input-box" class="w-full relative">
-  <input id="<%=id%>" class="w-full relative input-content" type="<%=type%>" name="<%=name%>" placeholder="" />
+  <input id="<%=id%>" class="w-full relative input-content focus:outline-none" type="<%=type%>" name="<%=name%>" placeholder="" required />
   <label for="<%=id%>" class="w-fit absolute px-2 text-sm" id="input-label"><%=title%></label>
 </div>
 <style>
+  input:focus {
+    outline: none;
+  }
   .input-content {
     border-radius: 50px;
     height: 8vh;
@@ -11,7 +14,7 @@
   #input-label {
     top: 50%;
     transform: translateY(-50%);
-    left: 3%;
+    left: 5%;
     transition:
       top 0.4s ease,
       left 0.4s ease,
@@ -23,12 +26,12 @@
   }
   .input-content:focus + #input-label {
     top: -5%;
-    left: 3%;
+    left: 5%;
     background-color: white;
   }
   .input-content:not(:placeholder-shown) + #input-label {
     top: -5%;
-    left: 3%;
+    left: 5%;
     background-color: white;
   }
   /* Remove the blue background for autofill */

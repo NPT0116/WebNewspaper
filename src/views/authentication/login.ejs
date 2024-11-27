@@ -7,10 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet" />
+    <title>Login</title>
   </head>
   <body>
     <div class="hidden sm:flex flex-row justify-between items-center">
-      <div id="right-login-form" class="flex flex-col justify-center items-center" style="padding: 20px; height: 100vh; width: 45vw">
+      <div id="left-login-form" class="flex flex-col justify-center items-center" style="padding: 0px 40px; height: 100vh; width: 45vw">
         <form action="/login" method="POST" class="flex flex-col justify-between items-center" style="width: 100%; height: 75%">
           <h2 class="font-niconne italic text-center" style="font-size: 5vw">Login</h2>
           <div id="input-box-container" class="flex flex-col justify-between items-center" style="height: 30%; width: 100%; margin-bottom: 10px">
@@ -24,7 +25,7 @@
           </div>
 
           <!-- Đường dẫn GitHub -->
-          <div class="relative border-b-2 border-black w-full text-center" style="">
+          <div class="relative border-b-2 border-black w-full text-center">
             <p class="absolute bg-white w-fit px-2" style="left: 50%; transform: translate(-50%, -50%); font-size: 15px">Or continue with</p>
           </div>
 
@@ -38,10 +39,16 @@
         <div class="absolute bottom-0 text-red-600 font-bold rounded mb-4" style="padding-bottom: 40px"><%= locals.flash.error %></div>
         <% } %>
       </div>
-      <div id="left-login-container" class="flex justify-center items-center" style="width: 55vw; height: 100vh; padding: 20px">
+      <div id="right-login-container" class="flex justify-center items-center" style="width: 55vw; height: 100vh; padding: 20px">
         <div
           class="w-full h-full"
-          style="background-repeat: no-repeat; background-size: cover; background-image: url('https://i.pinimg.com/736x/86/98/d7/8698d7b56bd81836ac38f9e9e08b84d2.jpg'); border-radius: 50px"
+          style="
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url('https://i.pinimg.com/736x/86/98/d7/8698d7b56bd81836ac38f9e9e08b84d2.jpg');
+            border-radius: 50px;
+            box-shadow: black 1px 1px 10px;
+          "
         ></div>
       </div>
     </div>
@@ -49,7 +56,7 @@
     <!-- FOR small BELOW -->
     <div class="sm:hidden flex-row justify-between items-center">
       <div
-        id="right-login-form"
+        id="left-login-form"
         class="absolute flex flex-col justify-center items-center"
         style="
           padding: 20px;
@@ -93,7 +100,7 @@
         <% } %>
       </div>
 
-      <div id="left-login-container" class="flex justify-center items-center" style="width: 100vw; height: 100vh; padding: 20px">
+      <div id="right-login-container" class="flex justify-center items-center" style="width: 100vw; height: 100vh; padding: 20px">
         <div
           class="w-full h-full"
           style="background-repeat: no-repeat; background-size: cover; background-image: url('https://i.pinimg.com/736x/86/98/d7/8698d7b56bd81836ac38f9e9e08b84d2.jpg'); border-radius: 50px"
