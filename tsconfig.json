@@ -13,5 +13,5 @@
     }
   },
   "files": ["src/type.d.ts"], // Các file dùng để defined global type cho dự án
-  "include": ["src/**/*", "src/views/**/*"]
+  "include": ["src/**/*", "src/views/**/*", "public/js/NewspaperFlipEffect", "public/js/turn.js", "public/js/jquerry.js"]
 }

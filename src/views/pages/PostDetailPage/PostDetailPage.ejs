@@ -13,12 +13,40 @@
     <div class="h-screen"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
     <%- include('../../layouts/partials/Header', { sections: sections }) %>
 
-    <div class="flex flex-col justify-center items-center w-screen">
-      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif lg:text-5xl text-4xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
-      <div class="w-11/12 text-justify flex justify-center items-center flex-col">
-        <div id="article-content" class="font-dancing xl:text-xl text-lg text-justify w-[60%] w-[60%]"><%=content%></div>
-        <hr />
-        <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments, profile: profile }) %></div>
+    <div id="reader-mode-1" class="hidden">
+      <%- include('./FlipContent.ejs', {title: title, content: content, image: images, author: author.name})%>
+
+      <hr />
+    </div>
+
+    <div id="reader-mode-2">
+      <div class="flex flex-col justify-center items-center w-screen">
+        <div id="article-title" class="w-11/12 flex flex-col text-center font-serif lg:text-5xl text-4xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
+        <div class="w-11/12 text-justify flex justify-center items-center flex-col">
+          <div id="article-content" class="flex flex-row font-dancing xl:text-xl text-lg text-justify w-[60%] w-[60%]">
+            <%=content%>
+            <div id="pick-mode-container" style="position: sticky; top: 140px; margin-left: 8vw; background-color: black; height: fit-content; width: 70px; border-radius: 50px">
+              <div id="pick-mode">
+                <div
+                  id="flip-mode"
+                  data-short-text="F"
+                  data-full-text="Flip"
+                  class="flex flex-col justify-center items-center cursor-pointer"
+                  style="width: 50px; height: 50px; background-color: white; border-radius: 30px; margin: 10px"
+                ></div>
+                <div
+                  id="default-mode"
+                  data-short-text="D"
+                  data-full-text="Default"
+                  class="flex flex-col justify-center items-center cursor-pointer"
+                  style="width: 50px; height: 50px; background-color: white; border-radius: 30px; margin: 10px"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments, profile: profile }) %></div>
+        </div>
       </div>
     </div>
 
@@ -27,22 +55,66 @@
     <div><%- include('../../layouts/partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
     <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
-</html>
-
-<style>
-  #article-content {
-    line-height: 2rem;
-  }
-  #article-content::first-letter {
-    font-size: 7rem;
-    float: left;
-    padding-right: 10px;
-    padding-bottom: 30px;
-    padding-top: 30px;
-  }
-  @media (max-width: 320px) {
-    #article-content::first-letter {
-      font-size: 5rem;
+  <style>
+    #flip-mode:hover {
+      width: 100px !important;
+      border: 1px solid black;
+      transition: all 0.5 ease;
     }
-  }
-</style>
+    #flip-mode::after {
+      content: attr(data-short-text);
+    }
+    #flip-mode:hover::after {
+      content: attr(data-full-text) !important;
+    }
+
+    #default-mode:hover {
+      width: 100px !important;
+      border: 1px solid black;
+      transition: all 0.5 ease;
+    }
+    #default-mode::after {
+      content: attr(data-short-text);
+    }
+    #default-mode:hover::after {
+      content: attr(data-full-text) !important;
+    }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Display Picking Mode
+      document.querySelectorAll('#flip-mode').forEach((element) => {
+        element.addEventListener('click', () => {
+          document.querySelector('#reader-mode-1').style.display = 'block';
+          document.querySelector('#reader-mode-2').style.display = 'none';
+        });
+      });
+      document.querySelectorAll('#default-mode').forEach((element) => {
+        element.addEventListener('click', () => {
+          document.querySelector('#reader-mode-2').style.display = 'block';
+          document.querySelector('#reader-mode-1').style.display = 'none';
+        });
+      });
+      // The Scrolling Of Background
+      let lastY = 0;
+      let isTop = true;
+      let directionalScroll = true;
+      const handleScroll = () => {
+        if (window.scrollY >= lastY) {
+          directionalScroll = true;
+        } else {
+          directionalScroll = false;
+        }
+        lastY = window.scrollY;
+        if (isTop && directionalScroll) {
+          window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+          });
+        }
+        isTop = window.scrollY === 0 ? true : false;
+      };
+      window.addEventListener('scroll', handleScroll);
+    });
+  </script>
+</html>
