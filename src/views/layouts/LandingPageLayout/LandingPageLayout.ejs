@@ -11,12 +11,21 @@
     <title>The Elon Musk</title>
   </head>
   <body>
-    <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
+    <div class="fixed top-0 w-full h-24" style="z-index: 10"><%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
+
     <div
       class="sticky top-0 lg:h-dvh lg:bg-no-repeat lg:bg-cover lg:bg-red-500 lg:bg-[url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif')] bg-center"
-    ></div>
+    >
+      <iframe
+        src="https://www.youtube.com/embed/HVQoj5Q1pxo?autoplay=1&mute=1&loop=1&playlist=HVQoj5Q1pxo"
+        class="absolute top-0 left-0 w-full h-full"
+        style="z-index: -1; pointer-events: none"
+        frameborder="0"
+        allow="autoplay; loop; muted; fullscreen"
+      ></iframe>
+    </div>
 
-    <div class="flex justify-center"><%- include(body, {data: data, sections: sections}) %></div>
+    <div class="flex justify-center mt-24"><%- include(body, {data: data, sections: sections}) %></div>
 
     <%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %>
   </body>

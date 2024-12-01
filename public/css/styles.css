@@ -1977,6 +1977,10 @@ input:checked + .toggle-bg {
 .p-\[24px\] {
   padding: 24px;
 }
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
