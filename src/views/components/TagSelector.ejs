@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="relative mx-auto">
+      <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
+        <input id="searchInput" type="text" placeholder="Tags..." class="px-2 py-1 border-transparent focus:border-transparent flex-1 focus:ring-0 z-20" />
+      </div>
+      <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+        <div class="text-center text-gray-500 py-2">Loading...</div>
+      </div>
+    </div>
+    <script src="/js/tagSelection.js"></script>
+    <script>
+      // Mock Data for Tags
+      const tags = [
+        { _id: '1', name: 'JavaScript' },
+        { _id: '2', name: 'React' },
+        { _id: '3', name: 'Node.js' },
+        { _id: '4', name: 'Express' }
+      ];
+
+      // Instantiate TagSelector
+      document.addEventListener('DOMContentLoaded', () => {
+        const tagSelector = new TagSelector(
+          'tagContainer', // Container for selected tags
+          'dropdown', // Dropdown element
+          'searchInput', // Search input element
+          tags // List of all tags
+        );
+      });
+    </script>
+  </body>
+</html>

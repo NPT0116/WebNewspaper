@@ -33,5 +33,7 @@ export default {
     'hover:bg-gray-100',
     'cursor-pointer'
   ],
-  plugins: [flowbite]
+  plugins: [
+    flowbite // Thêm tailwind-hamburgers vào đây
+  ]
 };

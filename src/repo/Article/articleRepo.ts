@@ -26,6 +26,7 @@ export const reporterGetArticleById = async (articleId: string, reporterProfileI
   }
 
   const formattedArticle: IReporterArticleDetailInfo = {
+    _id: article._id,
     title: article.title,
     description: article.description,
     content: article.content,
@@ -69,6 +70,7 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
   }
 
   const formattedArticle: IReporterArticleDetailInfo = {
+    _id: article._id,
     title: article.title,
     description: article.description,
     content: article.content,

@@ -12,7 +12,7 @@
     <div class="">
       <div class="edit-article-container">
         <div class="edit-article-wrapper">
-          <form method="post" action="/api/articles/673d5607e42ae42bd084fb0d/update">
+          <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
             <div><%- include('Header') %></div>
             <div class="input-group-inline">
               <div class="relative w-1/2 mx-auto">
@@ -24,7 +24,10 @@
                 </div>
               </div>
   
-              <select name="section" id="section" placeholder="Section" class="input-field-inline"></select>
+              <select name="section" id="section" placeholder="Section" class="input-field-inline">
+                <option value=""></option>
+              </select>
+              <input type="hidden" name="content" id="editor-content" />
               <button id="save-button" type="submit" class="save-button-inline">Save</button>
               <button class="preview-button-inline">Preview</button>
           </form>
@@ -48,6 +51,19 @@
         }
       }
     </script>
+    <script></script>
     <script type="module" src="/js/editor.js"></script>
+    <script type="module">
+      import { editorInstance } from "/js/editor.js";
+    
+      // Wait for CKEditor to be initialized before using the editorInstance
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log("shihi");
+        // Make sure the editor is initialized and the editorInstance is set
+        if (editorInstance) {
+          editorInstance.setData("sadaasds");
+        }
+      });
+    </script>
   </body>
 </html>

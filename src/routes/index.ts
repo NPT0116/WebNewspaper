@@ -10,6 +10,7 @@ import sectionRouter from './landingpage/sectionRouter/sectionRouter.js';
 import profileRouter from './landingpage/profile/profileRouter.js';
 import searchPageRouter from './SearchPage/searchPageRouter.js';
 import { verifyRole } from '~/middlewares/verifyRole.js';
+import apiRouter from './api/apiRouter.js';
 const router = express.Router();
 
 router.use(PATH.HOME, accountRouter);
@@ -20,6 +21,7 @@ router.use(PATH.HOME, detailArticleRouter);
 router.use(PATH.HOME, sectionRouter);
 router.use(PATH.HOME, profileRouter);
 router.use(PATH.HOME, searchPageRouter);
+router.use(PATH.HOME, apiRouter);
 // All dashboard router here
 router.use(PATH.DASHBOARD.PATH, verifyRole(['admin', 'reporter', 'editor']), dashboardRouter);
 
