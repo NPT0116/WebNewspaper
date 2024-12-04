@@ -55,7 +55,6 @@
     <div id="layout-preview"></div>
 
     <script></script>
-    <script src="/js/editor.js"></script>
     <script>
       const data = <%- JSON.stringify(data) %>;
       console.log(data);
@@ -96,13 +95,7 @@
             imageUrl = e.target.result;
             imageUrls[0] = e.target.result;
             // Add event listener for image preview only once
-            if (!isEventListenerAdded) {
-              imagePreview.addEventListener('click', () => {
-                uploadInput.click();
-              });
 
-              isEventListenerAdded = true;
-            }
             console.log(layout.value);
             renderPreviewLayout(layout.value);
           // Update the hidden input field value with the image URLs array
@@ -142,26 +135,7 @@
           imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
           imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
 
-          // Remove the event listener when there's no image
-          imagePreview.removeEventListener('click', () => {
-            uploadInput.click();
-          });
 
-          isEventListenerAdded = false;
-        }
-      });
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // Your code to manipulate the DOM
-        const editorElement = document.querySelector('#editor-container > div > div.ck.ck-reset.ck-editor.ck-rounded-corners > div.ck.ck-editor__main > div');
-        console.log(editorElement);
-        const data = <%- JSON.stringify(data) %>;
-        console.log(data.content);
-        editorElement.innerHTML = data.content
-        CKEDITOR.instances[agenda_mesyuarat].setData(testing);
-        if (editorElement) {
-          editorElement.innerHTML = 'Your new content here!';
         }
       });
     </script>
