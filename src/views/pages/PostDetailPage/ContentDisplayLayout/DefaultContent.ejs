@@ -1,0 +1,22 @@
+<div class="lg:hidden flex hover:underline sm:text-5xl text-4xl font-serif text-center sm:p-[20px] p-[10px]"><%=title%></div>
+
+<div id="article-content" class="flex flex-col gap-9 justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]">
+  <div class="cursor-pointer shadow-lg hover:scale-105 transition-all duration-300" style="position: sticky; background-color: black; height: fit-content; width: fit-content; border-radius: 50px">
+    <div
+      id="go-to-flip-mode"
+      class="hidden md:flex flex-col justify-center items-center"
+      style="height: fit-content; width: fit-content; background-color: white; border-radius: 30px; margin: 2px; padding: 10px"
+    >
+      Flip Reading Mode
+    </div>
+  </div>
+  <%=content%>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#go-to-flip-mode').addEventListener('click', () => {
+      document.querySelector('#reader-mode-1').style.display = 'none';
+      document.querySelector('#reader-mode-2').style.display = 'inline-block';
+    });
+  });
+</script>

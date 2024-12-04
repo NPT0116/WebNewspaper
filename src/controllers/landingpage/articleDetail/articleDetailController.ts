@@ -136,7 +136,8 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
     //   sections
     // });
 
-    res.render('pages/PostDetailPage/PostDetailPage', {
+    res.render('layouts/PostDetailLayout/PostDetailLayout', {
+      body: '../../pages/PostDetailPage/PostDetailPage',
       ...article.toObject(),
       comments: commentWithNames,
       relatedArticle,

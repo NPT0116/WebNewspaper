@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <title><%= title %></title>
+  </head>
+
+  <body>
+    <%- include('../partials/HeaderTitle.ejs', { profile:profile }) %>
+    <div id="banner-container" class="hidden lg:flex h-screen">
+      <div data-id="1" id="banner-layout-1" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+        <div id="banner-introduction-layout-image" class="h-full w-1/2">
+          <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
+        </div>
+        <div
+          id="banner-introduction-layout-content"
+          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4"
+          style="padding-bottom: 96px; padding-left: 20px; padding-right: 20px"
+        >
+          <div class="hover:underline text-5xl font-serif"><%=title%></div>
+          <div class="hover:underline text-xl italic font-serif"><%=description%></div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+        </div>
+      </div>
+      <div data-id="2" id="banner-layout-2" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+        <div
+          id="banner-introduction-layout-content"
+          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4 bg-black text-white"
+          style="padding-bottom: 96px; padding-left: 20px; padding-right: 20px"
+        >
+          <div class="hover:underline text-5xl font-serif"><%=title%></div>
+          <div class="hover:underline text-xl italic font-serif"><%=description%></div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+        </div>
+        <div id="banner-introduction-layout-image" class="relative h-full w-1/2">
+          <div
+            id="image-overlay"
+            class="absolute left-0 w-full h-full"
+            style="background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.8))"
+          ></div>
+          <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
+        </div>
+      </div>
+      <div data-id="3" id="banner-layout-3" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+        <div
+          id="banner-introduction-layout-content"
+          class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-screen flex flex-col justify-center items-center text-center gap-4"
+          style="padding-bottom: 96px"
+        >
+          <div class="hover:underline text-5xl font-serif"><%=title%></div>
+          <div class="hover:underline text-xl italic font-serif"><%=description%></div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
+        </div>
+        <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
+      </div>
+    </div>
+
+    <div class="flex justify-center flex-col">
+      <%-include(body, {title: title, content: content, images: images, author: author.name, sections: sections, articles: relatedArticle, articleSlug: slug, sectionSlug: sectionId.slug,comments:
+      comments, profile: profile})%>
+    </div>
+
+    <div><%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
+    <%- include('../../components/subscriptionModal/subscription.ejs') %>
+  </body>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Layout For Banner
+      const layoutIndex = 2;
+      const bannerContainer = document.querySelector('#banner-container');
+      for (let i = 0; i < bannerContainer.children.length; i++) {
+        const banner = bannerContainer.querySelector(`#banner-layout-${i + 1}`);
+        banner.style.display = 'hidden';
+      }
+      bannerContainer.querySelector(`#banner-layout-${layoutIndex}`).style.display = 'flex';
+      // Change HeaderColor if Layout type is 2
+      if (layoutIndex === 2 && window.innerWidth >= 1024) {
+        document.getElementById('header').style.color = 'white';
+        document.getElementById('header').style.backgroundColor = 'black';
+        console.log(document.getElementById('header'));
+      }
+
+      // The Scrolling Of Background
+      let lastY = 0;
+      let isTop = true;
+      let directionalScroll = true;
+      const handleScroll = () => {
+        if (window.scrollY >= lastY) {
+          directionalScroll = true;
+        } else {
+          directionalScroll = false;
+        }
+        lastY = window.scrollY;
+        if (isTop && directionalScroll) {
+          window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+          });
+          if (layoutIndex === 2) {
+            document.getElementById('header').style.color = '';
+            document.getElementById('header').style.backgroundColor = '';
+          }
+        }
+        isTop = window.scrollY === 0 ? true : false;
+        if (isTop) {
+          if (layoutIndex === 2 && window.innerWidth >= 1024) {
+            document.getElementById('header').style.color = 'white';
+            document.getElementById('header').style.backgroundColor = 'black';
+          }
+        }
+      };
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', () => {
+        isTop = window.scrollY === 0 ? true : false;
+        if (isTop && window.innerWidth >= 1024 && layoutIndex === 2) {
+          document.getElementById('header').style.color = 'white';
+          document.getElementById('header').style.backgroundColor = 'black';
+        } else {
+          document.getElementById('header').style.color = '';
+          document.getElementById('header').style.backgroundColor = '';
+        }
+      });
+    });
+  </script>
+</html>
