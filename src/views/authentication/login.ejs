@@ -108,4 +108,12 @@
       </div>
     </div>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputs = document.querySelectorAll('.input-content');
+      inputs.forEach((input) => {
+        input.value = '';
+      });
+    });
+  </script>
 </html>
