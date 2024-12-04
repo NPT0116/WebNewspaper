@@ -55,11 +55,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     if (searchValue) {
       query = {
         ...query,
-        $or: [
-          { title: { $regex: `\\b${searchValue}\\b`, $options: 'i' } },
-          { content: { $regex: `\\b${searchValue}\\b`, $options: 'i' } },
-          { description: { $regex: `\\b${searchValue}\\b`, $options: 'i' } }
-        ]
+        $text: { $search: searchValue }
       };
     }
 
@@ -88,6 +84,8 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       res.status(404).json({ error: 'Page not found' });
       return;
     }
+
+    console.log(sectionTree);
 
     const searchPageData: ISearchPageData = {
       body: '../../pages/SearchPage/SearchPage',

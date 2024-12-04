@@ -71,7 +71,7 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
       return;
     }
 
-    // Map watched articles
+    // Map watched articles and sort by 'viewedAt' (most recent first)
     const response: IArticleCard[] = readerProfile.watchedArticles
       .map((watchedArticle) => {
         const article = watchedArticle.articleId as any;
@@ -103,9 +103,13 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
           viewedAt: watchedArticle.viewedAt // Include viewedAt from watchedArticles
         };
       })
-      .filter((article) => article !== null); // Filter out null entries
+      .filter((article) => article !== null) // Filter out null entries
+      .sort((a, b) => {
+        // Sort by 'viewedAt' in descending order (latest first)
+        return new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime();
+      });
 
-    // Render the page
+    // Render the page with sorted articles
     res.render('pages/LandingPage/Profile/WatchedArticlePage', {
       articles: response,
       sections: await getSectionTree(),

@@ -161,7 +161,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 export const verifyOtp = async (req: Request, res: Response): Promise<void> => {
   const { email, otp } = req.body;
   if (!otp) {
-    req.flash('error', 'OTP are require');
+    req.flash('error', 'OTP is required');
     res.redirect('/login/forgot-password/verify?email=' + email);
     return;
   }
@@ -201,7 +201,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
   const { email, newPassword } = req.body; // Dùng req.body thay vì req.query
 
   if (!newPassword) {
-    req.flash('error', 'New Password are required');
+    req.flash('error', 'New password is required');
     res.redirect('/login/forgot-password/reset?email=' + email);
     return;
   }
