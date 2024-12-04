@@ -1169,10 +1169,6 @@ input:checked + .toggle-bg {
   top: 2.5rem;
 }
 
-.top-24 {
-  top: 6rem;
-}
-
 .top-28 {
   top: 7rem;
 }
@@ -1337,6 +1333,10 @@ input:checked + .toggle-bg {
   margin-top: 5rem;
 }
 
+.mt-24 {
+  margin-top: 6rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -1351,10 +1351,6 @@ input:checked + .toggle-bg {
 
 .mt-\[70px\] {
   margin-top: 70px;
-}
-
-.mt-24 {
-  margin-top: 6rem;
 }
 
 .block {
@@ -1383,6 +1379,10 @@ input:checked + .toggle-bg {
 
 .grid {
   display: grid;
+}
+
+.contents {
+  display: contents;
 }
 
 .hidden {
@@ -1415,6 +1415,10 @@ input:checked + .toggle-bg {
 
 .h-24 {
   height: 6rem;
+}
+
+.h-28 {
+  height: 7rem;
 }
 
 .h-3 {
@@ -1491,10 +1495,6 @@ input:checked + .toggle-bg {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-28 {
-  height: 7rem;
 }
 
 .max-h-48 {
@@ -1613,6 +1613,10 @@ input:checked + .toggle-bg {
   width: 50%;
 }
 
+.w-\[50px\] {
+  width: 50px;
+}
+
 .w-\[52px\] {
   width: 52px;
 }
@@ -1623,6 +1627,10 @@ input:checked + .toggle-bg {
 
 .w-\[80\%\] {
   width: 80%;
+}
+
+.w-\[95\%\] {
+  width: 95%;
 }
 
 .w-auto {
@@ -1640,14 +1648,6 @@ input:checked + .toggle-bg {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[50px\] {
-  width: 50px;
-}
-
-.w-\[95\%\] {
-  width: 95%;
 }
 
 .max-w-md {
@@ -1996,11 +1996,6 @@ input:checked + .toggle-bg {
   border-width: 2px;
 }
 
-.border-y-2 {
-  border-top-width: 2px;
-  border-bottom-width: 2px;
-}
-
 .border-b {
   border-bottom-width: 1px;
 }
@@ -2294,10 +2289,6 @@ input:checked + .toggle-bg {
   background-size: cover;
 }
 
-.bg-center {
-  background-position: center;
-}
-
 .bg-no-repeat {
   background-repeat: no-repeat;
 }
@@ -2353,12 +2344,17 @@ input:checked + .toggle-bg {
   padding: 1.5rem;
 }
 
+.p-\[10px\] {
+  padding: 10px;
+}
+
 .p-\[24px\] {
   padding: 24px;
 }
 
-.p-\[10px\] {
-  padding: 10px;
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .px-2 {
@@ -2429,11 +2425,6 @@ input:checked + .toggle-bg {
 .py-\[5px\] {
   padding-top: 5px;
   padding-bottom: 5px;
-}
-
-.px-10 {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
 }
 
 .pb-10 {
@@ -3392,12 +3383,12 @@ body {
     min-height: 20vh;
   }
 
-  .sm\:w-\[90\%\] {
-    width: 90%;
-  }
-
   .sm\:w-\[70\%\] {
     width: 70%;
+  }
+
+  .sm\:w-\[90\%\] {
+    width: 90%;
   }
 
   .sm\:flex-1 {
@@ -3542,16 +3533,12 @@ body {
     display: none;
   }
 
-  .lg\:h-auto {
-    height: auto;
-  }
-
-  .lg\:h-dvh {
-    height: 100dvh;
-  }
-
   .lg\:h-24 {
     height: 6rem;
+  }
+
+  .lg\:h-auto {
+    height: auto;
   }
 
   .lg\:w-1\/2 {
@@ -3574,23 +3561,6 @@ body {
     --tw-space-x-reverse: 0;
     margin-right: calc(5% * var(--tw-space-x-reverse));
     margin-left: calc(5% * calc(1 - var(--tw-space-x-reverse)));
-  }
-
-  .lg\:bg-red-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
-  }
-
-  .lg\:bg-\[url\(\'https\:\/\/media\.newyorker\.com\/photos\/6740adf115ada29979d23ea0\/master\/w_2240\2c c_limit\/nyorker_rap_world\.gif\'\)\] {
-    background-image: url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif');
-  }
-
-  .lg\:bg-cover {
-    background-size: cover;
-  }
-
-  .lg\:bg-no-repeat {
-    background-repeat: no-repeat;
   }
 
   .lg\:object-cover {
@@ -3624,11 +3594,6 @@ body {
   .lg\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
-  }
-
-  .lg\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
   }
 
   .lg\:text-\[16px\] {
