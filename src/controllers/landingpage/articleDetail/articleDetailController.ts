@@ -5,6 +5,9 @@ import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
+import { getSectionTree } from '~/repo/Section/index.js';
+import { getProfile } from '../landingpageController.js';
+
 export const relatedArticleFunc = async (sectionSlug: string) => {
   try {
     const section = await Section.findOne({ slug: sectionSlug });
@@ -33,7 +36,8 @@ export const relatedArticleFunc = async (sectionSlug: string) => {
         name: article.author.name,
         _id: article.author._id
       },
-      images: article.images
+      images: article.images,
+      isSubscribed: article.isSubscribed
     }));
     return response;
   } catch (e) {
@@ -88,10 +92,12 @@ interface IArtcileDetailLandingpageResponse {
   comments: IComment[];
   views: number;
   bannerTheme: string;
+  isSubscribed: boolean;
 }
 export const renderArticleDetail = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
   try {
     const { sectionSlug, articleSlug } = req.params;
+    const sections = await getSectionTree();
 
     const article = await Article.findOne({ slug: articleSlug })
       .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
@@ -123,18 +129,49 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       relatedArticle = [];
     }
 
-    console.log({
-      ...article.toObject(),
-      comments: commentWithNames,
-      relatedArticle
-    });
+    // res.json({
+    //   ...article.toObject(),
+    //   comments: commentWithNames,
+    //   relatedArticle,
+    //   sections
+    // });
 
     res.render('pages/PostDetailPage/PostDetailPage', {
       ...article.toObject(),
       comments: commentWithNames,
-      relatedArticle
+      relatedArticle,
+      sections
     });
   } catch (e) {
     next(new AppError("can't get detail article", 500));
   }
+};
+
+export const verifySubscription = (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
+  const { isSubscribed } = req.query;
+
+  // Chuyển query thành boolean
+  const isArticleSubscribed = isSubscribed === 'true';
+
+  // Nếu bài viết không yêu cầu subscription, tiếp tục
+  if (!isArticleSubscribed) {
+    next();
+    return;
+  }
+
+  // Kiểm tra người dùng đã đăng ký hay chưa
+  const user = req.user;
+
+  if (!user || !user.isSubscriber) {
+    // Trả về thông báo cần mua subscription (JSON cho AJAX hoặc HTML cho modal)
+    res.status(403).json({
+      success: false,
+      message: 'This article is for subscribers only. Please purchase a subscription to access it.'
+    });
+    return;
+  }
+
+  // Người dùng có quyền truy cập
+  next();
+  return;
 };

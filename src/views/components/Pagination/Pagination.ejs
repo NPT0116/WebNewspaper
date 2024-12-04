@@ -1,0 +1,37 @@
+<div class="flex justify-center items-center space-x-4">
+  <% if (pagination.currentPage > 1) { %>
+  <a href="/section/<%= section.slug %>?pageNumber=<%= pagination.currentPage - 1 %>">
+    <div class="bg-[#0879BF] text-white font-bold w-[47px] h-[47px] flex justify-center items-center rounded-md">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" class="h-[50%] w-[50%]">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      </svg>
+    </div>
+  </a>
+  <% } else { %>
+  <div class="w-[47px] h-[47px]"></div>
+  <% } %>
+
+  <div class="flex space-x-2">
+    <% let startPage = 1; let endPage = 3; if (pagination.currentPage > 2 && pagination.currentPage % 2 !== 0) { startPage = pagination.currentPage; endPage = Math.min(pagination.currentPage + 2,
+    pagination.totalPages); } if (pagination.currentPage % 2 === 0) { startPage = pagination.currentPage - 1; endPage = Math.min(pagination.currentPage + 1, pagination.totalPages); } if
+    (pagination.totalPages <= 3) { startPage = 1; endPage = pagination.totalPages; } for (let i = startPage; i <= endPage; i++) { %>
+    <a href="/section/<%= section.slug %>?pageNumber=<%= i %>">
+      <div class="w-[47px] h-[47px] flex justify-center items-center rounded-md font-bold text-[14px] <%= pagination.currentPage === i ? 'bg-[#0879BF] text-white' : 'bg-[#F5F5F5] text-black' %>">
+        <%= i %>
+      </div>
+    </a>
+    <% } %>
+  </div>
+
+  <% if (pagination.currentPage < pagination.totalPages) { %>
+  <a href="/section/<%= section.slug %>?pageNumber=<%= pagination.currentPage + 1 %>">
+    <div class="bg-[#0879BF] text-white w-[47px] h-[47px] flex justify-center items-center rounded-md">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="5" class="h-[50%] w-[50%]">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </div>
+  </a>
+  <% } else { %>
+  <div class="w-[47px] h-[47px]"></div>
+  <% } %>
+</div>

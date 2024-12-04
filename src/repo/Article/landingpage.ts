@@ -13,7 +13,6 @@ export const getHotNews = async () => {
     console.log("Can't find tag hot news");
     return null;
   }
-  console.log(mongoose.modelNames());
 
   const hotNews = await Article.find({
     status: 'published',
@@ -46,7 +45,8 @@ export const getHotNews = async () => {
     })),
     publishedAt: article.publishedAt,
     description: article.description,
-    images: article.images
+    images: article.images,
+    isSubscribed: article.isSubscribed // Thêm trường này
   }));
 };
 
@@ -80,7 +80,8 @@ export const getMostViewedArticles = async () => {
     publishedAt: article.publishedAt,
     description: article.description,
     images: article.images,
-    views: article.views
+    views: article.views,
+    isSubscribed: article.isSubscribed // Thêm trường này
   }));
 };
 
@@ -113,7 +114,8 @@ export const getLatestArticles = async () => {
     })),
     publishedAt: article.publishedAt,
     description: article.description,
-    images: article.images
+    images: article.images,
+    isSubscribed: article.isSubscribed // Thêm trường này
   }));
 };
 
@@ -175,6 +177,7 @@ export const getTopSectionsWithLatestArticles = async () => {
               views: latestArticle.views,
               description: latestArticle.description,
               images: latestArticle.images,
+              isSubscribed: latestArticle.isSubscribed,
               tags: latestArticle.tags.map((tag) => ({
                 id: tag._id,
                 name: tag.name,

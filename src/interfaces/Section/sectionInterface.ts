@@ -18,3 +18,9 @@ export interface ISectionBranch {
 }
 
 export type ISectionTree = ISectionBranch[];
+
+export interface ISectionBasicInfo {
+  id: string;
+  slug: string;
+  name: string;
+}

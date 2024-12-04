@@ -3,7 +3,10 @@ export const PATH = {
   LANDINGPAGE: {
     SEARCH_PAGE: '/search-page',
     SECTION: '/section/:sectionSlug',
-    ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug'
+    ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug',
+    PROFILE: '/profile',
+    WATCHED_ARTICLE: '/profile/watched-articles',
+    SAVE_COMMENT: '/section/:sectionSlug/article/:articleSlug/save-comment'
   },
   DASHBOARD: {
     PATH: '/dashboard',
@@ -11,7 +14,8 @@ export const PATH = {
       PATH: '/reporter',
       WRITE_ARTICLE: '/write-article/:articleId',
       SAVE_ARTICLE: '/write-article/:articleId/save',
-      CREATE_ARTICLE: '/create-article'
+      CREATE_ARTICLE: '/create-article',
+      SUBMIT_ARTICLE: '/:articleId/submit'
     },
     EDITOR: {
       PATH: '/editor',

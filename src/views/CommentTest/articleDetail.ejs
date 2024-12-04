@@ -1,121 +1,120 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Article Detail</title>
-  <style>
-    .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article Detail</title>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
 
-h1, h2 {
-  color: #333;
-}
+      h1,
+      h2 {
+        color: #333;
+      }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
+      ul {
+        list-style: none;
+        padding: 0;
+      }
 
-ul li {
-  margin-bottom: 10px;
-}
+      ul li {
+        margin-bottom: 10px;
+      }
 
-textarea {
-  width: 100%;
-  height: 80px;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 14px;
-}
+      textarea {
+        width: 100%;
+        height: 80px;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 14px;
+      }
 
-button {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
 
-button:hover {
-  background-color: #0056b3;
-}
+      button:hover {
+        background-color: #0056b3;
+      }
 
-.timestamp {
-  font-size: 12px;
-  color: #666;
-  margin-left: 10px;
-}
+      .timestamp {
+        font-size: 12px;
+        color: #666;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Bài viết -->
+      <h1><%= article.title %></h1>
+      <p><%= article.content %></p>
+      <hr />
 
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- Bài viết -->
-    <h1><%= article.title %></h1>
-    <p><%= article.content %></p>
-    <hr />
-
-    <!-- Danh sách bình luận -->
-    <h2>Comments</h2>
-    <ul id="comment-list">
-      <% comments.forEach(comment => { %>
+      <!-- Danh sách bình luận -->
+      <h2>Comments</h2>
+      <ul id="comment-list">
+        <% comments.forEach(comment => { %>
         <li>
-          <strong><%= comment.commenterName %></strong>: <%= comment.content %>
+          <strong><%= comment.commenterName %></strong>:
+          <%= comment.content %>
           <span class="timestamp"><%= new Date(comment.createdAt).toLocaleString() %></span>
         </li>
-      <% }); %>
-    </ul>
+        <% }); %>
+      </ul>
 
-    <!-- Form bình luận -->
-    <form id="comment-form" >
-      <textarea id="comment-input" name="content" placeholder="Enter your comment" required></textarea>
-      <button type="submit">Post Comment</button>
-    </form>
-  </div>
-  <script src="/socket.io/socket.io.js"></script> <!-- Kết nối Socket.IO -->
+      <!-- Form bình luận -->
+      <form id="comment-form">
+        <textarea id="comment-input" name="content" placeholder="Enter your comment" required></textarea>
+        <button type="submit">Post Comment</button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Kết nối Socket.IO -->
 
-  <script>
-    // Kết nối với Socket.IO
-    const socket = io();
+    <script>
+      // Kết nối với Socket.IO
+      const socket = io();
 
-    // Tham gia room của bài viết
-    const articleSlug = "<%= article.slug %>";
-    socket.emit('joinArticleRoom', articleSlug);
+      // Tham gia room của bài viết
+      const articleSlug = '<%= article.slug %>';
+      socket.emit('joinArticleRoom', articleSlug);
 
-    // Lắng nghe sự kiện newComment
-    socket.on('newComment', (comment) => {
-      const commentList = document.getElementById('comment-list');
-      const commentItem = document.createElement('li');
-      commentItem.innerHTML = `<strong>${comment.account.name}</strong>: ${comment.content} <span class="timestamp">${new Date(comment.createdAt).toLocaleString()}</span>`;
-      commentList.appendChild(commentItem);
-    });
+      // Lắng nghe sự kiện newComment
+      socket.on('newComment', (comment) => {
+        const commentList = document.getElementById('comment-list');
+        const commentItem = document.createElement('li');
+        commentItem.innerHTML = `<strong>${comment.account.name}</strong>: ${comment.content} <span class="timestamp">${new Date(comment.createdAt).toLocaleString()}</span>`;
+        commentList.appendChild(commentItem);
+      });
 
-    // Gửi bình luận qua API mà không reload trang
-    document.getElementById('comment-form').addEventListener('submit',async (event) => {
-      event.preventDefault();
-      const content = document.getElementById('comment-input').value;
-      const url = `/api/<%= article.slug %>/comments/save`;
-      console.log(url);
-      
-      await fetch(`/api/<%= article.slug %>/comments/save`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          document.getElementById('comment-input').value = ''; // Reset form input
+      // Gửi bình luận qua API mà không reload trang
+      document.getElementById('comment-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const content = document.getElementById('comment-input').value;
+        const url = `/api/<%= article.slug %>/comments/save`;
+        console.log(url);
+
+        await fetch(`/api/<%= article.slug %>/comments/save`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
         })
-        .catch((error) => console.error('Error posting comment:', error));
-    });
-  </script>
-</body>
+          .then((response) => response.json())
+          .then(() => {
+            document.getElementById('comment-input').value = ''; // Reset form input
+          })
+          .catch((error) => console.error('Error posting comment:', error));
+      });
+    </script>
+  </body>
 </html>
-
-

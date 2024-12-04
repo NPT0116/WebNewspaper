@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watched Article</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div><%- include('../../../layouts/partials/HeaderTitle', { profile: profile }) %></div>
+    <div><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
+    <div class="flex mx-[5%] lg:ml-[17%]">
+      <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
+        <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'watched-article'}) %>
+
+        <div class="w-[100%] md:w-[60%] lg:w-[65%]">
+          <div class="font-bold text-[30px] mb-[25px]">Watched Article</div>
+
+          <!-- Always show the page, even if there are no articles -->
+          <div class="w-[100%]">
+            <% if (articles.length > 0) { %> <% articles.forEach(article => { %>
+            <%- include('../../../components/Article/WatchedArticleCard.ejs', { article: article }) %>
+            <% }) %>
+            <% } else { %>
+            <div>No watched articles found.</div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="layout" class=""><%- include('../../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
+  </body>
+</html>

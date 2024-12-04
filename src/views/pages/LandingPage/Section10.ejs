@@ -5,28 +5,30 @@
   <div id="carousel-wrapper" class="relative overflow-hidden mb-4">
     <div id="carousel-items" class="flex gap-4 transition-transform duration-500">
       <% articles.forEach((article) => { %>
-        <div id="card-element" class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh">
-          <%- include('NewspaperCardTopSection', { article: article, latestArticle: article.latestArticle }) %>
-        </div>
+      <div id="card-element" class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh">
+        <%- include('../../components/Newspaper/NewspaperCardTopSection', { article: article, latestArticle: article.latestArticle }) %>
+      </div>
       <% }) %>
     </div>
   </div>
-  
+
   <div id="carousel-nav" class="h-10 relative flex justify-center items-center bottom-2 gap-2"></div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Set up
     const carouselItems = document.getElementById('carousel-items');
     const carouselWrapper = document.getElementById('carousel-wrapper');
     const cardElements = document.querySelectorAll('#card-element');
-    const itemsToShow = 4;
+    const cardSection4 = document.querySelector('#card-section4');
+    let itemsToShow = window.innerWidth >= 1024 ? 4 : window.innerWidth < 768 ? 1 : 2;
+
     const totalItems = carouselItems.children.length;
 
     let carouselWrapperWidth = carouselWrapper.offsetWidth;
-    let itemWidth = carouselWrapperWidth / itemsToShow - 12;
-    let distance = (parseFloat(carouselWrapperWidth) - itemWidth * 4.0) / 3.0;
+    let itemWidth = cardSection4.offsetWidth;
+    let distance = 16;
+
     let offsetMove = itemWidth + distance;
 
     cardElements.forEach((element) => {
@@ -34,10 +36,12 @@
     });
 
     window.addEventListener('resize', () => {
+      itemsToShow = window.innerWidth >= 1024 ? 4 : window.innerWidth < 768 ? 1 : 2;
       carouselWrapperWidth = carouselWrapper.offsetWidth;
-      itemWidth = carouselWrapperWidth / itemsToShow - 12;
-      distance = (parseFloat(carouselWrapperWidth) - itemWidth * 4.0) / 3.0;
+      itemWidth = cardSection4.offsetWidth;
+      distance = 16;
       offsetMove = itemWidth + distance;
+
       cardElements.forEach((element) => {
         element.style.minWidth = `${itemWidth}px`;
       });
@@ -58,7 +62,6 @@
     const navDots = document.querySelectorAll('#carousel-nav div');
     navDots.forEach((element) => {
       element.addEventListener('click', (event) => {
-        console.log(event.target.dataset.index);
         index = event.target.dataset.index;
         currentIndex = index;
         navDots.forEach((dot) => {
@@ -67,7 +70,6 @@
         });
         event.target.classList.remove('bg-black');
         event.target.classList.add('bg-red-500');
-        console.log(event.target);
         carouselItems.style.transform = `translateX(${-currentIndex * offsetMove}px)`;
       });
     });

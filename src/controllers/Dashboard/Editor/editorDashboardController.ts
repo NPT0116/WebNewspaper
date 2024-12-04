@@ -40,7 +40,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         details: `Can't find article with ID: ${articleId}`
       };
       return res.render('layouts/DashboardLayout/DashboardLayout', {
-        body: '../../pages/DashboardPages/EditorReviewPage',
+        body: '../../pages/DashboardPages/PreviewPage',
         approvalError,
         article: null // Không có bài viết
       });
@@ -56,7 +56,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         details: `Can't find account with ID: ${accountId}`
       };
       return res.render('layouts/DashboardLayout/DashboardLayout', {
-        body: '../../pages/DashboardPages/EditorReviewPage',
+        body: '../../pages/DashboardPages/PreviewPage',
         approvalError,
         article
       });
@@ -68,7 +68,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         details: `Can't find editorProfile with ID: ${accountId}`
       };
       return res.render('layouts/DashboardLayout/DashboardLayout', {
-        body: '../../pages/DashboardPages/EditorReviewPage',
+        body: '../../pages/DashboardPages/PreviewPage',
         approvalError,
         article
       });
@@ -81,7 +81,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         details: 'Editor does not belong to the same section as the article'
       };
       return res.render('layouts/DashboardLayout/DashboardLayout', {
-        body: '../../pages/DashboardPages/EditorReviewPage',
+        body: '../../pages/DashboardPages/PreviewPage',
         approvalError,
         article
       });
@@ -95,7 +95,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         details: "Article must be in 'pending' state to be approved or rejected"
       };
       return res.render('layouts/DashboardLayout/DashboardLayout', {
-        body: '../../pages/DashboardPages/EditorReviewPage',
+        body: '../../pages/DashboardPages/PreviewPage',
         approvalError,
         article
       });
@@ -110,7 +110,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
           details: 'Approved articles must have a published date'
         };
         return res.render('layouts/DashboardLayout/DashboardLayout', {
-          body: '../../pages/DashboardPages/EditorReviewPage',
+          body: '../../pages/DashboardPages/PreviewPage',
           approvalError,
           article
         });

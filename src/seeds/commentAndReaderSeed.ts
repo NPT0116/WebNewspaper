@@ -10,6 +10,7 @@ export const seedComments = async () => {
     // Xóa dữ liệu cũ
     await Comment.deleteMany({});
     await Account.deleteMany({ role: 'reader' });
+    await Account.deleteOne({ email: 'subscriberReader@example.com' });
     console.log('Old comments and reader accounts cleared.');
 
     // Tạo tài khoản Reader
@@ -28,7 +29,33 @@ export const seedComments = async () => {
       readerAccounts.push(savedReaderAccount);
     }
 
-    // Create profiles for accounts
+    // Tạo tài khoản Subscriber Reader
+    const subscriberReaderAccount = new Account({
+      email: 'subscriberReader@example.com',
+      role: 'subscriber',
+      isSubscriber: true,
+      profileType: 'ReaderProfile',
+      localAuth: {
+        username: 'subscriberReader',
+        password: await bcrypt.hash('123', 10)
+      }
+    });
+    const savedSubscriberReaderAccount = await subscriberReaderAccount.save();
+
+    // Tạo profile cho subscriberReader
+    const subscriberReaderProfile = new ReaderProfile({
+      accountId: savedSubscriberReaderAccount._id,
+      name: 'Subscriber Reader',
+      dob: new Date('1985-05-20'),
+      gender: 'male'
+    });
+    const savedSubscriberReaderProfile = await subscriberReaderProfile.save();
+    savedSubscriberReaderAccount.profileId = savedSubscriberReaderProfile._id as mongoose.Types.ObjectId;
+    await savedSubscriberReaderAccount.save();
+
+    console.log('Subscriber Reader account created:', savedSubscriberReaderAccount);
+
+    // Tạo profile cho các tài khoản reader
     for (let i = 1; i <= 6; i++) {
       const readerProfile = new ReaderProfile({
         accountId: readerAccounts[i - 1]._id,

@@ -49,10 +49,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 
     // res.status(201).json({ message: 'User registered successfully' });
 
-    req.login(savedAccount, (err) => {
-      if (err) return next(err);
-      res.redirect('/');
-    });
+    res.redirect('/login');
   } catch (error) {
     console.log(error);
 
@@ -61,11 +58,34 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
 };
 
 // Đăng nhập người dùng
-export const loginUser = passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-});
+export const loginUser = (req: Request, res: Response, next: NextFunction) => {
+  passport.authenticate('local', (err: any, user: any, info: any) => {
+    if (err) {
+      return next(err); // Handle any errors during authentication
+    }
+    if (!user) {
+      req.flash('error', 'Invalid username or password');
+      return res.redirect('/login'); // Redirect if authentication fails
+    }
+
+    req.logIn(user, (loginErr) => {
+      if (loginErr) {
+        return next(loginErr); // Handle login errors
+      }
+
+      // Check user role and redirect accordingly
+      if (user.role === 'admin') {
+        res.redirect('/dashboard/admin'); // Redirect admins or editors to the dashboard
+      } else if (user.role === 'editor') {
+        res.redirect('/dashboard/editor'); // Redirect admins or editors to the dashboard
+      } else if (user.role === 'reporter') {
+        res.redirect('/dashboard/reporter'); // Redirect admins or editors to the dashboard
+      } else {
+        res.redirect('/'); // Default redirect for other roles
+      }
+    });
+  })(req, res, next);
+};
 
 // Đăng xuất người dùng
 export const logoutUser = (req: Request, res: Response) => {
@@ -74,7 +94,7 @@ export const logoutUser = (req: Request, res: Response) => {
       return res.status(500).json({ message: 'Logout failed' });
     }
     res.clearCookie('connect.sid');
-    res.status(200).json({ message: 'Logout successful' });
+    res.redirect('/login');
   });
 };
 

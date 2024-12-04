@@ -1,8 +1,9 @@
-import { ISectionBranch, ISectionTree } from '~/interfaces/Section/sectionInterface.js';
+import { ISectionBasicInfo, ISectionBranch, ISectionTree } from '~/interfaces/Section/sectionInterface.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 import { NextFunction, Request, Response } from 'express';
 import { error } from 'console';
+import { ObjectId } from 'mongoose';
 
 export const getSectionTree: () => Promise<ISectionTree | null> = async () => {
   try {
@@ -54,4 +55,41 @@ export const getSectionsList = async (req: Request, res: Response, next: NextFun
 
     next(new AppError("Can't get section in list", 500));
   }
+};
+
+export const getAllSections = async (): Promise<ISectionBasicInfo[]> => {
+  try {
+    const allSections = await Section.find({});
+
+    if (!allSections) {
+      throw new AppError('Unable to get all sections', 404);
+    }
+
+    const responseSections: ISectionBasicInfo[] = allSections.map((section) => {
+      return {
+        id: section._id.toString(),
+        slug: section.slug,
+        name: section.name
+      };
+    });
+
+    return responseSections;
+  } catch (error) {
+    throw new AppError('Error getting all sections', 404);
+  }
+};
+
+export const getSectionSlug = async (sectionId: ObjectId): Promise<string> => {
+  try {
+    const section = await Section.findById(sectionId);
+
+    if (!section) {
+      throw new AppError(`Unable to get section of id: ${sectionId}`, 404);
+    }
+
+    return section?.slug.toString();
+  } catch (error) {
+    throw new AppError('Error getting section slug', 404);
+  }
+  return '';
 };

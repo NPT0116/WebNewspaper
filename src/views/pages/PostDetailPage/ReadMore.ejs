@@ -1,21 +1,12 @@
 <div class="flex justify-center mt-12">
   <div class="w-11/12">
     <hr />
-    <div class="text-center py-4 text-2xl">READ MORE</div>
+    <div class="text-center py-4 text-4xl font-dancing font-bold">READ MORE</div>
     <div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
-        <div class="p-4 bg-white shadow-lg rounded-lg"><%- include('../../components/Newspaper/NewspaperCard')%></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <% articles.forEach((article) => { %>
+        <div class="p-4 bg-white shadow-lg rounded-lg" style="height: 75vh"><%- include('../../components/Newspaper/NewspaperCard', { article: article, section: article.sectionId })%></div>
+        <% })%>
       </div>
     </div>
   </div>
