@@ -1,111 +1,154 @@
-<div id="categories" class="font-serif sticky top-24 bg-white z-10 transition-all duration-300 transform origin-top ease-header-ease">
-  <div class="hidden lg:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full">
-    <% sections.forEach((section) => {%>
-    <div
-      id="section-container"
-      class="group flex flex-col justify-center items-center hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center"
-      style="border-bottom: 4px solid black"
-    >
-      <a id="section-name" class="group w-full h-full p-2 text-lg xl:text-xl" href="\section\<%=section.slug%>"><%=section.name%></a>
+<<<<<<< HEAD
+<div id="categories" class="w-full font-serif sticky lg:top-24 top-28 bg-white z-10 transition-all duration-300 transform origin-top ease-header-ease">
+  =======
+  <div id="categories" class="font-serif sticky top-24 bg-white z-10 transition-all duration-300 transform origin-top ease-header-ease">
+    >>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
+    <div class="hidden lg:flex justify-center items-center flex-row overflow-x-auto whitespace-nowrap w-full">
+      <% sections.forEach((section) => {%>
+      <div
+        id="section-container"
+        class="group flex flex-col justify-center items-center hover:underline hover:bg-gray-100 cursor-pointer font-bold w-full text-center"
+        style="border-bottom: 4px solid black"
+      >
+        <a id="section-name" class="group w-full h-full p-2 text-lg xl:text-xl" href="\section\<%=section.slug%>"><%=section.name%></a>
 
-      <div id="sub-section-container" class="absolute top-10 w-1/6 p-2 font-dancing">
-        <% if (section.childSections && section.childSections.length > 0) {%>
-        <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200">
-          <% section.childSections.forEach((child) => {%>
-          <li id="" value="" class="w-full hover:bg-gray-300 flex justify-center items-center p-2">
-            <a id="sub-item" href="/section/<%= child.slug %>"><%=child.name%></a>
-          </li>
+        <div id="sub-section-container" class="absolute top-10 w-1/6 p-2 font-dancing">
+          <% if (section.childSections && section.childSections.length > 0) {%>
+          <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200">
+            <% section.childSections.forEach((child) => {%>
+            <li id="" value="" class="w-full hover:bg-gray-300 flex justify-center items-center p-2">
+              <a id="sub-item" href="/section/<%= child.slug %>"><%=child.name%></a>
+            </li>
+            <%}) %>
+          </ul>
+          <%} %>
+        </div>
+      </div>
+      <%})%>
+    </div>
+
+    <!-- Dropdown for xs and sm screens -->
+    <<<<<<< HEAD
+    <div class="lg:hidden">
+      =======
+      <div class="lg:hidden px-2 py-2">
+        >>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
+        <select id="dropdown-headbar" class="w-full border border-black rounded p-2">
+          <% sections.forEach((section) => {%>
+          <option id="/section/<%=section.slug%>" value="/section/<%=section.slug%>"><%=section.name%></option>
           <%}) %>
-        </ul>
-        <%} %>
+        </select>
       </div>
     </div>
-    <%})%>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const dropdownHeadBar = document.querySelector('#dropdown-headbar');
+          dropdownHeadBar.addEventListener('change', (event) => {
+            window.location.href = event.target.value;
+          });
+          // Animation
+          const catsBar = document.getElementById('categories');
+          const catsBarHeight = catsBar.offsetHeight;
+          const headerBar = document.getElementById('header');
+          const headerHeight = headerBar.offsetHeight;
+          const headerText = headerBar.querySelectorAll('*');
+          const sectionContainer = document.querySelectorAll('#section-container');
 
-  <!-- Dropdown for xs and sm screens -->
-  <div class="lg:hidden px-2 py-2">
-    <select id="dropdown-headbar" class="w-full border border-black rounded p-2">
-      <% sections.forEach((section) => {%>
-      <option id="/section/<%=section.slug%>" value="/section/<%=section.slug%>"><%=section.name%></option>
-      <%}) %>
-    </select>
+          let lastScrollY = window.scrollY;
+      <<<<<<< HEAD
+          let thresholdActiveHiddenBar = window.innerWidth >= 1024 ? 96 : 112;
+
+          let pastY = window.scrollY;
+          if (catsBar.getBoundingClientRect().top === thresholdActiveHiddenBar) {
+      =======
+
+          let pastY = window.scrollY;
+          if (catsBar.getBoundingClientRect().top === 96) {
+      >>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
+            headerBar.classList.remove('bg-opacity-50');
+          } else {
+            headerBar.classList.add('bg-opacity-50');
+          }
+      <<<<<<< HEAD
+          window.addEventListener('resize', () => {
+            thresholdActiveHiddenBar = window.innerWidth >= 1024 ? 96 : 112;
+
+            if (window.innerWidth < 768) {
+              if (headerBar.classList.contains('bg-opacity-50')) {
+                headerBar.classList.remove('bg-opacity-50');
+              }
+            } else {
+              if (catsBar.getBoundingClientRect().top === thresholdActiveHiddenBar) {
+                headerBar.classList.remove('bg-opacity-50');
+              } else {
+                headerBar.classList.add('bg-opacity-50');
+              }
+            }
+          });
+
+          document.addEventListener('scroll', () => {
+            thresholdActiveHiddenBar = window.innerWidth >= 1024 ? 96 : 112;
+
+            if (catsBar.getBoundingClientRect().top === thresholdActiveHiddenBar) {
+              if (headerBar.classList.contains('bg-opacity-50')) {
+                headerBar.classList.remove('bg-opacity-50');
+              }
+      =======
+
+          document.addEventListener('scroll', () => {
+            if (catsBar.getBoundingClientRect().top === 96) {
+              if (headerBar.classList.contains('bg-opacity-50')) {
+                headerBar.classList.remove('bg-opacity-50');
+              }
+      >>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
+
+              if (window.scrollY > 1200 && window.scrollY > pastY) {
+                catsBar.classList.add('scale-y-0');
+                catsBar.classList.remove('scale-y-100');
+              } else {
+                catsBar.classList.remove('scale-y-0');
+                catsBar.classList.add('scale-y-100');
+              }
+              pastY = window.scrollY;
+
+              headerBar.style.backgroundColor = 'white';
+              sectionContainer.forEach((children) => {
+                children.style.borderBottom = '2px solid black';
+                children.style.borderTop = '2px solid black';
+              });
+
+              headerText.forEach((content) => {
+                if (content.classList.contains('text-5xl')) {
+                  content.classList.remove('text-5xl');
+                  content.classList.add('text-4xl');
+                }
+                if (content.classList.contains('text-xl')) {
+                  content.classList.remove('text-xl');
+                  content.classList.add('text-lg');
+                }
+              });
+            } else if (catsBar.getBoundingClientRect().top > 96) {
+              sectionContainer.forEach((children) => {
+                children.style.borderBottom = '4px solid black';
+                children.style.borderTop = '';
+              });
+              if (!headerBar.classList.contains('bg-opacity-50')) {
+                headerBar.classList.add('bg-opacity-50');
+                headerBar.style.backgroundColor = '';
+
+                console.log(headerBar);
+              }
+            } else {
+              sectionContainer.forEach((children) => {
+                children.style.borderTop = '';
+              });
+
+              if (!headerBar.classList.contains('bg-opacity-50')) {
+                headerBar.classList.add('bg-opacity-50');
+              }
+            }
+          });
+        });
+    </script>
   </div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const dropdownHeadBar = document.querySelector('#dropdown-headbar');
-    dropdownHeadBar.addEventListener('change', (event) => {
-      window.location.href = event.target.value;
-    });
-    // Animation
-    const catsBar = document.getElementById('categories');
-    const catsBarHeight = catsBar.offsetHeight;
-    const headerBar = document.getElementById('header');
-    const headerHeight = headerBar.offsetHeight;
-    const headerText = headerBar.querySelectorAll('*');
-    const sectionContainer = document.querySelectorAll('#section-container');
-
-    let lastScrollY = window.scrollY;
-
-    let pastY = window.scrollY;
-    if (catsBar.getBoundingClientRect().top === 96) {
-      headerBar.classList.remove('bg-opacity-50');
-    } else {
-      headerBar.classList.add('bg-opacity-50');
-    }
-
-    document.addEventListener('scroll', () => {
-      if (catsBar.getBoundingClientRect().top === 96) {
-        if (headerBar.classList.contains('bg-opacity-50')) {
-          headerBar.classList.remove('bg-opacity-50');
-        }
-
-        if (window.scrollY > 1200 && window.scrollY > pastY) {
-          catsBar.classList.add('scale-y-0');
-          catsBar.classList.remove('scale-y-100');
-        } else {
-          catsBar.classList.remove('scale-y-0');
-          catsBar.classList.add('scale-y-100');
-        }
-        pastY = window.scrollY;
-
-        headerBar.style.backgroundColor = 'white';
-        sectionContainer.forEach((children) => {
-          children.style.borderBottom = '2px solid black';
-          children.style.borderTop = '2px solid black';
-        });
-
-        headerText.forEach((content) => {
-          if (content.classList.contains('text-5xl')) {
-            content.classList.remove('text-5xl');
-            content.classList.add('text-4xl');
-          }
-          if (content.classList.contains('text-xl')) {
-            content.classList.remove('text-xl');
-            content.classList.add('text-lg');
-          }
-        });
-      } else if (catsBar.getBoundingClientRect().top > 96) {
-        sectionContainer.forEach((children) => {
-          children.style.borderBottom = '4px solid black';
-          children.style.borderTop = '';
-        });
-        if (!headerBar.classList.contains('bg-opacity-50')) {
-          headerBar.classList.add('bg-opacity-50');
-          headerBar.style.backgroundColor = '';
-
-          console.log(headerBar);
-        }
-      } else {
-        sectionContainer.forEach((children) => {
-          children.style.borderTop = '';
-        });
-
-        if (!headerBar.classList.contains('bg-opacity-50')) {
-          headerBar.classList.add('bg-opacity-50');
-        }
-      }
-    });
-  });
-</script>

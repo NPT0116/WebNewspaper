@@ -5,7 +5,9 @@ import { AppError } from '../../utils/appError.js';
 import passport from 'passport';
 import { Account } from '~/models/Account/accountSchema.js';
 import { ReaderProfile } from '~/models/Profile/readerProfile.js';
-
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 interface IAccountRegister {
   username: string;
@@ -98,6 +100,143 @@ export const logoutUser = (req: Request, res: Response) => {
   });
 };
 
+// Cấu hình transporter cho Gmail
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'huy37204@gmail.com',
+    pass: 'gaxy ytny gfhc hkni'
+  }
+});
+
+// Hàm gửi OTP qua email
+const sendOtp = async (email: string): Promise<string> => {
+  const otp = crypto.randomInt(100000, 999999); // Tạo OTP ngẫu nhiên 6 chữ số
+
+  const mailOptions = {
+    from: 'huy37204@gmail.com',
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Your OTP for password reset is: <strong>${otp}</strong></p>`
+  };
+
+  try {
+    // Gửi email
+    await transporter.sendMail(mailOptions);
+    return otp.toString();
+  } catch (error) {
+    const err = error as Error;
+    throw new Error('Error sending OTP email: ' + err.message);
+  }
+};
+
+// Hàm xử lý yêu cầu gửi OTP để đổi mật khẩu
+export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+  const { email } = req.body;
+
+  if (!(email.length > 1)) {
+    req.flash('error', 'Email is required');
+    res.redirect('/login/forgot-password');
+    return;
+  }
+  const account = await Account.findOne({ email: email });
+
+  if (!account) {
+    req.flash('error', 'Incorrect email');
+    res.redirect('/login/forgot-password');
+    return;
+  }
+
+  try {
+    const otp = await sendOtp(email);
+    account.resetOtp = otp;
+    await account.save();
+    res.redirect('/login/forgot-password/verify?email=' + email);
+  } catch (error) {
+    req.flash('error', 'Error sending OTP email');
+    res.redirect('/login/forgot-password');
+  }
+};
+
+export const verifyOtp = async (req: Request, res: Response): Promise<void> => {
+  const { email, otp } = req.body;
+  if (!otp) {
+    req.flash('error', 'OTP is required');
+    res.redirect('/login/forgot-password/verify?email=' + email);
+    return;
+  }
+
+  try {
+    // Tìm tài khoản theo email
+    const account = await Account.findOne({ email });
+
+    if (!account) {
+      res.status(400).send('Account not found');
+      return;
+    }
+
+    // Kiểm tra OTP
+    if (account.resetOtp !== otp) {
+      req.flash('error', 'Incorrect OTP');
+      res.redirect('/login/forgot-password/verify?email=' + email);
+      return;
+    }
+
+    // Xóa OTP khỏi tài khoản sau khi xác minh thành công
+    account.resetOtp = '';
+    await account.save();
+
+    // Chuyển hướng tới trang đặt lại mật khẩu với email
+    res.redirect(`/login/forgot-password/reset?email=${email}`);
+  } catch (error) {
+    console.error(error);
+    res.render('authentication/forgotPasswordVerify', {
+      email,
+      errorMessage: 'An error occurred. Please try again later.'
+    });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  const { email, newPassword } = req.body; // Dùng req.body thay vì req.query
+
+  if (!newPassword) {
+    req.flash('error', 'New password is required');
+    res.redirect('/login/forgot-password/reset?email=' + email);
+    return;
+  }
+
+  // Tìm tài khoản theo email
+  const account = await Account.findOne({ email });
+
+  if (!account) {
+    res.status(404).send('Account not found');
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    req.flash('error', 'Password must be at least 6 character length');
+    res.redirect('/login/forgot-password/reset?email=' + email);
+    return;
+  }
+
+  // Mã hóa mật khẩu mới
+  const hashedPassword = bcrypt.hashSync(newPassword, 10);
+  if (!account.localAuth) {
+    res.status(400).send('Local authentication data is missing');
+    return;
+  }
+
+  // Cập nhật mật khẩu mới và xóa OTP
+  account.localAuth.password = hashedPassword;
+  account.resetOtp = ''; // Xóa OTP sau khi sử dụng
+
+  await account.save();
+
+  req.flash('success', 'Password has been updated successfully');
+
+  res.redirect('/login');
+};
 export const loginGithub = passport.authenticate('github', { scope: ['user:email'] });
 
 export const githubCallbackFunction = passport.authenticate('github', { failureRedirect: '/login', failureFlash: true });

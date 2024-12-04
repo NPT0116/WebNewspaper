@@ -13,6 +13,7 @@
       <div class="edit-article-container">
         <div class="edit-article-wrapper">
           <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
+          <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
             <div><%- include('Header') %></div>
             <div class="input-group-inline">
               <div class="relative w-1/2 mx-auto">
@@ -51,6 +52,7 @@
         }
       }
     </script>
+    <script></script>
     <script type="module" src="/js/editor.js"></script>
     <script>
       const data1 = <%- JSON.stringify(data) %>;

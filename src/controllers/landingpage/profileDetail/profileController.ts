@@ -37,55 +37,89 @@ export const getReaderProfile = async (req: Request, res: Response, next: NextFu
 export const getWatchedArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = req.user;
+    if (!user) {
+      res.status(401).json({ status: 'error', message: 'User not authenticated' });
+      return;
+    }
 
     // Fetch the reader profile
-    const readerProfile = await ReaderProfile.findOne({ accountId: user?._id });
-
-    // Fetch additional data
-    const sections = await getSectionTree();
-    const data = await getLandingPageData();
+    const readerProfile = await ReaderProfile.findOne({ accountId: user?._id }).populate({
+      path: 'watchedArticles.articleId', // Populate article details
+      model: 'Article',
+      populate: [
+        { path: 'sectionId', model: 'Section' },
+        { path: 'tags', model: 'Tag' },
+        { path: 'author', model: 'ReporterProfile' }
+      ]
+    });
 
     if (!readerProfile) {
       res.redirect('/');
       return;
     }
 
-    // Find articles based on watched articles and sort by viewedAt
-    const articles = await profileReaderFindArticlesByIds(readerProfile, 10);
+    // Ensure watchedArticles is available
+    if (!readerProfile.watchedArticles || readerProfile.watchedArticles.length === 0) {
+      console.log('No watched articles found.');
+      res.render('pages/LandingPage/Profile/WatchedArticlePage', {
+        articles: [], // Pass empty array
+        sections: await getSectionTree(),
+        data: await getLandingPageData(),
+        readerProfile: readerProfile,
+        isSubscriber: user?.isSubscriber || false
+      });
+      return;
+    }
 
-    // Map articles for response
-    const response: IArticleCard[] = articles.map((article) => ({
-      slug: article.slug,
-      title: article.title,
-      description: article.description,
-      isSubscribed: article.isSubscribed,
-      sectionId: {
-        _id: article.sectionId._id,
-        name: article.sectionId.name,
-        slug: article.sectionId.slug
-      },
-      tags: article.tags.map((tag: any) => ({
-        name: tag.name,
-        slug: tag.slug,
-        _id: tag._id
-      })),
-      author: {
-        name: article.author.name,
-        _id: article.author._id
-      },
-      images: article.images
-    }));
+    // Map watched articles and sort by 'viewedAt' (most recent first)
+    const response: IArticleCard[] = readerProfile.watchedArticles
+      .map((watchedArticle) => {
+        const article = watchedArticle.articleId as any;
+        if (!article) {
+          console.warn('Article not found for watchedArticle:', watchedArticle);
+          return null; // Skip invalid entries
+        }
+        return {
+          slug: article.slug,
+          title: article.title,
+          description: article.description,
+          isSubscribed: article.isSubscribed,
+          sectionId: {
+            _id: article.sectionId?._id,
+            name: article.sectionId?.name,
+            slug: article.sectionId?.slug
+          },
+          tags:
+            article.tags?.map((tag: any) => ({
+              name: tag.name,
+              slug: tag.slug,
+              _id: tag._id
+            })) || [],
+          author: {
+            name: article.author?.name,
+            _id: article.author?._id
+          },
+          images: article.images || [],
+          viewedAt: watchedArticle.viewedAt // Include viewedAt from watchedArticles
+        };
+      })
+      .filter((article) => article !== null) // Filter out null entries
+      .sort((a, b) => {
+        // Sort by 'viewedAt' in descending order (latest first)
+        return new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime();
+      });
 
-    // Render the page with the articles and pagination
+    // Render the page with sorted articles
     res.render('pages/LandingPage/Profile/WatchedArticlePage', {
-      articles: response, // Pass the articles (which could be empty)
-      sections: sections,
-      data: data,
+      articles: response,
+      sections: await getSectionTree(),
+      data: await getLandingPageData(),
       readerProfile: readerProfile,
       isSubscriber: user?.isSubscriber || false
     });
   } catch (error) {
-    next(new AppError('Internal Server Error', 500));
+    console.error('Error in getWatchedArticle:', error); // Log the error
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
 
