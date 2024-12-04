@@ -49,7 +49,7 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
       populate: [
         { path: 'sectionId', model: 'Section' },
         { path: 'tags', model: 'Tag' },
-        { path: 'author', model: 'ReporterProfile ' }
+        { path: 'author', model: 'ReporterProfile' }
       ]
     });
 

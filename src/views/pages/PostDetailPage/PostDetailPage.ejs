@@ -10,15 +10,15 @@
 
   <body>
     <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
-    <div class="h-dvh bg-cover"><img class="bg-contain h-full w-full" src="<%=images%>" alt="" /></div>
+    <div class="h-screen"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
     <%- include('../../layouts/partials/Header', { sections: sections }) %>
 
     <div class="flex flex-col justify-center items-center w-screen">
-      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif text-5xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
+      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif lg:text-5xl text-4xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
       <div class="w-11/12 text-justify flex justify-center items-center flex-col">
-        <div id="article-content" class="font-dancing text-xl text-justify" style="width: 60%"><%=content%></div>
+        <div id="article-content" class="font-dancing xl:text-xl text-lg text-justify w-[60%] w-[60%]"><%=content%></div>
         <hr />
-        <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments }) %></div>
+        <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments, profile: profile }) %></div>
       </div>
     </div>
 
@@ -28,16 +28,21 @@
     <%- include('../../components/subscriptionModal/subscription.ejs') %>
   </body>
 </html>
+
 <style>
   #article-content {
     line-height: 2rem;
   }
   #article-content::first-letter {
-    font-size: 8rem;
+    font-size: 7rem;
     float: left;
-
     padding-right: 10px;
     padding-bottom: 30px;
     padding-top: 30px;
+  }
+  @media (max-width: 320px) {
+    #article-content::first-letter {
+      font-size: 5rem;
+    }
   }
 </style>

@@ -271,6 +271,18 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
         pageSize: size
       }
     });
+    // res.json({
+    //   data: data,
+    //   section: rootSection,
+    //   articles: response,
+    //   sections: sections,
+    //   pagination: {
+    //     totalItems: totalArticles,
+    //     totalPages: totalPages,
+    //     currentPage: pageNum,
+    //     pageSize: size
+    //   }
+    // });
   } catch (err) {
     next(new AppError('Internal server error', 500));
   }

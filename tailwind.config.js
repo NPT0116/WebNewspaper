@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        niconne: ['Niconne', 'cursive'],
+        niconne: ['Niconne', 'serif'],
         sans: ['Be VietNam', 'sans-serif'],
         serif: ['EB Garamond', 'serif'],
         dancing: ['Dancing Script', 'serif']
@@ -33,5 +33,8 @@ export default {
     'hover:bg-gray-100',
     'cursor-pointer'
   ],
-  plugins: [flowbite]
+  plugins: [
+    flowbite
+    // require('tailwind-hamburgers')// Thêm tailwind-hamburgers vào đây
+  ]
 };

@@ -1,10 +1,10 @@
 <div class="relative flex flex-col justitfy-between items-center z-0 h-full">
-  <div id="card-cat" class="relative bg-red-600 font-serif text-white text-center p-1 pl-2 pr-2 text-xl hover:bg-red-700 transition-all duration-300 w-full">
-    <a href=""><%= article.sectionName%></a>
+  <div id="card-cat" class="relative h-1/12 bg-red-600 font-serif text-white text-center p-1 pl-2 pr-2 text-xl hover:bg-red-700 transition-all duration-300 w-full">
+    <a href="section/<%= article.slug%>"><%= article.sectionName%></a>
   </div>
 
-  <div id="card-image" class="relative w-full h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">
-    <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>">
+  <div id="card-image" class="relative w-full h-2/5 bg-violet-400 transition-all">
+    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>">
       <img
         class="w-full h-full object-cover"
         src="<%= latestArticle && latestArticle.images ? latestArticle.images[0] : '' %>"
@@ -13,16 +13,20 @@
     </a>
   </div>
 
-  <div id="card-content" class="z-0 relative h-3/5 flex flex-col justify-evenly bg-white">
-    <div class="flex justify-between items-center flex-col h-full pt-4">
-      <h1 id="card-title" class="h-3/6 flex justify-start items-start font-bold font-serif text-xl hover:text-red-500 transition-all duration-300">
-        <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"><%= latestArticle && latestArticle.title ? latestArticle.title : 'Unknown title' %> </a>
+  <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
+    <div class="flex justify-start items-start flex-col h-full pt-2">
+      <h1 id="card-title" class="xl:text-xl text-lg flex justify-start items-start font-bold font-serif hover:underline" style="margin-bottom: 10px; margin-top: 10px">
+        <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"
+          ><%= latestArticle && latestArticle.title ? latestArticle.title : 'Unknown title' %>
+        </a>
       </h1>
-      <h1 id="card-description" class="h-3/6 flex justify-start items-start italic font-serif text-lg hover:text-blue-800 transition-all duration-300">
-        <a href="<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %> </a>
+      <h1 id="card-description" class="xl:text-lg lg:text-sm text-[1rem] h-3/6 flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300">
+        <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>"
+          ><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %>
+        </a>
       </h1>
-      <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic">
-        <a href="" class="hover:text-blue-500">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
+      <div id="card-author" class="h-full flex justify-end items-end font-bold self-end text-sm w-full italic">
+        <a href="#" class="text-gray-600 hover:text-gray-800">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
       </div>
     </div>
   </div>

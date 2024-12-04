@@ -1,31 +1,45 @@
-<% if (code == 1) { %> 
-  <div class=" grid grid-cols-1 md:grid-cols-2 h-screen ">
-    <div class="shadow-xl rounded flex justify-center items-center flex-col  p-5 h-full ">
-      <div id="top-title" class="text-4xl font-dancing text-center"><%= article.title %></div>
-  
-      <div id="top-content" class="flex justify-center items-center flex-col my-3">
-        <p class="text-center font-dancing text-lg italic"><%= article.description %></p>
-      </div>
-  
-      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author && article.author.name ? article.author.name : 'Unknown author' %></div>
+<% if (code == 1) { %>
+<div class="relative grid grid-cols-1 md:grid-cols-2 h-screen shadow-xl rounded">
+  <div class="relative h-full w-full flex justify-center items-center flex-col p-5">
+    <div id="top-title" class="text-4xl font-dancing text-center">
+      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.title %></a>
     </div>
 
-    <div class="h-full w-full bg-center bg-violet-500 bg-no-repeat bg-cover bg-[url('<%=article.images%>')]"></div>
-  </div>
-<% } else {%> 
-  
-  <div class=" grid grid-cols-1 md:grid-cols-2 h-screen ">
-    <div class="h-full w-full bg-center bg-violet-500 bg-no-repeat bg-cover bg-[url('<%=article.images%>')]"></div>
-
-    <div class="shadow-xl rounded flex justify-center items-center flex-col  p-5 h-full ">
-      <div id="top-title" class="text-4xl font-dancing text-center"><%= article.title %></div>
-  
-      <div id="top-content" class="flex justify-center items-center flex-col my-3">
-        <p class="text-center font-dancing text-lg italic"><%= article.description %></p>
-      </div>
-  
-      <div id="top-author" class="self-end font-sans italic font-bold"><%= article.author && article.author.name ? article.author.name : 'Unknown author' %></div>
+    <div id="top-content" class="flex justify-center items-center flex-col my-3">
+      <p class="text-center font-dancing text-lg italic">
+        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:text-blue-800"><%= article.description %></a>
+      </p>
     </div>
 
+    <div id="top-author" class="self-end font-sans italic font-bold">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
   </div>
+  <div class="relative h-full w-full bg-violet-500 rounded">
+    <a href="">
+      <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
+    </a>
+  </div>
+</div>
+<% } else {%>
+
+<div class="relative grid grid-cols-1 md:grid-cols-2 h-screen shadow-xl rounded">
+  <div class="relative h-full w-full bg-violet-500 rounded">
+    <a href="">
+      <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
+    </a>
+  </div>
+
+  <div class="relative h-full w-full flex justify-center items-center flex-col p-5">
+    <div id="top-title" class="text-4xl font-dancing text-center">
+      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.title %></a>
+    </div>
+
+    <div id="top-content" class="flex justify-center items-center flex-col my-3">
+      <p class="text-center font-dancing text-lg italic">
+        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="text-gray-700 hover:text-gray-900"><%= article.description %></a>
+      </p>
+    </div>
+
+    <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+  </div>
+</div>
 <% } %>

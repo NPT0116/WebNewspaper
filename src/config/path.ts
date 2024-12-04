@@ -28,6 +28,8 @@ export const PATH = {
     REGISTER: '/register',
     GITHUB: '/login/github',
     LOGOUT: '/logout',
+    FORGOT_PASSWORD: '/login/forgot-password',
+    SEND_OTP: '/login/send-otp',
     GITHUB_CALLBACK: '/login/github/callback'
   }
 };
