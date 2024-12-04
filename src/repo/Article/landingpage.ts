@@ -16,8 +16,7 @@ export const getHotNews = async () => {
 
   const hotNews = await Article.find({
     status: 'published',
-    tags: { $in: [hotNewsTag._id] },
-    publishedAt: { $gte: oneWeekAgo }
+    tags: { $in: [hotNewsTag._id] }
   })
     .sort({ publishedAt: -1 })
     .limit(4)

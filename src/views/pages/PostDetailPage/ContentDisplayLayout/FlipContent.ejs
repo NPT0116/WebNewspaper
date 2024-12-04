@@ -1,4 +1,4 @@
-<div class="flipbook-container" style="width: 94vw; height: 80vh; z-index: -1">
+<div class="flipbook-container" style="width: 94vw; height: fit-content; z-index: -1">
   <div class="cursor-pointer shadow-lg hover:scale-105 transition-all duration-300" style="background-color: black; height: fit-content; width: fit-content; border-radius: 50px">
     <div
       id="back-to-default-mode"
@@ -72,7 +72,7 @@
 <script src="/js/NewspaperFlipEffect/turn.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const content650 = String(createContent(650));
+    const content650 = String(createContent(500));
     // Back to Default Mode
     document.querySelector('#back-to-default-mode').addEventListener('click', () => {
       document.querySelector('#reader-mode-2').style.display = 'none';
@@ -106,7 +106,7 @@
       document.querySelector('.flipbook').innerHTML = content650;
 
       let newWidth = $(window).width() * 0.9;
-      const aspectRatio = 1000 / 600;
+      const aspectRatio = 800 / 470;
       let newHeight = newWidth / aspectRatio;
 
       $('.flipbook').turn({
@@ -118,8 +118,8 @@
       document.querySelector('.flipbook').innerHTML = content650;
 
       $('.flipbook').turn({
-        width: 1000,
-        height: 600,
+        width: 800,
+        height: 470,
         autoCenter: true
       });
     }
@@ -128,12 +128,12 @@
         let newWidth = $(window).width() * 0.9;
         document.querySelector('.flipbook').innerHTML;
 
-        const aspectRatio = 1000 / 600;
+        const aspectRatio = 800 / 470;
         let newHeight = newWidth / aspectRatio;
 
         $('.flipbook').turn('size', newWidth, newHeight);
       } else {
-        $('.flipbook').turn('size', 1000, 600);
+        $('.flipbook').turn('size', 800, 470);
       }
     });
 
