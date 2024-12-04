@@ -24,6 +24,9 @@ export const seedArticlesWithReporterAndEditor = async () => {
     await Article.deleteMany({});
     console.log('Old articles cleared.');
 
+    await Article.syncIndexes();
+    console.log('Indexes synced successfully.');
+
     // Tạo tài khoản và profile cho Reporter
     const reporterAccount = new Account({
       email: 'reporter@example.com',
