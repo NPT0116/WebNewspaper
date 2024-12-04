@@ -34,7 +34,6 @@ export default {
     'cursor-pointer'
   ],
   plugins: [
-    flowbite,
-    require('tailwind-hamburgers') // Thêm tailwind-hamburgers vào đây
+    flowbite // Thêm tailwind-hamburgers vào đây
   ]
 };

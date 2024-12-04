@@ -1,48 +1,13 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
-    <title><%= title %></title>
-  </head>
-
-  <body>
-    <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
-    <div class="h-screen"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
-    <%- include('../../layouts/partials/Header', { sections: sections }) %>
-
-    <div class="flex flex-col justify-center items-center w-screen">
-      <div id="article-title" class="w-11/12 flex flex-col text-center font-serif lg:text-5xl text-4xl font-bold" style="padding-top: 40px; padding-bottom: 40px"><%=title%></div>
-      <div class="w-11/12 text-justify flex justify-center items-center flex-col">
-        <div id="article-content" class="font-dancing xl:text-xl text-lg text-justify w-[60%] w-[60%]"><%=content%></div>
-        <hr />
-        <div class="mt-8" style="width: 80%"><%- include('CommentList', { articleSlug: slug,sectionSlug: sectionId.slug,comments: comments, profile: profile }) %></div>
-      </div>
-    </div>
-
-    <%- include('ReadMore', { articles: relatedArticle }) %>
-
-    <div><%- include('../../layouts/partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
-    <%- include('../../components/subscriptionModal/subscription.ejs') %>
-  </body>
-</html>
-
-<style>
-  #article-content {
-    line-height: 2rem;
-  }
-  #article-content::first-letter {
-    font-size: 7rem;
-    float: left;
-    padding-right: 10px;
-    padding-bottom: 30px;
-    padding-top: 30px;
-  }
-  @media (max-width: 320px) {
-    #article-content::first-letter {
-      font-size: 5rem;
-    }
-  }
-</style>
+<div class="relative px-10 z-0 bg-white flex flex-col justify-center items-center" style="padding-bottom: 100px">
+  <%- include('../../layouts/partials/Header', { sections: sections }) %>
+  <div id="reader-mode-1" class="flex flex-col justify-center items-center w-full lg:pt-[100px]">
+    <%- include('./ContentDisplayLayout/DefaultContent.ejs', {content: content})%>
+    <hr />
+  </div>
+  <div id="reader-mode-2" class="hidden">
+    <%- include('./ContentDisplayLayout/FlipContent.ejs', {title: title, content: content, image: images, author: author})%>
+    <hr />
+  </div>
+  <div class="mt-8 sm:w-[90%] w-[95%]"><%- include('CommentList', { articleSlug: articleSlug, sectionSlug: sectionSlug, comments: comments, profile: profile }) %></div>
+  <div class="mt-8 sm:w-[90%] w-[95%]"><%- include('ReadMore', { articles: articles }) %></div>
+</div>

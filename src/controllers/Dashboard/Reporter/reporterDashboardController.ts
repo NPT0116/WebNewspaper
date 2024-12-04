@@ -13,7 +13,6 @@ interface UpdateArticleParams {
 }
 
 interface UpdateArticleBody {
-  authorId: mongoose.Types.ObjectId;
   title?: string;
   description?: string;
   content?: string;
@@ -64,6 +63,25 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+interface writeArticleParams {
+  articleId: mongoose.Types.ObjectId;
+}
+interface writeArticleResponse {
+  status: string;
+  data: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+    description: string;
+    content: string;
+    author: mongoose.Types.ObjectId;
+    sectionId: mongoose.Types.ObjectId | null;
+    tags: mongoose.Types.ObjectId[];
+    layout: 'text-left' | 'text-right' | 'default';
+    images: string[];
+    status: string;
+  };
+}
+
 interface UpdateArticleResponse {
   status: string;
   data: {
@@ -86,7 +104,7 @@ interface UpdateArticleResponse {
 export const updateArticle = async (req: Request<UpdateArticleParams, {}, UpdateArticleBody>, res: Response<UpdateArtifactResponse>, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const { authorId, title, description, content, sectionId, tags, layout, images, videoUrl } = req.body;
+    const { title, description, content, sectionId, tags, layout, images, videoUrl } = req.body;
 
     // Validate article ID
     const article = (await Article.findById(articleId)) as IArticle | null;
@@ -166,5 +184,35 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
       details: 'An unexpected error occurred while submitting the article'
     };
     return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
+  }
+};
+
+export const writeArticle = async (req: Request<writeArticleParams>, res: Response<writeArticleResponse>, next: NextFunction) => {
+  try {
+    const { articleId } = req.params;
+    const article = await Article.findById(articleId);
+    if (!article) {
+      res.redirect('/dashboard/reporter');
+      return;
+    }
+    const response: writeArticleResponse = {
+      status: 'success',
+      data: {
+        _id: article._id,
+        title: article.title,
+        description: article.description,
+        content: article.content,
+        author: article.author,
+        sectionId: article.sectionId,
+        tags: article.tags,
+        layout: article.layout,
+        images: article.images,
+        status: article.status
+      }
+    };
+    res.render('pages/ReporterPages/ArticleEditPage', response);
+  } catch (e) {
+    console.error(e);
+    next(new AppError('Unable to get article', 500));
   }
 };
