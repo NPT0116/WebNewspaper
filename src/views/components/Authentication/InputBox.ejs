@@ -1,5 +1,5 @@
 <div id="input-box" class="w-full relative">
-  <input id="<%=id%>" class="w-full relative input-content focus:outline-none" type="<%=type%>" name="<%=name%>" placeholder="" required />
+  <input id="<%=id%>" class="w-full relative input-content" type="<%=type%>" name="<%=name%>" placeholder="" required />
   <label for="<%=id%>" class="w-fit absolute px-2 text-sm" id="input-label"><%=title%></label>
 </div>
 <style>
@@ -7,9 +7,10 @@
     outline: none;
   }
   .input-content {
+    padding-left: 50px;
     border-radius: 50px;
+    border: 1px solid black;
     height: 8vh;
-    outline: none;
   }
   #input-label {
     top: 50%;
@@ -22,23 +23,26 @@
       color 0.4s ease;
   }
   .input-content:focus {
-    outline: none;
+    outline: 2px solid blue;
+    border: 1px solid blue;
   }
-  .input-content:focus + #input-label {
-    top: -5%;
-    left: 5%;
-    background-color: white;
-  }
+
+  .input-content:focus + #input-label,
   .input-content:not(:placeholder-shown) + #input-label {
     top: -5%;
     left: 5%;
     background-color: white;
   }
-  /* Remove the blue background for autofill */
+
   input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset !important; /* Set desired background */
-    box-shadow: 0 0 0px 1000px white inset !important; /* Ensure cross-browser support */
-    -webkit-text-fill-color: black !important; /* Set text color */
-    border-radius: 50px; /* Retain your custom border radius */
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+    border-radius: 50px;
+  }
+  input:-webkit-autofill + #input-label {
+    top: -5%;
+    left: 5%;
+    background-color: white;
   }
 </style>

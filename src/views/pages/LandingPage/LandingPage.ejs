@@ -1,23 +1,41 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div class="relative pb-2 z-10" style="width: 95vw">
-      <%- include('../../layouts/partials/Header', { sections: sections }) %>
+<div class="relative px-10 pb-2 z-0 bg-white" style="width: 100vw; padding-bottom: 100px">
+  <%- include('../../layouts/partials/Header', { sections: sections }) %>
 
-      <div class="pb-10 border-b-2 border-black"><%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %></div>
+  <div class="pb-10 border-b-2 border-black"><%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5) }) %></div>
 
-      <div class="pb-10 border-b-2 border-black">
-        <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.mostViewedArticles[0], code: 1 }) %>
-      </div>
-      <div class="pb-10 border-b-2 border-black">
-        <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.latestArticles[0], code: 2 }) %>
-      </div>
-      <div><%- include('Section10', { title: 'Top Sections', articles:data.topSections })%></div>
-    </div>
-    <%- include('../../components/subscriptionModal/subscription.ejs') %>
-  </body>
-</html>
+  <div class="pb-10 border-b-2 border-black">
+    <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.mostViewedArticles[0], code: 1 }) %>
+  </div>
+  <div class="pb-10 border-b-2 border-black">
+    <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5) }) %> <%- include('Banner', { article: data.latestArticles[0], code: 2 }) %>
+  </div>
+  <div><%- include('Section10', { title: 'Top Sections', articles:data.topSections })%></div>
+</div>
+<%- include('../../components/subscriptionModal/subscription.ejs') %>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let hasScrolled = false;
+
+    let lastScrollY = 0;
+    let directionalScroll = true;
+    let isTop = true;
+    const handleScroll = () => {
+      if (window.scrollY >= lastScrollY) {
+        directionalScroll = true;
+      } else {
+        directionalScroll = false;
+      }
+      lastScrollY = window.scrollY;
+
+      if (isTop && directionalScroll) {
+        const viewportHeight = window.innerHeight;
+        window.scrollTo({
+          top: viewportHeight,
+          behavior: 'smooth'
+        });
+      }
+      isTop = window.scrollY === 0 ? true : false;
+    };
+    window.addEventListener('scroll', handleScroll);
+  });
+</script>

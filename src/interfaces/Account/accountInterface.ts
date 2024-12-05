@@ -10,4 +10,5 @@ export interface IAccount extends Document {
   profileId?: mongoose.Types.ObjectId; // Links to the actual profile document
   localAuth?: { username: string; password: string }; // Only for local accounts
   githubAuth?: { facebookId: string }; // Only for Facebook accounts
+  resetOtp?: string;
 }

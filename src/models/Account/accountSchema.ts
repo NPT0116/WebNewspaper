@@ -19,7 +19,8 @@ const accountSchema = new Schema<IAccount>({
   },
   githubAuth: {
     githubId: { type: String, unique: true, sparse: true }
-  }
+  },
+  resetOtp: { type: String }
 });
 accountSchema.pre('save', function (next) {
   // Lấy role và profileType từ tài khoản

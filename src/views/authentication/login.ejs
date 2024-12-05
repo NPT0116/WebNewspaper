@@ -18,6 +18,9 @@
             <%-include ('../components/Authentication/InputBox', { title: "Input User's Name", type: "text", name:"username", id:"username" })%> <%-include ('../components/Authentication/InputBox', {
             title: "Password", type: "password", name:"password", id:"password" })%>
           </div>
+          <div class="text-right w-full">
+            <a href="/login/forgot-password" class="text-blue-500 hover:underline text-[14px]">Forgot your password?</a>
+          </div>
           <%-include('../components/Authentication/SubmitButton', { title: 'Login' })%>
 
           <div class="flex justify-center items-center" style="height: 10%">
@@ -108,4 +111,12 @@
       </div>
     </div>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputs = document.querySelectorAll('.input-content');
+      inputs.forEach((input) => {
+        input.value = '';
+      });
+    });
+  </script>
 </html>
