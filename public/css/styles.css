@@ -2004,6 +2004,9 @@ input:checked + .toggle-bg {
 .p-1 {
   padding: 0.25rem;
 }
+.p-10 {
+  padding: 2.5rem;
+}
 .p-2 {
   padding: 0.5rem;
 }
@@ -2169,6 +2172,10 @@ input:checked + .toggle-bg {
 }
 .text-5xl {
   font-size: 3rem;
+  line-height: 1;
+}
+.text-7xl {
+  font-size: 4.5rem;
   line-height: 1;
 }
 .text-\[10px\] {
