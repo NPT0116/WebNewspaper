@@ -1,0 +1,26 @@
+<div id="verifyOtpModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40">
+  <div class="bg-white py-4 w-[30%] px-4 rounded-lg">
+    <form action="/verify-otp" method="POST" class="flex flex-col">
+      <!-- Lưu email trong input hidden -->
+      <input type="hidden" name="newEmail" value="<%= newEmail %>" />
+      <input type="hidden" name="email" value="<%= email %>" />
+      <% if (error.length > 0) { %>
+      <div class="text-[14px] text-red-500"><%= error %></div>
+      <% } %>
+      <div class="flex justify-between">
+        <label for="otp">OTP</label>
+      </div>
+      <input type="text" name="otp" placeholder="Enter OTP" class="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300 mb-6" />
+
+      <button class="text-white bg-[#3086FF] rounded-lg py-3 shadow-lg hover:bg-[#2668c9] transition duration-300">Verify OTP</button>
+    </form>
+
+    <!-- Resend OTP Button -->
+    <form action="/edit-profile" method="POST" class="mt-0">
+      <input type="hidden" name="email" value="<%= newEmail %>" />
+      <div class="text-center">
+        <button class="text-blue-500 font-semibold hover:text-blue-700 transition duration-300 text-[14px]">Resend OTP</button>
+      </div>
+    </form>
+  </div>
+</div>

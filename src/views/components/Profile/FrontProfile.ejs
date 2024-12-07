@@ -1,0 +1,109 @@
+<div class="flex items-center bg-[#F9F9F9] p-[24px] space-x-[30px] relative">
+  <button class="Btn absolute top-0 right-0" onclick="toggleFlipCard()">
+    Edit
+    <svg class="svg" viewBox="0 0 512 512">
+      <path
+        d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+      ></path>
+    </svg>
+  </button>
+  <!-- Hình ảnh tròn của người dùng -->
+  <div class="rounded-full h-[100px] w-[100px] overflow-hidden">
+    <img
+      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeE5rAIGBbWuNTJ8VBNUgiegWt9TLzuBU1Ba31MvO4FTUDbTPhgw156ODMHI3wjsu2AWBkJKWf8cPIQ0dcKJjA05&_nc_ohc=8yv9TBiBjIsQ7kNvgHefTpr&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=ApxmOVFo4Y8i9aNthD9hypb&oh=00_AYBgz0KrZ5BvnRshspd82RxSbECKoRDYIFdkNZi92uv3NQ&oe=67695D7A"
+      alt=""
+      class="object-cover h-full w-full"
+    />
+  </div>
+  <!-- Thông tin người dùng -->
+  <div class="text-[14px] font-medium">
+    <div class="text-[#888888]">DISPLAY NAME</div>
+    <div class="text-[#0879BF]"><%= readerProfile.name %></div>
+  </div>
+</div>
+<div class="font-bold text-[30px] mt-[70px] mb-[25px]">MANAGE ACCOUNT</div>
+<div class="">
+  <div class="flex space-x-[27px] w-full mb-4 z-0">
+    <div class="z-0">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+        />
+      </svg>
+    </div>
+    <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
+      <div class="text-[#8F918F] text-[14px] font-medium">EMAIL</div>
+      <div><%= account.email %></div>
+    </div>
+  </div>
+  <div class="flex space-x-[27px] w-full mb-4">
+    <div class="">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
+        />
+      </svg>
+    </div>
+    <% if(account.localAuth && account.localAuth.username) { %>
+    <div class="border-b border-[#EEEEEE] pb-4 w-full">
+      <div class="text-[#8F918F] text-[14px] font-medium">Username</div>
+      <div><%= account.localAuth.username %></div>
+    </div>
+    <% } %>
+  </div>
+</div>
+<div class="font-bold text-[30px] mt-[70px] mb-[25px]">Personal Information</div>
+<div class="">
+  <div class="flex space-x-[27px] w-full mb-4">
+    <div class="">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+        />
+      </svg>
+    </div>
+    <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
+      <div class="text-[#8F918F] text-[14px] font-medium">FULL NAME</div>
+      <div><%= readerProfile.name %></div>
+    </div>
+  </div>
+  <div class="flex space-x-[27px] w-full mb-4">
+    <div class="">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-[24px]">
+        <path
+          d="M9 1V3H15V1H17V3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9ZM20 11H4V19H20V11ZM7 5H4V9H20V5H17V7H15V5H9V7H7V5Z"
+        ></path>
+      </svg>
+    </div>
+    <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
+      <div class="text-[#8F918F] text-[14px] font-medium">DATE OF BIRTH</div>
+      <div>
+        <%= (() => { const dob = new Date(readerProfile.dob); const month = String(dob.getMonth() + 1).padStart(2, '0'); const day = String(dob.getDate()).padStart(2, '0'); const year =
+        dob.getFullYear(); return `${month}/${day}/${year}`; })() %>
+      </div>
+    </div>
+  </div>
+  <div class="flex space-x-[27px] w-full mb-4">
+    <div class="">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+        />
+      </svg>
+    </div>
+    <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
+      <div class="text-[#8F918F] text-[14px] font-medium">GENDER</div>
+      <div>
+        <%= readerProfile.gender %>
+      </div>
+    </div>
+  </div>
+</div>

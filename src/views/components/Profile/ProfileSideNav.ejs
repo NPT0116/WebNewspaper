@@ -1,81 +1,117 @@
-<div class="md:w-[45%] lg:w-[35%]">
-  <!-- Wrapper Sticky -->
-  <div class="sticky top-10 bg-white sm:min-h-[20vh]">
-    <!-- Nút menu -->
-    <div class="sm:hidden flex items-center justify-center w-[40px] h-[40px] cursor-pointer ml-[-10px]" onclick="toggleMenu()">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[30px] h-[30px]">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-    </div>
+<style>
+  .Btn1 {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #77530a, #ffd277, #77530a, #77530a, #ffd277, #77530a);
+    background-size: 250%;
+    background-position: left;
+    color: #ffd277;
 
-    <!-- Menu Profile -->
-    <div id="profileMenu" class="hidden sm:block">
-      <!-- Account Information -->
-      <a href="/profile">
-        <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer <%= (typeof selected !== 'undefined' && selected === 'profile') ? 'bg-[#F9F9F9]' : '' %>">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-              />
-            </svg>
-          </div>
-          <div>Account Information</div>
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: 1s;
+    overflow: hidden;
+  }
+
+  .Btn1::before {
+    content: 'GET PREMIUM';
+    color: #ffd277;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 97%;
+    height: 90%;
+    border-radius: 8px;
+    transition-duration: 1s;
+    background-color: rgba(0, 0, 0, 0.842);
+    background-size: 200%;
+  }
+
+  .Btn1:hover {
+    background-position: right;
+    transition-duration: 1s;
+  }
+
+  .Btn1:hover::before {
+    background-position: right;
+    transition-duration: 1s;
+  }
+
+  .Btn1:active {
+    transform: scale(0.95);
+  }
+</style>
+
+<!-- Wrapper Sticky -->
+<div class="sticky top-10 bg-white sm:min-h-[20vh]">
+  <!-- Nút menu -->
+  <div class="sm:hidden flex items-center justify-center w-[40px] h-[40px] cursor-pointer ml-[-10px]" onclick="toggleMenu()">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[30px] h-[30px]">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+    </svg>
+  </div>
+
+  <!-- Menu Profile -->
+  <div id="profileMenu" class="hidden sm:block">
+    <!-- Account Information -->
+    <a href="/profile">
+      <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer <%= (typeof selected !== 'undefined' && selected === 'profile') ? 'bg-[#F9F9F9]' : '' %>">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+            />
+          </svg>
         </div>
-      </a>
-
-      <!-- Watched Articles -->
-      <a href="/profile/watched-articles">
-        <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer <%= (typeof selected !== 'undefined' && selected === 'watched-article') ? 'bg-[#F9F9F9]' : '' %>">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
-              />
-            </svg>
-          </div>
-          <div>Watched Articles</div>
-        </div>
-      </a>
-
-      <hr />
-
-      <!-- Log Out -->
-      <a href="/logout">
-        <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-              />
-            </svg>
-          </div>
-          <div>Log Out</div>
-        </div>
-      </a>
-      <% if (!isSubscriber) { %>
-      <div class="text-center bg-[#248BDA] text-white font-bold py-2 rounded-md cursor-pointer hover:bg-[#3d82b8]" onclick="showConfirmation()">Buy Premium</div>
-      <% } %>
-
-      <!-- Modal (Hộp thoại xác nhận) -->
-      <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
-        <div class="bg-white p-6 rounded-md shadow-lg text-center w-[80%] max-w-md">
-          <h3 class="text-xl font-semibold mb-4">Are you sure you want to buy Premium?</h3>
-          <div class="flex justify-center space-x-4">
-            <form action="/buy-premium" method="POST">
-              <button type="submit" class="bg-[#248BDA] text-white px-4 py-2 rounded-md hover:bg-[#3d82b8]" onclick="confirmPurchase()">Yes</button>
-            </form>
-            <button onclick="closeModal()" class="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400">No</button>
-          </div>
-        </div>
+        <div>Account Information</div>
       </div>
-    </div>
+    </a>
+
+    <!-- Watched Articles -->
+    <a href="/profile/watched-articles">
+      <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer <%= (typeof selected !== 'undefined' && selected === 'watched-article') ? 'bg-[#F9F9F9]' : '' %>">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
+            />
+          </svg>
+        </div>
+        <div>Watched Articles</div>
+      </div>
+    </a>
+
+    <hr />
+
+    <!-- Log Out -->
+    <a href="/logout">
+      <div class="flex space-x-6 p-4 hover:bg-[#F9F9F9] cursor-pointer">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[24px]">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+            />
+          </svg>
+        </div>
+        <div>Log Out</div>
+      </div>
+    </a>
+    <% if (!isSubscriber) { %>
+    <button class="Btn1" onclick="showConfirmation()"></button>
+    <% } %>
+
+    <!-- Modal (Hộp thoại xác nhận) -->
+    <%- include('../BuyPremiumModal/buyPremiumModal.ejs') %>
   </div>
 </div>
 
@@ -88,12 +124,6 @@
   function showConfirmation() {
     const modal = document.getElementById('confirmationModal');
     modal.classList.remove('hidden'); // Hiện modal
-  }
-
-  // Đóng modal
-  function closeModal() {
-    const modal = document.getElementById('confirmationModal');
-    modal.classList.add('hidden'); // Ẩn modal
   }
 
   // Xác nhận mua Premium
