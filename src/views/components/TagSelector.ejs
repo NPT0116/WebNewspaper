@@ -17,12 +17,12 @@
     <script src="/js/tagSelection.js"></script>
     <script>
       // Mock Data for Tags
-      const tags = fetch('/api/tags')
-        .then((res) => res.json())
-        .then((tags) => {
-          console.log('tags');
-          console.log(tags);
-        });
+      const tags = [
+        { _id: '1', name: 'JavaScript' },
+        { _id: '2', name: 'React' },
+        { _id: '3', name: 'Node.js' },
+        { _id: '4', name: 'Express' }
+      ];
 
       // Instantiate TagSelector
       document.addEventListener('DOMContentLoaded', () => {

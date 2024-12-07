@@ -356,65 +356,65 @@ const renderPreviewLayout = (layout) => {
 };
 
 let serverImageUrl = '';
-// uploadInput.addEventListener('change', async (event) => {
-//   const file = event.target.files[0];
-//   if (file) {
-//     filenameLabel.textContent = file.name;
+uploadInput.addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    filenameLabel.textContent = file.name;
 
-//     const reader = new FileReader();
-//     reader.onload = (e) => {
-//       imagePreview.innerHTML = `<img src="${e.target.result}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-//       imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
-//       imageUrl = e.target.result;
-//       // Add event listener for image preview only once
-//       if (!isEventListenerAdded) {
-//         imagePreview.addEventListener('click', () => {
-//           uploadInput.click();
-//         });
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.innerHTML = `<img src="${e.target.result}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+      imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
+      imageUrl = e.target.result;
+      // Add event listener for image preview only once
+      if (!isEventListenerAdded) {
+        imagePreview.addEventListener('click', () => {
+          uploadInput.click();
+        });
 
-//         isEventListenerAdded = true;
-//       }
-//       console.log(layout.value);
-//       renderPreviewLayout(layout.value);
-//     };
-//     try {
-//       const formData = new FormData();
-//       formData.append('upload', file);
+        isEventListenerAdded = true;
+      }
+      console.log(layout.value);
+      renderPreviewLayout(layout.value);
+    };
+    try {
+      const formData = new FormData();
+      formData.append('upload', file);
 
-//       const response = await fetch('/api/upload-image', {
-//         method: 'POST',
-//         body: formData
-//       });
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData
+      });
 
-//       if (!response.ok) {
-//         throw new Error('Failed to upload image');
-//       }
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
 
-//       const result = await response.json();
-//       serverImageUrl = result.url; // Assuming server returns { url: 'image_url' }
+      const result = await response.json();
+      serverImageUrl = result.url; // Assuming server returns { url: 'image_url' }
 
-//       console.log('Image uploaded successfully:', serverImageUrl);
+      console.log('Image uploaded successfully:', serverImageUrl);
 
-//       // Optionally update the preview with the server URL
-//       imagePreview.innerHTML = `<img src="${serverImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-//     } catch (error) {
-//       console.error('Error uploading image:', error);
-//     }
+      // Optionally update the preview with the server URL
+      imagePreview.innerHTML = `<img src="${serverImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
 
-//     reader.readAsDataURL(file);
-//   } else {
-//     filenameLabel.textContent = '';
-//     imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
-//     imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
+    reader.readAsDataURL(file);
+  } else {
+    filenameLabel.textContent = '';
+    imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
+    imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
 
-//     // Remove the event listener when there's no image
-//     imagePreview.removeEventListener('click', () => {
-//       uploadInput.click();
-//     });
+    // Remove the event listener when there's no image
+    imagePreview.removeEventListener('click', () => {
+      uploadInput.click();
+    });
 
-//     isEventListenerAdded = false;
-//   }
-// });
+    isEventListenerAdded = false;
+  }
+});
 
 layout.addEventListener('change', (e) => {
   const layout = e.target.value;
@@ -468,9 +468,8 @@ async function fetchSearchResults(query) {
     const params = new URLSearchParams({
       search_value: query
     });
-    const response = await fetch(`/api/tags?search_value=${query}`);
-    const jsonResponse = await response.json();
-    results = jsonResponse.data.tags;
+    const response = await fetch(`/api/tags?${params.toString()}`);
+    results = (await response.json()).tags;
     console.log(results);
 
     renderDropdown(results);
@@ -570,13 +569,13 @@ document.addEventListener('click', (e) => {
 
 const sectionSelect = document.getElementById('section');
 
-// const sections = (await (await fetch('/api/sections')).json()).sections;
-// sections.forEach((section) => {
-//   const option = document.createElement('option');
-//   option.value = section._id;
-//   option.textContent = section.name;
-//   sectionSelect.appendChild(option);
-// });
+const sections = (await (await fetch('/api/sections')).json()).sections;
+sections.forEach((section) => {
+  const option = document.createElement('option');
+  option.value = section._id;
+  option.textContent = section.name;
+  sectionSelect.appendChild(option);
+});
 
 const handleSubmit = async () => {
   const title = document.getElementById('title')?.value;
