@@ -1095,9 +1095,6 @@ input:checked + .toggle-bg {
 .top-2\.5 {
   top: 0.625rem;
 }
-.top-24 {
-  top: 6rem;
-}
 .top-28 {
   top: 7rem;
 }
@@ -1742,10 +1739,6 @@ input:checked + .toggle-bg {
 }
 .border-2 {
   border-width: 2px;
-}
-.border-y-2 {
-  border-top-width: 2px;
-  border-bottom-width: 2px;
 }
 .border-b {
   border-bottom-width: 1px;
