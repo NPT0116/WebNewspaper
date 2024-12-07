@@ -25,15 +25,7 @@
                 </div>
               </div>
   
-              <select name="sectionId" id="section" placeholder="Section" class="input-field-inline">
-                <% data.sections.forEach(function(section) { %>
-                  <% if (data.sectionId.toString() === section._id.toString()) { %>
-                    <option value="<%= section._id %>" selected><%= section.name %></option>
-                  <% } else { %>
-                    <option value="<%= section._id %>"><%= section.name %></option>
-                  <% } %>
-                <% }); %>
-              </select>
+              
               <input type="hidden" name="content" id="editor-content" />
               <button id="save-button" type="submit" class="save-button-inline">Save</button>
               <button class="preview-button-inline">Preview</button>
