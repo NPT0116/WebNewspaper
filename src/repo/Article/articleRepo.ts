@@ -59,7 +59,7 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
   if (!article) {
     throw new AppError('Article not found', 404, []);
   }
-
+  console.log(article.sectionId);
   // if (article.author.toString() !== reporterProfileId) {
   //   throw new AppError('No permission', 403, []);
   // }

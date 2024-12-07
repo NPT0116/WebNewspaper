@@ -33,6 +33,195 @@ interface ISearchPageData {
   };
 }
 
+// Helper function to escape special characters for regex
+const escapeRegex = (string: string) => {
+  if (!string) return ''; // Return empty string if searchValue is invalid
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
+};
+
+// List of stop words
+const stopWords = [
+  'a',
+  'about',
+  'above',
+  'after',
+  'again',
+  'against',
+  'all',
+  'am',
+  'an',
+  'and',
+  'any',
+  'are',
+  "aren't",
+  'as',
+  'at',
+  'be',
+  'because',
+  'been',
+  'before',
+  'being',
+  'below',
+  'between',
+  'both',
+  'but',
+  'by',
+  "can't",
+  'cannot',
+  'could',
+  "couldn't",
+  'did',
+  "didn't",
+  'do',
+  'does',
+  "doesn't",
+  'doing',
+  "don't",
+  'down',
+  'during',
+  'each',
+  'few',
+  'for',
+  'from',
+  'further',
+  'had',
+  "hadn't",
+  'has',
+  "hasn't",
+  'have',
+  "haven't",
+  'having',
+  'he',
+  "he'd",
+  "he'll",
+  "he's",
+  'her',
+  'here',
+  "here's",
+  'hers',
+  'herself',
+  'him',
+  'himself',
+  'his',
+  'how',
+  "how's",
+  'i',
+  "i'd",
+  "i'll",
+  "i'm",
+  "i've",
+  'if',
+  'in',
+  'into',
+  'is',
+  "isn't",
+  'it',
+  "it's",
+  'its',
+  'itself',
+  "let's",
+  'me',
+  'more',
+  'most',
+  "mustn't",
+  'my',
+  'myself',
+  'no',
+  'nor',
+  'not',
+  'of',
+  'off',
+  'on',
+  'once',
+  'only',
+  'or',
+  'other',
+  'ought',
+  'our',
+  'ours',
+  'ourselves',
+  'out',
+  'over',
+  'own',
+  'same',
+  "shan't",
+  'she',
+  "she'd",
+  "she'll",
+  "she's",
+  'should',
+  "shouldn't",
+  'so',
+  'some',
+  'such',
+  'than',
+  'that',
+  "that's",
+  'the',
+  'their',
+  'theirs',
+  'them',
+  'themselves',
+  'then',
+  'there',
+  "there's",
+  'these',
+  'they',
+  "they'd",
+  "they'll",
+  "they're",
+  "they've",
+  'this',
+  'those',
+  'through',
+  'to',
+  'too',
+  'under',
+  'until',
+  'up',
+  'very',
+  'was',
+  "wasn't",
+  'we',
+  "we'd",
+  "we'll",
+  "we're",
+  "we've",
+  'were',
+  "weren't",
+  'what',
+  "what's",
+  'when',
+  "when's",
+  'where',
+  "where's",
+  'which',
+  'while',
+  'who',
+  "who's",
+  'whom',
+  'why',
+  "why's",
+  'with',
+  "won't",
+  'would',
+  "wouldn't",
+  'you',
+  "you'd",
+  "you'll",
+  "you're",
+  "you've",
+  'your',
+  'yours',
+  'yourself',
+  'yourselves'
+];
+
+const containsOnlyStopWords = (value: string) => {
+  const words = value.toLowerCase().split(/\s+/); // Split value into words
+  return words.every((word) => stopWords.includes(word)); // Check if each word is a stop word
+};
+
 export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQuery>, res: Response, next: NextFunction) => {
   try {
     const { time = 'all', searchValue = '', sections = [], pageNumber, pageSize } = req.query;
@@ -46,46 +235,63 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     const skip = (currentPageNumber - 1) * size;
 
     if (isNaN(currentPageNumber) || isNaN(size) || currentPageNumber <= 0 || size <= 0) {
-      console.log('error');
+      res.status(400).json({ error: 'Invalid pagination parameters.' });
       return;
     }
 
+    // Build query
     let query: any = { status: 'published' };
+    const isStopWordSearch = containsOnlyStopWords(searchValue);
 
     if (searchValue) {
-      query = {
-        ...query,
-        $text: { $search: searchValue }
-      };
+      const escapedSearchValue = escapeRegex(searchValue); // Escape the search value
+
+      if (isStopWordSearch) {
+        console.log('stop words');
+        query = {
+          ...query,
+          $or: [
+            { title: { $regex: `\\b${escapedSearchValue}\\b`, $options: 'i' } },
+            { description: { $regex: `\\b${escapedSearchValue}\\b`, $options: 'i' } },
+            { content: { $regex: `\\b${escapedSearchValue}\\b`, $options: 'i' } }
+          ]
+        };
+      } else {
+        // If it's not a stop word, use full-text search
+        console.log('full text');
+        query = {
+          ...query,
+          $text: { $search: searchValue }
+        };
+      }
     }
 
+    // Filter by sections
     if (selectedSections.length > 0 && selectedSections[0] !== 'Any') {
-      query = {
-        ...query,
-        sectionId: { $in: selectedSections }
-      };
+      query.sectionId = { $in: selectedSections };
     }
 
+    // Filter by time
     const currentDate = new Date();
     if (time === 'latest') {
-      query = { ...query, publishedAt: { $gte: new Date(currentDate.setDate(currentDate.getDate() - 1)) } }; // last 24 hours
+      query.publishedAt = { $gte: new Date(currentDate.setDate(currentDate.getDate() - 1)) };
     } else if (time === 'last-week') {
-      query = { ...query, publishedAt: { $gte: new Date(currentDate.setDate(currentDate.getDate() - 7)) } }; // last 7 days
+      query.publishedAt = { $gte: new Date(currentDate.setDate(currentDate.getDate() - 7)) };
     } else if (time === 'last-month') {
-      query = { ...query, publishedAt: { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) } }; // last 30 days
+      query.publishedAt = { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) };
     }
 
+    console.log('Constructed Query:', JSON.stringify(query, null, 2));
+
+    // Fetch articles and pagination data
     const articles = await getListArticleInfoCards(query, skip, size);
     const totalArticlesCount = await countArticles(query);
     const totalPagesCount = Math.ceil(totalArticlesCount / size);
+
     if (skip > totalArticlesCount) {
-      console.log(skip);
-      console.log(totalArticlesCount);
       res.status(404).json({ error: 'Page not found' });
       return;
     }
-
-    console.log(sectionTree);
 
     const searchPageData: ISearchPageData = {
       body: '../../pages/SearchPage/SearchPage',
@@ -109,7 +315,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     res.render('layouts/SearchPageLayout/SearchPageLayout', searchPageData);
   } catch (error) {
-    console.error(error);
+    console.error('Error in getSearchPage:', error);
     next(new AppError('Error fetching search page data.', 500));
   }
 };
