@@ -1,7 +1,7 @@
 import { UpdateArtifactResponse } from 'aws-sdk/clients/sagemaker.js';
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { IArticle, ISection } from '~/interfaces/Article/articleInterface.js';
+import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
@@ -19,7 +19,7 @@ interface UpdateArticleBody {
   content?: string;
   sectionId?: mongoose.Types.ObjectId;
 
-  tags?: mongoose.Types.ObjectId[];
+  tags?: string;
   layout?: 'text-left' | 'text-right' | 'default';
   images?: string[];
   videoUrl?: string;
@@ -78,7 +78,7 @@ interface writeArticleResponse {
     author: mongoose.Types.ObjectId;
     sectionId: mongoose.Types.ObjectId | null;
     sections: ISection[] | null;
-    tags: mongoose.Types.ObjectId[];
+    tags: ITag[];
     layout: 'text-left' | 'text-right' | 'default';
     images: string[];
     status: string;
@@ -120,7 +120,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.description = description || article.description;
     article.content = content || article.content;
     article.sectionId = sectionId || article.sectionId;
-    article.tags = tags || article.tags;
+    article.tags = tags?.split(',').map((id) => new mongoose.Types.ObjectId(id)) || article.tags;
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
@@ -193,7 +193,7 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
 export const writeArticle = async (req: Request<writeArticleParams>, res: Response<writeArticleResponse>, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const article = await Article.findById(articleId);
+    const article = await Article.findById(articleId).populate('tags');
     if (!article) {
       res.redirect('/dashboard/reporter');
       return;
@@ -209,7 +209,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         author: article.author,
         sectionId: article.sectionId,
         sections,
-        tags: article.tags,
+        tags: article.tags as unknown as ITag[],
         layout: article.layout,
         images: article.images,
         status: article.status
