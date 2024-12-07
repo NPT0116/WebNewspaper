@@ -13,7 +13,6 @@
       <div class="edit-article-container">
         <div class="edit-article-wrapper">
           <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
-          <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
             <div><%- include('Header') %></div>
             <div class="input-group-inline">
               <div class="relative w-1/2 mx-auto">
@@ -37,7 +36,12 @@
               <input type="hidden" name="content" id="editor-content" />
               <input type="hidden" name="tags" id="tags">
               <button id="save-button" type="submit" class="save-button-inline">Save</button>
-              <button class="preview-button-inline">Preview</button>
+              <button id="save-button"  class="save-button-inline"><a href="/dashboard/reporter/<%= data._id %>/submit">Submit</a></button>
+              <button class="preview-button-inline">
+              <a href="/dashboard/<%= data._id %>/preview" target="_blank">
+                Preview
+              </a>
+            </button>
           </form>
           </div>
         </div>
