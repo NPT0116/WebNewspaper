@@ -9,7 +9,6 @@
   </head>
 
   <body>
-    <%- include('../../partials/HeaderTitle.ejs', { profile:profile }) %>
     <div id="banner-container" class="hidden lg:flex h-screen">
       <div data-id="1" id="banner-layout-1" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
@@ -59,8 +58,6 @@
     </div>
 
     <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
-
-    <div><%- include('../../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
   </body>
   <script>
     window.addEventListener('DOMContentLoaded', () => {

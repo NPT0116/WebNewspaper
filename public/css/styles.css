@@ -1095,8 +1095,8 @@ input:checked + .toggle-bg {
 .top-2\.5 {
   top: 0.625rem;
 }
-.top-28 {
-  top: 7rem;
+.top-24 {
+  top: 6rem;
 }
 .isolate {
   isolation: isolate;
@@ -1285,9 +1285,6 @@ input:checked + .toggle-bg {
 }
 .h-24 {
   height: 6rem;
-}
-.h-28 {
-  height: 7rem;
 }
 .h-3 {
   height: 0.75rem;
@@ -1740,6 +1737,10 @@ input:checked + .toggle-bg {
 .border-2 {
   border-width: 2px;
 }
+.border-y-2 {
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}
 .border-b {
   border-bottom-width: 1px;
 }
@@ -1979,9 +1980,6 @@ input:checked + .toggle-bg {
 .bg-cover {
   background-size: cover;
 }
-.bg-center {
-  background-position: center;
-}
 .bg-no-repeat {
   background-repeat: no-repeat;
 }
@@ -2005,6 +2003,9 @@ input:checked + .toggle-bg {
 }
 .p-1 {
   padding: 0.25rem;
+}
+.p-10 {
+  padding: 2.5rem;
 }
 .p-2 {
   padding: 0.5rem;
@@ -2171,6 +2172,10 @@ input:checked + .toggle-bg {
 }
 .text-5xl {
   font-size: 3rem;
+  line-height: 1;
+}
+.text-7xl {
+  font-size: 4.5rem;
   line-height: 1;
 }
 .text-\[10px\] {
@@ -3039,10 +3044,6 @@ input:checked + .toggle-bg {
     right: 0px;
   }
 
-  .lg\:top-24 {
-    top: 6rem;
-  }
-
   .lg\:ml-\[17\%\] {
     margin-left: 17%;
   }
@@ -3055,16 +3056,8 @@ input:checked + .toggle-bg {
     display: none;
   }
 
-  .lg\:h-24 {
-    height: 6rem;
-  }
-
   .lg\:h-auto {
     height: auto;
-  }
-
-  .lg\:h-dvh {
-    height: 100dvh;
   }
 
   .lg\:w-1\/2 {
@@ -3087,23 +3080,6 @@ input:checked + .toggle-bg {
     --tw-space-x-reverse: 0;
     margin-right: calc(5% * var(--tw-space-x-reverse));
     margin-left: calc(5% * calc(1 - var(--tw-space-x-reverse)));
-  }
-
-  .lg\:bg-red-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(240 82 82 / var(--tw-bg-opacity, 1));
-  }
-
-  .lg\:bg-\[url\(\'https\:\/\/media\.newyorker\.com\/photos\/6740adf115ada29979d23ea0\/master\/w_2240\2c c_limit\/nyorker_rap_world\.gif\'\)\] {
-    background-image: url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif');
-  }
-
-  .lg\:bg-cover {
-    background-size: cover;
-  }
-
-  .lg\:bg-no-repeat {
-    background-repeat: no-repeat;
   }
 
   .lg\:object-cover {

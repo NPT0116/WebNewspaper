@@ -1,9 +1,10 @@
 import { UpdateArtifactResponse } from 'aws-sdk/clients/sagemaker.js';
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { IArticle } from '~/interfaces/Article/articleInterface.js';
+import { IArticle, ISection } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -17,6 +18,7 @@ interface UpdateArticleBody {
   description?: string;
   content?: string;
   sectionId?: mongoose.Types.ObjectId;
+
   tags?: mongoose.Types.ObjectId[];
   layout?: 'text-left' | 'text-right' | 'default';
   images?: string[];
@@ -46,7 +48,7 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
       title: '',
       description: '',
       content: '',
-      author: authorId,
+      author: authorId.profileId,
       status: 'draft',
       sectionId: null,
       tags: [],
@@ -75,6 +77,7 @@ interface writeArticleResponse {
     content: string;
     author: mongoose.Types.ObjectId;
     sectionId: mongoose.Types.ObjectId | null;
+    sections: ISection[] | null;
     tags: mongoose.Types.ObjectId[];
     layout: 'text-left' | 'text-right' | 'default';
     images: string[];
@@ -195,6 +198,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
       res.redirect('/dashboard/reporter');
       return;
     }
+    const sections = await Section.find({});
     const response: writeArticleResponse = {
       status: 'success',
       data: {
@@ -204,6 +208,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         content: article.content,
         author: article.author,
         sectionId: article.sectionId,
+        sections,
         tags: article.tags,
         layout: article.layout,
         images: article.images,
@@ -211,6 +216,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
       }
     };
     res.render('pages/ReporterPages/ArticleEditPage', response);
+    // res.json(response);
   } catch (e) {
     console.error(e);
     next(new AppError('Unable to get article', 500));

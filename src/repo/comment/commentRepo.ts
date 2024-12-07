@@ -17,7 +17,6 @@ interface saveCommentParams {
   articleSlug: string;
   sectionSlug: string;
 }
-
 export const saveComment = async (req: Request<saveCommentParams, {}, saveCommentRequest>, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { articleSlug, sectionSlug } = req.params;
@@ -59,11 +58,11 @@ export const saveComment = async (req: Request<saveCommentParams, {}, saveCommen
       account: { name: readerProfile.name },
       createdAt: savedComment.createdAt
     });
-    console.log('Emitting newComment:', {
-      content: savedComment.content,
-      account: { name: readerProfile.name },
-      createdAt: savedComment.createdAt
-    });
+    // console.log('Emitting newComment:', {
+    //   content: savedComment.content,
+    //   account: { name: readerProfile.name },
+    //   createdAt: savedComment.createdAt
+    // });
 
     res.status(201).json({
       status: 'success',

@@ -10,7 +10,6 @@ export const attAccountToView = async (req: Request, res: Response, next: NextFu
     } else {
       res.locals.isAuthenticated = false; // Không đăng nhập
       res.locals.profile = null; // Không có profile
-      console.log(res.locals);
     }
     next();
   } catch (error) {
