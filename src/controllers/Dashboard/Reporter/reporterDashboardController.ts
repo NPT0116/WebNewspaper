@@ -48,7 +48,7 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
       title: '',
       description: '',
       content: '',
-      author: authorId,
+      author: authorId.profileId,
       status: 'draft',
       sectionId: null,
       tags: [],
@@ -216,6 +216,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
       }
     };
     res.render('pages/ReporterPages/ArticleEditPage', response);
+    // res.json(response);
   } catch (e) {
     console.error(e);
     next(new AppError('Unable to get article', 500));
