@@ -18,15 +18,21 @@
             <div class="input-group-inline">
               <div class="relative w-1/2 mx-auto">
                 <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
-                  <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+                  <input name="tags" id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
                 </div>
                 <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                   <div class="text-center text-gray-500 py-2">Loading...</div>
                 </div>
               </div>
   
-              <select name="section" id="section" placeholder="Section" class="input-field-inline">
-                <option value=""></option>
+              <select name="sectionId" id="section" placeholder="Section" class="input-field-inline">
+                <% data.sections.forEach(function(section) { %>
+                  <% if (data.sectionId.toString() === section._id.toString()) { %>
+                    <option value="<%= section._id %>" selected><%= section.name %></option>
+                  <% } else { %>
+                    <option value="<%= section._id %>"><%= section.name %></option>
+                  <% } %>
+                <% }); %>
               </select>
               <input type="hidden" name="content" id="editor-content" />
               <button id="save-button" type="submit" class="save-button-inline">Save</button>

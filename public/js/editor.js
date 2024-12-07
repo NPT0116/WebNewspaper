@@ -468,8 +468,9 @@ async function fetchSearchResults(query) {
     const params = new URLSearchParams({
       search_value: query
     });
-    const response = await fetch(`/api/tags?${params.toString()}`);
-    results = (await response.json()).tags;
+    const response = await fetch(`/api/tags?search_value=${query}`);
+    const jsonResponse = await response.json();
+    results = jsonResponse.data.tags;
     console.log(results);
 
     renderDropdown(results);
@@ -569,13 +570,13 @@ document.addEventListener('click', (e) => {
 
 const sectionSelect = document.getElementById('section');
 
-const sections = (await (await fetch('/api/sections')).json()).sections;
-sections.forEach((section) => {
-  const option = document.createElement('option');
-  option.value = section._id;
-  option.textContent = section.name;
-  sectionSelect.appendChild(option);
-});
+// const sections = (await (await fetch('/api/sections')).json()).sections;
+// sections.forEach((section) => {
+//   const option = document.createElement('option');
+//   option.value = section._id;
+//   option.textContent = section.name;
+//   sectionSelect.appendChild(option);
+// });
 
 const handleSubmit = async () => {
   const title = document.getElementById('title')?.value;

@@ -3,31 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link rel="stylesheet" href="/css/styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <link rel="stylesheet" href="/css/fonts.css" />
 
+    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <title>The Elon Musk</title>
   </head>
   <body>
-<<<<<<< HEAD
-    <div class="fixed top-0 w-full h-24" style="z-index: 10"><%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
-    <div class="sticky top-0 hidden md:flex">
+    <div id="header" class="fixed top-0 w-full h-24 bg-white z-10 hidden">
+      <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
+    </div>
+    <div class="relative top-0 hidden md:flex">
       <video autoplay loop muted class="w-screen h-screen object-cover">
-        <source  src="/images/background/background.mp4" type="video/mp4"></source>
+        <source src="https://web-newspaper.s3.ap-southeast-2.amazonaws.com/Background.mp4" type="video/mp4"></source>
       </video>
+      <div id="intro-text" class="absolute inset-0 flex items-start justify-start p-10">
+        <h1 class="text-white text-7xl font-extrabold animate__animated animate__fadeInRight " style="font-family: 'MyCustomFont'; color: black;">THE ELON MUSK</h1>
+      </div>
     </div>
     <div class="flex justify-center mt-24"><%- include(body, {data: data, sections: sections}) %></div>
-=======
-    <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
-    <div
-      class="lg:h-dvh lg:bg-no-repeat lg:bg-cover lg:bg-red-500 lg:bg-[url('https://media.newyorker.com/photos/6740adf115ada29979d23ea0/master/w_2240,c_limit/nyorker_rap_world.gif')] bg-center"
-    ></div>
-
-    <div class="flex justify-center"><%- include(body, {data: data, sections: sections}) %></div>
-
->>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
     <%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const header = document.getElementById('header');
+        const introText = document.getElementById('intro-text');
+        let lastScrollY = window.scrollY;
+
+        const handleScroll = () => {
+          const currentScrollY = window.scrollY;
+          if (currentScrollY > lastScrollY) {
+            // Scrolling down
+            introText.classList.add('hidden');
+            header.classList.remove('hidden');
+          } else if (currentScrollY === 0) {
+            // Scrolling up to the top
+            introText.classList.remove('hidden');
+            header.classList.add('hidden');
+          }
+          lastScrollY = currentScrollY;
+        };
+
+        // Check scroll position on page load
+        if (window.scrollY > 0) {
+          introText.classList.add('hidden');
+          header.classList.remove('hidden');
+        }
+
+        window.addEventListener('scroll', handleScroll);
+      });
+    </script>
   </body>
 </html>

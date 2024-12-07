@@ -85,8 +85,6 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       return;
     }
 
-    console.log(sectionTree);
-
     const searchPageData: ISearchPageData = {
       body: '../../pages/SearchPage/SearchPage',
       sections: allSections,
