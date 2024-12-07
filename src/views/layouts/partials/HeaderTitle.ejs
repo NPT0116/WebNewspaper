@@ -1,23 +1,16 @@
-<<<<<<< HEAD
-<div id="header" class="font-serif sticky top-0 w-full bg-white bg-opacity-50 lg:h-24 h-28 flex flex-col justify-between items-center transition-opacity duration-300" style="z-index: 10000">
-  <div id="header-title" class="flex justify-center items-center flex-col">
-=======
 <div id="header" class="font-serif sticky top-0 w-full bg-white bg-opacity-50 h-24 flex flex-col justify-center items-center z-50 transition-opacity duration-300">
   <div id="header-title" class="flex justify-center items-center flex-col text-black">
->>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
-    <div class="sm:text-xl text-lg font-bold">
-      <a href="/">THE</a>
-    </div>
-    <div class="sm:text-5xl text-4xl">
-      <a href="/">ELON MUSK</a>
+    <div class="">
+      <div class="sm:text-2xl text-lg font-bold">
+        <a href="/"><span style="color: rgb(36, 36, 36); font-family: 'MyCustomFont'"> THE </span></a>
+      </div>
+      <div class="sm:text-5xl text-4xl">
+        <a href="/"><span style="color: rgb(36, 36, 36); font-family: 'MyCustomFont'"> ELON MUSK </span></a>
+      </div>
     </div>
   </div>
 
-<<<<<<< HEAD
-  <div id="header-navbar" class="hidden h-full lg:absolute lg:right-0 w-2/6 lg:flex flex-row justify-evenly items-center">
-=======
   <div id="header-navbar" class="hidden lg:absolute lg:right-0 w-2/6 lg:flex flex-row justify-evenly items-center">
->>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
     <% if (profile) { %>
     <span class="text-lg xl:text-lg"><a href="/profile" class="hover:underline"><%= profile.profileName %></a></span>
     <a class="text-lg xl:text-lg hover:underline" href="/logout">Logout</a>
@@ -39,11 +32,7 @@
     <% } %>
   </div>
 
-<<<<<<< HEAD
-  <div id="header-navbar-small" class="lg:hidden w-11/12 flex flex-row justify-between items-center border-b-2 mb-2 border-black">
-=======
   <div id="header-navbar-small" class="lg:hidden w-11/12 flex flex-row justify-between items-center border-y-2">
->>>>>>> 975aab93008dd7937af3a39ab65e17bf11d0dd69
     <% if (profile) { %>
     <span class="text-lg xl:text-lg"><a href="/profile"><%= profile.profileName %></a></span>
     <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/logout">Logout</a>
