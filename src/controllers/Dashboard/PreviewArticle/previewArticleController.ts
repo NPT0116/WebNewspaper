@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
-import { getSectionTree } from '~/repo/Section/index.js';
+import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { AppError } from '~/utils/appError.js';
 
 interface IArticleDetailPreviewParams {
@@ -11,12 +11,11 @@ interface IArticleDetailPreviewParams {
 export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, res: Response, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    // const sections = await getSectionTree();
 
     const article = await Article.findById(articleId)
-      .populate<{ author: IAuthor }>('author', 'name') // Populate author
-      .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
-      .populate<{ tags: ITag[] }>('tags', 'name slug') // Populate tags
+      .populate<{ author: IAuthor }>('author', 'name')
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug')
+      .populate<{ tags: ITag[] }>('tags', 'name slug')
       .exec();
 
     if (!article) {
@@ -24,10 +23,30 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       return;
     }
 
+    console.log(article);
+    console.log(req.user);
+
+    const isEditor = req.user?.profileType === 'EditorProfile';
+
+    if (req.user?.profileType === 'EditorProfile') {
+      const editor = await EditorProfile.findById(req.user?.profileId);
+      if (!editor) {
+        next(new AppError("Error getting editor of the article's section", 500));
+        return;
+      }
+      if (editor.sectionId.toString() !== article.sectionId._id.toString()) {
+        return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
+      }
+    } else if (req.user?.profileType === 'ReporterProfile') {
+      if (req.user?.profileId?.toString() !== article.author._id.toString()) {
+        return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
+      }
+    }
+
     res.render('layouts/DashboardLayout/PreviewLayout/PreviewLayout', {
       body: '../../../pages/DashboardPages/PreviewPage/PreviewPage',
-      ...article.toObject()
-      //   sections
+      ...article.toObject(),
+      isEditor
     });
     // res.json({ ...article.toObject() });
   } catch {

@@ -56,8 +56,77 @@
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
       </div>
     </div>
-
     <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
+    <% if (isEditor && status === 'pending') { %>
+    <div data-dial-init class="fixed end-6 bottom-6 group">
+      <div id="speed-dial-menu-square" class="flex flex-col items-center hidden mb-4 space-y-2">
+        <button
+          data-modal-target="approve-modal"
+          data-modal-toggle="approve-modal"
+          type="button"
+          data-tooltip-target="tooltip-share"
+          data-tooltip-placement="left"
+          class="flex justify-center items-center w-[52px] h-[52px] rounded-lg border border-green-500 bg-green-50 text-green-600 shadow-sm hover:bg-green-100 hover:text-green-700 focus:ring-4 focus:ring-green-200 focus:outline-none dark:border-green-400 dark:bg-green-900 dark:text-green-400 dark:hover:bg-green-800 dark:focus:ring-green-600"
+        >
+          <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+              d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2l144 0c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48l-97.5 0c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3l0-38.3 0-48 0-24.9c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192l64 0c17.7 0 32 14.3 32 32l0 224c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32-14.3-32-32L0 224c0-17.7 14.3-32 32-32z"
+            />
+          </svg>
+          <span class="sr-only">Approve</span>
+        </button>
+        <div
+          id="tooltip-share"
+          role="tooltip"
+          class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+        >
+          Approve
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <button
+          type="button"
+          data-tooltip-target="tooltip-print"
+          data-tooltip-placement="left"
+          data-modal-target="reject-modal"
+          data-modal-toggle="reject-modal"
+          class="flex justify-center items-center w-[52px] h-[52px] rounded-lg border border-red-500 bg-red-50 text-red-600 shadow-sm hover:bg-red-100 hover:text-red-700 focus:ring-4 focus:ring-red-200 focus:outline-none dark:border-red-400 dark:bg-red-900 dark:text-red-400 dark:hover:bg-red-800 dark:focus:ring-red-600"
+        >
+          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <path
+              d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"
+            />
+          </svg>
+          <span class="sr-only">Reject</span>
+        </button>
+        <div
+          id="tooltip-print"
+          role="tooltip"
+          class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+        >
+          Reject
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      </div>
+      <button
+        type="button"
+        data-dial-toggle="speed-dial-menu-square"
+        aria-controls="speed-dial-menu-square"
+        aria-expanded="false"
+        class="flex items-center justify-center text-white bg-blue-700 rounded-lg w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800"
+      >
+        <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+        </svg>
+        <span class="sr-only">Open actions menu</span>
+      </button>
+    </div>
+    <%- include("../../../pages/DashboardPages/ApproveModal") %>
+    <%- include("../../../pages/DashboardPages/RejectModal") %>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="../../../../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <% } %>
   </body>
   <script>
     window.addEventListener('DOMContentLoaded', () => {

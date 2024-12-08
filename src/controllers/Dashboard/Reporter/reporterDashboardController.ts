@@ -216,7 +216,6 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
       }
     };
     res.render('pages/ReporterPages/ArticleEditPage', response);
-    // res.json(response);
   } catch (e) {
     console.error(e);
     next(new AppError('Unable to get article', 500));
