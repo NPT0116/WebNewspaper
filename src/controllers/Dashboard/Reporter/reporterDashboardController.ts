@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { IArticle } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { getAllArticles } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -46,7 +47,7 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
       title: '',
       description: '',
       content: '',
-      author: authorId,
+      author: authorId.profileId,
       status: 'draft',
       sectionId: null,
       tags: [],
@@ -146,7 +147,6 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
 
     // Tìm bài viết cần chuyển trạng thái
     const article = await Article.findById(articleId);
-
     // Nếu bài viết không tồn tại
     if (!article) {
       const submitError: ISubmitError = {
@@ -155,6 +155,7 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
         details: `No article found with ID: ${articleId}`
       };
       return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
+      res.redirect('/dashboard/reporter');
     }
 
     // Kiểm tra trạng thái hiện tại
@@ -164,7 +165,8 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
         errorMessage: 'Invalid article status',
         details: 'Only articles with "draft" status can be submitted for approval'
       };
-      return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article });
+      // return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, articles });
+      res.redirect('/dashboard/reporter');
     }
 
     // Cập nhật trạng thái bài viết
@@ -175,7 +177,8 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
     await article.save();
 
     // Render lại trang với bài viết đã cập nhật
-    return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError: null, article });
+    // return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError: null, article, articles });
+    res.redirect('/dashboard/reporter');
   } catch (e) {
     // Xử lý lỗi không mong muốn
     const submitError: ISubmitError = {
@@ -183,7 +186,6 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
       errorMessage: 'Server error',
       details: 'An unexpected error occurred while submitting the article'
     };
-    return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
   }
 };
 
