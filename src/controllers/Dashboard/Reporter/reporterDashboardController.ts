@@ -1,10 +1,11 @@
 import { UpdateArtifactResponse } from 'aws-sdk/clients/sagemaker.js';
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { IArticle } from '~/interfaces/Article/articleInterface.js';
+import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
-import { getAllArticles } from '~/repo/Article/articleRepo.js';
+import { Section } from '~/models/Section/sectionSchema.js';
+import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -18,7 +19,8 @@ interface UpdateArticleBody {
   description?: string;
   content?: string;
   sectionId?: mongoose.Types.ObjectId;
-  tags?: mongoose.Types.ObjectId[];
+
+  tags?: string;
   layout?: 'text-left' | 'text-right' | 'default';
   images?: string[];
   videoUrl?: string;
@@ -76,7 +78,8 @@ interface writeArticleResponse {
     content: string;
     author: mongoose.Types.ObjectId;
     sectionId: mongoose.Types.ObjectId | null;
-    tags: mongoose.Types.ObjectId[];
+    sections: ISection[] | null;
+    tags: ITag[];
     layout: 'text-left' | 'text-right' | 'default';
     images: string[];
     status: string;
@@ -118,7 +121,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.description = description || article.description;
     article.content = content || article.content;
     article.sectionId = sectionId || article.sectionId;
-    article.tags = tags || article.tags;
+    article.tags = tags?.split(',').map((id) => new mongoose.Types.ObjectId(id)) || article.tags;
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
@@ -192,11 +195,12 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
 export const writeArticle = async (req: Request<writeArticleParams>, res: Response<writeArticleResponse>, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const article = await Article.findById(articleId);
+    const article = await Article.findById(articleId).populate('tags');
     if (!article) {
       res.redirect('/dashboard/reporter');
       return;
     }
+    const sections = await Section.find({});
     const response: writeArticleResponse = {
       status: 'success',
       data: {
@@ -206,15 +210,37 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         content: article.content,
         author: article.author,
         sectionId: article.sectionId,
-        tags: article.tags,
+        sections,
+        tags: article.tags as unknown as ITag[],
         layout: article.layout,
         images: article.images,
         status: article.status
       }
     };
     res.render('pages/ReporterPages/ArticleEditPage', response);
+    // res.json(response);
   } catch (e) {
     console.error(e);
     next(new AppError('Unable to get article', 500));
   }
+};
+
+export const getReporterDashboardPage = async (req: Request, res: Response) => {
+  const accountId = req.user?._id;
+  if (!accountId) {
+    res.status(403).json({ message: 'No permission' });
+    return;
+  }
+  const account = await Account.findById(accountId);
+  const authorId = account?.profileId;
+  if (!authorId) {
+    res.status(404).json({ message: 'Author not found' });
+    return;
+  }
+  const articles = await getArticleByReporterId(authorId);
+  // res.json({ articles });
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/ReporterArticlesPage',
+    data: { articles, role: 'reporter' }
+  });
 };

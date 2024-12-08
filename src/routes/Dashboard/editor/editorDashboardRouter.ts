@@ -1,7 +1,7 @@
 import express from 'express';
 import { PATH } from '~/config/path.js';
-import { EditorApprovalAritcle } from '~/controllers/Dashboard/Editor/editorDashboardController.js';
-import { getEditorDashboardPage, getEditorReviewPage } from '~/controllers/dashboardController.js';
+import { EditorApprovalAritcle, getEditorDashboardPage } from '~/controllers/Dashboard/Editor/editorDashboardController.js';
+import { getEditorReviewPage } from '~/controllers/dashboardController.js';
 const editorDashboardRouter = express.Router();
 
 editorDashboardRouter.get(PATH.HOME, getEditorDashboardPage);

@@ -10,6 +10,7 @@ export const PATH = {
   },
   DASHBOARD: {
     PATH: '/dashboard',
+    PREVIEW: '/:articleId/preview',
     REPORTER: {
       PATH: '/reporter',
       WRITE_ARTICLE: '/write-article/:articleId',

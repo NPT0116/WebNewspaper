@@ -9,8 +9,10 @@ export const verifyRole = (allowedRoles: string[]) => {
     }
     if (!allowedRoles.includes(user.role)) {
       // Chuyển hướng hoặc render trang Forbidden
+      console.log(allowedRoles);
       return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
     }
+
     next();
   };
 };
