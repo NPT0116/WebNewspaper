@@ -33,7 +33,6 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
     const { status, publishedAt, rejectReason } = req.body;
     const accountId = req.user?._id;
 
-    // Lấy bài viết và populate với tags
     const article = await Article.findById(articleId).populate('tags', 'name');
     if (!article) {
       const approvalError: IErrorEditorApproveArticle = {
