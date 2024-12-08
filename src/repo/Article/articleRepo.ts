@@ -3,6 +3,7 @@ import { IArticleBasicInfo, IArticleCard, IAuthor, IReporterArticleDetailInfo, I
 import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 
@@ -196,4 +197,32 @@ export const profileReaderFindArticlesByIds = async (readerProfile: IReaderProfi
 
   // Trả về các bài viết đã sắp xếp
   return articlesSorted;
+};
+
+export const getArticleByReporterId = async (reporterId: mongoose.Types.ObjectId) => {
+  const articles = await Article.find({ author: reporterId });
+  return articles;
+};
+
+export const getArticleByEditorId = async (editorId: mongoose.Types.ObjectId) => {
+  const editorProfile = await EditorProfile.findById(editorId);
+  const editorSectionId = editorProfile?.sectionId;
+  console.log(editorProfile);
+
+  const articles = await Article.find({ sectionId: editorSectionId });
+  return articles;
+};
+
+export const getApprovedArticle = async () => {
+  return await Article.find({ status: 'approved' });
+};
+
+export const updateArticleStatus = async (articleId: mongoose.Types.ObjectId, status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending') => {
+  const article = await Article.findById(articleId);
+  if (!article) {
+    throw new AppError('Article not found', 404, []);
+  }
+
+  article.status = status;
+  await article.save();
 };
