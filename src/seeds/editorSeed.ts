@@ -25,7 +25,7 @@ export const seedEditors = async () => {
       for (let i = 1; i <= 3; i++) {
         const editorProfile = new EditorProfile({
           accountId: null, // Sẽ được cập nhật sau khi tạo account
-          section: section.name,
+          sectionId: section._id,
           name: `${section.name} Editor ${i}`,
           dob: new Date(`198${i + 1}-0${i}-${i - 1}5`),
           gender: i % 2 === 0 ? 'male' : 'female',
