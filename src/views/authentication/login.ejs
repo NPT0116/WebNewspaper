@@ -15,8 +15,8 @@
         <form action="/login" method="POST" class="flex flex-col justify-between items-center" style="width: 100%; height: 75%">
           <h2 class="font-niconne italic text-center" style="font-size: 5vw">Login</h2>
           <div id="input-box-container" class="flex flex-col justify-between items-center" style="height: 30%; width: 100%; margin-bottom: 10px">
-            <%-include ('../components/Authentication/InputBox', { title: "Input User's Name", type: "text", name:"username", id:"username" })%> <%-include ('../components/Authentication/InputBox', {
-            title: "Password", type: "password", name:"password", id:"password" })%>
+            <%-include ('../components/Authentication/InputBox', { title: "Input User's Name", type: "text", name:"username", id:"username" })%> <%-include ('../components/Authentication/InputBox',
+            {title: "Password", type: "password", name:"password", id:"password" })%>
           </div>
           <div class="text-right w-full">
             <a href="/login/forgot-password" class="text-blue-500 hover:underline text-[14px]">Forgot your password?</a>

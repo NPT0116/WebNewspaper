@@ -5,6 +5,7 @@ import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
+import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -222,4 +223,24 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
     console.error(e);
     next(new AppError('Unable to get article', 500));
   }
+};
+
+export const getReporterDashboardPage = async (req: Request, res: Response) => {
+  const accountId = req.user?._id;
+  if (!accountId) {
+    res.status(403).json({ message: 'No permission' });
+    return;
+  }
+  const account = await Account.findById(accountId);
+  const authorId = account?.profileId;
+  if (!authorId) {
+    res.status(404).json({ message: 'Author not found' });
+    return;
+  }
+  const articles = await getArticleByReporterId(authorId);
+  // res.json({ articles });
+  res.render('layouts/DashboardLayout/DashboardLayout', {
+    body: '../../pages/DashboardPages/ReporterArticlesPage',
+    data: { articles, role: 'reporter' }
+  });
 };

@@ -18,6 +18,7 @@ import flash from 'connect-flash';
 import { configureSocketIO } from './config/socket.js';
 import { createServer } from 'http';
 import { attAccountToView } from './middlewares/authMiddleware.js';
+import { schedulePublishedArticle } from './utils/SchedulePublishedArticle/schedulePublishedArticle.js';
 dotenv.config();
 
 const app = express();
@@ -61,9 +62,8 @@ app.use(passport.session());
 const io = configureSocketIO(server);
 app.use(attAccountToView);
 app.use('/uploads', express.static('uploads'));
-
+schedulePublishedArticle.start();
 app.use(router);
-
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
