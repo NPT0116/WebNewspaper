@@ -36,13 +36,11 @@
               <input type="hidden" name="content" id="editor-content" />
               <input type="hidden" name="tags" id="tags">
               <button id="save-button" type="submit" class="save-button-inline">Save</button>
-              <button id="save-button"  class="save-button-inline"><a href="/dashboard/reporter/<%= data._id %>/submit">Submit</a></button>
-              <button class="preview-button-inline">
-              <a href="/dashboard/<%= data._id %>/preview" target="_blank">
+              <a class="save-button-inline" href="/dashboard/reporter/<%= data._id %>/submit">Submit</a>
+            </form>
+              <a class="preview-button-inline" href="/dashboard/<%= data._id %>/preview" target="_blank">
                 Preview
               </a>
-            </button>
-          </form>
           </div>
         </div>
       </div>
