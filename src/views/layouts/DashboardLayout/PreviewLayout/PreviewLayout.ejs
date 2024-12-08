@@ -56,6 +56,13 @@
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
       </div>
     </div>
+    <div class="top-2 left-2 flex ml-2 mt-2 items-center justify-start space-x-4 shadow-lg">
+      <span
+        class="py-2 px-6 rounded-full text-lg font-bold shadow-lg <%= status === 'published' ? 'bg-green-500 text-white' : status === 'pending' ? 'bg-yellow-500 text-white' : status === 'rejected' ? 'bg-red-500 text-white' : status === 'draft' ? 'bg-gray-500 text-white' : '' %>"
+      >
+        <%- status %>
+      </span>
+    </div>
     <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
     <% if (isEditor && status === 'pending') { %>
     <div data-dial-init class="fixed end-6 bottom-6 group">

@@ -23,9 +23,6 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       return;
     }
 
-    console.log(article);
-    console.log(req.user);
-
     const isEditor = req.user?.profileType === 'EditorProfile';
 
     if (req.user?.profileType === 'EditorProfile') {
