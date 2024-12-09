@@ -56,7 +56,7 @@
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
       </div>
     </div>
-    <div class="top-2 left-2 flex ml-2 mt-2 items-center justify-start space-x-4 shadow-lg">
+    <div class="sticky top-2 left-2 flex ml-2 mt-2 items-center justify-start space-x-4 z-10">
       <span
         class="py-2 px-6 rounded-full text-lg font-bold shadow-lg <%= status === 'published' ? 'bg-green-500 text-white' : status === 'pending' ? 'bg-yellow-500 text-white' : status === 'rejected' ? 'bg-red-500 text-white' : status === 'draft' ? 'bg-gray-500 text-white' : status === 'approved' ? 'bg-blue-500 text-white' : '' %>"
       >
