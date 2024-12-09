@@ -127,7 +127,7 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
       } else {
         article.rejected.rejectReason = rejectReason;
       }
-      article.approved.editorId = editorProfile._id;
+      article.rejected.editorId = editorProfile._id;
     }
 
     editorProfile.editArticles.push(article._id);

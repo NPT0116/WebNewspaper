@@ -30,7 +30,10 @@ export const PATH = {
         REPORTERS: '/reporters',
         EDITORS: '/editors',
         READERS: '/readers'
-      }
+      },
+      ARTICLES: '/articles',
+      SECTION: '/section',
+      TAGS: '/tags'
     }
   },
   AUTHENTICATION: {

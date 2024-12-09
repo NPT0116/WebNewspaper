@@ -121,7 +121,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.description = description || article.description;
     article.content = content || article.content;
     article.sectionId = sectionId || article.sectionId;
-    article.tags = tags?.split(',').map((id) => new mongoose.Types.ObjectId(id)) || article.tags;
+    article.tags = tags ? tags.split(',').map((id) => new mongoose.Types.ObjectId(id)) : [];
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
