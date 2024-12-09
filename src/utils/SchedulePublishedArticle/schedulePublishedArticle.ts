@@ -14,7 +14,7 @@ export const schedulePublishedArticle = cron.schedule(
           console.log(`Article ${article.slug} has been published`);
         }
       });
-    } else console.log('No approved articles');
+    }
   },
   {
     scheduled: true
