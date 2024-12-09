@@ -7,11 +7,13 @@ import { getLandingPageData } from '~/repo/Article/landingpage.js';
 import { getSectionTree } from '~/repo/Section/index.js';
 import { AppError } from '~/utils/appError.js';
 import { profileReaderFindArticlesByIds } from '~/repo/Article/articleRepo.js';
+import { sendOtp } from '~/controllers/authentication/accountController.js';
 
 // Controller to render reader profile data
 export const getReaderProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = req.user;
+    const isTransactionComplete = req.query.isTransactionComplete;
     const readerProfile = await ReaderProfile.findOne({ accountId: user?._id });
     const readerAccount = await Account.findById(user?._id);
     // Fetch additional data
@@ -27,7 +29,9 @@ export const getReaderProfile = async (req: Request, res: Response, next: NextFu
       data: data,
       readerProfile: readerProfile,
       account: readerAccount,
-      isSubscriber: user?.isSubscriber || false
+      isSubscriber: user?.isSubscriber || false,
+      isSendOtp: false,
+      isTransactionComplete: isTransactionComplete
     });
   } catch (error) {
     next(new AppError('Internal Server Error', 500));
@@ -66,7 +70,9 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
         sections: await getSectionTree(),
         data: await getLandingPageData(),
         readerProfile: readerProfile,
-        isSubscriber: user?.isSubscriber || false
+        isSubscriber: user?.isSubscriber || false,
+        isSendOtp: false,
+        isTransactionComplete: false
       });
       return;
     }
@@ -115,7 +121,8 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
       sections: await getSectionTree(),
       data: await getLandingPageData(),
       readerProfile: readerProfile,
-      isSubscriber: user?.isSubscriber || false
+      isSubscriber: user?.isSubscriber || false,
+      isTransactionComplete: false
     });
   } catch (error) {
     console.error('Error in getWatchedArticle:', error); // Log the error
@@ -123,7 +130,6 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
   }
 };
 
-// Controller
 export const buyPremium = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = req.user;
@@ -138,9 +144,147 @@ export const buyPremium = async (req: Request, res: Response, next: NextFunction
     }
 
     account.isSubscriber = true;
-    res.redirect('/profile');
+
+    res.redirect('/profile?isTransactionComplete=true');
     await account.save();
   } catch (error) {
     next(new AppError('Internal Server Error', 500));
+  }
+};
+
+export const editProfile = async (req: Request, res: Response) => {
+  try {
+    const { email, username, fullname, dob, gender } = req.body;
+    const accountId = req.user?._id; // Đảm bảo người dùng đã đăng nhập
+
+    if (!accountId) {
+      res.status(400).json({ error: 'User is not authenticated.' });
+      return;
+    }
+
+    // Lấy tài khoản hiện tại
+    const account = await Account.findById(accountId);
+    if (!account) {
+      res.status(404).json({ error: 'Account not found.' });
+      return;
+    }
+
+    let isEmailChanged = false;
+
+    // Kiểm tra email thay đổi
+    if (email && email.trim() !== account.email) {
+      isEmailChanged = true;
+    }
+
+    // Kiểm tra profileType để cập nhật thông tin cá nhân
+    if (account.profileType === 'ReaderProfile') {
+      const profile = await ReaderProfile.findById(account.profileId);
+      if (!profile) {
+        res.status(404).json({ error: 'Reader profile not found.' });
+        return;
+      }
+
+      // Cập nhật thông tin hồ sơ
+      if (fullname) profile.name = fullname.trim();
+      if (dob) profile.dob = new Date(dob);
+      if (gender) profile.gender = gender;
+
+      await profile.save();
+    } else {
+      res.status(400).json({ error: 'Unsupported profile type for updates.' });
+      return;
+    }
+    // Cập nhật tài khoản nếu không đổi email
+    if (username && account.localAuth) {
+      account.localAuth.username = username.trim();
+    }
+
+    await account.save();
+    // Nếu email thay đổi, gửi OTP để xác thực
+    if (isEmailChanged) {
+      // Gửi OTP tới email cũ
+      const otp = await sendOtp(account.email, fullname || 'Reader');
+      account.resetOtp = otp; // Lưu OTP vào tài khoản để xác minh sau
+      await account.save();
+
+      // Cập nhật isSendOtp thành true để hiển thị modal OTP
+      console.log(email);
+      console.log(account.email);
+      res.render('pages/LandingPage/Profile/ProfilePage', {
+        isSendOtp: true,
+        readerProfile: await ReaderProfile.findOne({ accountId: accountId }),
+        account: account,
+        sections: await getSectionTree(),
+        data: await getLandingPageData(),
+        isSubscriber: req.user?.isSubscriber || false,
+        newEmail: email,
+        email: account.email,
+        error: '',
+        isTransactionComplete: false
+      });
+      return;
+    }
+
+    res.redirect('/profile');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update profile.' });
+  }
+};
+
+export const verifyProfileOtp = async (req: Request, res: Response): Promise<void> => {
+  const { newEmail, email, otp } = req.body;
+  // Tìm tài khoản theo email
+  const account = await Account.findOne({ email });
+
+  if (!account) {
+    res.status(400).send('Account not found');
+    return;
+  }
+
+  if (!otp) {
+    res.render('pages/LandingPage/Profile/ProfilePage', {
+      isSendOtp: true,
+      readerProfile: await ReaderProfile.findOne({ accountId: req.user?._id }),
+      account: account,
+      sections: await getSectionTree(),
+      data: await getLandingPageData(),
+      isSubscriber: req.user?.isSubscriber || false,
+      newEmail: newEmail,
+      email: email,
+      error: 'OTP is required',
+      isTransactionComplete: false
+    });
+    return;
+  }
+  try {
+    // Kiểm tra OTP
+    if (account.resetOtp !== otp) {
+      res.render('pages/LandingPage/Profile/ProfilePage', {
+        isSendOtp: true,
+        readerProfile: await ReaderProfile.findOne({ accountId: req.user?._id }),
+        account: account,
+        sections: await getSectionTree(),
+        data: await getLandingPageData(),
+        isSubscriber: req.user?.isSubscriber || false,
+        newEmail: email,
+        email: email,
+        error: 'Incorrect OTP',
+        isTransactionComplete: false
+      });
+      return;
+    }
+
+    account.resetOtp = '';
+    account.email = newEmail;
+    const savedAccount = await account.save();
+    if (!savedAccount) {
+      console.error('Account not saved:', savedAccount);
+    } else {
+      res.redirect(`/profile`);
+    }
+  } catch (error) {
+    console.error(error);
+    return;
   }
 };
