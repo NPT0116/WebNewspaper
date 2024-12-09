@@ -7,7 +7,7 @@ export const schedulePublishedArticle = cron.schedule(
     const approvedArticles = await getApprovedArticle();
     if (approvedArticles.length > 0) {
       approvedArticles.forEach(async (article) => {
-        if (article.publishedAt && new Date(article.publishedAt) <= new Date()) {
+        if (article.approved.publishedAt && new Date(article.approved.publishedAt) <= new Date()) {
           await updateArticleStatus(article._id, 'published');
           console.log(`Article ${article.slug} has been published`);
         }

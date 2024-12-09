@@ -40,7 +40,7 @@ export const reporterGetArticleById = async (articleId: string, reporterProfileI
       }
       return ''; // Default if it's not an ITag
     }), // Map the tags to their 'name' property
-    publishedAt: article.publishedAt || undefined, // Optional field, if not set, will return undefined
+    publishedAt: article.approved.publishedAt || undefined, // Optional field, if not set, will return undefined
     createdAt: article.createdAt,
     updatedAt: article.updatedAt,
     layout: article.layout,
@@ -84,7 +84,7 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
       }
       return ''; // Default if it's not an ITag
     }), // Map the tags to their 'name' property
-    publishedAt: article.publishedAt || undefined, // Optional field, if not set, will return undefined
+    publishedAt: article.approved.publishedAt || undefined, // Optional field, if not set, will return undefined
     createdAt: article.createdAt,
     updatedAt: article.updatedAt,
     layout: article.layout,
@@ -118,7 +118,7 @@ export const getListArticleInfoCards = async (query: any, skip: number, limit: n
         tags: article.tags,
         author: article.author,
         images: article.images,
-        publishedAt: article.publishedAt,
+        publishedAt: article.approved.publishedAt,
         isSubscribed: article.isSubscribed
       };
     });
@@ -222,7 +222,7 @@ export const updateArticleStatus = async (articleId: mongoose.Types.ObjectId, st
   if (!article) {
     throw new AppError('Article not found', 404, []);
   }
-
+  article.publishedAt = new Date();
   article.status = status;
   await article.save();
 };
