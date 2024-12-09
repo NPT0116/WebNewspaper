@@ -91,20 +91,13 @@
 
     <div class="z-20"><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
     <div class="relative z-20"><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
-    <div class="flex mx-[5%] lg:ml-[17%]">
+    <div class="flex ml-[5%] mr-[1%] lg:mr-[5%] lg:ml-[17%]">
       <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
         <div class="md:w-[45%] lg:w-[35%] z-20 sm:z-10 relative">
           <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile', isTransactionComplete: isTransactionComplete}) %>
         </div>
 
-        <div class="w-[100%] md:w-[60%] lg:w-[65%]">
-          <% if (isSubscriber) { %>
-          <div class="w-full text-center text-[14px]">
-            <div class="w-full bg-gradient-to-r from-[#053549] via-[#BCE5D1] to-[#053549] text-[#0A3981] font-extrabold text-lg rounded-md shadow-lg transform transition-all hover:scale-105">
-              Premium
-            </div>
-          </div>
-          <% } %>
+        <div class="w-[100%] md:w-[100%] lg:w-[60%]">
           <div class="flip-card">
             <div class="flip-card-inner">
               <div class="flip-card-front"><%- include('../../../components/Profile/FrontProfile.ejs') %></div>

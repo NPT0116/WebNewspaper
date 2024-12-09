@@ -7,7 +7,6 @@
     background: linear-gradient(to right, #77530a, #ffd277, #77530a, #77530a, #ffd277, #77530a);
     background-size: 250%;
     background-position: left;
-    color: #ffd277;
 
     display: flex;
     align-items: center;
@@ -18,8 +17,6 @@
   }
 
   .Btn1::before {
-    content: 'Get Premium';
-    color: #ffd277;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,7 +24,7 @@
     height: 65%;
     border-radius: 8px;
     transition-duration: 1s;
-    background-color: black;
+    background-color: white;
     background-size: 200%;
   }
   .Btn1::before svg {
@@ -116,7 +113,11 @@
       </div>
     </a>
     <% if (!isSubscriber) { %>
-    <button class="Btn1 mx-auto mt-[20px]" onclick="showConfirmation()"></button>
+    <button class="Btn1 mx-auto mt-[20px]" onclick="showConfirmation()">
+      <div class="flex bg-[white] space-x-2 px-[37%] sm:px-[30%] lg:px-[35%] py-[7px] rounded-lg">
+        <div class="font-bold text-[#c9a45c]">Subscribe</div>
+      </div>
+    </button>
     <% } %>
 
     <!-- Modal (Hộp thoại xác nhận) -->

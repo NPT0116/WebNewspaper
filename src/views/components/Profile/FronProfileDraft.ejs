@@ -1,79 +1,3 @@
-<style>
-  .subcribeProfile {
-    border: 3px ridge #fadf47;
-    outline: none;
-    background-color: transparent;
-    color: white;
-    transition: 1s;
-    border-radius: 0.3em;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .subcribeProfile::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 3%;
-    width: 95%;
-    height: 7%;
-    background-color: white;
-    transition: 0.5s;
-    transform-origin: center;
-  }
-
-  .subcribeProfile::before {
-    content: '';
-    transform-origin: center;
-    position: absolute;
-    top: 80%;
-    left: 3%;
-    width: 95%;
-    height: 40%;
-    background-color: white;
-    transition: 0.5s;
-  }
-
-  .subcribeProfile:hover::before,
-  .subcribeProfile:hover::after {
-    transform: scale(0);
-  }
-
-  .subcribeProfile:hover {
-    box-shadow: inset 0px 0px 25px #fadf47;
-  }
-</style>
-<% if (isSubscriber) { %>
-<div class="subcribeProfile flex items-center bg-white p-[24px] space-x-[30px] relative">
-  <button class="Btn absolute top-0 right-0" onclick="toggleFlipCard()">
-    Edit
-    <svg class="svg" viewBox="0 0 512 512">
-      <path
-        d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
-      ></path>
-    </svg>
-  </button>
-  <!-- Hình ảnh tròn của người dùng -->
-  <div class="h-full relative">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24" class="w-[30px] absolute fill-[#F09F33] right-0 -top-[8px]">
-      <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
-    </svg>
-    <div class="rounded-full h-[100px] w-[100px] overflow-hidden">
-      <img
-        src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeE5rAIGBbWuNTJ8VBNUgiegWt9TLzuBU1Ba31MvO4FTUDbTPhgw156ODMHI3wjsu2AWBkJKWf8cPIQ0dcKJjA05&_nc_ohc=8yv9TBiBjIsQ7kNvgHefTpr&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=ApxmOVFo4Y8i9aNthD9hypb&oh=00_AYBgz0KrZ5BvnRshspd82RxSbECKoRDYIFdkNZi92uv3NQ&oe=67695D7A"
-        alt=""
-        class="object-cover h-full w-full"
-      />
-    </div>
-  </div>
-  <!-- Thông tin người dùng -->
-  <div class="text-[20px] font-bold flex space-x-2">
-    <div class="text-black">Welcome</div>
-    <div class="text-[#F09F33]"><%= readerProfile.name %></div>
-  </div>
-</div>
-<% } else { %>
 <div class="flex items-center bg-[#F9F9F9] p-[24px] space-x-[30px] relative">
   <button class="Btn absolute top-0 right-0" onclick="toggleFlipCard()">
     Edit
@@ -99,8 +23,6 @@
     <div class="text-[#0879BF]"><%= readerProfile.name %></div>
   </div>
 </div>
-<% } %>
-
 <div class="font-bold text-[30px] mt-[70px] mb-[25px]">MANAGE ACCOUNT</div>
 <div class="">
   <div class="flex space-x-[27px] w-full mb-4 z-0">

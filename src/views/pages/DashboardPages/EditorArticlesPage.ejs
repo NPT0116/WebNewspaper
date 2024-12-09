@@ -198,13 +198,6 @@
         _table.draw();
       });
 
-      $('#example').on('click', '.edit-btn', function () {
-        const id = $(this).data('id');
-        const url = `/articles/${id}/edit`; // Construct the URL
-        window.open(url, '_blank'); // Open the URL in a new window or tab
-        // Add your edit logic here
-      });
-
       // Handle delete button click
       $('#example').on('click', '.delete-btn', function () {
         const id = $(this).data('id');

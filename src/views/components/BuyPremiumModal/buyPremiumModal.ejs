@@ -8,9 +8,9 @@
   .acceptButton {
     width: 80px;
     height: 30px;
-    background-color: black;
+    background-color: white;
     transition-duration: 0.2s;
-    border: none;
+    border: 1px #bb9a57 solid;
     color: #bb9a57;
     cursor: pointer;
     font-weight: 600;
@@ -46,7 +46,8 @@
   }
 
   .acceptButton:hover {
-    background-color: #4e4904;
+    background-color: #d6ab56;
+    color: white;
     box-shadow:
       0 10px 15px -3px #bb9a57,
       0 4px 6px -2px #bb9a57;
@@ -93,14 +94,21 @@
     >
       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
-    <h3 class="text-xl font-semibold mb-4 text-center">Get Premium.</h3>
+    <div class="flex justify-center items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24" class="w-[30px] relative -top-[10px] fill-[#F09F33]">
+        <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+      </svg>
+      <h3 class="text-xl font-semibold mb-4 text-center">Subscribe.</h3>
+    </div>
+
     <p class="text-lg mb-6 text-gray-800 font-medium leading-relaxed">
-      <span class="font-semibold text-accent">Upgrade to Premium now</span> for a personalized experience that ensures you're always ahead with the most valuable articles, expert tips, and resources.
+      <span class="font-semibold text-accent">Upgrade to be a Subcriber now</span> for a personalized experience that ensures you're always ahead with the most valuable articles, expert tips, and
+      resources.
     </p>
 
     <div class="flex justify-center space-x-4">
       <form action="/buy-premium" method="POST">
-        <button class="acceptButton bg-[#248BDA] text-white rounded-md hover:bg-[#3d82b8]">Accept</button>
+        <button class="acceptButton bg-[#248BDA] text-black rounded-md hover:bg-[#3d82b8]">Accept</button>
       </form>
 
       <button class="declineButton bg-gray-300 text-black rounded-md hover:bg-gray-400" onclick="closeModal()">Decline</button>
