@@ -47,6 +47,7 @@
     </div>
     <label for="statusFilter">Filter by Status:</label>
     <select id="statusFilter">
+      <option>All</option>
       <option value="draft">Draft</option>
       <option value="pending">Pending</option>
       <option value="published">Published</option>
@@ -208,10 +209,9 @@
       });
       $('#statusFilter').on('change', function () {
         const selectedFilter = $(this).val();  // Get the selected filter value
-
         // Assuming `data` is your local array of items
-        const filteredData = data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
-        console.log(filteredData);
+        const filteredData = selectedFilter === 'All' ? data.articles : data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
+
         // Now, update the table with the filtered data
         _table = $('#example').DataTable();
         _table.clear();

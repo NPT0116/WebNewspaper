@@ -1,26 +1,242 @@
+<style>
+  .form {
+    --black: #000000;
+    --ch-black: #141414;
+    --eer-black: #1b1b1b;
+    --night-rider: #2e2e2e;
+    --white: #ffffff;
+    --af-white: #f3f3f3;
+    --ch-white: #e1e1e1;
+    --tomato: #fa5656;
+    font-family: Helvetica, sans-serif;
+    border: 2px solid var(--glow-color);
+    padding: 25px;
+    display: flex;
+    max-width: 420px;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    color: var(--night-rider);
+    background-color: var(--white);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  /*----heading and description-----*/
+
+  .info {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  .description {
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+
+  /*----input-fields------*/
+
+  .form .input-fields {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .form .input-fields input {
+    height: 2.5em;
+    width: 2.5em;
+    outline: none;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.5rem;
+    color: var(--ch-black);
+    border-radius: 5px;
+    border: 2.5px solid var(--ch-white);
+    background-color: var(--ch-white);
+  }
+
+  .form .input-fields input:focus {
+    border: 1px solid var(--night-rider);
+    box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    transition: 0.5s;
+  }
+
+  /*-----verify and clear buttons-----*/
+
+  .action-btns {
+    display: flex;
+    margin-top: 20px;
+    gap: 0.5rem;
+  }
+
+  .verify {
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white);
+    text-shadow: none;
+    background: var(--ch-black);
+    box-shadow: transparent;
+    border: 1px solid var(--night-rider);
+    transition: 0.5s ease;
+    user-select: none;
+  }
+
+  .verify:hover,
+  .verify:focus {
+    color: var(--white);
+    background: var(--night-rider);
+  }
+
+  .clear {
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--night-rider);
+    text-shadow: none;
+    background: transparent;
+    border: 1px solid var(--night-rider);
+    transition: 0.5s ease;
+    user-select: none;
+  }
+
+  .clear:hover,
+  .clear:focus {
+    color: var(--tomato);
+    background-color: var(--white);
+    border: 1px solid var(--tomato);
+  }
+
+  /*-----close button------*/
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: var(--ch-white);
+    color: var(--af-white);
+    height: 30px;
+    width: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.5s ease;
+  }
+
+  .close:hover {
+    background-color: var(--tomato);
+    color: var(--white);
+  }
+</style>
 <div id="verifyOtpModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40">
-  <div class="bg-white py-4 w-[30%] px-4 rounded-lg">
+  <div class="form">
+    <span class="close closeModal">X</span>
+
+    <div class="info">
+      <span class="title">Email Verification</span>
+      <p class="description">Enter the otp sent by The Elon Musk</p>
+    </div>
     <form action="/verify-otp" method="POST" class="flex flex-col">
-      <!-- Lưu email trong input hidden -->
       <input type="hidden" name="newEmail" value="<%= newEmail %>" />
       <input type="hidden" name="email" value="<%= email %>" />
-      <% if (error.length > 0) { %>
-      <div class="text-[14px] text-red-500"><%= error %></div>
-      <% } %>
-      <div class="flex justify-between">
-        <label for="otp">OTP</label>
+      <div class="input-fields">
+        <input maxlength="1" type="tel" id="input1" />
+        <input maxlength="1" type="tel" id="input2" />
+        <input maxlength="1" type="tel" id="input3" />
+        <input maxlength="1" type="tel" id="input4" />
+        <input maxlength="1" type="tel" id="input5" />
+        <input maxlength="1" type="tel" id="input6" />
       </div>
-      <input type="text" name="otp" placeholder="Enter OTP" class="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300 mb-6" />
-
-      <button class="text-white bg-[#3086FF] rounded-lg py-3 shadow-lg hover:bg-[#2668c9] transition duration-300">Verify OTP</button>
+      <input type="text" name="otp" id="otp" placeholder="Enter OTP" class="hidden" />
+      <% if (error.length > 0) { %>
+      <div class="text-[14px] text-red-500 text-center"><%= error %></div>
+      <% } %>
+      <div class="action-btns">
+        <button type="submit" class="verify">Verify</button>
+        <div class="clear cursor-pointer">Clear</div>
+      </div>
     </form>
-
-    <!-- Resend OTP Button -->
     <form action="/edit-profile" method="POST" class="mt-0">
       <input type="hidden" name="email" value="<%= newEmail %>" />
-      <div class="text-center">
+      <div class="text-center mt-2">
         <button class="text-blue-500 font-semibold hover:text-blue-700 transition duration-300 text-[14px]">Resend OTP</button>
       </div>
     </form>
   </div>
 </div>
+
+<script>
+  const otpInputs = document.querySelectorAll('.input-fields input');
+  const otpField = document.getElementById('otp');
+  const clearButton = document.querySelector('.clear');
+
+  otpInputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      // Chờ khi người dùng nhập đủ số vào ô
+      if (input.value.length === 1 && index < otpInputs.length - 1) {
+        otpInputs[index + 1].focus(); // Tự động chuyển qua ô input tiếp theo
+      }
+
+      // Cập nhật giá trị OTP khi người dùng nhập đủ 6 số
+      const otpValue = Array.from(otpInputs)
+        .map((input) => input.value)
+        .join('');
+      otpField.value = otpValue;
+    });
+  });
+
+  clearButton.addEventListener('click', () => {
+    // Duyệt qua tất cả các input và xóa giá trị của chúng
+    otpInputs.forEach((input) => {
+      input.value = ''; // Xóa nội dung của ô nhập liệu
+    });
+  });
+
+  otpInputs.forEach((input, index) => {
+    input.addEventListener('paste', (e) => {
+      // Lấy giá trị khi người dùng dán (Ctrl + V)
+      const pastedValue = e.clipboardData.getData('text');
+
+      // Nếu giá trị dán có độ dài 6 ký tự
+      if (pastedValue.length === 6) {
+        // Duyệt qua từng ô nhập liệu và điền giá trị
+        otpInputs.forEach((input, index) => {
+          input.value = pastedValue[index]; // Điền từng ký tự vào các ô
+        });
+      } else {
+        // Nếu chuỗi không có đủ 6 ký tự, chỉ dán vào ô đầu tiên
+        otpInputs[0].value = pastedValue;
+      }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const closeButton = document.querySelector('.closeModal');
+
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        setTimeout(() => {
+          window.history.back();
+        }, 200);
+      });
+    } else {
+      console.error("Element '.closeModal' not found");
+    }
+  });
+</script>

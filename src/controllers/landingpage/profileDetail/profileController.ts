@@ -13,6 +13,7 @@ import { sendOtp } from '~/controllers/authentication/accountController.js';
 export const getReaderProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = req.user;
+    const isTransactionComplete = req.query.isTransactionComplete;
     const readerProfile = await ReaderProfile.findOne({ accountId: user?._id });
     const readerAccount = await Account.findById(user?._id);
     // Fetch additional data
@@ -29,7 +30,8 @@ export const getReaderProfile = async (req: Request, res: Response, next: NextFu
       readerProfile: readerProfile,
       account: readerAccount,
       isSubscriber: user?.isSubscriber || false,
-      isSendOtp: false
+      isSendOtp: false,
+      isTransactionComplete: isTransactionComplete
     });
   } catch (error) {
     next(new AppError('Internal Server Error', 500));
@@ -69,7 +71,8 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
         data: await getLandingPageData(),
         readerProfile: readerProfile,
         isSubscriber: user?.isSubscriber || false,
-        isSendOtp: false
+        isSendOtp: false,
+        isTransactionComplete: false
       });
       return;
     }
@@ -118,7 +121,8 @@ export const getWatchedArticle = async (req: Request, res: Response, next: NextF
       sections: await getSectionTree(),
       data: await getLandingPageData(),
       readerProfile: readerProfile,
-      isSubscriber: user?.isSubscriber || false
+      isSubscriber: user?.isSubscriber || false,
+      isTransactionComplete: false
     });
   } catch (error) {
     console.error('Error in getWatchedArticle:', error); // Log the error
@@ -140,7 +144,8 @@ export const buyPremium = async (req: Request, res: Response, next: NextFunction
     }
 
     account.isSubscriber = true;
-    res.redirect('/profile');
+
+    res.redirect('/profile?isTransactionComplete=true');
     await account.save();
   } catch (error) {
     next(new AppError('Internal Server Error', 500));
@@ -203,6 +208,8 @@ export const editProfile = async (req: Request, res: Response) => {
       await account.save();
 
       // Cập nhật isSendOtp thành true để hiển thị modal OTP
+      console.log(email);
+      console.log(account.email);
       res.render('pages/LandingPage/Profile/ProfilePage', {
         isSendOtp: true,
         readerProfile: await ReaderProfile.findOne({ accountId: accountId }),
@@ -212,7 +219,8 @@ export const editProfile = async (req: Request, res: Response) => {
         isSubscriber: req.user?.isSubscriber || false,
         newEmail: email,
         email: account.email,
-        error: ''
+        error: '',
+        isTransactionComplete: false
       });
       return;
     }
@@ -242,8 +250,10 @@ export const verifyProfileOtp = async (req: Request, res: Response): Promise<voi
       sections: await getSectionTree(),
       data: await getLandingPageData(),
       isSubscriber: req.user?.isSubscriber || false,
-      email: account.email,
-      error: 'OTP is required'
+      newEmail: newEmail,
+      email: email,
+      error: 'OTP is required',
+      isTransactionComplete: false
     });
     return;
   }
@@ -257,8 +267,10 @@ export const verifyProfileOtp = async (req: Request, res: Response): Promise<voi
         sections: await getSectionTree(),
         data: await getLandingPageData(),
         isSubscriber: req.user?.isSubscriber || false,
-        email: account.email,
-        error: 'Incorrect OTP'
+        newEmail: email,
+        email: email,
+        error: 'Incorrect OTP',
+        isTransactionComplete: false
       });
       return;
     }

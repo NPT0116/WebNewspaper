@@ -88,11 +88,14 @@
     <% if (isSendOtp) { %>
     <%- include('../../../components/sendOtp/sendOtpModal.ejs') %>
     <% } %>
+
     <div class="z-20"><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
     <div class="relative z-20"><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
     <div class="flex mx-[5%] lg:ml-[17%]">
       <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
-        <div class="md:w-[45%] lg:w-[35%] z-20 sm:z-10 relative"><%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile'}) %></div>
+        <div class="md:w-[45%] lg:w-[35%] z-20 sm:z-10 relative">
+          <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile', isTransactionComplete: isTransactionComplete}) %>
+        </div>
 
         <div class="w-[100%] md:w-[60%] lg:w-[65%]">
           <% if (isSubscriber) { %>

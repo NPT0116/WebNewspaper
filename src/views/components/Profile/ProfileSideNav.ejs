@@ -1,7 +1,7 @@
 <style>
   .Btn1 {
-    width: 140px;
-    height: 40px;
+    width: 100%;
+    height: 60px;
     border: none;
     border-radius: 10px;
     background: linear-gradient(to right, #77530a, #ffd277, #77530a, #77530a, #ffd277, #77530a);
@@ -18,17 +18,26 @@
   }
 
   .Btn1::before {
-    content: 'GET PREMIUM';
+    content: 'Get Premium';
     color: #ffd277;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 97%;
-    height: 90%;
+    width: 90%;
+    height: 65%;
     border-radius: 8px;
     transition-duration: 1s;
-    background-color: rgba(0, 0, 0, 0.842);
+    background-color: black;
     background-size: 200%;
+  }
+  .Btn1::before svg {
+    position: absolute; /* Đặt SVG lên nút */
+    left: 10px; /* Khoảng cách từ trái */
+    top: 50%; /* Canh giữa theo chiều dọc */
+    transform: translateY(-50%); /* Canh giữa chính xác */
+    width: 20px; /* Kích thước của SVG */
+    height: 20px; /* Kích thước của SVG */
+    fill: #ffd277; /* Màu sắc của SVG */
   }
 
   .Btn1:hover {
@@ -47,7 +56,7 @@
 </style>
 
 <!-- Wrapper Sticky -->
-<div class="sticky top-10 bg-white sm:min-h-[20vh]">
+<div class="sticky top-10 bg-white sm:min-h-[20vh] mb-4">
   <!-- Nút menu -->
   <div class="sm:hidden flex items-center justify-center w-[40px] h-[40px] cursor-pointer ml-[-10px]" onclick="toggleMenu()">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="w-[30px] h-[30px]">
@@ -107,11 +116,16 @@
       </div>
     </a>
     <% if (!isSubscriber) { %>
-    <button class="Btn1" onclick="showConfirmation()"></button>
+    <button class="Btn1 mx-auto mt-[20px]" onclick="showConfirmation()"></button>
     <% } %>
 
     <!-- Modal (Hộp thoại xác nhận) -->
     <%- include('../BuyPremiumModal/buyPremiumModal.ejs') %>
+
+    <% if (isTransactionComplete) {%>
+    <%- include('TransactionCompleted.ejs') %>
+    <% isTransitionComplete = false;
+   } %>
   </div>
 </div>
 
@@ -123,12 +137,15 @@
   }
   function showConfirmation() {
     const modal = document.getElementById('confirmationModal');
+    const modalContent = document.getElementById('modalContent');
     modal.classList.remove('hidden'); // Hiện modal
+    setTimeout(() => {
+      modal.classList.add('open');
+    }, 10);
   }
 
   // Xác nhận mua Premium
   function confirmPurchase() {
-    alert('You have successfully purchased Premium!');
     closeModal(); // Đóng modal sau khi xác nhận
   }
 </script>
