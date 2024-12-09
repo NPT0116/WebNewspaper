@@ -58,7 +58,7 @@
     </div>
     <div class="top-2 left-2 flex ml-2 mt-2 items-center justify-start space-x-4 shadow-lg">
       <span
-        class="py-2 px-6 rounded-full text-lg font-bold shadow-lg <%= status === 'published' ? 'bg-green-500 text-white' : status === 'pending' ? 'bg-yellow-500 text-white' : status === 'rejected' ? 'bg-red-500 text-white' : status === 'draft' ? 'bg-gray-500 text-white' : '' %>"
+        class="py-2 px-6 rounded-full text-lg font-bold shadow-lg <%= status === 'published' ? 'bg-green-500 text-white' : status === 'pending' ? 'bg-yellow-500 text-white' : status === 'rejected' ? 'bg-red-500 text-white' : status === 'draft' ? 'bg-gray-500 text-white' : status === 'approved' ? 'bg-blue-500 text-white' : '' %>"
       >
         <%- status %>
       </span>
