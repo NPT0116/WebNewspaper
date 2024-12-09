@@ -152,26 +152,19 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
     const article = await Article.findById(articleId);
     // Nếu bài viết không tồn tại
     if (!article) {
-      const submitError: ISubmitError = {
-        errorCode: 404,
-        errorMessage: 'Article not found',
-        details: `No article found with ID: ${articleId}`
-      };
-      return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, article: null });
       res.redirect('/dashboard/reporter');
+      return;
     }
 
     // Kiểm tra trạng thái hiện tại
-    if (article.status !== 'draft') {
-      const submitError: ISubmitError = {
-        errorCode: 400,
-        errorMessage: 'Invalid article status',
-        details: 'Only articles with "draft" status can be submitted for approval'
-      };
+    if (article.status !== 'draft' && article.status !== 'rejected') {
       // return res.render(reporterDashboardPage.layout, { body: reporterDashboardPage.body, submitError, articles });
       res.redirect('/dashboard/reporter');
     }
-
+    if (article.status === 'rejected') {
+      article.rejected.editorId = undefined;
+      article.rejected.rejectReason = '';
+    }
     // Cập nhật trạng thái bài viết
     article.status = 'pending';
     article.updatedAt = new Date();

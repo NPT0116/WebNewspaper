@@ -9,7 +9,6 @@ const articleSchema = new Schema<IArticle>(
     description: { type: String },
     content: { type: String },
     author: { type: Schema.Types.ObjectId, ref: 'ReporterProfile' },
-    editor: { type: Schema.Types.ObjectId, ref: 'EditorProfile' },
     images: [{ type: String }], // URLs for article images
     videoUrl: { type: String }, // Optional YouTube link or other video URL
     layout: {
@@ -22,7 +21,7 @@ const articleSchema = new Schema<IArticle>(
       enum: ['draft', 'pending', 'approved', 'rejected', 'published'],
       default: 'draft'
     },
-    publishedAt: { type: Date }, // Only filled when the article is published
+    publishedAt: { type: Date, default: undefined },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
@@ -31,7 +30,14 @@ const articleSchema = new Schema<IArticle>(
     views: { type: Number },
     bannerTheme: { type: String, enum: ['dark', 'white'], default: 'dark' },
     isSubscribed: { type: Boolean, default: false },
-    rejectReason: { type: String, default: '' }
+    approved: {
+      editorId: { type: Schema.Types.ObjectId, ref: 'EditorProfile', default: undefined },
+      publishedAt: { type: Date, default: undefined }
+    },
+    rejected: {
+      editorId: { type: Schema.Types.ObjectId, ref: 'EditorProfile', default: undefined },
+      rejectReason: { type: String }
+    }
   },
   {
     timestamps: true // Automatically adds createdAt and updatedAt fields
