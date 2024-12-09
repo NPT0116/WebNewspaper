@@ -9,10 +9,10 @@ export const landingPage = {
 export const articleDetailPage = 'pages/PostDetailPage/PostDetailPage';
 
 export const reporterDashboardPage = {
-  layout: '../../pages/DashboardPages/ReporterArticlesPage',
-  body: '../../pages/DashboardPages/ReporterArticlesPage'
+  layout: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
+  body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage'
 };
 export const editorDashboardPage = {
-  layout: '../../pages/DashboardPages/ReporterArticlesPage',
+  layout: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
   body: '../../pages/DashboardPages/EditorArticlesPage'
 };
