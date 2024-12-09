@@ -200,7 +200,11 @@ export const profileReaderFindArticlesByIds = async (readerProfile: IReaderProfi
 };
 
 export const getArticleByReporterId = async (reporterId: mongoose.Types.ObjectId) => {
-  const articles = await Article.find({ author: reporterId });
+  const articles = await Article.find({ author: reporterId }).populate({
+    path: 'rejected.editorId',
+    select: 'name',
+    model: 'EditorProfile'
+  });
   return articles;
 };
 

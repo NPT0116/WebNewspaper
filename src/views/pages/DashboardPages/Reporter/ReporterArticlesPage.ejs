@@ -63,19 +63,23 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
+    <script src="/js/time.js"></script>
 
     <script type="text/javascript">
         // eslint-disable-next-line
         const data = <%- JSON.stringify(data) %>;
-        function showRejectionReason(reason) {
+        console.log(data.articles.filter(article => article.status === 'rejected'));
+        function showRejectionReason(rejectReason, authorName, updatedAt) {
+          console.log(rejectReason, authorName);
+          if(!rejectReason || !authorName) return;
           Swal.fire({
             title: 'Rejection Reason',
-            text: reason,
+
             html: `
         <div class="text-left">
-          <p class="text-gray-700 text-sm mb-2"><strong>Reason:</strong> ${reason}</p>
-          <p class="text-gray-700 text-sm mb-2"><strong>Reviewed by:</strong> ${"Nguyen Hong Quan"}</p>
-          <p class="text-gray-700 text-sm"><strong>Time of Rejection:</strong> ${"12:00:00"}</p>
+          <p class="text-gray-700 text-sm mb-2"><strong>Reason:</strong> ${rejectReason}</p>
+          <p class="text-gray-700 text-sm mb-2"><strong>Reviewed by:</strong> ${authorName}</p>
+          <p class="text-gray-700 text-sm"><strong>Time of Rejection:</strong> ${formatDateTime(updatedAt)}</p>
         </div>`,
              // Change to 'error' if more appropriate
             showConfirmButton: true, // Show a single close button
@@ -105,7 +109,9 @@
                 data: null, // `null` because this column doesn't map to any field in the data source
                 render: function (data, type, row) {
                   console.log(row);
-                  row.rejectionReason = "Ngu nhu bo"
+                  const reason = row?.rejected?.rejectReason;
+                  const editor = row?.rejected?.editorId?.name
+                  const updatedAt = row.updatedAt
                   // Customize the action buttons for each row
                   const editButton = `<a target="_blank" href="/dashboard/reporter/write-article/${row._id}">
                               <button
@@ -124,7 +130,7 @@
                     const rejectedButton = `<button
         type="button"
         class="rejected-btn text-white gap-2 bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onclick="showRejectionReason('${row.rejectionReason}')"
+        onclick="showRejectionReason('${reason}', '${editor}', '${updatedAt}')"
       >
         <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path
@@ -146,7 +152,7 @@
                       </div>`
                   return `
                         <div class="flex space-x-2">
-                            ${row.status === 'draft' ? editButton : ''}
+                            ${row.status === 'draft' || row.status === 'rejected' ? editButton : ''}
                             ${row.status === 'rejected' ? rejectedButton : ''}
                             ${row.status !== 'published' ? deleteButton : ''}
                             ${row.status === 'published' ? previewButton : ''}
@@ -203,12 +209,16 @@
                       dot: 'bg-green-500',
                       text: 'text-green-600'
                   }
-
+                    default:
+                    return {
+                      dot: 'bg-green-500',
+                      text: 'text-green-600'
+                  }
                   }
                 }
                     return `<div class="flex gap-2">
-                    <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data).dot} rounded-full "></span></div>
-                    <div class="flex items-center ${getColorByStatus(data).text}">${data}</div>
+                    <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
+                    <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
                   </div>`;
                 },
               },
