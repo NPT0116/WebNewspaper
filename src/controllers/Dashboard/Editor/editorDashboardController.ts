@@ -117,17 +117,21 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         });
       }
       article.status = status;
-      article.publishedAt = publishedAt;
+      const stringPublishedAt = `${publishedAt}`;
+      const stringPublishedAtDate = new Date(stringPublishedAt);
+      const isoDate = new Date(stringPublishedAtDate.getTime() + 7 * 60 * 60000);
+      article.approved.publishedAt = isoDate;
+      article.approved.editorId = editorProfile._id;
     } else {
       article.status = 'rejected';
       if (!rejectReason) {
         const defaultRejectReason = 'No reason provided';
-        article.rejectReason = defaultRejectReason;
+        article.rejected.rejectReason = defaultRejectReason;
       } else {
-        article.rejectReason = rejectReason;
+        article.rejected.rejectReason = rejectReason;
       }
+      article.rejected.editorId = editorProfile._id;
     }
-    article.editor = editorProfile._id;
 
     editorProfile.editArticles.push(article._id);
     // Lưu thay đổi bài viết
