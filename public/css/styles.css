@@ -2167,9 +2167,6 @@ input:checked + .toggle-bg {
 .pb-\[10px\] {
   padding-bottom: 10px;
 }
-.pb-\[50px\] {
-  padding-bottom: 50px;
-}
 .pl-0 {
   padding-left: 0px;
 }
@@ -2255,9 +2252,6 @@ input:checked + .toggle-bg {
 }
 .text-\[30px\] {
   font-size: 30px;
-}
-.text-\[34px\] {
-  font-size: 34px;
 }
 .text-base {
   font-size: 1rem;
@@ -3057,11 +3051,6 @@ input:checked + .toggle-bg {
     padding-right: 30%;
   }
 
-  .sm\:px-\[5\%\] {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-
   .sm\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -3118,10 +3107,6 @@ input:checked + .toggle-bg {
 
   .md\:w-\[60\%\] {
     width: 60%;
-  }
-
-  .md\:w-\[70\%\] {
-    width: 70%;
   }
 
   .md\:w-\[80\%\] {
@@ -3214,11 +3199,6 @@ input:checked + .toggle-bg {
   .lg\:px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-
-  .lg\:px-\[11\%\] {
-    padding-left: 11%;
-    padding-right: 11%;
   }
 
   .lg\:px-\[35\%\] {

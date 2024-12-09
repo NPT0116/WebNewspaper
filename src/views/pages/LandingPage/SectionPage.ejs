@@ -12,18 +12,7 @@
   <body>
     <div><%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
     <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
-    <div class="px-4 sm:px-[5%] lg:px-[11%] pb-[50px]">
-      <div class="block mt-[50px]">
-        <h1 class="text-center text-[34px]"><%= section.name %></h1>
-      </div>
-      <div class="w-[100%] md:w-[70%]">
-        <% articles.forEach(article => { %>
-        <%- include('../../components/Article/ArticleCard.ejs', {article: article}) %>
-        <%}) %>
-      </div>
 
-      <%- include('../../components/Pagination/Pagination.ejs', { pagination, section }) %>
-    </div>
     <div class="flex justify-center items-center flex-col">
       <div class="">
         <h1 class="text-center text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
