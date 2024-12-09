@@ -15,6 +15,7 @@ interface IEditorApprovalParams {
 interface IEditorApprovalBody {
   status: 'approved' | 'rejected';
   publishedAt?: Date;
+  rejectReason?: string;
 }
 interface IProfileIdPopulate {
   _id: string;
@@ -29,10 +30,9 @@ interface IErrorEditorApproveArticle {
 export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, {}, IEditorApprovalBody>, res: Response, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const { status, publishedAt } = req.body;
+    const { status, publishedAt, rejectReason } = req.body;
     const accountId = req.user?._id;
 
-    // Lấy bài viết và populate với tags
     const article = await Article.findById(articleId).populate('tags', 'name');
     if (!article) {
       const approvalError: IErrorEditorApproveArticle = {
@@ -120,6 +120,12 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
       article.publishedAt = publishedAt;
     } else {
       article.status = 'rejected';
+      if (!rejectReason) {
+        const defaultRejectReason = 'No reason provided';
+        article.rejectReason = defaultRejectReason;
+      } else {
+        article.rejectReason = rejectReason;
+      }
     }
     article.editor = editorProfile._id;
 

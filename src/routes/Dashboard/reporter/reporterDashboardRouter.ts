@@ -1,6 +1,6 @@
 import express from 'express';
 import { PATH } from '~/config/path.js';
-import { createArticle, getReporterDashboardPage, submitArticle, updateArticle, writeArticle } from '~/controllers/dashboard/Reporter/reporterDashboardController.js';
+import { createArticle, getReporterDashboardPage, submitArticle, updateArticle, writeArticle } from '~/controllers/Dashboard/Reporter/reporterDashboardController.js';
 
 const reporterDashboardRouter = express.Router();
 

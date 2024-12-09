@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { getApprovedArticle, updateArticleStatus } from '~/repo/Article/articleRepo.js';
 
 export const schedulePublishedArticle = cron.schedule(
-  '*/1 * * * * *',
+  '*/10 * * * * *',
   async () => {
     const approvedArticles = await getApprovedArticle();
     if (approvedArticles.length > 0) {

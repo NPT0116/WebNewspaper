@@ -30,7 +30,8 @@ const articleSchema = new Schema<IArticle>(
     sectionId: { type: Schema.Types.ObjectId, ref: 'Section' },
     views: { type: Number },
     bannerTheme: { type: String, enum: ['dark', 'white'], default: 'dark' },
-    isSubscribed: { type: Boolean, default: false }
+    isSubscribed: { type: Boolean, default: false },
+    rejectReason: { type: String, default: '' }
   },
   {
     timestamps: true // Automatically adds createdAt and updatedAt fields

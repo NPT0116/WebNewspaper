@@ -10,7 +10,7 @@
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
       <!-- Modal header -->
       <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Reject this modal?</h3>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Reject this article?</h3>
         <button
           type="button"
           class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -24,23 +24,33 @@
       </div>
       <!-- Modal body -->
       <div class="p-4 md:p-5">
-        <form class="space-y-4" action="#">
-          <div class="relative max-w-sm"></div>
+        <form class="space-y-4" action="/dashboard/editor/<%= _id %>/approve" method="post">
+          <input type="hidden" name="status" value="rejected" />
 
-          <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason to reject</label>
-          <textarea
-            id="message"
-            rows="4"
+          <label for="rejectReason" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason to reject</label>
+          <input
+            type="text"
+            id="rejectReason"
+            name="rejectReason"
             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Give some detailed feedback about the problem that causes this article to be rejected..."
-          ></textarea>
+          />
 
-          <button
-            type="submit"
-            class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-blue-900 hover:bg-blue-800"
-          >
-            Send reason
-          </button>
+          <div class="flex gap-2">
+            <button
+              type="submit"
+              class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Send reason
+            </button>
+            <button
+              data-modal-hide="reject-modal"
+              type="button"
+              class="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

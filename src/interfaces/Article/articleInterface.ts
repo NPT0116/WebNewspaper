@@ -43,6 +43,7 @@ export interface IArticle extends Document {
   views: number;
   bannerTheme: string;
   isSubscribed: boolean;
+  rejectReason: string;
 }
 
 // Populated IArticle

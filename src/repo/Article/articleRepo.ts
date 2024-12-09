@@ -209,7 +209,7 @@ export const getArticleByEditorId = async (editorId: mongoose.Types.ObjectId) =>
   const editorSectionId = editorProfile?.sectionId;
   console.log(editorProfile);
 
-  const articles = await Article.find({ sectionId: editorSectionId });
+  const articles = await Article.find({ sectionId: editorSectionId, status: { $ne: 'draft' } });
   return articles;
 };
 
