@@ -2,8 +2,12 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { EditorProfile } from '~/models/Profile/editorProfile.js';
+import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
-import { getAllArticles } from '~/repo/Article/articleRepo.js';
+import { Section } from '~/models/Section/sectionSchema.js';
+import { Tag } from '~/models/Tag/tagSchema.js';
+import { getSectionTree } from '~/repo/Section/index.js';
 
 interface IAuthor {
   _id: mongoose.Types.ObjectId;
@@ -116,6 +120,77 @@ export const renderAdmindReporterPage = async (req: Request, res: Response) => {
     res.json({ data });
   } catch (error) {
     console.error('Error retrieving reporter profiles:', error);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+interface IEditorAdminDashboard {
+  _id: mongoose.Types.ObjectId;
+  accountId?: mongoose.Types.ObjectId | IAccount;
+  name: string;
+  dob: Date | null;
+  gender: 'male' | 'female' | 'other' | null;
+  sectionId: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+  };
+}
+
+export const renderAdminEditorPage = async (req: Request, res: Response) => {
+  try {
+    // Retrieve all editor profiles
+    const editorProfiles = await EditorProfile.find().populate<{ accountId: IAccount }>('accountId').populate<{ sectionId: { _id: mongoose.Types.ObjectId; name: string } }>('sectionId');
+    const data: IEditorAdminDashboard[] = editorProfiles.map((editor) => ({
+      _id: editor._id,
+      accountId: editor.accountId,
+      name: editor.name,
+      dob: editor.dob,
+      gender: editor.gender,
+      sectionId: {
+        _id: editor.sectionId._id,
+        name: editor.sectionId.name
+      }
+    }));
+
+    // Render the page with the formatted data
+    res.json({ data });
+  } catch (error) {
+    console.error('Error retrieving editor profiles:', error);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+export const renderAdminSectionPage = async (req: Request, res: Response) => {
+  try {
+    const sections = await getSectionTree();
+    res.json({ data: sections });
+  } catch (e) {
+    console.error('Error retrieving section profiles:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+export const renderAdminTagsPage = async (req: Request, res: Response) => {
+  try {
+    const tags = await Tag.find();
+    res.json({ data: tags });
+  } catch (e) {
+    console.error('Error retrieving section profiles:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+export const renderAdminReaderPage = async (req: Request, res: Response) => {
+  try {
+    const readers = await ReaderProfile.find().populate('accountId');
+    const data = readers.map((reader) => ({
+      _id: reader._id,
+      accountId: reader.accountId,
+      name: reader.name,
+      dob: reader.dob
+    }));
+    res.json({ data });
+  } catch (e) {
+    console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };

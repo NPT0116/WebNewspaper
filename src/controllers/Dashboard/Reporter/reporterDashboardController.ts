@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
@@ -162,6 +163,17 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
       res.redirect('/dashboard/reporter');
     }
     if (article.status === 'rejected') {
+      const editorId = article.rejected.editorId;
+      if (editorId) {
+        // Find the editor profile
+        const editorProfile = await EditorProfile.findById(editorId);
+        if (editorProfile) {
+          // Remove the article ID from the editor's list of edited articles
+          editorProfile.editArticles = editorProfile.editArticles.filter((editedArticleId) => !editedArticleId.equals(article._id));
+          // Save the changes to the editor profile
+          await editorProfile.save();
+        }
+      }
       article.rejected.editorId = undefined;
       article.rejected.rejectReason = '';
     }
