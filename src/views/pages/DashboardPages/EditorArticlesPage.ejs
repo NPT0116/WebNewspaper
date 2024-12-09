@@ -30,12 +30,7 @@
       <h1 class="text-2xl font-bold">Article List</h1>
     </div>
 
-    <label for="statusFilter">Filter by Status:</label>
-    <select id="statusFilter">
-      <option value="published">Published</option>
-      <option value="pending">Pending</option>
-      <option value="rejected">Rejected</option>
-    </select>
+    <%- include('./Reporter/StatusSelect') %>
 
     <table id="example" class="display">
       <thead>
@@ -184,18 +179,7 @@
           lengthMenu: [10, 25, 50] // Options for page size selection
         });
       });
-      $('#statusFilter').on('change', function () {
-        const selectedFilter = $(this).val();  // Get the selected filter value
 
-        // Assuming `data` is your local array of items
-        const filteredData = data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
-        console.log(filteredData);
-        // Now, update the table with the filtered data
-        _table = $('#example').DataTable();
-        _table.clear();
-        _table.rows.add(filteredData);
-        _table.draw();
-      });
 
 
 
