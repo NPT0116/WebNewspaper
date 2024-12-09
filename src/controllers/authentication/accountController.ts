@@ -9,6 +9,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 interface IAccountRegister {
   username: string;
   password: string;
@@ -110,14 +111,23 @@ const transporter = nodemailer.createTransport({
 });
 
 // Hàm gửi OTP qua email
-const sendOtp = async (email: string): Promise<string> => {
+export const sendOtp = async (email: string, name: string): Promise<string> => {
   const otp = crypto.randomInt(100000, 999999); // Tạo OTP ngẫu nhiên 6 chữ số
 
   const mailOptions = {
     from: 'huy37204@gmail.com',
     to: email,
     subject: 'Reset your password',
-    html: `<p>Your OTP for password reset is: <strong>${otp}</strong></p>`
+    html: `
+      <p>Dear ${name},</p>
+      <p>We have received a request to reset the password associated with your account (${email}).</p>
+      <p>If you did not request this, please ignore this email. Otherwise, use the OTP below to reset your password:</p>
+      <h2>${otp}</h2>
+      <p>Please note that this OTP is valid for a limited time only.</p>
+      <br>
+      <p>Thank you,</p>
+      <p><strong>Newspaper Team</strong></p>
+    `
   };
 
   try {
@@ -134,12 +144,12 @@ const sendOtp = async (email: string): Promise<string> => {
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   const { email } = req.body;
 
-  if (!(email.length > 1)) {
+  if (!email || email.trim().length === 0) {
     req.flash('error', 'Email is required');
     res.redirect('/login/forgot-password');
     return;
   }
-  const account = await Account.findOne({ email: email });
+  const account = await Account.findOne({ email: email.trim() }).populate<{ profileId: IReaderProfile }>('profileId');
 
   if (!account) {
     req.flash('error', 'Incorrect email');
@@ -148,7 +158,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
   }
 
   try {
-    const otp = await sendOtp(email);
+    const otp = await sendOtp(email, account.profileId?.name || 'User');
     account.resetOtp = otp;
     await account.save();
     res.redirect('/login/forgot-password/verify?email=' + email);
