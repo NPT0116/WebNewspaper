@@ -29,12 +29,11 @@ export interface IArticle extends Document {
   description: string;
   content: string;
   author: mongoose.Types.ObjectId;
-  editor: mongoose.Types.ObjectId;
   images: string[];
   videoUrl?: string;
+  publishedAt?: Date;
   layout: 'text-left' | 'text-right' | 'default';
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
-  publishedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
   sectionId: mongoose.Types.ObjectId;
@@ -43,7 +42,14 @@ export interface IArticle extends Document {
   views: number;
   bannerTheme: string;
   isSubscribed: boolean;
-  rejectReason: string;
+  approved: {
+    editorId?: mongoose.Types.ObjectId;
+    publishedAt?: Date;
+  };
+  rejected: {
+    editorId?: mongoose.Types.ObjectId;
+    rejectReason?: string;
+  };
 }
 
 // Populated IArticle
