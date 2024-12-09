@@ -233,7 +233,7 @@ export const getReporterDashboardPage = async (req: Request, res: Response) => {
   const articles = await getArticleByReporterId(authorId);
   // res.json({ articles });
   res.render('layouts/DashboardLayout/DashboardLayout', {
-    body: '../../pages/DashboardPages/ReporterArticlesPage',
+    body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
     data: { articles, role: 'reporter' }
   });
 };
