@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
@@ -226,14 +227,16 @@ export const getReporterDashboardPage = async (req: Request, res: Response) => {
   }
   const account = await Account.findById(accountId);
   const authorId = account?.profileId;
+
   if (!authorId) {
     res.status(404).json({ message: 'Author not found' });
     return;
   }
+  const reporterProfile = await ReporterProfile.findById(authorId);
   const articles = await getArticleByReporterId(authorId);
   // res.json({ articles });
   res.render('layouts/DashboardLayout/DashboardLayout', {
     body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
-    data: { articles, role: 'reporter' }
+    data: { articles, role: 'reporter', profile: reporterProfile }
   });
 };
