@@ -64,7 +64,7 @@
       </span>
     </div>
     <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
-    <% if (isEditor && status === 'pending') { %>
+    <% if (canApprove && status === 'pending') { %>
     <div data-dial-init class="fixed end-6 bottom-6 group">
       <div id="speed-dial-menu-square" class="flex flex-col items-center hidden mb-4 space-y-2">
         <button
@@ -129,8 +129,8 @@
         <span class="sr-only">Open actions menu</span>
       </button>
     </div>
-    <%- include("../../../pages/DashboardPages/ApproveModal") %>
-    <%- include("../../../pages/DashboardPages/RejectModal") %>
+    <%- include("../../../pages/DashboardPages/PreviewPage/ApproveModal") %>
+    <%- include("../../../pages/DashboardPages//PreviewPage/RejectModal") %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="../../../../../node_modules/flowbite/dist/flowbite.min.js"></script>
     <% } %>

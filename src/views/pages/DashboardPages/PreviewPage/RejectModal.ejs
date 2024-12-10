@@ -24,7 +24,7 @@
       </div>
       <!-- Modal body -->
       <div class="p-4 md:p-5">
-        <form class="space-y-4" action="/dashboard/editor/<%= _id %>/approve" method="post">
+        <form class="space-y-4" action="/dashboard/<%= approvePerson %>/<%= _id %>/approve" method="post">
           <input type="hidden" name="status" value="rejected" />
 
           <label for="rejectReason" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason to reject</label>

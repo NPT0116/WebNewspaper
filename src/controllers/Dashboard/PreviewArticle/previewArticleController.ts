@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { AdminProfile } from '~/models/Profile/adminProfile.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { AppError } from '~/utils/appError.js';
 
@@ -23,9 +24,13 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       return;
     }
 
-    const isEditor = req.user?.profileType === 'EditorProfile';
+    let canApprove = false;
+    let approvePerson = '';
+    const profileType = req.user?.profileType;
 
-    if (req.user?.profileType === 'EditorProfile') {
+    if (profileType === 'EditorProfile') {
+      canApprove = true;
+      approvePerson = 'editor';
       const editor = await EditorProfile.findById(req.user?.profileId);
       if (!editor) {
         next(new AppError("Error getting editor of the article's section", 500));
@@ -34,16 +39,25 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       if (editor.sectionId.toString() !== article.sectionId._id.toString()) {
         return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
       }
-    } else if (req.user?.profileType === 'ReporterProfile') {
+    } else if (profileType === 'ReporterProfile') {
       if (req.user?.profileId?.toString() !== article.author._id.toString()) {
         return res.status(403).render('pages/ForbiddenPage/forbiddenPage', { message: 'Forbidden' });
+      }
+    } else if (profileType === 'AdminProfile') {
+      canApprove = true;
+      approvePerson = 'admin';
+      const editor = await AdminProfile.findById(req.user?.profileId);
+      if (!editor) {
+        next(new AppError('Error getting admin', 500));
+        return;
       }
     }
 
     res.render('layouts/DashboardLayout/PreviewLayout/PreviewLayout', {
       body: '../../../pages/DashboardPages/PreviewPage/PreviewPage',
       ...article.toObject(),
-      isEditor
+      canApprove,
+      approvePerson
     });
     // res.json({ ...article.toObject() });
   } catch {
