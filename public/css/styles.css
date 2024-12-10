@@ -3006,10 +3006,6 @@ input:checked + .toggle-bg {
     width: 70%;
   }
 
-  .sm\:w-\[90\%\] {
-    width: 90%;
-  }
-
   .sm\:flex-1 {
     flex: 1 1 0%;
   }

@@ -7,11 +7,11 @@
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
       <p class="text-center font-dancing text-lg italic">
-        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:text-blue-800"><%= article.description %></a>
+        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.description %></a>
       </p>
     </div>
 
-    <div id="top-author" class="self-end font-sans italic font-bold">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    <div id="top-author" class="self-end font-sans italic font-bold" class="hover: underline">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
   </div>
   <div class="relative h-full w-full bg-violet-500 rounded">
     <a href="">
