@@ -74,7 +74,7 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
         updatedAt: article.updatedAt,
         sectionId: article.sectionId,
         tags: article.tags,
-        views: article.views,
+        views: article.views ?? 0,
         isSubscribed: article.isSubscribed,
         approved: {
           editorId: article.approved?.editorId,
