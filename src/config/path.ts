@@ -32,7 +32,7 @@ export const PATH = {
         READERS: '/readers'
       },
       ARTICLES: '/',
-      SECTION: '/section',
+      SECTION: '/sections',
       TAGS: '/tags'
     }
   },

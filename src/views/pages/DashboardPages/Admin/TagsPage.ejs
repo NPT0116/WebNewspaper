@@ -11,8 +11,10 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Gender</th>
-          <th>Date of Birth</th>
+          <th>Slug</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Published At</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -21,20 +23,25 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
-
+    <script src="/js/time.js"></script>
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
-      const reporters = data.reporters;
-      console.log(reporters);
+      const tags = data.tags;
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: reporters,
+          data: tags,
           columns: [
             { data: '_id' },
             { data: 'name' },
-            {data: 'gender'},
-            { data: 'dob' },
+            { data: 'slug' },
+            { data: 'description' },
+            {
+              data: 'createdAt'
+            },
+            {
+              data: 'updatedAt'
+            },
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
@@ -80,6 +87,18 @@
               targets: 3, // dob
               render: function (data, type, row, meta) {
                 return `<div class="text-xs">${data}</div>`;
+              }
+            },
+            {
+              targets: 4, // description
+              render: function (data, type, row, meta) {
+                return `<div class="text-xs">${formatDateTime(data)}</div>`;
+              }
+            },
+            {
+              targets: 5, // updatedAt
+              render: function (data, type, row, meta) {
+                return `<div class="text-xs">${formatDateTime(data)}</div>`;
               }
             },
 

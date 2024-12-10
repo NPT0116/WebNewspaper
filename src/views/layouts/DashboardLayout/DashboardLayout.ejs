@@ -15,7 +15,7 @@
     <title>Dashboard</title>
 </head>
 <body>
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+<nav class="fixed top-0 z-30 w-full bg-white border-b border-gray-200">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -56,7 +56,7 @@
     </div>
 </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-20 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
             <li>
@@ -89,6 +89,16 @@
                             <a href="/dashboard/admin/editors" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Editors</a>
                         </li>
                     </ul>
+                <% } %>
+            </li>
+            <li>
+                <% if (data.role === 'admin') { %>
+                    <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" href="/dashboard/<%= data.role %>/tags" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                        <svg fill="currentColor" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path d="M0 80L0 229.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0L418.7 317.3c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+                        </svg>
+                        <span class="ms-3">Tags</span>
+                    </a>
                 <% } %>
             </li>
             <!-- Add more items here -->

@@ -1,1 +1,150 @@
-This is editor page
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    This is editor page
+    <table id="example" class="display">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Account ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Date of birth</th>
+          <th>Gender</th>
+          <th>Section</th>
+          <th>Actions</th>
+          <!-- New Actions Column -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be populated here by DataTables -->
+      </tbody>
+    </table>
+    <script src="/js/time.js"></script>
+    <script type="text/javascript">
+      const data = <%- JSON.stringify(data) %>;
+      const editors = data.editors;
+      console.log(editors.filter(editor => editor.isSubscriber));
+
+      const table = $(document).ready(function () {
+        $('#example').DataTable({
+          data: editors,
+          columns: [
+            { data: '_id' },
+            { data: 'accountId._id' },
+            { data: 'accountId.localAuth.username' },
+            {data: 'accountId.email'},
+            { data: 'accountId.isSubscriber' },
+            { data: 'name'},
+            {data: 'dob'},
+            {data: 'gender'},
+            {data: 'sectionId.name'},
+            {
+              // Actions column
+              data: null, // `null` because this column doesn't map to any field in the data source
+              render: function (data, type, row) {
+                // Customize the action buttons for each row
+                return `
+                      <div class="flex space-x-2">
+                          <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                          <span>Preview</span>
+                        </a>
+                      </div>
+                  `;
+              },
+              orderable: false, // Prevent ordering on the actions column
+              searchable: false // Prevent searching on the actions column
+            }
+          ],
+          columnDefs: [
+            {
+              targets: 0, // (_id)
+              render: function (data, type, row, meta) {
+                return `<div class="text-sm flex gap-2 px-4">
+                  <div>${data}</div>
+                </div>`;
+              }
+            },
+            {
+              targets: 1, // accountId._id
+              createdCell: function (td, cellData, rowData, row, col) {
+                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+              }
+            },
+            {
+              targets: 2, // accountId.localAuth.username
+              render: function (data, type, row, meta) {
+                  return `<div class="flex gap-2">
+                  ${data}
+                </div>`;
+              },
+            },
+            {
+              targets: 3, // accountId.email
+              render: function (data, type, row, meta) {
+                return `<div class="text-xs">${data}</div>`;
+              }
+            },
+            {
+              targets: 4, // accountId.isSubscriber
+              render: function(data, type, row, meta) {
+                return `<div class="flex gap-2">
+                  ${data}
+                </div>`
+              }
+            },
+            {
+              targets: 5, // name
+              render: function(data, type, row, meta) {
+                return `<div>${data}</div>`
+              }
+            },
+            {
+              targets: 6, // dob
+              render: function(data, type, row, meta) {
+                return `<div>${formatDateTime(data, true)}</div>`
+              }
+            },
+            {
+                targets: 7, // gender
+                render: function(data, type, row, meta) {
+                  return `<div>${data}</div>`
+                }
+            },
+            {
+                targets: 8, // sectionId.name
+                render: function(data, type, row, meta) {
+                    return `<div>${data}</div>`
+                  }
+            }
+          ],
+          rowCallback: function (row, data, index) {
+            // Apply styling to the entire row if necessary
+            $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
+            if (data.status === 'Failed') {
+              $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
+            }
+          },
+          drawCallback: function (settings) {
+            // Optional: Apply styles to pagination buttons
+          },
+          language: {
+            // Custom language settings (optional)
+            search: 'Search articles:',
+            lengthMenu: 'Show _MENU_ entries per page'
+          },
+          pageLength: 10, // Default page size
+          lengthMenu: [10, 25, 50] // Options for page size selection
+        });
+      });
+    </script>
+  </body>
+</html>

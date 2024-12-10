@@ -11,7 +11,6 @@
         <tr>
           <th>_id</th>
           <th>Name</th>
-          <th>Username</th>
           <th>Date of birth</th>
           <th>Actions</th>
           <!-- New Actions Column -->
@@ -21,7 +20,7 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
-    <div id="user-info-drawer" class="fixed z-40 h-screen w-2/5 mt-20 overflow-y-auto bg-white p-4 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-js-label">
+    <div id="user-info-drawer" class="fixed z-50 h-screen w-2/5 mt-20 overflow-y-auto bg-white p-4 dark:bg-gray-800" tabindex="10" aria-labelledby="drawer-js-label">
       <h5 id="drawer-js-label" class="mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400">
         <svg class="me-2 h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -194,48 +193,19 @@
         </div>
     </div>
 
+    <script src="/js/time.js"></script>
+
     <script>
-      const users = [
-        {
-          _id: '1',
-          name: 'Alice Johnson',
-          dateOfBirth: '1990-05-15',
-          username: 'alice.johnson'
-        },
-        {
-          _id: '2',
-          name: 'Bob Smith',
-          dateOfBirth: '1985-09-22',
-          username: 'bobsmith85'
-        },
-        {
-          _id: '3',
-          name: 'Charlie Davis',
-          dateOfBirth: '1992-01-10',
-          username: 'charlie.davis'
-        },
-        {
-          _id: '4',
-          name: 'Diana Roberts',
-          dateOfBirth: '1995-03-28',
-          username: 'diana.roberts'
-        },
-        {
-          _id: '5',
-          name: 'Ethan Brown',
-          dateOfBirth: '1988-07-07',
-          username: 'ethan.brown'
-        }
-      ];
+      const data = <%- JSON.stringify(data) %>;
+      const readers = data.readers;
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: users,
+          data: readers,
           columns: [
             { data: '_id' },
             { data: 'name' },
-            { data: 'username' },
-            { data: 'dateOfBirth' },
+            { data: 'dob' },
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
@@ -244,7 +214,7 @@
                 // Customize the action buttons for each row
                 return `
                       <div class="flex space-x-2">
-                          <button onclick="toggleDrawer(${row._id})" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                               <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                               </svg>
                               <span>Info</span>
@@ -264,48 +234,25 @@
           ],
           columnDefs: [
             {
-              // Add Tailwind class to the "_id" column
-              render: function (data, type, row, meta) {
-                return `<div class="flex gap-2 px-4">
-                  <img class="w-10 h-10 rounded" src="https://cdn.vectorstock.com/i/1000v/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg" alt="Rounded avatar">
-                  <div>${data}</div>
-                </div>`;
-              }
-            },
-            {
               // Add Tailwind class to the "name" column
-              targets: 1,
+              targets: 0,
               createdCell: function (td, cellData, rowData, row, col) {
                 $(td).addClass('text-sm text-gray-600 px-4 py-2');
               }
             },
             {
               // Add Tailwind class to the "username" column
-              targets: 2,
+              targets: 1,
               render: function (data, type, row, meta) {
                 return `<div>${data}</div>`;
               }
             },
             {
               // Add Tailwind class to the "dateOfBirth" column
-              targets: 3,
+              targets: 2,
               render: function (data, type, row, meta) {
-                // Create a Date object
-                const date = new Date(data);
-
-                // Use toLocaleString for a readable format
-                const readableDate = date.toLocaleString('en-US', {
-                  weekday: 'long', // Long weekday name (e.g., "Monday")
-                  year: 'numeric', // Full year (e.g., 2024)
-                  month: 'long', // Full month name (e.g., "November")
-                  day: 'numeric', // Day of the month (e.g., 20)
-                  hour: '2-digit', // Hour in 2-digit format (e.g., "03")
-                  minute: '2-digit', // Minute in 2-digit format (e.g., "22")
-                  second: '2-digit', // Second in 2-digit format (e.g., "47")
-                  hour12: true // 12-hour format (AM/PM)
-                });
-
-                return `<div class="text-xs">${readableDate}</div>`;
+                
+                return `<div class="text-xs">${formatDateTime(data, true)}</div>`;
               }
             }
           ],
@@ -365,8 +312,7 @@
       drawer.hide();
 
       export function toggleDrawer(id) {
-        const user = users.find((u) => u._id == id);
-        console.log(user);
+        const reader = readers.find((u) => u._id == id);
         drawer.toggle();
       }
       window.toggleDrawer = toggleDrawer;
