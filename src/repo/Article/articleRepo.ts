@@ -96,7 +96,17 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
 };
 
 export const getAllArticles = async () => {
-  return await Article.find({});
+  return await Article.find({})
+    .populate({
+      path: 'rejected.editorId',
+      select: 'name',
+      model: 'EditorProfile'
+    })
+    .populate({
+      path: 'approved.editorId',
+      select: 'name',
+      model: 'EditorProfile'
+    });
 };
 
 export const getListArticleInfoCards = async (query: any, skip: number, limit: number): Promise<IArticleCard[]> => {

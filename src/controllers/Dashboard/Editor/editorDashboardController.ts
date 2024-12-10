@@ -117,7 +117,10 @@ export const EditorApprovalAritcle = async (req: Request<IEditorApprovalParams, 
         });
       }
       article.status = status;
-      article.approved.publishedAt = publishedAt;
+      const stringPublishedAt = `${publishedAt}`;
+      const stringPublishedAtDate = new Date(stringPublishedAt);
+      const isoDate = new Date(stringPublishedAtDate.getTime() + 7 * 60 * 60000);
+      article.approved.publishedAt = isoDate;
       article.approved.editorId = editorProfile._id;
     } else {
       article.status = 'rejected';
