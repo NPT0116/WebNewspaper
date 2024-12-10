@@ -32,7 +32,7 @@ export interface IArticle extends Document {
   images: string[];
   videoUrl?: string;
   publishedAt?: Date;
-  layout: 'text-left' | 'text-right' | 'default';
+  layout: 1 | 2 | 3;
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
   createdAt: Date;
   updatedAt: Date;
@@ -80,7 +80,7 @@ export interface IReporterArticleDetailInfo {
   publishedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
-  layout: string;
+  layout: number;
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
   bannerTheme: string;
 }

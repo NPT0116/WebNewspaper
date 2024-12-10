@@ -9,7 +9,6 @@ export const seedSections = async () => {
 
     // Tạo danh sách main sections
     const mainSections = [
-      // { name: 'News', parentSection: null, slug: '' },
       { name: 'Sports', parentSection: null, slug: '' },
       { name: 'Technology', parentSection: null, slug: '' },
       { name: 'Politics', parentSection: null, slug: '' },
@@ -64,8 +63,8 @@ export const seedSections = async () => {
     }
 
     // Debug để xem dữ liệu
-    console.log('Inserted main sections:', insertedMainSections);
-    console.log('Inserted child sections:', insertedChildSections);
+    // console.log('Inserted main sections:', insertedMainSections);
+    // console.log('Inserted child sections:', insertedChildSections);
 
     console.log('Sections seeded successfully');
   } catch (err) {
