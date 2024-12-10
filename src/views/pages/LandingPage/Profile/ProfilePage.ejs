@@ -5,123 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+      .flip-card {
+        background-color: transparent;
+        height: 100vh;
+        perspective: 1000px;
+      }
+
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+      }
+
+      .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .flip-card-front,
+      .flip-card-back {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 1rem;
+      }
+
+      .flip-card-back {
+        transform: rotateY(180deg);
+      }
+      .Btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100px;
+        height: 40px;
+        border: none;
+        padding: 0px 20px;
+
+        color: black;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 10px;
+        transition-duration: 0.3s;
+        border: 1px solid #cec3c3;
+      }
+
+      .svg {
+        width: 13px;
+        position: absolute;
+        right: 0;
+        margin-right: 20px;
+        fill: black;
+        transition-duration: 0.3s;
+      }
+
+      .Btn:hover {
+        color: transparent;
+      }
+
+      .Btn:hover svg {
+        right: 43%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        transition-duration: 0.3s;
+      }
+
+      .Btn:active {
+        transform: translate(3px, 3px);
+        transition-duration: 0.3s;
+        box-shadow: 2px 2px 0px rgb(140, 32, 212);
+      }
+    </style>
   </head>
   <body>
-    <div><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
-    <div><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
-    <div class="flex mx-[5%] lg:ml-[17%]">
+    <% if (isSendOtp) { %>
+    <%- include('../../../components/sendOtp/sendOtpModal.ejs') %>
+    <% } %>
+
+    <div class="z-20"><%- include('../../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
+    <div class="relative z-20"><%- include('../../../layouts/partials/Header', { sections: sections }) %></div>
+    <div class="flex ml-[5%] mr-[1%] lg:mr-[5%] lg:ml-[17%]">
       <div class="my-[5%] mt-[50px] sm:flex lg:space-x-[5%] sm:space-x-[5%] w-[100%] md:w-[80%]">
-        <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile'}) %>
+        <div class="md:w-[45%] lg:w-[35%] z-20 sm:z-10 relative">
+          <%- include('../../../components/Profile/ProfileSideNav.ejs', {selected: 'profile', isTransactionComplete: isTransactionComplete}) %>
+        </div>
 
-        <div class="w-[100%] md:w-[60%] lg:w-[65%]">
-          <% if (isSubscriber) { %>
-          <div class="w-full text-center text-[14px]">
-            <div class="w-full bg-gradient-to-r from-[#053549] via-[#BCE5D1] to-[#053549] text-[#0A3981] font-extrabold text-lg rounded-md shadow-lg transform transition-all hover:scale-105">
-              Premium
-            </div>
-          </div>
-          <% } %>
-          <div class="flex items-center bg-[#F9F9F9] p-[24px] space-x-[30px]">
-            <!-- Hình ảnh tròn của người dùng -->
-            <div class="rounded-full h-[100px] w-[100px] overflow-hidden">
-              <img
-                src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeE5rAIGBbWuNTJ8VBNUgiegWt9TLzuBU1Ba31MvO4FTUDbTPhgw156ODMHI3wjsu2AWBkJKWf8cPIQ0dcKJjA05&_nc_ohc=8yv9TBiBjIsQ7kNvgHefTpr&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=ApxmOVFo4Y8i9aNthD9hypb&oh=00_AYBgz0KrZ5BvnRshspd82RxSbECKoRDYIFdkNZi92uv3NQ&oe=67695D7A"
-                alt=""
-                class="object-cover h-full w-full"
-              />
-            </div>
-            <!-- Thông tin người dùng -->
-            <div class="text-[14px] font-medium">
-              <div class="text-[#888888]">DISPLAY NAME</div>
-              <div class="text-[#0879BF]"><%= readerProfile.name %></div>
-            </div>
-          </div>
-
-          <div class="font-bold text-[30px] mt-[70px] mb-[25px]">MANAGE ACCOUNT</div>
-          <div class="">
-            <div class="flex space-x-[27px] w-full mb-4">
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                  />
-                </svg>
-              </div>
-              <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
-                <div class="text-[#8F918F] text-[14px] font-medium">EMAIL</div>
-                <div><%= account.email %></div>
-              </div>
-            </div>
-            <div class="flex space-x-[27px] w-full mb-4">
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
-                  />
-                </svg>
-              </div>
-              <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
-                <div class="text-[#8F918F] text-[14px] font-medium">PASSWORD</div>
-                <div>••••••••</div>
-              </div>
-            </div>
-          </div>
-          <div class="font-bold text-[30px] mt-[70px] mb-[25px]">Personal Information</div>
-          <div class="">
-            <div class="flex space-x-[27px] w-full mb-4">
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                  />
-                </svg>
-              </div>
-              <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
-                <div class="text-[#8F918F] text-[14px] font-medium">FULL NAME</div>
-                <div><%= readerProfile.name %></div>
-              </div>
-            </div>
-            <div class="flex space-x-[27px] w-full mb-4">
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
-                  />
-                </svg>
-              </div>
-              <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
-                <div class="text-[#8F918F] text-[14px] font-medium">DATE OF BIRTH</div>
-                <div>
-                  <%= (() => { const dob = new Date(readerProfile.dob); const month = String(dob.getMonth() + 1).padStart(2, '0'); const day = String(dob.getDate()).padStart(2, '0'); const year =
-                  dob.getFullYear(); return `${month}/${day}/${year}`; })() %>
-                </div>
-              </div>
-            </div>
-            <div class="flex space-x-[27px] w-full mb-4">
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                  />
-                </svg>
-              </div>
-              <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
-                <div class="text-[#8F918F] text-[14px] font-medium">GENDER</div>
-                <div>
-                  <%= readerProfile.gender %>
-                </div>
-              </div>
+        <div class="w-[100%] md:w-[100%] lg:w-[60%]">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front"><%- include('../../../components/Profile/FrontProfile.ejs') %></div>
+              <div class="flip-card-back"><%- include('../../../components/Profile/BackProfile.ejs') %></div>
             </div>
           </div>
         </div>
@@ -129,4 +109,10 @@
     </div>
     <div id="layout" class=""><%- include('../../../layouts/partials/Footer.ejs', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) })%></div>
   </body>
+  <script>
+    function toggleFlipCard() {
+      const flipCard = document.querySelector('.flip-card');
+      flipCard.classList.toggle('flipped');
+    }
+  </script>
 </html>
