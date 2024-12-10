@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter">
+      <option>All</option>
+      <option value="draft">Draft</option>
+      <option value="published">Published</option>
+      <option value="pending">Pending</option>
+      <option value="rejected">Rejected</option>
+    </select>
+
+    <script>
+      $('#statusFilter').on('change', function () {
+        const selectedFilter = $(this).val(); // Get the selected filter value
+        // Assuming `data` is your local array of items
+        const filteredData = selectedFilter === 'All' ? data.articles : data.articles.filter((item) => item.status === selectedFilter); // Apply the filter
+
+        // Now, update the table with the filtered data
+        _table = $('#example').DataTable();
+        _table.clear();
+        _table.rows.add(filteredData);
+        _table.draw();
+      });
+    </script>
+  </body>
+</html>

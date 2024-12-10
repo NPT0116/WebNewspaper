@@ -246,19 +246,6 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
     const sections = await getSectionTree();
     const data = await getLandingPageData();
 
-    // Render view
-    // res.json({
-    //   data: data,
-    //   section: rootSection,
-    //   articles: response,
-    //   sections: sections,
-    //   pagination: {
-    //     totalItems: totalArticles,
-    //     totalPages: totalPages,
-    //     currentPage: pageNum,
-    //     pageSize: size
-    //   }
-    // });
     res.render('pages/LandingPage/SectionPage', {
       data: data,
       section: rootSection,
@@ -271,18 +258,6 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
         pageSize: size
       }
     });
-    // res.json({
-    //   data: data,
-    //   section: rootSection,
-    //   articles: response,
-    //   sections: sections,
-    //   pagination: {
-    //     totalItems: totalArticles,
-    //     totalPages: totalPages,
-    //     currentPage: pageNum,
-    //     pageSize: size
-    //   }
-    // });
   } catch (err) {
     next(new AppError('Internal server error', 500));
   }
