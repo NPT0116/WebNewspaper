@@ -22,7 +22,7 @@ interface IDashboardArticle {
   images: string[];
   videoUrl?: string;
   publishedAt?: Date;
-  layout: 'text-left' | 'text-right' | 'default';
+  layout: 1 | 2 | 3;
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
   createdAt: Date;
   updatedAt: Date;
