@@ -144,10 +144,6 @@ export const seedArticlesWithReporterAndEditor = async () => {
       const sectionId = getSectionId(articleData.sectionId);
       const editorId = getEditorForSection(sectionId);
       const editor = await EditorProfile.findById(editorId);
-      if (!editor) {
-        console.log('clm');
-        console.log(editorId);
-      }
       const reporter = reporterArr[getRandomNumberInRange(0, reporterArr.length - 1)];
       const publishedDate = getRandomDate(new Date('2024-11-01T00:00:00Z'), new Date('2024-12-01T00:00:00Z'));
       const views = getRandomNumberInRange(10000, 30000);
