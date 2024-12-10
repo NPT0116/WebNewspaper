@@ -1,14 +1,7 @@
 import express from 'express';
 import { PATH } from '~/config/path.js';
-import {
-  renderAdminArticlePage,
-  renderAdmindReporterPage,
-  renderAdminEditorPage,
-  renderAdminReaderPage,
-  renderAdminSectionPage,
-  renderAdminTagsPage
-} from '~/controllers/Dashboard/Admin/adminDashboardController.js';
-import { getAdminDashboardPage, getAdminEditorsPage, getAdminReadersPage, getAdminReportersPage } from '~/controllers/dashboardController.js';
+import { renderAdminArticlePage } from '~/controllers/Dashboard/Admin/adminArticles/adminArticlesDashboardController.js';
+import { renderAdmindReporterPage, renderAdminEditorPage, renderAdminReaderPage, renderAdminSectionPage, renderAdminTagsPage } from '~/controllers/Dashboard/Admin/adminDashboardController.js';
 const adminDashboardRouter = express.Router();
 
 // adminDashboardRouter.get(PATH.HOME, getAdminDashboardPage);
