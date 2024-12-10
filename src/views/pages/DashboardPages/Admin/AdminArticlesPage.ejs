@@ -333,7 +333,8 @@
         const tagIds = tags?.map((tag) => tag._id);
         articles = tagIds?.length === 0 ? data.articles : data.articles.filter((article) => article.tags?.some((tag) => tagIds.includes(tag))); // Apply the filter
         const selectedFilter = $('#statusFilter').val();
-        if (selectedFilter) articles = articles.filter((article) => article.status === selectedFilter);
+        console.log(selectedFilter);
+        if (selectedFilter && selectedFilter !== 'All') articles = articles.filter((article) => article.status === selectedFilter);
         // Now, update the table with the filtered data
         _table = $('#example').DataTable();
         _table.clear();

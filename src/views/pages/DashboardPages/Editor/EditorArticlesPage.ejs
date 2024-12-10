@@ -51,11 +51,10 @@
     <script type="text/javascript">
       // eslint-disable-next-line
       const data = <%- JSON.stringify(data) %>;
-      console.log(typeof data); // Logs the data object
-      console.log(data[0]); // Logs the articles array
+      const articles = data.articles;
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: data.articles,
+          data: articles,
           columns: [
             { data: 'title' },
             { data: 'description' },

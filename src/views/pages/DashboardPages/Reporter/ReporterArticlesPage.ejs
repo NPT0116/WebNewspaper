@@ -69,7 +69,6 @@
     <script type="text/javascript">
         // eslint-disable-next-line
         const data = <%- JSON.stringify(data) %>;
-        console.log(data.articles.filter(article => article.status === 'rejected'));
         function showRejectionReason(rejectReason, authorName, updatedAt) {
           console.log(rejectReason, authorName);
           if(!rejectReason || !authorName) return;
@@ -97,9 +96,10 @@
             buttonsStyling: false // Use custom classes for button styling
           });
         }
+        const articles = data.articles;
         const table = $(document).ready(function () {
           $('#example').DataTable({
-            data: data.articles,
+            data: articles,
             columns: [
               { data: 'title' },
               { data: 'description' },
