@@ -8,6 +8,6 @@
     <%- include('./ContentDisplayLayout/FlipContent.ejs', {title: title, content: content, image: images, author: author})%>
     <hr />
   </div>
-  <div class="mt-8 sm:w-[90%] w-[95%]"><%- include('CommentList', { articleSlug: articleSlug, sectionSlug: sectionSlug, comments: comments, profile: profile }) %></div>
-  <div class="mt-8 sm:w-[90%] w-[95%]"><%- include('ReadMore', { articles: articles }) %></div>
+  <div class="mt-8 w-[95%]"><%- include('CommentList', { articleSlug: articleSlug, sectionSlug: sectionSlug, comments: comments, profile: profile }) %></div>
+  <div class="mt-8 w-full"><%- include('ReadMore', { articles: articles }) %></div>
 </div>

@@ -3006,10 +3006,6 @@ input:checked + .toggle-bg {
     width: 70%;
   }
 
-  .sm\:w-\[90\%\] {
-    width: 90%;
-  }
-
   .sm\:flex-1 {
     flex: 1 1 0%;
   }
@@ -3054,6 +3050,11 @@ input:checked + .toggle-bg {
   .sm\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
   .sm\:text-5xl {
