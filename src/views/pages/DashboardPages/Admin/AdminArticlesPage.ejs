@@ -48,7 +48,7 @@
           <th>Published At</th>
           <th>Views</th>
           <th>Section</th>
-          <th>Type</th>
+          <th>Subscribe</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -61,10 +61,10 @@
     <script type="text/javascript">
       // eslint-disable-next-line
       const data = <%- JSON.stringify(data) %>;
-      console.log(data.articles[0]);
+      let articles = data.articles
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: data.articles,
+          data: articles,
           columns: [
             { data: 'title' },
             { data: 'description' },
@@ -296,12 +296,13 @@
       function updateDataByTags() {
         // Assuming `data` is your local array of items
         const tagIds = tags?.map((tag) => tag._id);
-        const filteredData = tagIds?.length === 0 ? data.articles : data.articles.filter((article) => article.tags?.some((tag) => tagIds.includes(tag))); // Apply the filter
-
+        articles = tagIds?.length === 0 ? data.articles : data.articles.filter((article) => article.tags?.some((tag) => tagIds.includes(tag))); // Apply the filter
+        const selectedFilter = $('#statusFilter').val();
+        if (selectedFilter) articles = articles.filter((article) => article.status === selectedFilter);
         // Now, update the table with the filtered data
         _table = $('#example').DataTable();
         _table.clear();
-        _table.rows.add(filteredData);
+        _table.rows.add(articles);
         _table.draw();
       }
 
