@@ -11,8 +11,8 @@
         <tr>
           <th>_id</th>
           <th>Name</th>
-          <th>Username</th>
           <th>Date of birth</th>
+          <th>Reader Type</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -21,7 +21,7 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
-    <div id="user-info-drawer" class="fixed z-40 h-screen w-2/5 mt-20 overflow-y-auto bg-white p-4 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-js-label">
+    <div id="user-info-drawer" class="fixed z-50 h-screen w-2/5 mt-20 overflow-y-auto bg-white p-4 dark:bg-gray-800" tabindex="10" aria-labelledby="drawer-js-label">
       <h5 id="drawer-js-label" class="mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400">
         <svg class="me-2 h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -55,10 +55,10 @@
             </div>
         </div>
         <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
-            <a href="#">Jese Leos</a>
+            <a href="#" id="name"></a>
         </p>
         <p class="mb-3 text-sm font-normal">
-            <a href="#" class="hover:underline">@jeseleos</a>
+            <a href="#" id="username" class="hover:underline"></a>
         </p>
 
         <div class="p-6 bg-white rounded-lg shadow">
@@ -67,18 +67,11 @@
             <label class="text-sm font-medium text-gray-700 mb-2 flex items-center w-1/4">Name</label>
             <div class="flex flex-1 space-x-4">
               <input
+                id="name-input"
                 type="text"
                 placeholder="First Name"
                 class="w-full border bg-gray-100 cursor-not-allowed border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value="Amélie"
-                disabled
-                readonly
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                class="w-full border bg-gray-100 cursor-not-allowed border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                value="Laurent"
                 disabled
                 readonly
               />
@@ -99,6 +92,7 @@
               </svg>
               <input
                 type="email"
+                id="email-input"
                 placeholder="Email Address"
                 class="w-full border-0 focus:ring-0 focus:outline-none pl-2 bg-gray-100 cursor-not-allowed"
                 value="amelie@untitledui.com"
@@ -112,9 +106,9 @@
           <div class="mb-4 flex gap-2 justify-between">
             <label class="block text-sm font-medium text-gray-700 mb-2 w-1/4">Username</label>
             <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-              <span class="text-gray-500">untitledui.com/</span>
               <input
                 type="text"
+                id="username-input"
                 placeholder="Username"
                 class="w-full border-0 focus:ring-0 focus:outline-none pl-2 bg-gray-100 cursor-not-allowed"
                 value="amelie"
@@ -149,8 +143,8 @@
               <input
                 type="email"
                 placeholder="Email Address"
+                id="dob-input"
                 class="w-full border-0 focus:ring-0 focus:outline-none pl-2 bg-gray-100 cursor-not-allowed"
-                value="12/12/2004"
                 disabled
                 readonly
               />
@@ -194,67 +188,56 @@
         </div>
     </div>
 
+    <script src="/js/time.js"></script>
+
     <script>
-      const users = [
-        {
-          _id: '1',
-          name: 'Alice Johnson',
-          dateOfBirth: '1990-05-15',
-          username: 'alice.johnson'
-        },
-        {
-          _id: '2',
-          name: 'Bob Smith',
-          dateOfBirth: '1985-09-22',
-          username: 'bobsmith85'
-        },
-        {
-          _id: '3',
-          name: 'Charlie Davis',
-          dateOfBirth: '1992-01-10',
-          username: 'charlie.davis'
-        },
-        {
-          _id: '4',
-          name: 'Diana Roberts',
-          dateOfBirth: '1995-03-28',
-          username: 'diana.roberts'
-        },
-        {
-          _id: '5',
-          name: 'Ethan Brown',
-          dateOfBirth: '1988-07-07',
-          username: 'ethan.brown'
-        }
-      ];
+      const data = <%- JSON.stringify(data) %>;
+      const readers = data.readers;
+      console.log(readers[15]);
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: users,
+          data: readers,
           columns: [
             { data: '_id' },
             { data: 'name' },
-            { data: 'username' },
-            { data: 'dateOfBirth' },
+            { data: 'dob' },
+            {data: 'accountId'},
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
-                console.log(row);
                 // Customize the action buttons for each row
+                const isButtonDisabled = row?.accountId?.isSubscriber === false;
+                console.log(isButtonDisabled);
+                const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default" class="relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+             <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+               <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
+             </svg>
+           Upgrade
+         </button>` : `<button  data-tooltip-target="tooltip-default" class="relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+         >
+      <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
+      </svg>
+    Upgrade
+  </button>`
                 return `
                       <div class="flex space-x-2">
-                          <button onclick="toggleDrawer(${row._id})" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
-                              </svg>
-                              <span>Info</span>
-                            </button>
+                        <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+                            </svg>
+                            <span>Info</span>
+                          </button>
                         <a href="editor/${row._id}/preview" target="_blank">
-                        <button data-id="${row._id}" type="button" class="edit-btn bg-green-500 text-white hover:bg-green-600 focus:ring-2 focus:ring-green-300 gap-2 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 256l64 0c44.2 0 80 35.8 80 80c0 8.8-7.2 16-16 16L80 384c-8.8 0-16-7.2-16-16c0-44.2 35.8-80 80-80zm-32-96a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm256-32l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
-                                <span>Profile</span>
+                          <button data-id="${row._id}" type="button" class="edit-btn bg-green-500 text-white hover:bg-green-600 focus:ring-2 focus:ring-green-300 gap-2 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 256l64 0c44.2 0 80 35.8 80 80c0 8.8-7.2 16-16 16L80 384c-8.8 0-16-7.2-16-16c0-44.2 35.8-80 80-80zm-32-96a64 64 0 1 1 128 0 64 64 0 1 1 -128 0zm256-32l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                                  <span>Profile</span>
                             </button>
-                            </a>
+                        </a>
+                        ${buttonElement}
+                      
                       </div>
                   `;
               },
@@ -264,50 +247,47 @@
           ],
           columnDefs: [
             {
-              // Add Tailwind class to the "_id" column
-              render: function (data, type, row, meta) {
-                return `<div class="flex gap-2 px-4">
-                  <img class="w-10 h-10 rounded" src="https://cdn.vectorstock.com/i/1000v/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg" alt="Rounded avatar">
-                  <div>${data}</div>
-                </div>`;
-              }
-            },
-            {
               // Add Tailwind class to the "name" column
-              targets: 1,
+              targets: 0,
               createdCell: function (td, cellData, rowData, row, col) {
                 $(td).addClass('text-sm text-gray-600 px-4 py-2');
               }
             },
             {
               // Add Tailwind class to the "username" column
-              targets: 2,
+              targets: 1,
               render: function (data, type, row, meta) {
                 return `<div>${data}</div>`;
               }
             },
             {
               // Add Tailwind class to the "dateOfBirth" column
+              targets: 2,
+              render: function (data, type, row, meta) {
+                
+                return `<div class="text-xs">${formatDateTime(data, true)}</div>`;
+              }
+            },
+            {
+              // Add Tailwind class to the "dateOfBirth" column
               targets: 3,
               render: function (data, type, row, meta) {
-                // Create a Date object
-                const date = new Date(data);
-
-                // Use toLocaleString for a readable format
-                const readableDate = date.toLocaleString('en-US', {
-                  weekday: 'long', // Long weekday name (e.g., "Monday")
-                  year: 'numeric', // Full year (e.g., 2024)
-                  month: 'long', // Full month name (e.g., "November")
-                  day: 'numeric', // Day of the month (e.g., 20)
-                  hour: '2-digit', // Hour in 2-digit format (e.g., "03")
-                  minute: '2-digit', // Minute in 2-digit format (e.g., "22")
-                  second: '2-digit', // Second in 2-digit format (e.g., "47")
-                  hour12: true // 12-hour format (AM/PM)
-                });
-
-                return `<div class="text-xs">${readableDate}</div>`;
+                const isSubscriber = data?.isSubscriber === false;
+                if(isSubscriber)
+                  return `<div class="text-sm flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-yellow-300 text-white">
+                    <svg fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                      <path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/>
+                    </svg>
+                    <span>Subscriber</span>
+                  </div>`;
+                return `<div class="text-sm flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-gray-300 text-black">
+                  <svg fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z"/>
+                  </svg>
+                  <span>Reader</span>
+                </div>`
               }
-            }
+            },
           ],
           rowCallback: function (row, data, index) {
             // Apply styling to the entire row if necessary
@@ -342,6 +322,7 @@
         _table.draw();
       });
     </script>
+    <script src="/js/time.js"></script>
     <script type="module">
       const $targetEl = document.getElementById('user-info-drawer');
 
@@ -365,8 +346,14 @@
       drawer.hide();
 
       export function toggleDrawer(id) {
-        const user = users.find((u) => u._id == id);
-        console.log(user);
+        const reader = readers.find((u) => u._id == id);
+        console.log(reader);
+        document.getElementById('email-input').value = reader?.accountId?.email;
+        document.getElementById('username-input').value = reader?.accountId?.localAuth?.username
+        document.getElementById('dob-input').value = formatDateTime(reader?.dob, true)
+        document.getElementById('name-input').value = reader?.name
+        document.getElementById('name').textContent = reader?.name
+        document.getElementById('username').textContent = reader?.accountId?.localAuth?.username
         drawer.toggle();
       }
       window.toggleDrawer = toggleDrawer;

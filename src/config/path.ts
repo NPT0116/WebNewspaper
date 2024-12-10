@@ -31,8 +31,8 @@ export const PATH = {
         EDITORS: '/editors',
         READERS: '/readers'
       },
-      ARTICLES: '/articles',
-      SECTION: '/section',
+      ARTICLES: '/',
+      SECTION: '/sections',
       TAGS: '/tags'
     }
   },

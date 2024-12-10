@@ -54,6 +54,10 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
         select: 'name',
         model: 'EditorProfile'
       })
+      .populate({
+        path: 'sectionId',
+        select: 'name'
+      })
       .populate<{ author: IAuthor }>('author', 'name');
 
     const data: IDashboardArticle[] = articles.map((article) => {
@@ -71,7 +75,7 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
         updatedAt: article.updatedAt,
         sectionId: article.sectionId,
         tags: article.tags,
-        views: article.views,
+        views: article.views ?? 0,
         isSubscribed: article.isSubscribed,
         approved: {
           editorId: article.approved?.editorId,
@@ -84,11 +88,11 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
       };
     });
 
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //     body: '../../pages/DashboardPages/Admin/AdminArticlesPage',
-    //     data: { articles, role: 'admin' }
-    // });
-    res.json({ data });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/AdminArticlesPage',
+      data: { articles: data, role: 'admin' }
+    });
+    // res.json({ data });
   } catch (e) {
     console.error('Error retrieving reporter profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -118,7 +122,10 @@ export const renderAdmindReporterPage = async (req: Request, res: Response) => {
     }));
 
     // Render the page with the formatted data
-    res.json({ data });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/ReportersPage',
+      data: { reporters: data, role: 'admin' }
+    });
   } catch (error) {
     console.error('Error retrieving reporter profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -153,7 +160,10 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
     }));
 
     // Render the page with the formatted data
-    res.json({ data });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/EditorsPage',
+      data: { editors: data, role: 'admin' }
+    });
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -163,7 +173,10 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
 export const renderAdminSectionPage = async (req: Request, res: Response) => {
   try {
     const sections = await getSectionTree();
-    res.json({ data: sections });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/SectionsPage',
+      data: { sections, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -173,7 +186,10 @@ export const renderAdminSectionPage = async (req: Request, res: Response) => {
 export const renderAdminTagsPage = async (req: Request, res: Response) => {
   try {
     const tags = await Tag.find();
-    res.json({ data: tags });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/TagsPage',
+      data: { tags, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -189,7 +205,10 @@ export const renderAdminReaderPage = async (req: Request, res: Response) => {
       name: reader.name,
       dob: reader.dob
     }));
-    res.json({ data });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/ReadersPage',
+      data: { readers: data, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
