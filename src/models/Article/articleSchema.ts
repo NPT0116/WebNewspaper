@@ -12,9 +12,9 @@ const articleSchema = new Schema<IArticle>(
     images: [{ type: String }], // URLs for article images
     videoUrl: { type: String }, // Optional YouTube link or other video URL
     layout: {
-      type: String,
-      enum: ['text-left', 'text-right', 'default'],
-      default: 'default'
+      type: Number,
+      enum: [1, 2, 3],
+      default: 3
     },
     status: {
       type: String,

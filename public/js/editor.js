@@ -310,7 +310,7 @@ const renderPreviewLayout = (layout) => {
   const backgroundString = `background-color: ${theme === 'light' ? 'white' : 'black'}`;
   const textColorString = `color: ${theme === 'dark' ? 'white' : 'black'}`;
   if (imageUrl) {
-    if (layout === 'text-right') {
+    if (layout === 2) {
       layoutPreview.innerHTML = `
         <div style="display: flex; align-items: center; ${backgroundString}">
           <div  style="width:50%; display: flex; justify-content: center"><img src="${imageUrl}" style="max-height: 150px; max-width: 50%; margin-right: 16px;" alt="Uploaded Image" /></div>
@@ -323,7 +323,7 @@ const renderPreviewLayout = (layout) => {
               </div>
           </div>
         </div>`;
-    } else if (layout === 'text-left') {
+    } else if (layout === 1) {
       layoutPreview.innerHTML = `
         <div style="display: flex; align-items: center; ${backgroundString}">
           <div style="width:50%; display:flex; justify-content: center">

@@ -21,7 +21,7 @@ interface UpdateArticleBody {
   sectionId?: mongoose.Types.ObjectId;
 
   tags?: string;
-  layout?: 'text-left' | 'text-right' | 'default';
+  layout?: 1 | 2 | 3;
   images?: string[];
   videoUrl?: string;
 }
@@ -80,7 +80,7 @@ interface writeArticleResponse {
     sectionId: mongoose.Types.ObjectId | null;
     sections: ISection[] | null;
     tags: ITag[];
-    layout: 'text-left' | 'text-right' | 'default';
+    layout: 1 | 2 | 3;
     images: string[];
     status: string;
   };
@@ -96,7 +96,7 @@ interface UpdateArticleResponse {
     author: mongoose.Types.ObjectId;
     sectionId: mongoose.Types.ObjectId | null;
     tags: mongoose.Types.ObjectId[];
-    layout: 'text-left' | 'text-right' | 'default';
+    layout: 1 | 2 | 3;
     images: string[];
     videoUrl?: string;
     status: string;
