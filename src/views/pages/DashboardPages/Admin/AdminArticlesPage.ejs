@@ -24,20 +24,18 @@
     </div>
 
     <div class="flex gap-4 mb-4">
-      <div class="flex gap-1">
-        <label class="flex items-center" for="statusFilter">Status:</label>
-        <select
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          id="statusFilter"
-        >
-          <option value="published">Published</option>
-          <option value="pending">Pending</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </div>
+      <div class="flex gap-1"><%- include('../../../components/Dashboard/StatusFilter') %></div>
       <div class="flex flex-1 gap-2">
         <label class="flex items-center" for="searchInput">Tags:</label>
-        <div class="flex-1"><%- include('../../../components/TagSelector') %></div>
+        <div class="relative flex-1 mx-auto">
+          <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
+            <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+          </div>
+          <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+            <div class="text-center text-gray-500 py-2">Loading...</div>
+          </div>
+          <input type="hidden" name="tags" id="tags" />
+        </div>
       </div>
     </div>
 
@@ -48,6 +46,9 @@
           <th>Description</th>
           <th>Status</th>
           <th>Published At</th>
+          <th>Views</th>
+          <th>Section</th>
+          <th>Subscribe</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -60,29 +61,28 @@
     <script type="text/javascript">
       // eslint-disable-next-line
       const data = <%- JSON.stringify(data) %>;
-      console.log(typeof data); // Logs the data object
-      console.log(data[0]); // Logs the articles array
+      let articles = data.articles
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: data.articles,
+          data: articles,
           columns: [
             { data: 'title' },
             { data: 'description' },
             { data: 'status' },
-            { data: 'publishedAt' },
+            {data: 'publishedAt'},
+            { data: 'views' },
+            { data: 'sectionId'},
+            {data: 'isSubscribed'},
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
-                console.log(row);
                 // Customize the action buttons for each row
                 return `
                       <div class="flex space-x-2">
-                          <a href="editor/${row._id}/preview" target="_blank">
-                          <button data-id="${row._id}" type="button" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                                <span>Preview</span>
-                            </button>
+                          <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                          <span>Preview</span>
                         </a>
                       </div>
                   `;
@@ -141,8 +141,8 @@
                 }
               }
                   return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data).dot} rounded-full "></span></div>
-                  <div class="flex items-center ${getColorByStatus(data).text}">${data}</div>
+                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
+                  <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
                 </div>`;
               },
             },
@@ -168,6 +168,36 @@
 
                 return `<div class="text-xs">${readableDate}</div>`;
               }
+            },
+            {
+              targets: 4,
+              render: function(data, type, row, meta) {
+                const safeData = data !== undefined && data !== null ? data : "N/A";
+                return `<div class="flex gap-2">
+                  <svg class="flex align-items-center" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                  ${safeData}
+                </div>`
+              }
+            },
+            {
+              targets: 5,
+              render: function(data, type, row, meta) {
+                return `<div>${data?.name ? data.name : "N/A"}</div>`
+              }
+            },
+            {
+              targets: 6,
+              render: function(data, type, row, meta) {
+                if(data === false) return `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                  Premium
+              </span>`
+
+              return `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                Public
+            </span>`
+              }
             }
           ],
           rowCallback: function (row, data, index) {
@@ -189,31 +219,172 @@
           lengthMenu: [10, 25, 50] // Options for page size selection
         });
       });
-      $('#statusFilter').on('change', function () {
-        const selectedFilter = $(this).val();  // Get the selected filter value
 
-        // Assuming `data` is your local array of items
-        const filteredData = data.articles.filter(item => item.status === selectedFilter);  // Apply the filter
-        console.log(filteredData);
-        // Now, update the table with the filtered data
-        _table = $('#example').DataTable();
-        _table.clear();
-        _table.rows.add(filteredData);
-        _table.draw();
-      });
 
-      $('#example').on('click', '.edit-btn', function () {
-        const id = $(this).data('id');
-        const url = `/articles/${id}/edit`; // Construct the URL
-        window.open(url, '_blank'); // Open the URL in a new window or tab
-        // Add your edit logic here
-      });
+
 
       // Handle delete button click
       $('#example').on('click', '.delete-btn', function () {
         const id = $(this).data('id');
         console.log('Delete ID:', id);
         // Add your delete logic here
+      });
+    </script>
+
+    <script>
+      const searchInput = document.getElementById('searchInput');
+      const dropdown = document.getElementById('dropdown');
+
+      let debounceTimeout;
+
+      // Debounce function to delay search
+      function debounce(func, delay) {
+        return function (...args) {
+          clearTimeout(debounceTimeout);
+          debounceTimeout = setTimeout(() => func(...args), delay);
+        };
+      }
+
+      let results;
+
+      // Simulate search API request
+      async function fetchSearchResults(query) {
+        dropdown.classList.remove('hidden'); // Show dropdown
+        dropdown.innerHTML = `
+      <div role="status" class="flex justify-center p-4">
+          <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+          </svg>
+
+      </div>
+      `; // Show loading text
+
+        try {
+          // Simulate server delay
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          console.log(query);
+          const params = new URLSearchParams({
+            search_value: query
+          });
+          const response = await fetch(`/api/tags?search_value=${query}`);
+          const jsonResponse = await response.json();
+          results = jsonResponse.data.tags;
+          renderDropdown(results);
+        } catch (error) {
+          console.error('Search error:', error);
+          dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">Error loading results</div>';
+        }
+      }
+
+      let tags = [];
+
+      function addTag(tag) {
+        if (!tags?.some((_tag) => _tag._id === tag._id)) {
+          tags?.push(tag);
+          updateTags();
+        }
+        updateDataByTags();
+      }
+
+      function removeTag(tag) {
+        tags = tags?.filter((_tag) => _tag._id !== tag._id);
+        updateTags();
+        updateDataByTags();
+      }
+
+      function updateDataByTags() {
+        // Assuming `data` is your local array of items
+        const tagIds = tags?.map((tag) => tag._id);
+        articles = tagIds?.length === 0 ? data.articles : data.articles.filter((article) => article.tags?.some((tag) => tagIds.includes(tag))); // Apply the filter
+        const selectedFilter = $('#statusFilter').val();
+        if (selectedFilter) articles = articles.filter((article) => article.status === selectedFilter);
+        // Now, update the table with the filtered data
+        _table = $('#example').DataTable();
+        _table.clear();
+        _table.rows.add(articles);
+        _table.draw();
+      }
+
+      // Update the input field with selected tags
+      function updateTags() {
+        const tagContainer = document.getElementById('tagContainer');
+        const tagWrappers = document.getElementsByClassName('tag-wrapper');
+        const tagsInput = document.getElementById('tags');
+        Array.from(tagWrappers).forEach((wrapper) => tagContainer.removeChild(wrapper));
+        tags?.forEach((tag) => {
+          console.log(tag);
+          const ele = document.createElement('span');
+          ele.classList.add('tag-wrapper');
+          ele.innerHTML = `<span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">${tag.name}
+          <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
+          </span>`;
+          // Insert at the beginning of the container
+          tagContainer.insertBefore(ele, tagContainer.firstChild);
+          tagsInput.value = tags.map((tag) => tag._id.toString()).join(',');
+
+          console.log(tagsInput.value);
+        });
+        const tagElements = document.getElementsByClassName('tag');
+        Array.from(tagElements).forEach((tag) => {
+          tag.addEventListener('click', (e) => {
+            const data = e.currentTarget.getAttribute('data');
+            console.log(data);
+            removeTag(JSON.parse(data)); // Call the function to remove the tag
+          });
+        });
+        renderDropdown(results);
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        updateTags();
+      });
+
+      // Render dropdown with search results
+      function renderDropdown(results) {
+        if (!results.length) {
+          dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">No results found</div>';
+        } else {
+          const resultItems = results
+            .map((result) => {
+              if (!tags?.some((tag) => tag._id === result._id)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.name}</div>`;
+              return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>`;
+            })
+            .join('');
+          dropdown.innerHTML = resultItems;
+          const dropdownItems = dropdown.querySelectorAll('[data-result]');
+          dropdownItems.forEach((item) => {
+            item.addEventListener('click', (e) => {
+              const result = JSON.parse(e.currentTarget.getAttribute('data-result'));
+              if (!tags?.some((tag) => tag._id === result._id)) addTag(result);
+              else removeTag(result);
+            });
+          });
+        }
+      }
+
+      // Listen to input events with debounce
+      searchInput.addEventListener(
+        'input',
+        debounce((event) => {
+          const query = event.target.value.trim();
+
+          if (query.length) {
+            fetchSearchResults(query);
+          } else {
+            dropdown.classList.add('hidden');
+          }
+        }, 500) // Adjust debounce delay here
+      );
+      searchInput.addEventListener('focus', () => {
+        dropdown.classList.remove('hidden');
+        // positionDropdown();
+      });
+      document.getElementById('tagContainer').addEventListener('click', () => searchInput.focus());
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.relative')) {
+          dropdown.classList.add('hidden');
+        }
       });
     </script>
   </body>

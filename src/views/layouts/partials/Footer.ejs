@@ -10,12 +10,16 @@
         <div class="grid grid-cols-2 w-full font-dancing text-gray-400">
           <div>
             <%section1.forEach((section) => {%>
-            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <div class="hover:text-gray-100 cursor-pointer">
+              <a href="/section/<%=section.slug%>"><%=section.name%></a>
+            </div>
             <%})%>
           </div>
           <div>
             <%section2.forEach((section) => {%>
-            <div class="hover:text-gray-100 cursor-pointer"><%=section.name%></div>
+            <div class="hover:text-gray-100 cursor-pointer">
+              <a href="/section/<%=section.slug%>"><%=section.name%></a>
+            </div>
             <%})%>
           </div>
         </div>

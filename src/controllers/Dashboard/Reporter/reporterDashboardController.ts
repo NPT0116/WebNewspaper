@@ -5,8 +5,9 @@ import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
+import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
+import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -22,7 +23,7 @@ interface UpdateArticleBody {
   sectionId?: mongoose.Types.ObjectId;
 
   tags?: string;
-  layout?: 'text-left' | 'text-right' | 'default';
+  layout?: 1 | 2 | 3;
   images?: string[];
   videoUrl?: string;
 }
@@ -81,7 +82,7 @@ interface writeArticleResponse {
     sectionId: mongoose.Types.ObjectId | null;
     sections: ISection[] | null;
     tags: ITag[];
-    layout: 'text-left' | 'text-right' | 'default';
+    layout: 1 | 2 | 3;
     images: string[];
     status: string;
   };
@@ -97,7 +98,7 @@ interface UpdateArticleResponse {
     author: mongoose.Types.ObjectId;
     sectionId: mongoose.Types.ObjectId | null;
     tags: mongoose.Types.ObjectId[];
-    layout: 'text-left' | 'text-right' | 'default';
+    layout: 1 | 2 | 3;
     images: string[];
     videoUrl?: string;
     status: string;
@@ -122,7 +123,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.description = description || article.description;
     article.content = content || article.content;
     article.sectionId = sectionId || article.sectionId;
-    article.tags = tags?.split(',').map((id) => new mongoose.Types.ObjectId(id)) || article.tags;
+    article.tags = tags ? tags.split(',').map((id) => new mongoose.Types.ObjectId(id)) : [];
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
@@ -163,6 +164,17 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
       res.redirect('/dashboard/reporter');
     }
     if (article.status === 'rejected') {
+      const editorId = article.rejected.editorId;
+      if (editorId) {
+        // Find the editor profile
+        const editorProfile = await EditorProfile.findById(editorId);
+        if (editorProfile) {
+          // Remove the article ID from the editor's list of edited articles
+          editorProfile.editArticles = editorProfile.editArticles.filter((editedArticleId) => !editedArticleId.equals(article._id));
+          // Save the changes to the editor profile
+          await editorProfile.save();
+        }
+      }
       article.rejected.editorId = undefined;
       article.rejected.rejectReason = '';
     }
@@ -239,4 +251,21 @@ export const getReporterDashboardPage = async (req: Request, res: Response) => {
     body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
     data: { articles, role: 'reporter', profile: reporterProfile }
   });
+};
+
+interface IReporterDeleteArticle {
+  articleId: mongoose.Types.ObjectId;
+}
+export const ReporterDeleteArticle = async (req: Request<IReporterDeleteArticle>, res: Response) => {
+  try {
+    const { articleId } = req.params;
+    if (!articleId) {
+      res.redirect('/dashboard/reporter');
+    }
+    deleteArticle(articleId);
+    res.redirect('/dashboard/reporter');
+  } catch (e) {
+    console.error('Error deleting article:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
 };

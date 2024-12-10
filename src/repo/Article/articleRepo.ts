@@ -4,6 +4,7 @@ import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
+import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 
@@ -96,7 +97,17 @@ export const editorGetArticleById = async (articleId: string, reporterProfileId:
 };
 
 export const getAllArticles = async () => {
-  return await Article.find({});
+  return await Article.find({})
+    .populate({
+      path: 'rejected.editorId',
+      select: 'name',
+      model: 'EditorProfile'
+    })
+    .populate({
+      path: 'approved.editorId',
+      select: 'name',
+      model: 'EditorProfile'
+    });
 };
 
 export const getListArticleInfoCards = async (query: any, skip: number, limit: number): Promise<IArticleCard[]> => {
@@ -229,4 +240,22 @@ export const updateArticleStatus = async (articleId: mongoose.Types.ObjectId, st
   article.publishedAt = new Date();
   article.status = status;
   await article.save();
+};
+
+export const deleteArticle = async (articleId: mongoose.Types.ObjectId) => {
+  const article = await Article.findByIdAndDelete(articleId);
+  if (!article) {
+    return 0;
+  }
+  if (article.status === 'approved' || article.status === 'published' || article.status === 'rejected') {
+    if (article.approved?.editorId) {
+      await EditorProfile.updateOne({ _id: article.approved.editorId }, { $pull: { editArticles: articleId } });
+    }
+
+    if (article.rejected?.editorId) {
+      await EditorProfile.updateOne({ _id: article.rejected.editorId }, { $pull: { editArticles: articleId } });
+    }
+  }
+  await ReporterProfile.updateOne({ _id: article.author }, { $pull: { reportArticles: articleId } });
+  return 1;
 };
