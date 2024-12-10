@@ -168,7 +168,7 @@ export const getEditorDashboardPage = async (req: Request, res: Response) => {
   }
   const articles = await getArticleByEditorId(editorId);
   res.render('layouts/DashboardLayout/DashboardLayout', {
-    body: '../../pages/DashboardPages/EditorArticlesPage',
+    body: '../../pages/DashboardPages/Editor/EditorArticlesPage',
     data: { articles, role: 'editor' }
   });
 };

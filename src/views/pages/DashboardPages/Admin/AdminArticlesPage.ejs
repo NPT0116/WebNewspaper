@@ -30,7 +30,9 @@
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           id="statusFilter"
         >
+          <option>All</option>
           <option value="published">Published</option>
+          <option value="approved">Approved</option>
           <option value="pending">Pending</option>
           <option value="rejected">Rejected</option>
         </select>
@@ -60,8 +62,6 @@
     <script type="text/javascript">
       // eslint-disable-next-line
       const data = <%- JSON.stringify(data) %>;
-      console.log(typeof data); // Logs the data object
-      console.log(data[0]); // Logs the articles array
       const table = $(document).ready(function () {
         $('#example').DataTable({
           data: data.articles,
@@ -74,7 +74,6 @@
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
-                console.log(row);
                 // Customize the action buttons for each row
                 return `
                       <div class="flex space-x-2">
@@ -141,8 +140,8 @@
                 }
               }
                   return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data).dot} rounded-full "></span></div>
-                  <div class="flex items-center ${getColorByStatus(data).text}">${data}</div>
+                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
+                  <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
                 </div>`;
               },
             },

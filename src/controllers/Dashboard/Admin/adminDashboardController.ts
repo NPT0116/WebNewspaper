@@ -53,6 +53,10 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
         select: 'name',
         model: 'EditorProfile'
       })
+      .populate({
+        path: 'sectionId',
+        select: 'name'
+      })
       .populate<{ author: IAuthor }>('author', 'name');
 
     const data: IDashboardArticle[] = articles.map((article) => {
@@ -83,11 +87,11 @@ export const renderAdminArticlePage = async (req: Request, res: Response) => {
       };
     });
 
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //     body: '../../pages/DashboardPages/Admin/AdminArticlesPage',
-    //     data: { articles, role: 'admin' }
-    // });
-    res.json({ data });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/AdminArticlesPage',
+      data: { articles: data, role: 'admin' }
+    });
+    // res.json({ data });
   } catch (e) {
     console.error('Error retrieving reporter profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });

@@ -11,7 +11,7 @@ import {
 import { getAdminDashboardPage, getAdminEditorsPage, getAdminReadersPage, getAdminReportersPage } from '~/controllers/dashboardController.js';
 const adminDashboardRouter = express.Router();
 
-adminDashboardRouter.get(PATH.HOME, getAdminDashboardPage);
+// adminDashboardRouter.get(PATH.HOME, getAdminDashboardPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.EDITORS, renderAdminEditorPage);
 // adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.READERS, getAdminReadersPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.REPORTERS, renderAdmindReporterPage);
