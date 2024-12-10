@@ -7,6 +7,7 @@ import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
 import { getSectionTree } from '~/repo/Section/index.js';
 import { getProfile } from '../landingpageController.js';
+import { Account } from '~/models/Account/accountSchema.js';
 
 export const relatedArticleFunc = async (sectionSlug: string) => {
   try {
@@ -148,20 +149,21 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
   }
 };
 
-export const verifySubscription = (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
-  const { isSubscribed } = req.query;
+export const verifySubscription = async (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
+  const { articleSlug } = req.params;
 
   // Chuyển query thành boolean
-  const isArticleSubscribed = isSubscribed === 'true';
-
-  // Nếu bài viết không yêu cầu subscription, tiếp tục
-  if (!isArticleSubscribed) {
+  const article = await Article.findOne({ slug: articleSlug });
+  if (!article) {
+    next(new AppError('Article not found', 404));
+    return;
+  }
+  if (article.isSubscribed === false) {
     next();
     return;
   }
-
   // Kiểm tra người dùng đã đăng ký hay chưa
-  const user = req.user;
+  const user = await Account.findById(req.user?._id);
 
   if (!user || !user.isSubscriber) {
     // Trả về thông báo cần mua subscription (JSON cho AJAX hoặc HTML cho modal)
@@ -172,6 +174,16 @@ export const verifySubscription = (req: Request<IArticleDetailParams>, res: Resp
     return;
   }
 
+  if (user.subscriptionExpiresAt && user.subscriptionExpiresAt < new Date()) {
+    user.isSubscriber = false;
+    user.subscriptionExpiresAt = undefined;
+    await user.save();
+    res.status(403).json({
+      success: false,
+      message: 'Your subscription has expired. Please renew your subscription to access this article.'
+    });
+    return;
+  }
   // Người dùng có quyền truy cập
   next();
   return;

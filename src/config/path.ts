@@ -29,7 +29,10 @@ export const PATH = {
         PATH: '/users',
         REPORTERS: '/reporters',
         EDITORS: '/editors',
-        READERS: '/readers'
+        READERS: {
+          PATH: '/readers',
+          UPGRADE_READER: '/upgrade-reader/:_id'
+        }
       },
       ARTICLES: '/',
       SECTION: '/sections',

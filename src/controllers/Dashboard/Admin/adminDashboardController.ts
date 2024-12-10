@@ -107,25 +107,6 @@ export const renderAdminTagsPage = async (req: Request, res: Response) => {
   }
 };
 
-export const renderAdminReaderPage = async (req: Request, res: Response) => {
-  try {
-    const readers = await ReaderProfile.find().populate('accountId');
-    const data = readers.map((reader) => ({
-      _id: reader._id,
-      accountId: reader.accountId,
-      name: reader.name,
-      dob: reader.dob
-    }));
-    res.render('layouts/DashboardLayout/DashboardLayout', {
-      body: '../../pages/DashboardPages/Admin/ReadersPage',
-      data: { readers: data, role: 'admin' }
-    });
-  } catch (e) {
-    console.error('Error retrieving section profiles:', e);
-    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
-  }
-};
-
 interface ICreateNewSection {
   name: string;
   parentSectionId: mongoose.Types.ObjectId | null;
