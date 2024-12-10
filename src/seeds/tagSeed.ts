@@ -133,7 +133,7 @@ export const seedTags = async () => {
     const insertedTags = await Tag.insertMany(tags);
 
     // Hiển thị kết quả
-    console.log('Tags seeded successfully:', insertedTags);
+    console.log('Tags seeded successfully');
   } catch (err) {
     console.error('Error seeding tags:', err);
   }

@@ -14,5 +14,5 @@ export const reporterDashboardPage = {
 };
 export const editorDashboardPage = {
   layout: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
-  body: '../../pages/DashboardPages/EditorArticlesPage'
+  body: '../../pages/DashboardPages/Editor/EditorArticlesPage'
 };
