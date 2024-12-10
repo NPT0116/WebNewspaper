@@ -7,6 +7,7 @@ import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
+import { deleteArticle } from '~/repo/Article/articleRepo.js';
 import { getSectionTree } from '~/repo/Section/index.js';
 
 interface IAuthor {
@@ -191,6 +192,91 @@ export const renderAdminReaderPage = async (req: Request, res: Response) => {
     res.json({ data });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface ICreateNewSection {
+  name: string;
+  parentSectionId: mongoose.Types.ObjectId | null;
+}
+
+export const createNewSection = async (req: Request<{}, {}, ICreateNewSection>, res: Response) => {
+  try {
+    const { name, parentSectionId }: ICreateNewSection = req.body;
+    const newSection = new Section({ name, parentSection: parentSectionId });
+    await newSection.save();
+    res.json({ status: 'success', message: 'New section created successfully' });
+  } catch (e) {
+    console.error('Error creating new section:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface IUpdateSection {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  parentSectionId: mongoose.Types.ObjectId | null;
+}
+
+export const updateSection = async (req: Request<{}, {}, IUpdateSection>, res: Response) => {
+  try {
+    const { _id, name, parentSectionId }: IUpdateSection = req.body;
+    await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId });
+    res.json({ status: 'success', message: 'Section updated successfully' });
+  } catch (e) {
+    console.error('Error updating section:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface ICreateNewTag {
+  name: string;
+  description: string;
+}
+
+export const createNewTag = async (req: Request<{}, {}, ICreateNewTag>, res: Response) => {
+  try {
+    const { name, description }: ICreateNewTag = req.body;
+    const newTag = new Tag({ name, description });
+    await newTag.save();
+    res.json({ status: 'success', message: 'New tag created successfully' });
+  } catch (e) {
+    console.error('Error creating new tag:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface IUpdateTag {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  description: string;
+}
+
+export const updateTag = async (req: Request<{}, {}, IUpdateTag>, res: Response) => {
+  try {
+    const { _id, name, description }: IUpdateTag = req.body;
+    await Tag.findOneAndUpdate({ _id }, { name, description });
+    res.json({ status: 'success', message: 'Tag updated successfully' });
+  } catch (e) {
+    console.error('Error updating tag:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface IAdminDeleteArticle {
+  articleId: mongoose.Types.ObjectId;
+}
+export const adminDeleteArticle = async (req: Request<IAdminDeleteArticle>, res: Response) => {
+  try {
+    const { articleId } = req.params;
+    if (!articleId) {
+      res.redirect('/dashboard/admin/articles');
+    }
+    deleteArticle(articleId);
+    res.redirect('/dashboard/admin/articles');
+  } catch (e) {
+    console.error('Error deleting article:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };

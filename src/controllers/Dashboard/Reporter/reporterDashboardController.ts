@@ -6,7 +6,7 @@ import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { getArticleByReporterId } from '~/repo/Article/articleRepo.js';
+import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
 
@@ -248,4 +248,21 @@ export const getReporterDashboardPage = async (req: Request, res: Response) => {
     body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
     data: { articles, role: 'reporter' }
   });
+};
+
+interface IReporterDeleteArticle {
+  articleId: mongoose.Types.ObjectId;
+}
+export const ReporterDeleteArticle = async (req: Request<IReporterDeleteArticle>, res: Response) => {
+  try {
+    const { articleId } = req.params;
+    if (!articleId) {
+      res.redirect('/dashboard/reporter');
+    }
+    deleteArticle(articleId);
+    res.redirect('/dashboard/reporter');
+  } catch (e) {
+    console.error('Error deleting article:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
 };

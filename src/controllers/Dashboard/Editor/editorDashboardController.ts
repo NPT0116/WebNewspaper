@@ -6,7 +6,7 @@ import mongoose, { mongo } from 'mongoose';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
-import { getArticleByEditorId } from '~/repo/Article/articleRepo.js';
+import { deleteArticle, getArticleByEditorId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 
 interface IEditorApprovalParams {
@@ -168,4 +168,21 @@ export const getEditorDashboardPage = async (req: Request, res: Response) => {
     body: '../../pages/DashboardPages/EditorArticlesPage',
     data: { articles, role: 'editor' }
   });
+};
+
+interface IEditorDeleteArticle {
+  articleId: mongoose.Types.ObjectId;
+}
+export const EditorDeleteArticle = async (req: Request<IEditorDeleteArticle>, res: Response) => {
+  try {
+    const { articleId } = req.params;
+    if (!articleId) {
+      res.redirect('/dashboard/editor');
+    }
+    deleteArticle(articleId);
+    res.redirect('/dashboard/editor');
+  } catch (e) {
+    console.error('Error deleting article:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
 };
