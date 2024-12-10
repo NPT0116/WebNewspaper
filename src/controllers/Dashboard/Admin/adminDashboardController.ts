@@ -172,7 +172,10 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
 export const renderAdminSectionPage = async (req: Request, res: Response) => {
   try {
     const sections = await getSectionTree();
-    res.json({ data: sections });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/SectionsPage',
+      data: { sections, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
