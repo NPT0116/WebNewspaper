@@ -19,7 +19,7 @@
       $('#statusFilter').on('change', function () {
         const selectedFilter = $(this).val(); // Get the selected filter value
         // Assuming `data` is your local array of items
-        const filteredData = selectedFilter === 'All' ? data.articles : data.articles.filter((item) => item.status === selectedFilter); // Apply the filter
+        const filteredData = selectedFilter === 'All' ? articles : articles.filter((item) => item.status === selectedFilter); // Apply the filter
 
         // Now, update the table with the filtered data
         _table = $('#example').DataTable();

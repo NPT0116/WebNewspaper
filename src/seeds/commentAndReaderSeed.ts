@@ -53,7 +53,7 @@ export const seedComments = async () => {
     savedSubscriberReaderAccount.profileId = savedSubscriberReaderProfile._id as mongoose.Types.ObjectId;
     await savedSubscriberReaderAccount.save();
 
-    console.log('Subscriber Reader account created:', savedSubscriberReaderAccount);
+    // console.log('Subscriber Reader account created:', savedSubscriberReaderAccount);
 
     // Tạo profile cho các tài khoản reader
     for (let i = 1; i <= 6; i++) {
@@ -118,7 +118,7 @@ export const seedComments = async () => {
     // Chèn comment vào database
     const insertedComments = await Comment.insertMany(filteredComments);
 
-    console.log('Comments inserted successfully:', insertedComments);
+    // console.log('Comments inserted successfully:', insertedComments);
 
     // Cập nhật các bài viết với danh sách comment
     for (const comment of insertedComments) {

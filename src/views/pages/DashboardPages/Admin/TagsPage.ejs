@@ -6,19 +6,15 @@
     <title>Document</title>
   </head>
   <body>
-    This is editor page
     <table id="example" class="display">
       <thead>
         <tr>
-          <th>User ID</th>
-          <th>Account ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Type</th>
+          <th>ID</th>
           <th>Name</th>
-          <th>Date of birth</th>
-          <th>Gender</th>
-          <th>Section</th>
+          <th>Slug</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Published At</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -30,22 +26,22 @@
     <script src="/js/time.js"></script>
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
-      const editors = data.editors;
-      console.log(editors.filter(editor => editor.isSubscriber));
+      const tags = data.tags;
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
-          data: editors,
+          data: tags,
           columns: [
             { data: '_id' },
-            { data: 'accountId._id' },
-            { data: 'accountId.localAuth.username' },
-            {data: 'accountId.email'},
-            { data: 'accountId.isSubscriber' },
-            { data: 'name'},
-            {data: 'dob'},
-            {data: 'gender'},
-            {data: 'sectionId.name'},
+            { data: 'name' },
+            { data: 'slug' },
+            { data: 'description' },
+            {
+              data: 'createdAt'
+            },
+            {
+              data: 'updatedAt'
+            },
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
@@ -74,13 +70,13 @@
               }
             },
             {
-              targets: 1, // accountId._id
+              targets: 1, // name
               createdCell: function (td, cellData, rowData, row, col) {
                 $(td).addClass('text-sm text-gray-600 px-4 py-2');
               }
             },
             {
-              targets: 2, // accountId.localAuth.username
+              targets: 2, // gender
               render: function (data, type, row, meta) {
                   return `<div class="flex gap-2">
                   ${data}
@@ -88,43 +84,24 @@
               },
             },
             {
-              targets: 3, // accountId.email
+              targets: 3, // dob
               render: function (data, type, row, meta) {
                 return `<div class="text-xs">${data}</div>`;
               }
             },
             {
-              targets: 4, // accountId.isSubscriber
-              render: function(data, type, row, meta) {
-                return `<div class="flex gap-2">
-                  ${data}
-                </div>`
+              targets: 4, // description
+              render: function (data, type, row, meta) {
+                return `<div class="text-xs">${formatDateTime(data)}</div>`;
               }
             },
             {
-              targets: 5, // name
-              render: function(data, type, row, meta) {
-                return `<div>${data}</div>`
+              targets: 5, // updatedAt
+              render: function (data, type, row, meta) {
+                return `<div class="text-xs">${formatDateTime(data)}</div>`;
               }
             },
-            {
-              targets: 6, // dob
-              render: function(data, type, row, meta) {
-                return `<div>${formatDateTime(data, true)}</div>`
-              }
-            },
-            {
-                targets: 7, // gender
-                render: function(data, type, row, meta) {
-                  return `<div>${data}</div>`
-                }
-            },
-            {
-                targets: 8, // sectionId.name
-                render: function(data, type, row, meta) {
-                    return `<div>${data}</div>`
-                  }
-            }
+
           ],
           rowCallback: function (row, data, index) {
             // Apply styling to the entire row if necessary
@@ -138,7 +115,7 @@
           },
           language: {
             // Custom language settings (optional)
-            search: 'Search articles:',
+            search: 'Search editors:',
             lengthMenu: 'Show _MENU_ entries per page'
           },
           pageLength: 10, // Default page size

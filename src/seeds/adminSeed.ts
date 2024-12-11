@@ -36,11 +36,11 @@ export const seedAdminProfile = async () => {
     await adminAccount.save();
 
     console.log('Admin profile and account created successfully.');
-    console.log({
-      email: adminAccount.email,
-      username: adminAccount.localAuth?.username,
-      password: '123' // Hiển thị mật khẩu mặc định
-    });
+    // console.log({
+    //   email: adminAccount.email,
+    //   username: adminAccount.localAuth?.username,
+    //   password: '123' // Hiển thị mật khẩu mặc định
+    // });
   } catch (err) {
     console.error('Error seeding admin profile and account:', err);
   }

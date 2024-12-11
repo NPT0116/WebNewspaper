@@ -82,7 +82,7 @@ interface IArtcileDetailLandingpageResponse {
   editor: mongoose.Types.ObjectId;
   images: string[];
   videoUrl?: string;
-  layout: 'text-left' | 'text-right' | 'default';
+  layout: 1 | 2 | 3;
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
   publishedAt?: Date;
   createdAt: Date;
