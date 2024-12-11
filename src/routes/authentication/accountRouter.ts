@@ -15,6 +15,7 @@ import {
 import { PATH } from '../../config/path.js';
 import { registerValidationRules } from '~/validator/registerUserValidator.js';
 import { validateRequest } from '~/middlewares/validateUserRegister.js';
+import { redirectIfLogin } from '~/utils/redirectIfLogin.js';
 
 const accountRouter = express.Router();
 
@@ -23,7 +24,7 @@ accountRouter.post(PATH.AUTHENTICATION.REGISTER, registerValidationRules, valida
     flash: req.flash()
   });
 });
-accountRouter.post(PATH.AUTHENTICATION.LOGIN, loginUser).get(PATH.AUTHENTICATION.LOGIN, (req: Request, res: Response) => {
+accountRouter.post(PATH.AUTHENTICATION.LOGIN, loginUser).get(PATH.AUTHENTICATION.LOGIN, redirectIfLogin, (req: Request, res: Response) => {
   res.render('authentication/login', {
     flash: req.flash()
   });
