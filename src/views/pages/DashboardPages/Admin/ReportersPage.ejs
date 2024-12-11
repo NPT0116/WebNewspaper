@@ -45,7 +45,6 @@
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
       const reporters = data.reporters;
-      console.log(reporters);
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
@@ -188,6 +187,46 @@
         document.getElementById('dob-input').value = formattedDate;
         document.getElementById('username-input').value = reporter?.accountId?.localAuth?.username ?? '';
         document.getElementById('email-input').value = reporter?.accountId?.email ?? '';
+        document.getElementById('gender-input').value = reporter?.gender;
+        document.getElementById('_id-input').value = reporter?._id;
+        document.getElementById('accountId-input').value = reporter?.accountId?._id;
+
+        const articleList = document.getElementById('article-list');
+        articleList.innerHTML = '';
+        reporter.reportArticles.forEach((article) => {
+          // Create the article container
+          const articleDiv = document.createElement('div');
+          articleDiv.className = 'p-4 bg-white shadow rounded-lg hover:shadow-lg transition';
+
+          // Create and append the title
+          const title = document.createElement('h3');
+          title.className = 'text-lg font-semibold text-blue-600';
+          title.textContent = article.title;
+          articleDiv.appendChild(title);
+
+          // Create and append the creation date
+          const date = document.createElement('p');
+          date.className = 'text-gray-600 text-sm';
+          date.textContent = `Written on: ${formatDateTime(article.createdAt)}`;
+          articleDiv.appendChild(date);
+
+          // Create and append the description
+          const description = document.createElement('p');
+          description.className = 'mt-2 text-gray-700 line-clamp-3';
+          description.textContent = article.description;
+          articleDiv.appendChild(description);
+
+          // Create and append the "Read More" link
+          const readMoreLink = document.createElement('a');
+          readMoreLink.className = 'mt-4 inline-block text-blue-500 hover:underline text-sm font-medium';
+          readMoreLink.href = `/dashboard/${article._id}/preview`; // Replace '#' with the actual article URL
+          readMoreLink.textContent = 'Read More';
+          readMoreLink.target = '_blank';
+          articleDiv.appendChild(readMoreLink);
+
+          // Append the article container to the list
+          articleList.appendChild(articleDiv);
+        });
         drawer.toggle();
       }
 

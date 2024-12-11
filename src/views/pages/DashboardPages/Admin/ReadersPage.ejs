@@ -182,6 +182,23 @@
         const subscriptionExpiresAt = reader?.accountId?.subscriptionExpiresAt;
         const expiredDate = subscriptionExpiresAt ? dayjs(subscriptionExpiresAt).format('MM-DD-YYYY') : 'N/A';
         document.getElementById('expires-at').value = expiredDate;
+        const articleList = document.getElementById('article-list');
+        reader?.watchedArticles?.forEach((article) => {
+          articleList.innerHTML += `
+          <li class="pb-3 sm:pb-4">
+            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+              <div class="flex-shrink-0">
+                <img class="w-8 h-8 rounded-full" src="${article?.articleId?.images ? article?.articleId.images[0] : ''}" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">${article?.articleId?.title}</p>
+                <p class="text-sm text-gray-500 truncate dark:text-gray-400">An in-depth exploration of Bugatti, its history, iconic models, and its impact on the automotive industry.</p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">${formatDateTime(article.viewedAt)}</div>
+            </div>
+          </li>`;
+        });
+
         drawer.toggle();
       }
       window.toggleDrawer = toggleDrawer;
