@@ -5,6 +5,8 @@ import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
 import { Article } from '~/models/Article/articleSchema.js';
+import { getSectionsList } from '~/repo/Section/index.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 interface IEditorAdminDashboard {
   _id: mongoose.Types.ObjectId;
   accountId?: mongoose.Types.ObjectId | IAccount;
@@ -38,7 +40,8 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
     //   body: '../../pages/DashboardPages/Admin/EditorsPage',
     //   data: { editors: data, role: 'admin' }
     // });
-    res.json({ editors: data });
+    const sectionList = await Section.find({});
+    res.json({ editors: data, sections: sectionList });
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
