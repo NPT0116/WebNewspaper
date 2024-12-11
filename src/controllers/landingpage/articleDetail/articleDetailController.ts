@@ -154,6 +154,7 @@ export const verifySubscription = async (req: Request<IArticleDetailParams>, res
 
   // Chuyển query thành boolean
   const article = await Article.findOne({ slug: articleSlug });
+
   if (!article) {
     next(new AppError('Article not found', 404));
     return;
@@ -177,6 +178,7 @@ export const verifySubscription = async (req: Request<IArticleDetailParams>, res
   if (user.subscriptionExpiresAt && user.subscriptionExpiresAt < new Date()) {
     user.isSubscriber = false;
     user.subscriptionExpiresAt = undefined;
+
     await user.save();
     res.status(403).json({
       success: false,

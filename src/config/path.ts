@@ -16,25 +16,36 @@ export const PATH = {
       WRITE_ARTICLE: '/write-article/:articleId',
       SAVE_ARTICLE: '/write-article/:articleId/save',
       CREATE_ARTICLE: '/create-article',
-      SUBMIT_ARTICLE: '/:articleId/submit'
+      SUBMIT_ARTICLE: '/:articleId/submit',
+      DELETE: '/:articleId/delete'
     },
     EDITOR: {
       PATH: '/editor',
       PREVIEW: '/:articleId/preview',
-      APPROVE: '/:articleId/approve'
+      APPROVE: '/:articleId/approve',
+      DELETE: '/:articleId/delete'
     },
     ADMIN: {
       PATH: '/admin',
       USERS: {
         PATH: '/users',
-        REPORTERS: '/reporters',
+        REPORTERS: {
+          PATH: '/reporters',
+          CREATE_REPORTER: '/create-reporter',
+          UPDATE_REPORTER: '/update-reporter'
+        },
         EDITORS: '/editors',
         READERS: {
           PATH: '/readers',
           UPGRADE_READER: '/upgrade-reader/:_id'
         }
       },
-      ARTICLES: '/',
+      ARTICLES: {
+        PATH: '/',
+        APPROVE: '/:articleId/approve',
+        SUBSCRIPTION: '/:articleId/subscription',
+        DELETE: '/:articleId/delete'
+      },
       SECTION: '/sections',
       TAGS: '/tags'
     }

@@ -1148,6 +1148,10 @@ input:checked + .toggle-bg {
   margin-left: auto;
   margin-right: auto;
 }
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
 .my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
@@ -1818,6 +1822,9 @@ input:checked + .toggle-bg {
 }
 .border-dashed {
   border-style: dashed;
+}
+.border-none {
+  border-style: none;
 }
 .border-\[\#CFC4C4\] {
   --tw-border-opacity: 1;
@@ -2768,6 +2775,9 @@ input:checked + .toggle-bg {
 }
 .focus\:z-20:focus {
   z-index: 20;
+}
+.focus\:border-0:focus {
+  border-width: 0px;
 }
 .focus\:border-blue-500:focus {
   --tw-border-opacity: 1;
