@@ -259,7 +259,7 @@ export const deleteArticle = async (articleId: mongoose.Types.ObjectId) => {
   }
 
   await ReporterProfile.updateOne({ _id: article.author }, { $pull: { reportArticles: articleId } });
-  const readerProfiles = await ReaderProfile.updateMany({ 'watchedArticles.articleId': { $pull: { reportArticles: articleId } } });
+  await ReaderProfile.updateMany({ 'watchedArticles.articleId': articleId }, { $pull: { watchedArticles: { articleId: articleId } } });
   return 1;
 };
 
