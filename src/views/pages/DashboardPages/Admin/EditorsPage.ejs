@@ -11,10 +11,8 @@
       <thead>
         <tr>
           <th>User ID</th>
-          <th>Account ID</th>
           <th>Username</th>
           <th>Email</th>
-          <th>Type</th>
           <th>Name</th>
           <th>Date of birth</th>
           <th>Gender</th>
@@ -38,10 +36,8 @@
           data: editors,
           columns: [
             { data: '_id' },
-            { data: 'accountId._id' },
             { data: 'accountId.localAuth.username' },
             {data: 'accountId.email'},
-            { data: 'accountId.isSubscriber' },
             { data: 'name'},
             {data: 'dob'},
             {data: 'gender'},
@@ -74,7 +70,7 @@
               }
             },
             {
-              targets: 1, // accountId._id
+              targets: 1, // accountId.localAuth.username
               createdCell: function (td, cellData, rowData, row, col) {
                 $(td).addClass('text-sm text-gray-600 px-4 py-2');
               }
@@ -96,21 +92,21 @@
             {
               targets: 4, // accountId.isSubscriber
               render: function(data, type, row, meta) {
-                return `<div class="flex gap-2">
-                  ${data}
-                </div>`
+                return `<div>${formatDateTime(data, true)}</div>`
+
               }
             },
             {
               targets: 5, // name
               render: function(data, type, row, meta) {
                 return `<div>${data}</div>`
+
               }
             },
             {
               targets: 6, // dob
               render: function(data, type, row, meta) {
-                return `<div>${formatDateTime(data, true)}</div>`
+                return `<div>${data}</div>`
               }
             },
             {
@@ -119,12 +115,6 @@
                   return `<div>${data}</div>`
                 }
             },
-            {
-                targets: 8, // sectionId.name
-                render: function(data, type, row, meta) {
-                    return `<div>${data}</div>`
-                  }
-            }
           ],
           rowCallback: function (row, data, index) {
             // Apply styling to the entire row if necessary
