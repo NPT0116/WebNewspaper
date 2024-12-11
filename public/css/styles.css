@@ -1645,16 +1645,24 @@ input:checked + .toggle-bg {
   width: 100px;
 }
 
+.w-\[12\%\] {
+  width: 12%;
+}
+
+.w-\[15\%\] {
+  width: 15%;
+}
+
+.w-\[18\%\] {
+  width: 18%;
+}
+
 .w-\[200px\] {
   width: 200px;
 }
 
 .w-\[24px\] {
   width: 24px;
-}
-
-.w-\[25\%\] {
-  width: 25%;
 }
 
 .w-\[30\%\] {
@@ -1705,6 +1713,10 @@ input:checked + .toggle-bg {
   width: 60%;
 }
 
+.w-\[93px\] {
+  width: 93px;
+}
+
 .w-\[95\%\] {
   width: 95%;
 }
@@ -1748,6 +1760,10 @@ input:checked + .toggle-bg {
 
 .flex-shrink-0 {
   flex-shrink: 0;
+}
+
+.border-collapse {
+  border-collapse: collapse;
 }
 
 .origin-top {
@@ -2179,6 +2195,11 @@ input:checked + .toggle-bg {
   border-color: rgb(240 82 82 / var(--tw-border-opacity, 1));
 }
 
+.border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity, 1));
+}
+
 .border-transparent {
   border-color: transparent;
 }
@@ -2211,6 +2232,11 @@ input:checked + .toggle-bg {
 .bg-\[\#B8B9BD\] {
   --tw-bg-opacity: 1;
   background-color: rgb(184 185 189 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#E8E8E8\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(232 232 232 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[\#F5F5F5\] {
@@ -2685,6 +2711,10 @@ input:checked + .toggle-bg {
   font-size: 14px;
 }
 
+.text-\[16px\] {
+  font-size: 16px;
+}
+
 .text-\[1rem\] {
   font-size: 1rem;
 }
@@ -2720,6 +2750,18 @@ input:checked + .toggle-bg {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-\[50px\] {
+  font-size: 50px;
+}
+
+.text-\[40px\] {
+  font-size: 40px;
+}
+
+.text-\[35px\] {
+  font-size: 35px;
 }
 
 .font-bold {
@@ -3263,11 +3305,6 @@ input:checked + .toggle-bg {
   color: rgb(200 30 30 / var(--tw-text-opacity, 1));
 }
 
-.hover\:text-blue-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(30 66 159 / var(--tw-text-opacity, 1));
-}
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -3649,10 +3686,6 @@ input:checked + .toggle-bg {
     width: 70%;
   }
 
-  .sm\:w-\[90\%\] {
-    width: 90%;
-  }
-
   .sm\:flex-1 {
     flex: 1 1 0%;
   }
@@ -3874,11 +3907,6 @@ input:checked + .toggle-bg {
   .lg\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
-  }
-
-  .lg\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
   }
 }
 

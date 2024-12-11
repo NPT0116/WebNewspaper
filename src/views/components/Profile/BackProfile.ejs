@@ -199,6 +199,9 @@
         </select>
       </div>
     </div>
+    <% if (error.length > 0) { %>
+      <div class="text-red-500 text-center"><%= error %></div>
+      <% } %>
     <div class="flex justify-center">
       <button type="submit" class="bookmarkBtn border border-black">
         <span class="IconContainer">

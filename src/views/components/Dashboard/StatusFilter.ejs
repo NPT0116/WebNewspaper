@@ -6,9 +6,20 @@
     <title>Document</title>
   </head>
   <style>
-    option:hover {
-      background-color: black !important;
+    :root {
+      --color-all: #3f83f8;
+      --color-published: #78c67a;
+      --color-draft: #afb0ab;
+      --color-pending: #fff398;
+      --color-rejected: #ff5757;
+
+      --link-bg-color: var(--color-all); /* Màu nền mặc định */
+      --link-color: var(--text-color); /* Màu chữ mặc định */
+
+      --text-color-pending: #333;
+      --text-color: white;
     }
+
     .menu {
       font-size: 16px;
       line-height: 1.6;
@@ -46,7 +57,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #0a3cff;
+      background-color: var(--link-bg-color);
       z-index: -1;
       transform: scaleX(0);
       transform-origin: left;
@@ -91,11 +102,11 @@
       transform: translateY(0);
       pointer-events: auto;
       border-top: transparent;
-      border-color: #0a3cff;
+      border-color: #3f83f8;
     }
 
     .menu .item:hover .link {
-      color: #ffffff;
+      color: var(--link-color);
       border-radius: 16px 16px 0 0;
     }
 
@@ -105,7 +116,7 @@
     }
 
     .menu .item:hover .link svg {
-      fill: #ffffff;
+      fill: var(--link-color);
       transform: rotate(-180deg);
     }
 
@@ -135,10 +146,29 @@
       transform: scaleX(0);
       width: 100%;
       height: 100%;
-      background-color: #0a3cff;
       z-index: -1;
       transform-origin: left;
       transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .submenu .submenu-link.all::before {
+      background-color: var(--color-all);
+    }
+
+    .submenu .submenu-link.draft::before {
+      background-color: var(--color-draft);
+    }
+
+    .submenu .submenu-link.published::before {
+      background-color: var(--color-published);
+    }
+
+    .submenu .submenu-link.pending::before {
+      background-color: var(--color-pending);
+    }
+
+    .submenu .submenu-link.rejected::before {
+      background-color: var(--color-rejected);
     }
 
     .submenu .submenu-link:hover:before {
@@ -147,7 +177,12 @@
     }
 
     .submenu .submenu-link:hover {
+      font-weight: bold;
       color: #ffffff;
+    }
+    .submenu .pending:hover {
+      font-weight: bold;
+      color: #333;
     }
   </style>
   <body>
@@ -169,19 +204,19 @@
           </a>
           <div class="submenu">
             <div class="submenu-item">
-              <a href="#" class="submenu-link" data-status="All"> All </a>
+              <a href="#" class="submenu-link all" data-color="var(--color-all)" text-color="var(--text-color)" data-status="All"> All </a>
             </div>
             <div class="submenu-item">
-              <a href="#" class="submenu-link" data-status="draft"> Draft </a>
+              <a href="#" class="submenu-link draft" data-color="var(--color-draft)" text-color="var(--text-color)" data-status="draft"> Draft </a>
             </div>
             <div class="submenu-item">
-              <a href="#" class="submenu-link" data-status="published"> Published </a>
+              <a href="#" class="submenu-link published" data-color="var(--color-published)" text-color="var(--text-color)" data-status="published"> Published </a>
             </div>
             <div class="submenu-item">
-              <a href="#" class="submenu-link" data-status="pending"> Pending </a>
+              <a href="#" class="submenu-link pending" data-color="var(--color-pending)" text-color="var(--text-color-pending)" data-status="pending"> Pending </a>
             </div>
             <div class="submenu-item">
-              <a href="#" class="submenu-link" data-status="rejected"> Rejected </a>
+              <a href="#" class="submenu-link rejected" data-color="var(--color-rejected)" text-color="var(--text-color)" data-status="rejected"> Rejected </a>
             </div>
           </div>
         </div>
@@ -191,8 +226,8 @@
     <script>
       // Lấy tất cả các mục submenu
       const submenuLinks = document.querySelectorAll('.submenu-link');
+      const menuLink = document.querySelector('.menu .link');
 
-      // Lấy phần hiển thị chính của menu
       const mainMenuDisplay = document.querySelector('.menu .link span');
 
       // Lắng nghe sự kiện click trên mỗi submenu item
@@ -201,17 +236,16 @@
           // Ngừng sự kiện mặc định của thẻ <a>
           e.preventDefault();
 
-          // Lấy nội dung văn bản của mục được chọn
+          const selectedColor = link.getAttribute('data-color');
+          const textColor = link.getAttribute('text-color');
           const selectedStatus = e.target.textContent;
 
-          // Cập nhật nội dung hiển thị trong phần chính
           mainMenuDisplay.textContent = selectedStatus;
 
-          // (Tùy chọn) Thực hiện lọc dữ liệu dựa trên status nếu cần
           const status = e.target.getAttribute('data-status');
-
+          menuLink.style.setProperty('--link-bg-color', selectedColor);
+          menuLink.style.setProperty('--link-color', textColor);
           const filteredData = status === 'All' ? data.articles : data.articles.filter((item) => item.status === status);
-          console.log(filteredData);
 
           _table = $('#example').DataTable();
           _table.clear();
