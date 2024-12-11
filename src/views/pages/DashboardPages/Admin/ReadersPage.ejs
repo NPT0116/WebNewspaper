@@ -44,7 +44,7 @@
                   data: null, // `null` because this column doesn't map to any field in the data source
                   render: function (data, type, row) {
                     // Customize the action buttons for each row
-                    const isButtonDisabled = row?.accountId?.isSubscriber === false;
+                    const isButtonDisabled = row?.accountId?.isSubscriber === true;
                     console.log(isButtonDisabled);
                     const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default" class="relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
@@ -66,7 +66,7 @@
                                 </svg>
                                 <span>Info</span>
                               </button>
-                            <form id="upgrade-form-${row._id}" action="/dashboard/admin/readers/upgrade" method="POST">${buttonElement}</form>
+                            <form id="upgrade-form-${row._id}" action="/dashboard/admin/readers/upgrade-reader/${row._id}" method="POST">${buttonElement}</form>
                           </div>
                       `;
                   },
@@ -101,7 +101,7 @@
                   // Add Tailwind class to the "dateOfBirth" column
                   targets: 3,
                   render: function (data, type, row, meta) {
-                    const isSubscriber = data?.isSubscriber === false;
+                    const isSubscriber = data?.isSubscriber === true;
                     if(isSubscriber)
                       return `<div class="text-sm flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-yellow-300 text-white">
                         <svg fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -179,6 +179,9 @@
         document.getElementById('name-input').value = reader?.name;
         document.getElementById('name').textContent = reader?.name;
         document.getElementById('username').textContent = reader?.accountId?.localAuth?.username;
+        const subscriptionExpiresAt = reader?.accountId?.subscriptionExpiresAt;
+        const expiredDate = subscriptionExpiresAt ? dayjs(subscriptionExpiresAt).format('MM-DD-YYYY') : 'N/A';
+        document.getElementById('expires-at').value = expiredDate;
         drawer.toggle();
       }
       window.toggleDrawer = toggleDrawer;
