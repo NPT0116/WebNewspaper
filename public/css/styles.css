@@ -2110,9 +2110,6 @@ input:checked + .toggle-bg {
 .p-6 {
   padding: 1.5rem;
 }
-.p-\[10px\] {
-  padding: 10px;
-}
 .p-\[24px\] {
   padding: 24px;
 }
@@ -3101,10 +3098,6 @@ input:checked + .toggle-bg {
     --tw-space-x-reverse: 0;
     margin-right: calc(5% * var(--tw-space-x-reverse));
     margin-left: calc(5% * calc(1 - var(--tw-space-x-reverse)));
-  }
-
-  .sm\:p-\[20px\] {
-    padding: 20px;
   }
 
   .sm\:px-6 {
