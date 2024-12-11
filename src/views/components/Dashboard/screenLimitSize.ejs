@@ -1,0 +1,197 @@
+<style>
+  /* Start neo-orwell__eye */
+  .neo-orwell__eye {
+    width: 120px;
+    height: 70px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    border: 3px solid #000000;
+    position: relative;
+    margin: 0 auto 30px;
+    overflow: hidden;
+    box-shadow:
+      0 0 20px rgba(255, 0, 0, 0.2),
+      0 0 30px rgba(255, 255, 255, 0.1);
+    animation: neo-orwell-blink 6s infinite;
+  }
+
+  .neo-orwell__eye-inner {
+    width: 100px;
+    height: 100px;
+    background: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+  }
+
+  .neo-orwell__iris {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #1a1a1a 0%, #4a4a4a 100%);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: neo-orwell-look-around 4s infinite;
+  }
+
+  .neo-orwell__pupil {
+    width: 25px;
+    height: 25px;
+    background: #000000;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  }
+
+  .neo-orwell__eye::before,
+  .neo-orwell__eye::after,
+  .neo-orwell__eye-beam {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .neo-orwell__eye::before {
+    animation: neo-orwell-spotlight 4s infinite;
+  }
+
+  .neo-orwell__eye::after {
+    animation: neo-orwell-spotlight 4s infinite reverse;
+  }
+
+  .neo-orwell__eye-beam:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    animation: neo-orwell-spotlight 5s infinite 0.5s;
+  }
+
+  .neo-orwell__eye-beam:nth-child(2) {
+    width: 100px;
+    height: 100px;
+    animation: neo-orwell-spotlight 6s infinite 1s;
+  }
+  @keyframes neo-orwell-blink {
+    0%,
+    95%,
+    100% {
+      height: 70px;
+      border-top-width: 3px;
+      border-bottom-width: 3px;
+    }
+    97% {
+      height: 70px;
+      border-top-width: 35px;
+      border-bottom-width: 35px;
+    }
+  }
+
+  @keyframes neo-orwell-look-around {
+    0%,
+    100% {
+      transform: translate(-50%, -50%);
+    }
+    25% {
+      transform: translate(-70%, -50%);
+    }
+    50% {
+      transform: translate(-30%, -50%);
+    }
+    75% {
+      transform: translate(-70%, -50%);
+    }
+  }
+
+  @keyframes neo-orwell-spotlight {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translate(-70%, -50%) scale(1.2);
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes neo-orwell-fog {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(100%, 100%);
+    }
+  }
+
+  @keyframes neo-orwell-glitch {
+    0% {
+      transform: translate(0);
+      text-shadow: none;
+    }
+    20% {
+      transform: translate(-5px, 5px);
+      text-shadow: 2px 2px #ff0000;
+    }
+    40% {
+      transform: translate(-5px, -5px);
+      text-shadow: -2px -2px #00ff00;
+    }
+    60% {
+      transform: translate(5px, 5px);
+      text-shadow: 2px -2px #0000ff;
+    }
+    80% {
+      transform: translate(5px, -5px);
+      text-shadow: -2px 2px #ffff00;
+    }
+    100% {
+      transform: translate(0);
+      text-shadow: none;
+    }
+  }
+  /* End neo-orwell__ eye */
+</style>
+<!-- Alert Message -->
+<div id="responsiveMessage" class="hidden fixed top-0 left-0 w-full bg-[#E8E8E8] text-black text-center py-2 z-50">
+  <div class="flex">
+    <div class="neo-orwell__eye">
+      <div class="neo-orwell__eye-inner">
+        <div class="neo-orwell__iris">
+          <div class="neo-orwell__pupil"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>This page is available for screens larger than 1642px.</div>
+</div>
+<!-- Alert Message -->
+
+<script>
+  function checkScreenSize() {
+    const message = document.getElementById('responsiveMessage');
+    if (window.innerWidth <= 1642) {
+      message.classList.remove('hidden');
+    } else {
+      message.classList.add('hidden');
+    }
+  }
+  // Check screen size when the page loads
+  window.addEventListener('load', checkScreenSize);
+
+  // Check screen size when the window is resized
+  window.addEventListener('resize', checkScreenSize);
+</script>

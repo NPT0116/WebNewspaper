@@ -1,0 +1,26 @@
+<!-- Intro Screen -->
+<div id="introScreen" class="w-full h-screen flex justify-center items-center bg-white fixed top-0 left-0 z-50">
+  <div class="w-1/3 flex justify-center items-center">
+    <img class="object-center" src="/images/reporterPageComponents/reporterIntro.gif" alt="Intro Image" />
+  </div>
+</div>
+<!-- Intro Screen -->
+
+<script>
+  window.addEventListener('load', () => {
+    const introScreen = document.getElementById('introScreen');
+
+    // Kiểm tra trong localStorage xem intro đã được hiển thị chưa
+    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
+
+    if (!hasSeenIntro) {
+      // Hiển thị intro lần đầu
+      setTimeout(() => {
+        introScreen.classList.add('hidden');
+        localStorage.setItem('hasSeenIntro', 'true');
+      }, 5000);
+    } else {
+      introScreen.classList.add('hidden');
+    }
+  });
+</script>

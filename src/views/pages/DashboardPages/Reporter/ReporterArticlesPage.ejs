@@ -24,23 +24,229 @@
       .paginate_button:hover {
         background-color: #d1d5db !important;
       }
+      /* Start create new article css */
+      .continue-application {
+        background: #ffffff;
+        color: black;
+        border: 1px #a3a3a3 solid;
+        font-size: 16px;
+      }
+
+      .continue-application > div {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 53px;
+        position: absolute;
+        overflow: hidden;
+        border-radius: 5px 0 0 5px;
+        background-color: #cccccc;
+      }
+
+      .continue-application > div .folder {
+        width: 23px;
+        height: 27px;
+        position: absolute;
+        left: 15px;
+        top: 13px;
+      }
+
+      .continue-application > div .folder .top {
+        left: 0;
+        top: 0;
+        z-index: 2;
+        position: absolute;
+        transform: translateX(var(--fx, 0));
+        transition: transform 0.4s ease var(--fd, 0.3s);
+      }
+
+      .continue-application > div .folder .top svg {
+        width: 24px;
+        height: 27px;
+        display: block;
+        fill: var(--folder);
+        transform-origin: 0 50%;
+        transition: transform 0.3s ease var(--fds, 0.45s);
+        transform: perspective(120px) rotateY(var(--fr, 0deg));
+      }
+
+      .continue-application > div .folder:before,
+      .continue-application > div .folder:after,
+      .continue-application > div .folder .paper {
+        content: '';
+        position: absolute;
+        left: var(--l, 0);
+        top: var(--t, 0);
+        width: var(--w, 100%);
+        height: var(--h, 100%);
+        border-radius: 1px;
+        background: var(--b, var(--folder-inner));
+      }
+
+      .continue-application > div .folder:before {
+        box-shadow:
+          0 1.5px 3px var(--shadow),
+          0 2.5px 5px var(--shadow),
+          0 3.5px 7px var(--shadow);
+        transform: translateX(var(--fx, 0));
+        transition: transform 0.4s ease var(--fd, 0.3s);
+      }
+
+      .continue-application > div .folder:after,
+      .continue-application > div .folder .paper {
+        --l: 1px;
+        --t: 1px;
+        --w: 21px;
+        --h: 25px;
+        --b: var(--paper-behind);
+      }
+
+      .continue-application > div .folder:after {
+        transform: translate(var(--pbx, 0), var(--pby, 0));
+        transition: transform 0.4s ease var(--pbd, 0s);
+      }
+
+      .continue-application > div .folder .paper {
+        z-index: 1;
+        --b: var(--paper);
+      }
+
+      .continue-application > div .folder .paper:before,
+      .continue-application > div .folder .paper:after {
+        content: '';
+        width: var(--wp, 14px);
+        height: 2px;
+        border-radius: 1px;
+        transform: scaleY(0.5);
+        left: 3px;
+        top: var(--tp, 3px);
+        position: absolute;
+        background: var(--paper-lines);
+        box-shadow:
+          0 12px 0 0 var(--paper-lines),
+          0 24px 0 0 var(--paper-lines);
+      }
+
+      .continue-application > div .folder .paper:after {
+        --tp: 6px;
+        --wp: 10px;
+      }
+
+      .continue-application > div .pencil {
+        height: 2px;
+        width: 3px;
+        border-radius: 1px 1px 0 0;
+        top: 8px;
+        left: 105%;
+        position: absolute;
+        z-index: 3;
+        transform-origin: 50% 19px;
+        background: var(--pencil-cap);
+        transform: translateX(var(--pex, 0)) rotate(35deg);
+        transition: transform 0.4s ease var(--pbd, 0s);
+      }
+
+      .continue-application > div .pencil:before,
+      .continue-application > div .pencil:after {
+        content: '';
+        position: absolute;
+        display: block;
+        background: var(--b, linear-gradient(var(--pencil-top) 55%, var(--pencil-middle) 55.1%, var(--pencil-middle) 60%, var(--pencil-bottom) 60.1%));
+        width: var(--w, 5px);
+        height: var(--h, 20px);
+        border-radius: var(--br, 2px 2px 0 0);
+        top: var(--t, 2px);
+        left: var(--l, -1px);
+      }
+
+      .continue-application > div .pencil:before {
+        -webkit-clip-path: polygon(0 5%, 5px 5%, 5px 17px, 50% 20px, 0 17px);
+        clip-path: polygon(0 5%, 5px 5%, 5px 17px, 50% 20px, 0 17px);
+      }
+
+      .continue-application > div .pencil:after {
+        --b: none;
+        --w: 3px;
+        --h: 6px;
+        --br: 0 2px 1px 0;
+        --t: 3px;
+        --l: 3px;
+        border-top: 1px solid var(--pencil-top);
+        border-right: 1px solid var(--pencil-top);
+      }
+
+      .continue-application:before,
+      .continue-application:after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--color);
+        transform-origin: 9px 1px;
+        transform: translateX(var(--cx, 0)) scale(0.5) rotate(var(--r, -45deg));
+        top: 26px;
+        right: 16px;
+        transition: transform 0.3s;
+      }
+
+      .continue-application:after {
+        --r: 45deg;
+      }
+
+      .continue-application:hover {
+        --cx: 2px;
+        --bg: var(--background-hover);
+        --fx: -40px;
+        --fr: -60deg;
+        --fd: 0.15s;
+        --fds: 0s;
+        --pbx: 3px;
+        --pby: -3px;
+        --pbd: 0.15s;
+        --pex: -24px;
+      }
+      /* End create new article css */
+      th.sorting_asc,
+      th.sorting_desc {
+        color: white !important; /* Màu chữ khi được chọn */
+        background-color: #7c7c7c !important; /* Nền khi được chọn */
+      }
+
+      th {
+        background-color: #333;
+        color: white;
+      }
+      .input {
+        color: #333;
+        font:
+          1em/1.5 Hind,
+          sans-serif;
+      }
     </style>
   </head>
   <body>
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <%- include('../../../components/Dashboard/screenLimitSize.ejs')  %>
+
     <div class="flex justify-between">
-      <h1 class="text-2xl font-bold">Article List</h1>
+      <h1 class="text-[40px] font-bold font-serif">Article List</h1>
       <div>
         <a href="/dashboard/reporter/create-article">
-          <button
-            type="button"
-            class="gap-2 inline-flex items-center text-white font-bold px-5 py-2.5 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
-          >
-            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path
-                d="M368.4 18.3L312.7 74.1 437.9 199.3l55.7-55.7c21.9-21.9 21.9-57.3 0-79.2L447.6 18.3c-21.9-21.9-57.3-21.9-79.2 0zM288 94.6l-9.2 2.8L134.7 140.6c-19.9 6-35.7 21.2-42.3 41L3.8 445.8c-3.8 11.3-1 23.9 7.3 32.4L164.7 324.7c-3-6.3-4.7-13.3-4.7-20.7c0-26.5 21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48c-7.4 0-14.4-1.7-20.7-4.7L33.7 500.9c8.6 8.3 21.1 11.2 32.4 7.3l264.3-88.6c19.7-6.6 35-22.4 41-42.3l43.2-144.1 2.7-9.2L288 94.6z"
-              />
-            </svg>
+          <button class="continue-application font-bold font-serif">
+            <div>
+              <div class="pencil"></div>
+              <div class="folder">
+                <div class="top">
+                  <svg viewBox="0 0 24 27">
+                    <path
+                      d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="paper"></div>
+              </div>
+            </div>
             Create new article
           </button>
         </a>
@@ -49,15 +255,15 @@
 
     <%- include('../../../components/Dashboard/StatusFilter') %>
 
-    <table id="example" class="display">
+    <table id="example" class="display border-collapse border border-slate-400">
       <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Published At</th>
-          <th>Actions</th>
-          <!-- New Actions Column -->
+        <tr class="bg-[#e0e0e0] text-[#000]">
+          <th class="w-[5%] px-4 py-2">A.No</th>
+          <th class="w-[40%] px-4 py-2">Title</th>
+          <th class="w-[18%] px-4 py-2">Description</th>
+          <th class="w-[12%] px-4 py-2">Status</th>
+          <th class="w-[15%] px-4 py-2">Published At</th>
+          <th class="w-[10%] px-4 py-2 action">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -67,211 +273,233 @@
     <script src="/js/time.js"></script>
 
     <script type="text/javascript">
-        // eslint-disable-next-line
-        const data = <%- JSON.stringify(data) %>;
-        console.log(data.articles.filter(article => article.status === 'rejected'));
-        function showRejectionReason(rejectReason, authorName, updatedAt) {
-          console.log(rejectReason, authorName);
-          if(!rejectReason || !authorName) return;
-          Swal.fire({
-            title: 'Rejection Reason',
-
-            html: `
-        <div class="text-left">
-          <p class="text-gray-700 text-sm mb-2"><strong>Reason:</strong> ${rejectReason}</p>
-          <p class="text-gray-700 text-sm mb-2"><strong>Reviewed by:</strong> ${authorName}</p>
-          <p class="text-gray-700 text-sm"><strong>Time of Rejection:</strong> ${formatDateTime(updatedAt)}</p>
-        </div>`,
-             // Change to 'error' if more appropriate
-            showConfirmButton: true, // Show a single close button
-            confirmButtonText: 'Close',
-            allowOutsideClick: false, // Disable outside clicks to close the modal
-            allowEscapeKey: false, // Disable escape key to close the modal
-            backdrop: true, // Simple backdrop
-            customClass: {
-              popup: 'swal2-no-animation rounded-lg shadow-md border border-gray-300', // Minimalistic popup design
-              title: 'font-medium text-lg text-red-600', // Serious title styling
-              content: 'text-gray-700 text-sm', // Body content styling
-              confirmButton: 'bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-700 focus:ring-2 focus:ring-gray-500'
-            },
-            buttonsStyling: false // Use custom classes for button styling
-          });
-        }
-        const table = $(document).ready(function () {
-          $('#example').DataTable({
-            data: data.articles,
-            columns: [
-              { data: 'title' },
-              { data: 'description' },
-              { data: 'status' },
-              { data: 'publishedAt' },
-              {
-                // Actions column
-                data: null, // `null` because this column doesn't map to any field in the data source
-                render: function (data, type, row) {
-                  console.log(row);
-                  const reason = row?.rejected?.rejectReason;
-                  const editor = row?.rejected?.editorId?.name
-                  const updatedAt = row.updatedAt
-                  // Customize the action buttons for each row
-                  const editButton = `<a target="_blank" href="/dashboard/reporter/write-article/${row._id}">
-                              <button
-                                type="button"
-                                class="edit-btn text-white gap-2 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                              >
-                                <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                  <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                  <path
-                                    d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"
-                                  />
-                                </svg>
-                                <span>Edit</span>
-                              </button>
-                            </a>`
-                    const rejectedButton = `<button
-        type="button"
-        class="rejected-btn text-white gap-2 bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onclick="showRejectionReason('${reason}', '${editor}', '${updatedAt}')"
-      >
-        <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <path
-            d="M128 0C92.7 0 64 28.7 64 64V384C64 419.3 92.7 448 128 448H384C419.3 448 448 419.3 448 384V64C448 28.7 419.3 0 384 0H128zM256 96C273.7 96 288 110.3 288 128V256C288 273.7 273.7 288 256 288C238.3 288 224 273.7 224 256V128C224 110.3 238.3 96 256 96zM256 320C273.7 320 288 334.3 288 352C288 369.7 273.7 384 256 384C238.3 384 224 369.7 224 352C224 334.3 238.3 320 256 320z"
-          />
-        </svg>
-        <span>Rejected</span>
-      </button>`
-      const deleteButton = `<button type="button" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                              <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/></svg>
-                              <span>Delete</span>
-                            </button>`;
-                  const previewButton = `<div class="flex space-x-2">
-                        <a href="/dashboard/${row._id}/preview" target="_blank"  data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                          <span>Preview</span>
-                        </a>
-
-                      </div>`
-                  return `
-                        <div class="flex space-x-2">
-                            ${row.status === 'draft' || row.status === 'rejected' ? editButton : ''}
-                            ${row.status === 'rejected' ? rejectedButton : ''}
-                            ${row.status !== 'published' ? deleteButton : ''}
-                            ${row.status === 'published' ? previewButton : ''}
-                        </div>
-                    `;
-                },
-                orderable: false, // Prevent ordering on the actions column
-                searchable: false // Prevent searching on the actions column
+      // eslint-disable-next-line
+      const data = <%- JSON.stringify(data) %>;
+      console.log(data.articles.filter((article) => article.status === 'rejected'));
+      function showRejectionReason(rejectReason, authorName, updatedAt) {
+        console.log(rejectReason, authorName);
+        if (!rejectReason || !authorName) return;
+        Swal.fire({
+          title: 'Rejection Reason',
+          html: `
+                                      <div class="text-left">
+                                        <p class="text-gray-700 text-sm mb-2"><strong>Reason:</strong> ${rejectReason}</p>
+                                        <p class="text-gray-700 text-sm mb-2"><strong>Reviewed by:</strong> ${authorName}</p>
+                                        <p class="text-gray-700 text-sm"><strong>Time of Rejection:</strong> ${formatDateTime(updatedAt)}</p>
+                                      </div>`,
+          // Change to 'error' if more appropriate
+          showConfirmButton: true, // Show a single close button
+          confirmButtonText: 'Close',
+          allowOutsideClick: false, // Disable outside clicks to close the modal
+          allowEscapeKey: false, // Disable escape key to close the modal
+          backdrop: true, // Simple backdrop
+          customClass: {
+            popup: 'swal2-no-animation rounded-lg shadow-md border border-gray-300', // Minimalistic popup design
+            title: 'font-medium text-lg text-red-600', // Serious title styling
+            content: 'text-gray-700 text-sm', // Body content styling
+            confirmButton: 'bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-700 focus:ring-2 focus:ring-gray-500'
+          },
+          buttonsStyling: false // Use custom classes for button styling
+        });
+      }
+      const table = $(document).ready(function () {
+        $('#example').DataTable({
+          data: data.articles,
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + 1;
               }
-            ],
-            columnDefs: [
-              {
-                // Add Tailwind class to the "title" column
-                targets: 0, // 2nd column (title)
-                render: function (data, type, row, meta) {
-                  return `<div class="flex gap-2 px-4">
-                    <img class="w-10 h-10 rounded" src="${row.images[0]}" alt="Rounded avatar">
-                    <div>${data}</div>
-                  </div>`;
-                }
-              },
-              {
-                // Add Tailwind class to the "description" column
-                targets: 1, // 3rd column (description)
-                createdCell: function (td, cellData, rowData, row, col) {
-                  $(td).addClass('text-sm text-gray-600 px-4 py-2');
-                }
-              },
-              {
-                // Add Tailwind class to the "status" column
-                targets: 2, // 5th column (status)
-                render: function (data, type, row, meta) {
+            },
+            { data: 'title' },
+            { data: 'description' },
+            { data: 'status' },
+            { data: 'publishedAt' },
+            {
+              // Actions column
+              data: null, // `null` because this column doesn't map to any field in the data source
+              render: function (data, type, row) {
+                console.log(row);
+                const reason = row?.rejected?.rejectReason;
+                const editor = row?.rejected?.editorId?.name;
+                const updatedAt = row.updatedAt;
+                // Customize the action buttons for each row
+                const editButton = `<a target="_blank" href="/dashboard/reporter/write-article/${row._id}">
+                                                            <button
+                                                              type="button"
+                                                              class="w-[93px] edit-btn text-white gap-2 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-start me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                            >
+                                                              <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                <path
+                                                                  d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"
+                                                                />
+                                                              </svg>
+                                                              <span>Edit</span>
+                                                            </button>
+                                                          </a>`;
+                const rejectedButton = `<button
+                                      type="button"
+                                      class="w-[93px] rejected-btn text-white gap-2 bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-start dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                      onclick="showRejectionReason('${reason}', '${editor}', '${updatedAt}')"
+                                    >
+                                      <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <path
+                                          d="M128 0C92.7 0 64 28.7 64 64V384C64 419.3 92.7 448 128 448H384C419.3 448 448 419.3 448 384V64C448 28.7 419.3 0 384 0H128zM256 96C273.7 96 288 110.3 288 128V256C288 273.7 273.7 288 256 288C238.3 288 224 273.7 224 256V128C224 110.3 238.3 96 256 96zM256 320C273.7 320 288 334.3 288 352C288 369.7 273.7 384 256 384C238.3 384 224 369.7 224 352C224 334.3 238.3 320 256 320z"
+                                        />
+                                      </svg>
+                                      <span>Rejected</span>
+                                    </button>`;
+                const deleteButton = `<button type="button" class="w-[93px] delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-start dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/></svg>
+                                                            <span>Delete</span>
+                                                          </button>`;
+                const previewButton = `<div class="flex space-x-2 w-[93px]">
+                                                      <a href="/dashboard/${row._id}/preview" target="_blank"  data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-start me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                                                        <span>Preview</span>
+                                                      </a>
 
+                                                    </div>`;
+                return `
+                                                      <div class="flex space-x-2 justify-start">
+                                                          ${row.status === 'draft' || row.status === 'rejected' ? editButton : ''}
+                                                          ${row.status === 'rejected' ? rejectedButton : ''}
+                                                          ${row.status !== 'published' ? deleteButton : ''}
+                                                          ${row.status === 'published' ? previewButton : ''}
+                                                      </div>
+                                                  `;
+              },
+              orderable: false, // Prevent ordering on the actions column
+              searchable: false // Prevent searching on the actions column
+            }
+          ],
+          columnDefs: [
+            {
+              // Add number index column (STT)
+              targets: 0, // First column (index)
+              render: function (data, type, row, meta) {
+                // Return the row index (+1 to make it 1-based)
+                return `<div class="text-center">${meta.row + 1}</div>`; // Display 1-based index
+              }
+            },
+
+            {
+              // Add Tailwind class to the "title" column
+              targets: 1, // 2nd column (title)
+              render: function (data, type, row, meta) {
+                return `<div class="flex items-center gap-2 ">
+                                                  <img class="w-[200px]  rounded" src="${row.images[0]}" alt="Rounded avatar">
+                                                  <div class="font-bold font-serif">${data}</div>
+                                                </div>`;
+              }
+            },
+            {
+              // Add Tailwind class to the "description" column
+              targets: 2, // 3rd column (description)
+              createdCell: function (td, cellData, rowData, row, col) {
+                // Split the cell content into words
+                const words = cellData.split(' ');
+
+                // If the number of words exceeds 13, truncate and add "..."
+                if (words.length > 7) {
+                  $(td).text(words.slice(0, 7).join(' ') + '...'); // Truncate to 13 words and append "..."
+                } else {
+                  $(td).text(cellData); // No truncation needed
+                }
+
+                // Apply Tailwind classes for styling
+                $(td).addClass('text-[16px] text-gray-600 px-4 py-2 overflow-hidden whitespace-nowrap');
+              }
+            },
+            {
+              // Add Tailwind class to the "status" column
+              targets: 3, // 5th column (status)
+              render: function (data, type, row, meta) {
                 const getColorByStatus = (status) => {
                   switch (status) {
-                    case('draft'):
+                    case 'draft':
                       return {
                         dot: 'bg-gray-500',
                         text: 'text-gray-600'
-                    }
+                      };
                     case 'pending':
                       return {
                         dot: 'bg-yellow-500',
                         text: 'text-yellow-600'
-                      }
+                      };
                     case 'rejected':
                       return {
                         dot: 'bg-red-500',
                         text: 'text-red-600'
-                    }
+                      };
 
                     case 'published':
-                    return {
-                      dot: 'bg-green-500',
-                      text: 'text-green-600'
-                  }
+                      return {
+                        dot: 'bg-green-500',
+                        text: 'text-green-600'
+                      };
                     default:
-                    return {
-                      dot: 'bg-green-500',
-                      text: 'text-green-600'
+                      return {
+                        dot: 'bg-green-500',
+                        text: 'text-green-600'
+                      };
                   }
-                  }
-                }
-                    return `<div class="flex gap-2">
-                    <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
-                    <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
-                  </div>`;
-                },
-              },
-              {
-                // Add Tailwind class to the "publishedAt" column
-                targets: 3, // 6th column (publishedAt)
-                render: function (data, type, row, meta) {
-
-                  // Create a Date object
-                  const date = new Date(data);
-
-                  // Use toLocaleString for a readable format
-                  const readableDate = date.toLocaleString('en-US', {
-                    weekday: 'long', // Long weekday name (e.g., "Monday")
-                    year: 'numeric', // Full year (e.g., 2024)
-                    month: 'long', // Full month name (e.g., "November")
-                    day: 'numeric', // Day of the month (e.g., 20)
-                    hour: '2-digit', // Hour in 2-digit format (e.g., "03")
-                    minute: '2-digit', // Minute in 2-digit format (e.g., "22")
-                    second: '2-digit', // Second in 2-digit format (e.g., "47")
-                    hour12: true // 12-hour format (AM/PM)
-                  });
-
-                  return `<div class="text-xs">${readableDate}</div>`;
-                }
-              }
-            ],
-            rowCallback: function (row, data, index) {
-              // Apply styling to the entire row if necessary
-              $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
-              if (data.status === 'Failed') {
-                $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
+                };
+                return `<div class="flex gap-2">
+                                                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
+                                                  <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
+                                                </div>`;
               }
             },
-            drawCallback: function (settings) {
-              // Optional: Apply styles to pagination buttons
-            },
-            language: {
-              // Custom language settings (optional)
-              search: 'Search articles:',
-              lengthMenu: 'Show _MENU_ entries per page'
-            },
-            pageLength: 10, // Default page size
-            lengthMenu: [10, 25, 50] // Options for page size selection
-          });
+            {
+              // Add Tailwind class to the "publishedAt" column
+              targets: 4, // 6th column (publishedAt)
+              render: function (data, type, row, meta) {
+                if (!data) {
+                  return '<div class="text-[14px] text-gray-500">Undefined date</div>';
+                }
+
+                const date = new Date(data);
+
+                const formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+
+                const hours = date.getHours() % 12 || 12;
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+                const formattedTime = hours + ':' + minutes + ' ' + ampm;
+
+                // Kết hợp ngày và giờ thành một chuỗi
+                const readableDate = `${formattedDate}, ${formattedTime}`;
+
+                return `<div class="text-[14px]">${readableDate}</div>`;
+              }
+            }
+          ],
+          rowCallback: function (row, data, index) {
+            // Apply styling to the entire row if necessary
+            $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
+            if (data.status === 'Failed') {
+              $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
+            }
+          },
+          drawCallback: function (settings) {
+            // Optional: Apply styles to pagination buttons
+          },
+          language: {
+            search: 'Search articles:',
+            searchPlaceholder: "Type to search..."
+          },
+          lengthChange: false,
+          pageLength: 10 // Default page size
         });
-        // Handle delete button click
-        $('#example').on('click', '.delete-btn', function () {
-          const id = $(this).data('id');
-          console.log('Delete ID:', id);
-          // Add your delete logic here
-        });
+      });
+      // Handle delete button click
+      $('#example').on('click', '.delete-btn', function () {
+        const id = $(this).data('id');
+        console.log('Delete ID:', id);
+        // Add your delete logic here
+      });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>

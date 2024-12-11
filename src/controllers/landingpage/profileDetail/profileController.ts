@@ -31,7 +31,8 @@ export const getReaderProfile = async (req: Request, res: Response, next: NextFu
       account: readerAccount,
       isSubscriber: user?.isSubscriber || false,
       isSendOtp: false,
-      isTransactionComplete: isTransactionComplete
+      isTransactionComplete: isTransactionComplete,
+      error: ''
     });
   } catch (error) {
     next(new AppError('Internal Server Error', 500));
@@ -170,12 +171,16 @@ export const editProfile = async (req: Request, res: Response) => {
     }
 
     let isEmailChanged = false;
+    let isUsernameChanged = false;
 
     // Kiểm tra email thay đổi
     if (email && email.trim() !== account.email) {
       isEmailChanged = true;
     }
 
+    if (username && username.trim() != account.localAuth?.username) {
+      isUsernameChanged = true;
+    }
     // Kiểm tra profileType để cập nhật thông tin cá nhân
     if (account.profileType === 'ReaderProfile') {
       const profile = await ReaderProfile.findById(account.profileId);
@@ -195,21 +200,52 @@ export const editProfile = async (req: Request, res: Response) => {
       return;
     }
     // Cập nhật tài khoản nếu không đổi email
-    if (username && account.localAuth) {
+    if (username && isUsernameChanged && account.localAuth) {
+      const existAccount = await Account.findOne({ 'localAuth.username': username });
+      if (existAccount) {
+        req.flash('error', 'Username is already exist.');
+        res.render('pages/LandingPage/Profile/ProfilePage', {
+          isSendOtp: false,
+          readerProfile: await ReaderProfile.findOne({ accountId: accountId }),
+          account: account,
+          sections: await getSectionTree(),
+          data: await getLandingPageData(),
+          isSubscriber: req.user?.isSubscriber || false,
+          newEmail: email,
+          email: account.email,
+          error: 'Username is already exist.',
+          isTransactionComplete: false
+        });
+        return;
+      }
       account.localAuth.username = username.trim();
+      await account.save();
     }
 
-    await account.save();
     // Nếu email thay đổi, gửi OTP để xác thực
     if (isEmailChanged) {
+      const existEmail = await Account.findOne({ email: email });
+      if (existEmail) {
+        req.flash('error', 'The email is already exist.');
+        res.render('pages/LandingPage/Profile/ProfilePage', {
+          isSendOtp: false,
+          readerProfile: await ReaderProfile.findOne({ accountId: accountId }),
+          account: account,
+          sections: await getSectionTree(),
+          data: await getLandingPageData(),
+          isSubscriber: req.user?.isSubscriber || false,
+          newEmail: email,
+          email: account.email,
+          error: 'New email is already exist',
+          isTransactionComplete: false
+        });
+        return;
+      }
       // Gửi OTP tới email cũ
       const otp = await sendOtp(account.email, fullname || 'Reader');
       account.resetOtp = otp; // Lưu OTP vào tài khoản để xác minh sau
       await account.save();
 
-      // Cập nhật isSendOtp thành true để hiển thị modal OTP
-      console.log(email);
-      console.log(account.email);
       res.render('pages/LandingPage/Profile/ProfilePage', {
         isSendOtp: true,
         readerProfile: await ReaderProfile.findOne({ accountId: accountId }),
