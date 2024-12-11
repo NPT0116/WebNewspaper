@@ -4,6 +4,7 @@ export const PATH = {
     SEARCH_PAGE: '/search-page',
     SECTION: '/section/:sectionSlug',
     ARTICLE_DETAIL: '/section/:sectionSlug/article/:articleSlug',
+    ARTICLE_DETAIL_FLIPPING: '/section/:sectionSlug/article/:articleSlug/flipping',
     PROFILE: '/profile',
     WATCHED_ARTICLE: '/profile/watched-articles',
     SAVE_COMMENT: '/section/:sectionSlug/article/:articleSlug/save-comment'

@@ -147,6 +147,52 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
     next(new AppError("can't get detail article", 500));
   }
 };
+export const renderArticleDetailInFlippingMode = async (req: Request<IArticleDetailParams>, res: Response<IArtcileDetailLandingpageResponse>, next: NextFunction) => {
+  try {
+    const { sectionSlug, articleSlug } = req.params;
+    const sections = await getSectionTree();
+
+    const article = await Article.findOne({ slug: articleSlug })
+      .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Populate section
+      .populate<{ tags: ITag[] }>('tags', 'name slug') // Populate tags
+      .populate<{ author: IAuthor }>('author', 'name') // Populate author
+      .populate<{ comments: IComment[] }>('comments', 'content createdAt account') // Populate comments
+      .exec();
+
+    if (!article) {
+      next(new AppError('Cant find the articleSlug', 500));
+      return;
+    }
+    if (article.sectionId.slug !== sectionSlug) {
+      next(new AppError('different in section slug between section and article', 500));
+      next();
+    }
+    const commentWithNames = await Promise.all(
+      article.comments.map(async (comment) => {
+        const account = await mongoose.model('Account').findById(comment.account).populate('profileId', 'name');
+        return {
+          content: comment.content,
+          createdAt: comment.createdAt,
+          commenterName: account.profileId.name || 'Anonymous'
+        };
+      })
+    );
+    let relatedArticle: IArticleCard[] | null = await relatedArticleFunc(sectionSlug);
+    if (relatedArticle === null) {
+      relatedArticle = [];
+    }
+
+    // res.json({
+    //   ...article.toObject()
+    // });
+
+    res.render('layouts/PostDetailLayout/PostDetailFlipping', {
+      ...article.toObject()
+    });
+  } catch (e) {
+    next(new AppError("can't get detail article", 500));
+  }
+};
 
 export const verifySubscription = (req: Request<IArticleDetailParams>, res: Response, next: NextFunction) => {
   const { isSubscribed } = req.query;
