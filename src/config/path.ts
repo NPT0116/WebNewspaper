@@ -29,7 +29,11 @@ export const PATH = {
       PATH: '/admin',
       USERS: {
         PATH: '/users',
-        REPORTERS: '/reporters',
+        REPORTERS: {
+          PATH: '/reporters',
+          CREATE_REPORTER: '/create-reporter',
+          UPDATE_REPORTER: '/update-reporter'
+        },
         EDITORS: '/editors',
         READERS: {
           PATH: '/readers',

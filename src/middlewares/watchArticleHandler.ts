@@ -26,8 +26,10 @@ export const watchArticleHandler = async (req: Request<IArticleDetailParams>, re
     }
 
     const user = req.user;
+
     if (user && user.role === 'reader') {
       article.views = (article.views || 0) + 1;
+
       await article.save();
 
       const reader = await ReaderProfile.findOne({ accountId: user._id });
