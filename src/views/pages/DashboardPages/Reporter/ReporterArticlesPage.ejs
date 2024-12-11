@@ -209,18 +209,16 @@
       /* End create new article css */
       th.sorting_asc,
       th.sorting_desc {
-        color: white !important;
-        background-color: #494949 !important;
+        color: white !important; /* Màu chữ khi được chọn */
+        background-color: #7c7c7c !important; /* Nền khi được chọn */
       }
+
       th {
-        background-color: black;
+        background-color: #333;
         color: white;
       }
-      th .sorting::before {
-        color: white !important;
-      }
       .input {
-        color: black;
+        color: #333;
         font:
           1em/1.5 Hind,
           sans-serif;
@@ -232,7 +230,7 @@
     <%- include('../../../components/Dashboard/screenLimitSize.ejs')  %>
 
     <div class="flex justify-between">
-      <h1 class="text-[35px] font-bold font-serif">Article List</h1>
+      <h1 class="text-[40px] font-bold font-serif">Article List</h1>
       <div>
         <a href="/dashboard/reporter/create-article">
           <button class="continue-application font-bold font-serif">

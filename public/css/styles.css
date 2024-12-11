@@ -1738,6 +1738,14 @@ input:checked + .toggle-bg {
   width: 100vw;
 }
 
+.w-\[25\%\] {
+  width: 25%;
+}
+
+.w-\[250px\] {
+  width: 250px;
+}
+
 .max-w-\[600px\] {
   max-width: 600px;
 }
