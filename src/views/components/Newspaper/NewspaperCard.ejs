@@ -7,7 +7,7 @@
 
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
     <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300 <% if (article.isSubscribed) { %>text-red-500<% } %>" style="top: -5%; left: 4%">
-      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : '' %>" class="bg-red-600 p-2">
+      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : article.sectionId && article.sectionId.slug ? article.sectionId.slug : ''  %>" class="bg-red-600 p-2">
         <%= article.section && article.section.name ? article.section.name : article.sectionId && article.sectionId.name ? article.sectionId.name : "Unknown section" %>
       </a>
       <a href="/profile" class="ml-2 text-white font-bold font-serif p-2 <% if (article.isSubscribed) { %> bg-yellow-500 <% } %>"><% if (article.isSubscribed) { %> Subscribe <% } %></a>
