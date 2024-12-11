@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
+import { Article } from '~/models/Article/articleSchema.js';
 interface IEditorAdminDashboard {
   _id: mongoose.Types.ObjectId;
   accountId?: mongoose.Types.ObjectId | IAccount;
@@ -137,6 +138,36 @@ export const adminUpdateEditor = async (req: Request<{}, {}, IUpdateEditor>, res
     res.redirect('/dashboard/admin/editors');
   } catch (e) {
     console.error('Error updating editor:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface IDeleteEditor {
+  editorId: mongoose.Types.ObjectId;
+}
+
+export const adminDeleteEditor = async (req: Request<IDeleteEditor>, res: Response) => {
+  try {
+    const { editorId } = req.params;
+    // Find the editor profile
+    const editorProfile = await EditorProfile.findByIdAndDelete(editorId);
+
+    if (!editorProfile) {
+      res.status(404).json({ status: 'error', message: 'Editor not found' });
+      return;
+    }
+    const accountId = editorProfile.accountId;
+    const editorAccount = await Account.findByIdAndDelete(accountId);
+    if (!editorAccount) {
+      res.status(404).json({ status: 'error', message: 'Account not found' });
+    }
+    editorProfile.editArticles.forEach(async (article) => {
+      await Article.findByIdAndDelete(article._id);
+    });
+
+    res.redirect('/dashboard/admin/editors');
+  } catch (e) {
+    console.error('Error deleting editor:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };

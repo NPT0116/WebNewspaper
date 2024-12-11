@@ -32,12 +32,14 @@ export const PATH = {
         REPORTERS: {
           PATH: '/reporters',
           CREATE_REPORTER: '/create-reporter',
-          UPDATE_REPORTER: '/update-reporter'
+          UPDATE_REPORTER: '/update-reporter',
+          DELETE_REPORTER: '/delete-reporter/:reporterId'
         },
         EDITORS: {
           PATH: '/editors',
           CREATE_EDITOR: '/create-editor',
-          UPDATE_EDITOR: '/update-editor'
+          UPDATE_EDITOR: '/update-editor',
+          DELETE_EDITOR: '/delete-editor/:editorId'
         },
         READERS: {
           PATH: '/readers',
@@ -50,8 +52,18 @@ export const PATH = {
         SUBSCRIPTION: '/:articleId/subscription',
         DELETE: '/:articleId/delete'
       },
-      SECTION: '/sections',
-      TAGS: '/tags'
+      SECTION: {
+        PATH: '/sections',
+        CREATE_SECTION: '/create-section',
+        UPDATE_SECTION: '/update-section',
+        DELETE_SECTION: '/delete-section/:sectionId'
+      },
+      TAGS: {
+        PATH: '/tags',
+        CREATE_TAG: '/create-tag',
+        UPDATE_TAG: '/update-tag',
+        DELETE_TAG: '/delete-tag/:tagId'
+      }
     }
   },
   AUTHENTICATION: {

@@ -4,6 +4,7 @@ import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import bcrypt from 'bcrypt';
 import { Account } from '~/models/Account/accountSchema.js';
+import { Article } from '~/models/Article/articleSchema.js';
 
 interface IReportArticle {
   _id: mongoose.Types.ObjectId;
@@ -149,6 +150,37 @@ export const updateReporter = async (req: Request<{}, {}, IReporterUpdateProfile
     res.redirect('/dashboard/admin/reporters');
   } catch (e) {
     console.error('Error updating reporter:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+interface IDeleteReporter {
+  reporterId: mongoose.Types.ObjectId;
+}
+
+export const adminDeleteReporter = async (req: Request<IDeleteReporter>, res: Response) => {
+  try {
+    const { reporterId } = req.params;
+    // Find the reporter profile
+    const reporterProfile = await ReporterProfile.findByIdAndDelete(reporterId);
+
+    if (!reporterProfile) {
+      res.status(404).json({ status: 'error', message: 'Reporter not found' });
+      return;
+    }
+
+    const accountId = reporterProfile.accountId;
+    const reporterAccount = await Account.findByIdAndDelete(accountId);
+    if (!reporterAccount) {
+      res.status(404).json({ status: 'error', message: 'Account not found' });
+    }
+
+    // Delete all articles authored by the reporter
+    await Article.deleteMany({ author: reporterId });
+
+    res.redirect('/dashboard/admin/reporters');
+  } catch (e) {
+    console.error('Error deleting reporter:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
