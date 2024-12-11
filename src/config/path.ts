@@ -16,12 +16,14 @@ export const PATH = {
       WRITE_ARTICLE: '/write-article/:articleId',
       SAVE_ARTICLE: '/write-article/:articleId/save',
       CREATE_ARTICLE: '/create-article',
-      SUBMIT_ARTICLE: '/:articleId/submit'
+      SUBMIT_ARTICLE: '/:articleId/submit',
+      DELETE: '/:articleId/delete'
     },
     EDITOR: {
       PATH: '/editor',
       PREVIEW: '/:articleId/preview',
-      APPROVE: '/:articleId/approve'
+      APPROVE: '/:articleId/approve',
+      DELETE: '/:articleId/delete'
     },
     ADMIN: {
       PATH: '/admin',
@@ -34,7 +36,10 @@ export const PATH = {
           UPGRADE_READER: '/upgrade-reader/:_id'
         }
       },
-      ARTICLES: '/',
+      ARTICLES: {
+        PATH: '/',
+        DELETE: '/delete/:articleId'
+      },
       SECTION: '/sections',
       TAGS: '/tags'
     }

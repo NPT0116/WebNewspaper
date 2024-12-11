@@ -10,7 +10,7 @@ const adminDashboardRouter = express.Router();
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.EDITORS, renderAdminEditorPage);
 // adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.READERS, getAdminReadersPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.REPORTERS, renderAdmindReporterPage);
-adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.ARTICLES, renderAdminArticlePage);
+adminDashboardRouter.use(PATH.DASHBOARD.ADMIN.ARTICLES.PATH, adminDashboardRouter);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.SECTION, renderAdminSectionPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.TAGS, renderAdminTagsPage);
 
