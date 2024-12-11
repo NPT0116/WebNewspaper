@@ -38,7 +38,7 @@ export const PATH = {
       },
       ARTICLES: {
         PATH: '/',
-        DELETE: '/delete/:articleId'
+        DELETE: '/:articleId/delete'
       },
       SECTION: '/sections',
       TAGS: '/tags'
