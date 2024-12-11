@@ -174,9 +174,6 @@ export const adminDeleteReporter = async (req: Request<IDeleteReporter>, res: Re
       res.status(404).json({ status: 'error', message: 'Account not found' });
     }
 
-    // Delete all articles authored by the reporter
-    await Article.deleteMany({ author: reporterId });
-
     res.redirect('/dashboard/admin/reporters');
   } catch (e) {
     console.error('Error deleting reporter:', e);
