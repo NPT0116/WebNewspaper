@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { IArticle, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Account } from '~/models/Account/accountSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
+import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
@@ -173,6 +174,9 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
           // Save the changes to the editor profile
           await editorProfile.save();
         }
+      } else if (article.rejected.adminId) {
+        // Remove the article ID from the admin's list of rejected articles
+        article.rejected.adminId = undefined;
       }
       article.rejected.editorId = undefined;
       article.rejected.rejectReason = '';
@@ -189,11 +193,7 @@ export const submitArticle = async (req: Request<submitArticleParams>, res: Resp
     res.redirect('/dashboard/reporter');
   } catch (e) {
     // Xử lý lỗi không mong muốn
-    const submitError: ISubmitError = {
-      errorCode: 500,
-      errorMessage: 'Server error',
-      details: 'An unexpected error occurred while submitting the article'
-    };
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
 
@@ -238,15 +238,17 @@ export const getReporterDashboardPage = async (req: Request, res: Response) => {
   }
   const account = await Account.findById(accountId);
   const authorId = account?.profileId;
+
   if (!authorId) {
     res.status(404).json({ message: 'Author not found' });
     return;
   }
+  const reporterProfile = await ReporterProfile.findById(authorId);
   const articles = await getArticleByReporterId(authorId);
   // res.json({ articles });
   res.render('layouts/DashboardLayout/DashboardLayout', {
     body: '../../pages/DashboardPages/Reporter/ReporterArticlesPage',
-    data: { articles, role: 'reporter' }
+    data: { articles, role: 'reporter', profile: reporterProfile }
   });
 };
 

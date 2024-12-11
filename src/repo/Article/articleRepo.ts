@@ -4,6 +4,7 @@ import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
 import { ITag } from '~/interfaces/Tag/tagSchema.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
+import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { ReporterProfile } from '~/models/Profile/reporterProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { AppError } from '~/utils/appError.js';
@@ -256,6 +257,17 @@ export const deleteArticle = async (articleId: mongoose.Types.ObjectId) => {
       await EditorProfile.updateOne({ _id: article.rejected.editorId }, { $pull: { editArticles: articleId } });
     }
   }
+
   await ReporterProfile.updateOne({ _id: article.author }, { $pull: { reportArticles: articleId } });
+  await ReaderProfile.updateMany({ 'watchedArticles.articleId': articleId }, { $pull: { watchedArticles: { articleId: articleId } } });
   return 1;
+};
+
+export const changeSubscriptionArticle = async (articleId: mongoose.Types.ObjectId) => {
+  const article = await Article.findById(articleId);
+  if (!article) {
+    throw new AppError('Article not found', 404, []);
+  }
+  article.isSubscribed = !article.isSubscribed;
+  await article.save();
 };

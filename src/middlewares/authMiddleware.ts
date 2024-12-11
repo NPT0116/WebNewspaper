@@ -6,7 +6,6 @@ export const attAccountToView = async (req: Request, res: Response, next: NextFu
       const profile = await getProfile(req.user._id);
       res.locals.isAuthenticated = true; // Đã đăng nhập
       res.locals.profile = profile; // Gắn profile của người dùng
-      console.log('profile:', profile);
     } else {
       res.locals.isAuthenticated = false; // Không đăng nhập
       res.locals.profile = null; // Không có profile
