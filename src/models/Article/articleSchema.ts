@@ -32,10 +32,12 @@ const articleSchema = new Schema<IArticle>(
     isSubscribed: { type: Boolean, default: false },
     approved: {
       editorId: { type: Schema.Types.ObjectId, ref: 'EditorProfile', default: undefined },
+      adminId: { type: Schema.Types.ObjectId, ref: 'AdminProfile', default: undefined },
       publishedAt: { type: Date, default: undefined }
     },
     rejected: {
       editorId: { type: Schema.Types.ObjectId, ref: 'EditorProfile', default: undefined },
+      adminId: { type: Schema.Types.ObjectId, ref: 'AdminProfile', default: undefined },
       rejectReason: { type: String }
     }
   },

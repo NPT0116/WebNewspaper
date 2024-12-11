@@ -38,6 +38,8 @@ export const PATH = {
       },
       ARTICLES: {
         PATH: '/',
+        APPROVE: '/:articleId/approve',
+        SUBSCRIPTION: '/:articleId/subscription',
         DELETE: '/:articleId/delete'
       },
       SECTION: '/sections',

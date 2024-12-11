@@ -4,13 +4,14 @@ import { renderAdminArticlePage } from '~/controllers/Dashboard/Admin/adminArtic
 import { renderAdminEditorPage, renderAdminSectionPage, renderAdminTagsPage } from '~/controllers/Dashboard/Admin/adminDashboardController.js';
 import { renderAdminReaderPage } from '~/controllers/Dashboard/Admin/adminReader/adminReaderDashboardController.js';
 import readerAdminDashboardRouter from './readerAdmin/readerAdminDashboardRouter.js';
+import articleAdminDashboardRouter from './articlesAdmin/articlesAdminDashboardRouter.js';
 const adminDashboardRouter = express.Router();
 
 // adminDashboardRouter.get(PATH.HOME, getAdminDashboardPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.EDITORS, renderAdminEditorPage);
 // adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.READERS, getAdminReadersPage);
 // adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.USERS.REPORTERS, renderAdmindReporterPage);
-adminDashboardRouter.use(PATH.DASHBOARD.ADMIN.ARTICLES.PATH, adminDashboardRouter);
+adminDashboardRouter.use(PATH.DASHBOARD.ADMIN.ARTICLES.PATH, articleAdminDashboardRouter);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.SECTION, renderAdminSectionPage);
 adminDashboardRouter.get(PATH.DASHBOARD.ADMIN.TAGS, renderAdminTagsPage);
 
