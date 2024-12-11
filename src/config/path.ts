@@ -34,7 +34,11 @@ export const PATH = {
           CREATE_REPORTER: '/create-reporter',
           UPDATE_REPORTER: '/update-reporter'
         },
-        EDITORS: '/editors',
+        EDITORS: {
+          PATH: '/editors',
+          CREATE_EDITOR: '/create-editor',
+          UPDATE_EDITOR: '/update-editor'
+        },
         READERS: {
           PATH: '/readers',
           UPGRADE_READER: '/upgrade-reader/:_id'

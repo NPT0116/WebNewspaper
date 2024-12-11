@@ -1,52 +1,9 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { IAccount } from '~/interfaces/Account/accountInterface.js';
-import { Article } from '~/models/Article/articleSchema.js';
-import { EditorProfile } from '~/models/Profile/editorProfile.js';
-import { ReaderProfile } from '~/models/Profile/readerProfile.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 import { Tag } from '~/models/Tag/tagSchema.js';
 import { deleteArticle } from '~/repo/Article/articleRepo.js';
 import { getSectionTree } from '~/repo/Section/index.js';
-
-interface IEditorAdminDashboard {
-  _id: mongoose.Types.ObjectId;
-  accountId?: mongoose.Types.ObjectId | IAccount;
-  name: string;
-  dob: Date | null;
-  gender: 'male' | 'female' | 'other' | null;
-  sectionId: {
-    _id: mongoose.Types.ObjectId;
-    name: string;
-  };
-}
-
-export const renderAdminEditorPage = async (req: Request, res: Response) => {
-  try {
-    // Retrieve all editor profiles
-    const editorProfiles = await EditorProfile.find().populate<{ accountId: IAccount }>('accountId').populate<{ sectionId: { _id: mongoose.Types.ObjectId; name: string } }>('sectionId');
-    const data: IEditorAdminDashboard[] = editorProfiles.map((editor) => ({
-      _id: editor._id,
-      accountId: editor.accountId,
-      name: editor.name,
-      dob: editor.dob,
-      gender: editor.gender,
-      sectionId: {
-        _id: editor.sectionId._id,
-        name: editor.sectionId.name
-      }
-    }));
-
-    // Render the page with the formatted data
-    res.render('layouts/DashboardLayout/DashboardLayout', {
-      body: '../../pages/DashboardPages/Admin/EditorsPage',
-      data: { editors: data, role: 'admin' }
-    });
-  } catch (error) {
-    console.error('Error retrieving editor profiles:', error);
-    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
-  }
-};
 
 export const renderAdminSectionPage = async (req: Request, res: Response) => {
   try {
