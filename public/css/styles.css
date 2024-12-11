@@ -1116,9 +1116,6 @@ input:checked + .toggle-bg {
 .top-\[3px\] {
   top: 3px;
 }
-.top-full {
-  top: 100%;
-}
 .isolate {
   isolation: isolate;
 }
@@ -1496,10 +1493,6 @@ input:checked + .toggle-bg {
 }
 .w-full {
   width: 100%;
-}
-.w-max {
-  width: -moz-max-content;
-  width: max-content;
 }
 .w-screen {
   width: 100vw;
@@ -2020,6 +2013,10 @@ input:checked + .toggle-bg {
 }
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+.bg-yellow-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 202 21 / var(--tw-bg-opacity, 1));
 }
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
@@ -2839,9 +2836,6 @@ input:checked + .toggle-bg {
 .group:hover .group-hover\:text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity, 1));
-}
-.group:hover .group-hover\:opacity-100 {
-  opacity: 1;
 }
 .dark\:border-blue-500:is(.dark *) {
   --tw-border-opacity: 1;
