@@ -65,7 +65,7 @@
       html += `<div class="w-full h-full"><img src="<%=images%>" class="w-full h-full object-cover" alt="" style="width: `;
       html += String(String($(window).width() * 0.45));
       html += `px"/></div>`;
-      html += `<div class="hard text-4xl text-center"><%=title%><small><%=author%></small></div>`;
+      html += `<div class="hard text-4xl text-center"><%=title%><small><%=author.name%></small></div>`;
       const content = `<%=content%>`;
       const numsOfPage = Math.ceil(content.length / limitContent);
       let count = 0;
