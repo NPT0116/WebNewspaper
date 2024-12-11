@@ -42,10 +42,11 @@ export const renderAdminReaderPage = async (req: Request, res: Response) => {
           viewedAt: watchedArticle.viewedAt
         }))
     }));
-    res.render('layouts/DashboardLayout/DashboardLayout', {
-      body: '../../pages/DashboardPages/Admin/ReadersPage',
-      data: { readers: data, role: 'admin' }
-    });
+    res.json(data);
+    // res.render('layouts/DashboardLayout/DashboardLayout', {
+    //   body: '../../pages/DashboardPages/Admin/ReadersPage',
+    //   data: { readers: data, role: 'admin' }
+    // });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });

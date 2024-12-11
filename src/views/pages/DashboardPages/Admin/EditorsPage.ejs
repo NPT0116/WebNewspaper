@@ -6,28 +6,15 @@
     <title>Document</title>
   </head>
   <body>
-    <button
-      type="button"
-      data-modal-target="crud-modal"
-      data-modal-toggle="crud-modal"
-      class="flex gap-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-    >
-      <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-        <path
-          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
-        />
-      </svg>
-      Add reporter
-    </button>
-
-    <%- include('AddReporterModal') %>
+    This is editor page
     <table id="example" class="display">
       <thead>
         <tr>
           <th>User ID</th>
+          <th>Account ID</th>
           <th>Username</th>
           <th>Email</th>
+          <th>Type</th>
           <th>Name</th>
           <th>Date of birth</th>
           <th>Gender</th>
@@ -40,7 +27,6 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
-    <%- include('EditorInfoDrawer') %>
     <script src="/js/time.js"></script>
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
@@ -52,8 +38,10 @@
           data: editors,
           columns: [
             { data: '_id' },
+            { data: 'accountId._id' },
             { data: 'accountId.localAuth.username' },
             {data: 'accountId.email'},
+            { data: 'accountId.isSubscriber' },
             { data: 'name'},
             {data: 'dob'},
             {data: 'gender'},
@@ -65,26 +53,10 @@
                 // Customize the action buttons for each row
                 return `
                       <div class="flex space-x-2">
-                        <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
-                              </svg>
-                              <span>Info</span>
-                        </button>
-                          <form id="delete-form-${row._id}" method="POST" action="/dashboard/admin/reporters/delete">
-                          <button
-                              type="button"
-                              onclick="confirmDelete('${row._id}')"
-                              class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                <path
-                                  d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
-                                />
-                              </svg>
-                              <span>Delete</span>
-                            </button>
-                        </form>
+                          <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+                          <span>Preview</span>
+                        </a>
                       </div>
                   `;
               },
@@ -102,7 +74,7 @@
               }
             },
             {
-              targets: 1, // accountId.localAuth.username
+              targets: 1, // accountId._id
               createdCell: function (td, cellData, rowData, row, col) {
                 $(td).addClass('text-sm text-gray-600 px-4 py-2');
               }
@@ -124,21 +96,21 @@
             {
               targets: 4, // accountId.isSubscriber
               render: function(data, type, row, meta) {
-                return `<div>${formatDateTime(data, true)}</div>`
-
+                return `<div class="flex gap-2">
+                  ${data}
+                </div>`
               }
             },
             {
               targets: 5, // name
               render: function(data, type, row, meta) {
                 return `<div>${data}</div>`
-
               }
             },
             {
               targets: 6, // dob
               render: function(data, type, row, meta) {
-                return `<div>${data}</div>`
+                return `<div>${formatDateTime(data, true)}</div>`
               }
             },
             {
@@ -147,6 +119,12 @@
                   return `<div>${data}</div>`
                 }
             },
+            {
+                targets: 8, // sectionId.name
+                render: function(data, type, row, meta) {
+                    return `<div>${data}</div>`
+                  }
+            }
           ],
           rowCallback: function (row, data, index) {
             // Apply styling to the entire row if necessary
@@ -167,56 +145,6 @@
           lengthMenu: [10, 25, 50] // Options for page size selection
         });
       });
-    </script>
-    <script>
-      const confirmDelete = (id) => {
-        Swal.fire({
-          title: 'Are you sure to delete this reporter?',
-          text: 'This action cannot be undone.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          cancelButtonText: 'Cancel',
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Find the form by ID and submit it
-            const form = document.getElementById(`delete-form-${id}`);
-            if (form) form.submit();
-          }
-        });
-      };
-    </script>
-    <script type="module">
-      export function toggleDrawer(id) {
-        const $targetEl = document.getElementById('user-info-drawer');
-
-        if (!$targetEl) {
-          console.error('Drawer target element not found!');
-        }
-
-        const options = {
-          placement: 'right',
-          backdrop: true,
-          bodyScrolling: false,
-          edge: false,
-          onHide: () => console.log('Drawer is hidden'),
-          onShow: () => console.log('Drawer is shown'),
-          onToggle: () => console.log('Drawer has been toggled')
-        };
-
-        const drawer = new Drawer($targetEl, options);
-        const editor = editors.find((u) => u._id == id);
-        document.getElementById('name-input').value = editor.name;
-        const formattedDate = dayjs(editor.dob).format('MM-DD-YYYY');
-        document.getElementById('dob-input').value = formattedDate;
-        document.getElementById('username-input').value = editor?.accountId?.localAuth?.username ?? '';
-        document.getElementById('email-input').value = editor?.accountId?.email ?? '';
-        drawer.toggle();
-      }
-
-      window.toggleDrawer = toggleDrawer;
     </script>
   </body>
 </html>
