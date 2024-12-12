@@ -1,0 +1,18 @@
+<div class="my-4 py-4 flex flex-col justify-between items-center gap-4">
+  <div class="flex sm:text-5xl text-4xl font-serif text-center"><%=title%></div>
+  <a
+    href=""
+    id="go-to-flip-mode"
+    class="hidden lg:flex text-sm text-cente border-2 border-black justify-center items-center p-4 cursor-pointer shadow-lg hover:scale-105 transition-all duration-300"
+    style="height: fit-content; width: fit-content; border-radius: 50px"
+    >Try Flipping Mode</a
+  >
+</div>
+<div id="article-content" class="flex flex-col gap-9 justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]"><%-content%></div>
+<script>
+  const currentUrl = window.location.href;
+  const urlParts = currentUrl.split('?');
+  urlParts.pop();
+  const modifiedUrl = urlParts.join('/') + '/flipping' + (currentUrl.includes('?isSubscribed') ? currentUrl.substring(currentUrl.indexOf('?isSubscribed')) : '');
+  document.getElementById('go-to-flip-mode').href = modifiedUrl;
+</script>

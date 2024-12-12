@@ -24,6 +24,7 @@ interface IReaderAdminDashboard {
 export const renderAdminReaderPage = async (req: Request, res: Response) => {
   try {
     const readers = await ReaderProfile.find().populate('accountId').populate<{ watchedArticles: readerWatchedArticles[] }>('watchedArticles.articleId', '_id title images');
+    console.log(readers);
 
     const data: IReaderAdminDashboard[] = readers.map((reader) => ({
       _id: reader._id,
@@ -42,11 +43,11 @@ export const renderAdminReaderPage = async (req: Request, res: Response) => {
           viewedAt: watchedArticle.viewedAt
         }))
     }));
-    res.json(data);
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //   body: '../../pages/DashboardPages/Admin/ReadersPage',
-    //   data: { readers: data, role: 'admin' }
-    // });
+    // res.json(data);
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/ReadersPage',
+      data: { readers: data, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });

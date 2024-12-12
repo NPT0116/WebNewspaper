@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <!-- Include jQuery -->
@@ -12,151 +13,291 @@
 
     <!-- Include DataTable JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <style>
+      .Btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 35px;
+        height: 35px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition-duration: 0.3s;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+        background-color: #bdbdbd;
+      }
+
+      /* plus sign */
+      .sign {
+        width: 100%;
+        transition-duration: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sign svg {
+        width: 16px;
+      }
+
+      .sign svg path {
+        fill: white;
+      }
+      /* text */
+      .text {
+        position: absolute;
+        right: 0%;
+        width: 0%;
+        opacity: 0;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        transition-duration: 0.3s;
+      }
+      /* hover effect on button width */
+      .Btn:hover {
+        width: 125px;
+        border-radius: 40px;
+        transition-duration: 0.3s;
+      }
+
+      .Btn:hover .sign {
+        width: 30%;
+        transition-duration: 0.3s;
+        padding-left: 20px;
+      }
+      /* hover effect button's text */
+      .Btn:hover .text {
+        opacity: 1;
+        width: 70%;
+        transition-duration: 0.3s;
+        padding-right: 10px;
+      }
+      /* button click effect*/
+      .Btn:active {
+        transform: translate(2px, 2px);
+      }
+      .continue-application {
+        --color: #fff;
+        --background: #404660;
+        --background-hover: #3a4059;
+        --background-left: #2b3044;
+        --folder: #f3e9cb;
+        --folder-inner: #beb393;
+        --paper: #ffffff;
+        --paper-lines: #bbc1e1;
+        --paper-behind: #e1e6f9;
+        --pencil-cap: #fff;
+        --pencil-top: #275efe;
+        --pencil-middle: #fff;
+        --pencil-bottom: #5c86ff;
+        --shadow: rgba(13, 15, 25, 0.2);
+        border: none;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 19px;
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+        padding: 17px 29px 17px 69px;
+        transition: background 0.3s;
+        color: var(--color);
+        background: var(--bg, var(--background));
+      }
+    </style>
     <title>Dashboard</title>
-</head>
-<body>
-<nav class="fixed top-0 z-30 w-full bg-white border-b border-gray-200">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+  </head>
+  <body>
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+      <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
-            <div class="flex items-center justify-start rtl:justify-end">
-                <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
-                    <span class="sr-only">Open sidebar</span>
-                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-                    </svg>
-                </button>
-                <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">The New Yorker Clone</span>
-                </a>
-            </div>
-            <div class="flex items-center">
-                <div class="flex items-center ms-3">
-                    <div>
-                        <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                            <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-                        </button>
-                    </div>
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow" id="dropdown-user">
-                        <div class="px-4 py-3">
-                            <p class="text-sm text-gray-900">Neil Sims</p>
-                            <p class="text-sm font-medium text-gray-900 truncate">neil.sims@flowbite.com</p>
-                        </div>
-                        <ul class="py-1">
-                            <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a></li>
-                            <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a></li>
-                            <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Earnings</a></li>
-                            <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a></li>
-                        </ul>
-                    </div>
+          <div class="flex items-center justify-start rtl:justify-end">
+            <button
+              data-drawer-target="logo-sidebar"
+              data-drawer-toggle="logo-sidebar"
+              aria-controls="logo-sidebar"
+              type="button"
+              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                ></path>
+              </svg>
+            </button>
+            <a href="" class="flex ms-2 md:me-24">
+              <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap" style="font-family: MyCustomFont">THE ELON MUSK</span>
+            </a>
+          </div>
+
+          <% if (data.role === 'reporter' ) {%>
+          <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">REPORTER DASHBOARD</div>
+          <% } else { %>
+          <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">ADMIN DASHBARD</div>
+          <% } %>
+          <div class="flex justify-between items-center w-[300px]">
+            <a href="" class="text-black text-[20px]"><%= profile.profileName %></a>
+            <form action="/logout" method="POST">
+              <button class="Btn">
+                <div class="sign">
+                  <svg viewBox="0 0 512 512">
+                    <path
+                      d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+                    ></path>
+                  </svg>
                 </div>
-            </div>
+
+                <div class="text">Logout</div>
+              </button>
+            </form>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-20 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-20 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 w-[250px]" aria-label="Sidebar">
+      <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
-            <li>
-                <a href="/dashboard/<%= data.role %>" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <svg class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M96 96c0-35.3 28.7-64 64-64l288 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L80 480c-44.2 0-80-35.8-80-80L0 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 272c0 8.8 7.2 16 16 16s16-7.2 16-16L96 96zm64 24l0 80c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24l0-80c0-13.3-10.7-24-24-24L184 96c-13.3 0-24 10.7-24 24zm208-8c0 8.8 7.2 16 16 16l48 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-48 0c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16l48 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-48 0c-8.8 0-16 7.2-16 16zM160 304c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-256 0c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-256 0c-8.8 0-16 7.2-16 16z"/>
-                    </svg>
-                    <span class="ms-3">Articles</span>
-                </a>
-            </li>
-            <li>
-                <% if (data.role === 'admin') { %>
-                    <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                            <!-- SVG path here -->
-                        </svg>
-                        <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Users</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                        </svg>
-                    </button>
-                    <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                        <li>
-                            <a href="/dashboard/admin/readers" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Readers</a>
-                        </li>
-                        <li>
-                            <a href="/dashboard/admin/reporters" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Reporters</a>
-                        </li>
-                        <li>
-                            <a href="/dashboard/admin/editors" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Editors</a>
-                        </li>
-                    </ul>
-                <% } %>
-            </li>
-            <li>
-                <% if (data.role === 'admin') { %>
-                    <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" href="/dashboard/<%= data.role %>/tags" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg fill="currentColor" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path d="M0 80L0 229.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0L418.7 317.3c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
-                        </svg>
-                        <span class="ms-3">Tags</span>
-                    </a>
-                <% } %>
-            </li>
-            <li>
-                <% if (data.role === 'admin') { %>
-                    <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" href="/dashboard/<%= data.role %>/sections" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg fill="currentColor" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path d="M192 104.8c0-9.2-5.8-17.3-13.2-22.8C167.2 73.3 160 61.3 160 48c0-26.5 28.7-48 64-48s64 21.5 64 48c0 13.3-7.2 25.3-18.8 34c-7.4 5.5-13.2 13.6-13.2 22.8c0 12.8 10.4 23.2 23.2 23.2l56.8 0c26.5 0 48 21.5 48 48l0 56.8c0 12.8 10.4 23.2 23.2 23.2c9.2 0 17.3-5.8 22.8-13.2c8.7-11.6 20.7-18.8 34-18.8c26.5 0 48 28.7 48 64s-21.5 64-48 64c-13.3 0-25.3-7.2-34-18.8c-5.5-7.4-13.6-13.2-22.8-13.2c-12.8 0-23.2 10.4-23.2 23.2L384 464c0 26.5-21.5 48-48 48l-56.8 0c-12.8 0-23.2-10.4-23.2-23.2c0-9.2 5.8-17.3 13.2-22.8c11.6-8.7 18.8-20.7 18.8-34c0-26.5-28.7-48-64-48s-64 21.5-64 48c0 13.3 7.2 25.3 18.8 34c7.4 5.5 13.2 13.6 13.2 22.8c0 12.8-10.4 23.2-23.2 23.2L48 512c-26.5 0-48-21.5-48-48L0 343.2C0 330.4 10.4 320 23.2 320c9.2 0 17.3 5.8 22.8 13.2C54.7 344.8 66.7 352 80 352c26.5 0 48-28.7 48-64s-21.5-64-48-64c-13.3 0-25.3 7.2-34 18.8C40.5 250.2 32.4 256 23.2 256C10.4 256 0 245.6 0 232.8L0 176c0-26.5 21.5-48 48-48l120.8 0c12.8 0 23.2-10.4 23.2-23.2z"/>
-                        </svg>
-                        <span class="ms-3">Sections</span>
-                    </a>
-                <% } %>
-            </li>
-            <!-- Add more items here -->
+          <li>
+            <a href="/dashboard/<%= data.role %>" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+              <svg class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  d="M96 96c0-35.3 28.7-64 64-64l288 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L80 480c-44.2 0-80-35.8-80-80L0 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 272c0 8.8 7.2 16 16 16s16-7.2 16-16L96 96zm64 24l0 80c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24l0-80c0-13.3-10.7-24-24-24L184 96c-13.3 0-24 10.7-24 24zm208-8c0 8.8 7.2 16 16 16l48 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-48 0c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16l48 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-48 0c-8.8 0-16 7.2-16 16zM160 304c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-256 0c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16l256 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-256 0c-8.8 0-16 7.2-16 16z"
+                />
+              </svg>
+              <span class="ms-3 text-[20px]">Articles</span>
+            </a>
+          </li>
+          <li>
+            <% if (data.role === 'admin') { %>
+            <button
+              type="button"
+              class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              aria-controls="dropdown-example"
+              data-collapse-toggle="dropdown-example"
+            >
+              <svg
+                class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512"
+              >
+                <!-- SVG path here -->
+              </svg>
+              <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Users</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+              </svg>
+            </button>
+            <ul id="dropdown-example" class="hidden py-2 space-y-2">
+              <li>
+                <a
+                  href="/dashboard/admin/readers"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Readers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/dashboard/admin/reporters"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Reporters</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/dashboard/admin/editors"
+                  class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Editors</a
+                >
+              </li>
+            </ul>
+            <% } %>
+          </li>
+          <li>
+            <% if (data.role === 'admin') { %>
+            <a
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              href="/dashboard/<%= data.role %>/tags"
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+            >
+              <svg fill="currentColor" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                  d="M0 80L0 229.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0L418.7 317.3c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
+                />
+              </svg>
+              <span class="ms-3">Tags</span>
+            </a>
+            <% } %>
+          </li>
+          <li>
+            <% if (data.role === 'admin') { %>
+            <a
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              href="/dashboard/<%= data.role %>/sections"
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+            >
+              <svg fill="currentColor" class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                  d="M192 104.8c0-9.2-5.8-17.3-13.2-22.8C167.2 73.3 160 61.3 160 48c0-26.5 28.7-48 64-48s64 21.5 64 48c0 13.3-7.2 25.3-18.8 34c-7.4 5.5-13.2 13.6-13.2 22.8c0 12.8 10.4 23.2 23.2 23.2l56.8 0c26.5 0 48 21.5 48 48l0 56.8c0 12.8 10.4 23.2 23.2 23.2c9.2 0 17.3-5.8 22.8-13.2c8.7-11.6 20.7-18.8 34-18.8c26.5 0 48 28.7 48 64s-21.5 64-48 64c-13.3 0-25.3-7.2-34-18.8c-5.5-7.4-13.6-13.2-22.8-13.2c-12.8 0-23.2 10.4-23.2 23.2L384 464c0 26.5-21.5 48-48 48l-56.8 0c-12.8 0-23.2-10.4-23.2-23.2c0-9.2 5.8-17.3 13.2-22.8c11.6-8.7 18.8-20.7 18.8-34c0-26.5-28.7-48-64-48s-64 21.5-64 48c0 13.3 7.2 25.3 18.8 34c7.4 5.5 13.2 13.6 13.2 22.8c0 12.8-10.4 23.2-23.2 23.2L48 512c-26.5 0-48-21.5-48-48L0 343.2C0 330.4 10.4 320 23.2 320c9.2 0 17.3 5.8 22.8 13.2C54.7 344.8 66.7 352 80 352c26.5 0 48-28.7 48-64s-21.5-64-48-64c-13.3 0-25.3 7.2-34 18.8C40.5 250.2 32.4 256 23.2 256C10.4 256 0 245.6 0 232.8L0 176c0-26.5 21.5-48 48-48l120.8 0c12.8 0 23.2-10.4 23.2-23.2z"
+                />
+              </svg>
+              <span class="ms-3">Sections</span>
+            </a>
+            <% } %>
+          </li>
+          <!-- Add more items here -->
         </ul>
+      </div>
+    </aside>
+
+    <div class="p-4 sm:ml-64">
+      <div class="p-4 mt-14"><%- include(body) %></div>
     </div>
-</aside>
 
-<div class="p-4 sm:ml-64">
-    <<div class="p-4 mt-14"><%- include(body) %></p>
-</div>
-
-<script>
-
-    const getLastPathSegment = url => {
+    <script>
+      const getLastPathSegment = (url) => {
         const parts = url.split('/');
-        return parts[parts.length - 1 ];
-    }
-    const isUrlMatch = (url1, url2) => {
+        return parts[parts.length - 1];
+      };
+      const isUrlMatch = (url1, url2) => {
         const parts1 = url1.split('/');
         const parts2 = url2.split('/');
-        return parts1[parts1.length - 1] === parts2[parts2.length - 1]
-    }
+        return parts1[parts1.length - 1] === parts2[parts2.length - 1];
+      };
 
-    const currentPath = window.location.pathname;
+      const currentPath = window.location.pathname;
 
-    // Find all sidebar links
-    const sidebarLinks = document.querySelectorAll('#logo-sidebar a');
+      // Find all sidebar links
+      const sidebarLinks = document.querySelectorAll('#logo-sidebar a');
 
-    // Add the 'active' class to the matching link
-    sidebarLinks.forEach(link => {
+      // Add the 'active' class to the matching link
+      sidebarLinks.forEach((link) => {
         if (isUrlMatch(link.getAttribute('href'), currentPath)) {
-            link.classList.add('bg-gray-200');
+          link.classList.add('bg-gray-200');
         }
-    });
+      });
 
-    const lastSegment = getLastPathSegment(currentPath);
-    if(lastSegment === "editors" || lastSegment === "reporters" || lastSegment === "readers") {
+      const lastSegment = getLastPathSegment(currentPath);
+      if (lastSegment === 'editors' || lastSegment === 'reporters' || lastSegment === 'readers') {
         const dropdown = document.getElementById('dropdown-example');
-        dropdown.classList.remove('hidden')
-    }
-</script>
+        dropdown.classList.remove('hidden');
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="../../../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 
-<script>
-    
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-<script src="../../../../node_modules/flowbite/dist/flowbite.min.js"></script>
-</body>
+  </body>
 </html>

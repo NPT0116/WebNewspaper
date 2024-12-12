@@ -100,10 +100,10 @@ export const adminDeleteArticle = async (req: Request<IAdminDeleteArticle>, res:
   try {
     const { articleId } = req.params;
     if (!articleId) {
-      res.redirect('/dashboard/admin/articles');
+      res.redirect('/dashboard/admin');
     }
     deleteArticle(articleId);
-    res.redirect('/dashboard/admin/articles');
+    res.redirect('/dashboard/admin');
   } catch (e) {
     console.error('Error deleting article:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
