@@ -73,3 +73,21 @@ export const updateSection = async (req: Request<{}, {}, IUpdateSection>, res: R
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
+
+interface IDeleteSection {
+  _id: mongoose.Types.ObjectId;
+}
+export const deleteSection = async (req: Request<{}, {}, IDeleteSection>, res: Response) => {
+  try {
+    const { _id }: IDeleteSection = req.body;
+    const section = await Section.findByIdAndDelete(_id);
+    if (!section) {
+      res.status(404).json({ status: 'error', message: 'Section not found' });
+      return;
+    }
+    res.redirect('/dashboard/admin/sections');
+  } catch (e) {
+    console.error('Error deleting section:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
