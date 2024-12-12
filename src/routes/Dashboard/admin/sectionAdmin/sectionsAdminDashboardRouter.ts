@@ -5,6 +5,6 @@ import { createNewSection, renderAdminSectionsPage, updateSection } from '~/cont
 const sectionsAdminDashboardRouter = Router();
 
 sectionsAdminDashboardRouter.get('/', renderAdminSectionsPage);
-sectionsAdminDashboardRouter.post(PATH.DASHBOARD.ADMIN.TAGS.CREATE_TAG, createNewSection);
-sectionsAdminDashboardRouter.post(PATH.DASHBOARD.ADMIN.TAGS.UPDATE_TAG, updateSection);
+sectionsAdminDashboardRouter.post(PATH.DASHBOARD.ADMIN.SECTION.CREATE_SECTION, createNewSection);
+sectionsAdminDashboardRouter.post(PATH.DASHBOARD.ADMIN.SECTION.UPDATE_SECTION, updateSection);
 export default sectionsAdminDashboardRouter;

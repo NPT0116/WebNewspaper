@@ -42,7 +42,6 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
       data: { editors: data, role: 'admin' },
       sections: sectionList
     });
-
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });

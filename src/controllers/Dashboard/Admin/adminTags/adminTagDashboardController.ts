@@ -29,11 +29,10 @@ export const renderAdminTagsPage = async (req: Request, res: Response) => {
         };
       })
     );
-    res.json(data);
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //   body: '../../pages/DashboardPages/Admin/TagsPage',
-    //   data: { tags, role: 'admin' }
-    // });
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/TagsPage',
+      data: { tags: data, role: 'admin' }
+    });
   } catch (e) {
     console.error('Error retrieving section profiles:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -48,9 +47,13 @@ interface ICreateNewTag {
 export const createNewTag = async (req: Request<{}, {}, ICreateNewTag>, res: Response) => {
   try {
     const { name, description }: ICreateNewTag = req.body;
+    const tag = await Tag.findOne({ name });
+    if (tag) {
+      return res.redirect('/dashboard/admin/tags');
+    }
     const newTag = new Tag({ name, description });
     await newTag.save();
-    res.json({ status: 'success', message: 'New tag created successfully' });
+    res.redirect('/dashboard/admin/tags');
   } catch (e) {
     console.error('Error creating new tag:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -67,7 +70,7 @@ export const updateTag = async (req: Request<{}, {}, IUpdateTag>, res: Response)
   try {
     const { _id, name, description }: IUpdateTag = req.body;
     await Tag.findOneAndUpdate({ _id }, { name, description });
-    res.json({ status: 'success', message: 'Tag updated successfully' });
+    res.redirect('/dashboard/admin/tags');
   } catch (e) {
     console.error('Error updating tag:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
