@@ -35,13 +35,14 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
       }
     }));
 
-    // Render the page with the formatted data
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //   body: '../../pages/DashboardPages/Admin/EditorsPage',
-    //   data: { editors: data, role: 'admin' }
-    // });
     const sectionList = await Section.find({});
-    res.json({ editors: data, sections: sectionList });
+    // Render the page with the formatted data
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/EditorsPage',
+      data: { editors: data, role: 'admin' },
+      sections: sectionList
+    });
+
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
