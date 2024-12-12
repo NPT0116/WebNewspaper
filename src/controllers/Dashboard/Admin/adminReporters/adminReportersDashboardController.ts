@@ -49,11 +49,12 @@ export const renderAdmindReporterPage = async (req: Request, res: Response) => {
     }));
 
     // Render the page with the formatted data
-    res.json({ reporters: data });
-    // res.render('layouts/DashboardLayout/DashboardLayout', {
-    //   body: '../../pages/DashboardPages/Admin/ReportersPage',
-    //   data: { reporters: data, role: 'admin' }
-    // });
+
+    res.render('layouts/DashboardLayout/DashboardLayout', {
+      body: '../../pages/DashboardPages/Admin/ReportersPage',
+      data: { reporters: data, role: 'admin' }
+    });
+
   } catch (error) {
     console.error('Error retrieving reporter profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
@@ -175,8 +176,6 @@ export const adminDeleteReporter = async (req: Request<IDeleteReporter>, res: Re
       res.status(404).json({ status: 'error', message: 'Account not found' });
     }
 
-    // Delete all articles authored by the reporter
-    await Article.deleteMany({ author: reporterId });
 
     res.redirect('/dashboard/admin/reporters');
   } catch (e) {

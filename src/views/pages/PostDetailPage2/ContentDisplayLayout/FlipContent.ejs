@@ -1,0 +1,148 @@
+<div class="flipbook-container" style="width: 94vw; height: fit-content; z-index: -1">
+  <div class="cursor-pointer shadow-lg hover:scale-105 transition-all duration-300" style="background-color: black; height: fit-content; width: fit-content; border-radius: 50px">
+    <div
+      id="back-to-default-mode"
+      class="flex flex-col justify-center items-center"
+      style="height: fit-content; width: fit-content; background-color: white; border-radius: 30px; margin: 2px; padding: 10px"
+    >
+      Default Reading Mode
+    </div>
+  </div>
+  <div class="flipbook font-serif" style="z-index: 1"></div>
+  <div id="flip-nav">
+    <button id="previous-button" class="border-2 text-sm border-black hover:scale-105" style="border-radius: 30px 10px 10px 30px; width: 100px; height: 40px">Previous</button>
+    <button id="next-button" class="border-2 text-sm border-black hover:scale-105" style="border-radius: 10px 30px 30px 10px; width: 100px; height: 40px">Next</button>
+  </div>
+</div>
+<style>
+  .flipbook-container {
+    /* display: grid; */
+    /* place-content: center; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: white;
+    box-shadow: inset 2px 2px 10px black;
+  }
+
+  .flipbook {
+    width: 1000px;
+    height: 600px;
+  }
+
+  .flipbook .hard {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+  }
+
+  .flipbook .hard small {
+    font-style: italic;
+    font-weight: lighter;
+    opacity: 0.7;
+    font-size: 14px;
+  }
+
+  .flipbook .page {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+  }
+
+  .page img {
+    width: 70%;
+    object-fit: cover;
+    margin: auto;
+  }
+
+  .flipbook .page small {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+<script src="/js/NewspaperFlipEffect/jquerry.js"></script>
+<script src="/js/NewspaperFlipEffect/turn.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const content650 = String(createContent(500));
+    // Back to Default Mode
+    document.querySelector('#back-to-default-mode').addEventListener('click', () => {
+      document.querySelector('#reader-mode-2').style.display = 'none';
+      document.querySelector('#reader-mode-1').style.display = 'flex';
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        document.querySelector('#reader-mode-2').style.display = 'none';
+        document.querySelector('#reader-mode-1').style.display = 'flex';
+      }
+    });
+
+    // Content of Flipbook
+    function createContent(limitContent) {
+      let html = '';
+      html += `<div class="w-full h-full"><img src="<%=image%>" class="w-full h-full object-cover" alt="" style="width: 500px"/></div>`;
+      html += `<div class="hard text-4xl text-center"><%=title%><small><%=author%></small></div>`;
+      const content = `<%=content%>`;
+      const numsOfPage = Math.ceil(content.length / limitContent);
+      let count = 0;
+      for (let i = 0; i < numsOfPage; i++) {
+        const splitContent = content.slice(count, count + limitContent);
+        count += limitContent;
+        html += `<div><div class="xl:text-xl lg:text-lg text-sm text-justify" style="padding: 0px 50px">${splitContent}</div></div>`;
+      }
+      html += `<div class="hard text-xl" style="background-color: black; color: white" >END.</div>`;
+      return html;
+    }
+
+    if ($(window).width() < 1152) {
+      document.querySelector('.flipbook').innerHTML = content650;
+
+      let newWidth = $(window).width() * 0.9;
+      const aspectRatio = 800 / 470;
+      let newHeight = newWidth / aspectRatio;
+
+      $('.flipbook').turn({
+        width: newWidth,
+        height: newHeight,
+        autoCenter: true
+      });
+    } else {
+      document.querySelector('.flipbook').innerHTML = content650;
+
+      $('.flipbook').turn({
+        width: 800,
+        height: 470,
+        autoCenter: true
+      });
+    }
+    $(window).resize(function () {
+      if ($(window).width() < 1152) {
+        let newWidth = $(window).width() * 0.9;
+        document.querySelector('.flipbook').innerHTML;
+
+        const aspectRatio = 800 / 470;
+        let newHeight = newWidth / aspectRatio;
+
+        $('.flipbook').turn('size', newWidth, newHeight);
+      } else {
+        $('.flipbook').turn('size', 800, 470);
+      }
+    });
+
+    $('#next-button').click(function () {
+      $('.flipbook').turn('next');
+    });
+
+    $('#previous-button').click(function () {
+      $('.flipbook').turn('previous');
+    });
+  });
+</script>
