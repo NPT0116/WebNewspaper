@@ -78,12 +78,12 @@ export const updateTag = async (req: Request<{}, {}, IUpdateTag>, res: Response)
 };
 
 interface IDeleteTag {
-  _id: mongoose.Types.ObjectId;
+  tagId: mongoose.Types.ObjectId;
 }
-export const deleteTag = async (req: Request<{}, {}, IDeleteTag>, res: Response) => {
+export const deleteTag = async (req: Request<IDeleteTag, {}, {}>, res: Response) => {
   try {
-    const { _id } = req.body;
-    await Tag.findOneAndDelete({ _id });
+    const { tagId } = req.params;
+    await Tag.findOneAndDelete({ _id: tagId });
     res.redirect('/dashboard/admin/tags');
   } catch (e) {
     console.error('Error deleting tag:', e);

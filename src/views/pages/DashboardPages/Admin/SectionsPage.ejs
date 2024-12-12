@@ -6,13 +6,30 @@
     <title>Document</title>
   </head>
   <body>
+    <button
+      data-modal-target="create-section-modal"
+      data-modal-toggle="create-section-modal"
+      type="button"
+      class="flex gap-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+    >
+      <svg class="w-5 h-5" fill="'currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+        <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+        <path
+          d="M64.9 96C67.1 84.4 73.7 76.2 86 70.6c13.8-6.2 34.8-8.9 61.2-4.5c8.8 1.4 36.1 7.1 44.1 9.3c17 4.8 34.7-5.1 39.5-22.2s-5.1-34.7-22.2-39.5c-11.1-3.1-41-9.2-50.9-10.8C123-2.7 88.3-.6 59.7 12.3C29.9 25.8 7.5 50.9 1.6 86.5c-.1 .5-.2 1.1-.2 1.6c-2.2 19.7 .3 37.9 8.1 54.1c7.7 16.1 19.4 28 32 36.9c.6 .5 1.3 .9 2 1.4C22.3 194.2 6.5 215.1 1.7 243c-.1 .6-.2 1.1-.2 1.7c-2.3 19.3 .4 37.1 8.4 53c7.9 15.6 19.8 27 32.3 35.5c22.4 15.2 51.9 24 75.4 31c0 0 0 0 0 0l3.7 1.1c27.2 8.2 46.9 14.6 59.4 23.8c5.5 4 8.2 7.6 9.5 10.9c1.3 3.2 2.6 8.6 .9 18.1c-1.7 10.1-7.7 18-20.7 23.5c-14 6-35.4 8.5-62 4.4c-12.8-2.1-35.1-9.7-54.1-16.2c0 0 0 0 0 0c-4.3-1.5-8.5-2.9-12.3-4.2C25.3 420 7.2 429.1 1.6 445.8s3.5 34.9 20.3 40.5c2.6 .8 5.7 1.9 9.2 3.1c18.6 6.3 48.5 16.6 67.3 19.6c0 0 0 0 0 0l.2 0c34.5 5.4 68.8 3.4 97.2-8.7c29.4-12.6 52.5-36.5 58.5-71.5c3.3-19.3 1.9-37.4-5-53.9c-6.3-15-16.4-26.4-27.6-35.2c16.5-13.9 28.5-33.2 32.6-58.2c3.2-19.8 1.9-38.3-4.8-55.1c-6.7-16.8-17.8-29.4-30.2-39c-22.8-17.6-53.6-27.4-77.7-35l-1.4-.5c-27.4-8.7-47.8-15.3-61.5-25c-6.1-4.4-9.5-8.5-11.4-12.4c-1.8-3.7-3.2-9.3-2.3-18.5zm76.7 208.5l-.6-.2-1.4-.4c-27.4-8.2-47.9-14.5-61.7-23.8c-6.2-4.2-9.3-7.9-11-11.3c-1.5-3-2.9-7.7-2.1-15.7c1.9-9.7 7.9-17.3 20.5-22.7c14-6 35.4-8.5 62.1-4.3l16.4 2.6c6.3 2.9 11.7 6 16.2 9.5c5.5 4.2 8.4 8.2 10 12.2c1.6 4 2.8 10.4 1.1 20.9c-2.4 14.7-12.8 26.4-37.1 31l-12.4 2.3z"
+        />
+      </svg>
+      Create new section
+    </button>
+
+    <%- include('CreateSectionForm') %>
+
     <table id="example" class="display">
       <thead>
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Slug</th>
-          <th>Children sections</th>
+          <th>Created At</th>
+          <th>Updated At</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -26,26 +43,39 @@
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
       const sections = data.sections;
-
+      console.log(sections);
       const table = $(document).ready(function () {
         $('#example').DataTable({
           data: sections,
           columns: [
-            { data: 'id' },
+            { data: '_id' },
             { data: 'name' },
-            { data: 'slug' },
-            { data: 'childSections' },
+            { data: 'createdAt' },
+            { data: 'updatedAt' },
             {
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
                 // Customize the action buttons for each row
+                const canDelete = row.deleteActivate;
+                const body = `<svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                  <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
+                  />
+                </svg>
+                <span>Delete</span>`
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this section?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  ${body}
+                </button>
+              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+                  ${body}
+                </button>`
                 return `
                       <div class="flex space-x-2">
-                          <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                          <span>Preview</span>
-                        </a>
+                          <form id='delete-form-${row._id}' method="POST" action="/dashboard/admin/sections/delete-section/${row._id}">
+                            ${deleteButton}
+                          </form>
                       </div>
                   `;
               },
@@ -72,16 +102,17 @@
               targets: 2, // slug
               render: function (data, type, row, meta) {
                   return `<div class="flex gap-2">
-                  ${data}
+                    ${formatDateTime(data)}
                 </div>`;
               },
             },
             {
-              targets: 3, // childSections
+              targets: 3, // createdAt
               render: function (data, type, row, meta) {
-
-                return `<div class="text-xs">${data.map(section => `<div>${section.name}</div>`)}</div>`;
-              }
+                  return `<div class="flex gap-2">
+                  ${formatDateTime(data)}
+                </div>`;
+              },
             },
 
           ],
@@ -103,6 +134,18 @@
           pageLength: 10, // Default page size
           lengthMenu: [10, 25, 50] // Options for page size selection
         });
+      });
+    </script>
+
+    <script src="/js/swal.js"></script>
+
+    <script>
+      const select = document.getElementById('parentSection-input');
+      sections.forEach((section) => {
+        const option = document.createElement('option');
+        option.value = section._id;
+        option.textContent = section.name;
+        select.appendChild(option);
       });
     </script>
   </body>
