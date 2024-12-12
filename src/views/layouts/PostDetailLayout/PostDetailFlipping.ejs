@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/flipping.css" />
+    <link rel="stylesheet" href="/css/buttonBackToDefaultMode.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+
+    <title>Flipping Mode</title>
+  </head>
+  <body>
+    <div id="flip-mode-container" class="flex flex-col justify-between items-center" style="width: 100%; height: 100vh">
+      <div class="flipbook-container" style="width: 100%; height: 90%; background-image: url('/images/flippingBackground/paper2.jpg')">
+        <div class="flipbook font-serif"></div>
+      </div>
+      <div id="flip-nav" class="flex flex-row justify-center items-center gap-4" style="width: 100%; height: 10%">
+        <div
+          id="previous-button"
+          class="border-2 text-sm border-black hover:scale-105 flex justify-center items-center transition-all duration-300 hover:bg-gray-300 cursor-pointer"
+          style="border-radius: 30px 10px 10px 30px; width: 100px; height: 40px"
+        >
+          Previous
+        </div>
+        <div
+          id="next-button"
+          class="border-2 text-sm border-black hover:scale-105 flex justify-center items-center transition-all duration-300 hover:bg-gray-300 cursor-pointer"
+          style="border-radius: 10px 30px 30px 10px; width: 100px; height: 40px"
+        >
+          Next
+        </div>
+        <div class="absolute" style="left: 20px; font-family: 'MyCustomFont'">
+          <div class="text-sm">The</div>
+          <div class="text-xl">ELON MUSK</div>
+        </div>
+        <div class="absolute" style="right: 20px">
+          <button>
+            <a href="" id="dynamicLink">Default</a>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script src="/js/NewspaperFlipEffect/jquerry.js"></script>
+<script src="/js/NewspaperFlipEffect/turn.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Back to default reading mode
+    const currentUrl = window.location.href;
+    const urlParts = currentUrl.split('/');
+    urlParts.pop();
+    const modifiedUrl = urlParts.join('/') + (currentUrl.includes('?isSubscribed') ? currentUrl.substring(currentUrl.indexOf('?isSubscribed')) : '');
+    document.getElementById('dynamicLink').href = modifiedUrl;
+
+    // Content of Flipbook
+    const content650 = String(createContent(650));
+    function createContent(limitContent) {
+      let html = '';
+      html += `<div class="w-full h-full"><img src="<%=images%>" class="w-full h-full object-cover" alt="" style="width: `;
+      html += String(String($(window).width() * 0.45));
+      html += `px"/></div>`;
+      html += `<div class="hard text-4xl text-center"><%=title%><small><%=author.name%></small></div>`;
+      const content = `<%=content%>`;
+      const numsOfPage = Math.ceil(content.length / limitContent);
+      let count = 0;
+      for (let i = 0; i < numsOfPage; i++) {
+        const splitContent = content.slice(count, count + limitContent);
+        count += limitContent;
+        html += `<div><div class="xl:text-xl lg:text-lg text-sm text-justify" style="padding: 0px 50px">${splitContent}</div></div>`;
+      }
+      html += `<div class="hard text-xl" style="background-color: black; color: white" >END.</div>`;
+      return html;
+    }
+
+    document.querySelector('.flipbook').innerHTML = content650;
+
+    let newWidth = $(window).width() * 0.8;
+    const aspectRatio = 1000 / 600;
+    let newHeight = newWidth / aspectRatio;
+
+    $('.flipbook').turn({
+      width: newWidth,
+      height: newHeight,
+      autoCenter: true
+    });
+
+    $('#next-button').click(function () {
+      $('.flipbook').turn('next');
+    });
+
+    $('#previous-button').click(function () {
+      $('.flipbook').turn('previous');
+    });
+  });
+</script>

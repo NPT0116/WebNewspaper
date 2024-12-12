@@ -44,10 +44,12 @@ export interface IArticle extends Document {
   isSubscribed: boolean;
   approved: {
     editorId?: mongoose.Types.ObjectId;
+    adminId?: mongoose.Types.ObjectId;
     publishedAt?: Date;
   };
   rejected: {
     editorId?: mongoose.Types.ObjectId;
+    adminId?: mongoose.Types.ObjectId;
     rejectReason?: string;
   };
 }

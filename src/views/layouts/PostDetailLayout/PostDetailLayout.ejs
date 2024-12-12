@@ -72,8 +72,8 @@
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       // Layout For Banner
-      // const layoutIndex = 2;
-      const layoutIndex = Math.round(Math.random() * 2) + 1;
+      const layoutIndex = parseInt(`<%=layout%>`);
+      console.log(layoutIndex);
 
       const bannerContainer = document.querySelector('#banner-container');
       for (let i = 0; i < bannerContainer.children.length; i++) {
