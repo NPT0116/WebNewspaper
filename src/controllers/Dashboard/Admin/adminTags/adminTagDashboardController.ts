@@ -73,3 +73,17 @@ export const updateTag = async (req: Request<{}, {}, IUpdateTag>, res: Response)
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
+
+interface IDeleteTag {
+  _id: mongoose.Types.ObjectId;
+}
+export const deleteTag = async (req: Request<{}, {}, IDeleteTag>, res: Response) => {
+  try {
+    const { _id } = req.body;
+    await Tag.findOneAndDelete({ _id });
+    res.redirect('/dashboard/admin/tags');
+  } catch (e) {
+    console.error('Error deleting tag:', e);
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
