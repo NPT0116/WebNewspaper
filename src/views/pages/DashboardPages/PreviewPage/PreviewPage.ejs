@@ -71,7 +71,7 @@
         <h3 class="font-medium leading-tight">Editor in review</h3>
         <% if (status === 'rejected') { %>
         <p class="text-sm">Article is rejected</p>
-        <p class="text-sm underline text-blue-400 cursor-pointer" data-modal-target="popup-modal" data-modal-toggle="popup-modal">See reason</p>
+        <p class="text-sm underline text-blue-400 cursor-pointer" data-modal-target="medium-modal" data-modal-toggle="medium-modal">See reason</p>
         <% } else if (status === 'approved' || status === 'published') { %>
         <p class="text-sm">Article will be published at</p>
         <p class="text-sm"><%= publishedAtDate %></p>
@@ -114,18 +114,31 @@
   </div>
 </div>
 
-<div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-  <div class="relative p-4 w-full max-w-md max-h-full">
+<div id="medium-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-lg max-h-full">
+    <!-- Modal content -->
     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-      <div class="p-4 md:p-5 text-center">
-        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      <!-- Modal header -->
+      <div class="flex items-center justify-start bg-red-500 gap-3 p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            fill-rule="evenodd"
+            d="M8.97 14.316H5.004c-.322 0-.64-.08-.925-.232a2.022 2.022 0 0 1-.717-.645 2.108 2.108 0 0 1-.242-1.883l2.36-7.201C5.769 3.54 5.96 3 7.365 3c2.072 0 4.276.678 6.156 1.256.473.145.925.284 1.35.404h.114v9.862a25.485 25.485 0 0 0-4.238 5.514c-.197.376-.516.67-.901.83a1.74 1.74 0 0 1-1.21.048 1.79 1.79 0 0 1-.96-.757 1.867 1.867 0 0 1-.269-1.211l1.562-4.63ZM19.822 14H17V6a2 2 0 1 1 4 0v6.823c0 .65-.527 1.177-1.177 1.177Z"
+            clip-rule="evenodd"
+          />
         </svg>
-        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><%- rejectReason %> - <%- rejectPerson %></h3>
+        <h3 class="text-xl font-medium text-gray-900 dark:text-white">Reject reason by <%- approvePerson %> <%- rejectPerson %></h3>
+      </div>
+      <!-- Modal body -->
+      <div class="p-4 md:p-5 space-y-4">
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400"><%- rejectReason %></p>
+      </div>
+      <!-- Modal footer -->
+      <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
         <button
-          data-modal-hide="popup-modal"
+          data-modal-hide="medium-modal"
           type="button"
-          class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           OK
         </button>
