@@ -1,9 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
+import { format } from 'path';
 import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { AdminProfile } from '~/models/Profile/adminProfile.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import { AppError } from '~/utils/appError.js';
+
+function formatDate(date: Date): string {
+  const padZero = (num: number): string => num.toString().padStart(2, '0');
+
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1); // Months are zero-based
+  const day = padZero(date.getDate());
+
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
+
+  const timezoneOffset = date.getTimezoneOffset(); // In minutes
+  const offsetHours = Math.abs(Math.floor(timezoneOffset / 60));
+  const sign = timezoneOffset > 0 ? '-' : '+';
+
+  const timezone = `${sign}${offsetHours}`;
+
+  return `${month}/${day}/${year} ${hours}:${minutes} GMT${timezone}`;
+}
 
 interface IArticleDetailPreviewParams {
   articleId: string;
@@ -53,11 +73,21 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       }
     }
 
+    let publishedAtDate: string = '';
+    if (article.status === 'approved' || article.status === 'published') {
+      const date: Date = article.approved?.publishedAt || new Date();
+      publishedAtDate = formatDate(date);
+    }
+
+    const rejectReason = article.rejected?.rejectReason || '';
+
     res.render('layouts/DashboardLayout/PreviewLayout/PreviewLayout', {
       body: '../../../pages/DashboardPages/PreviewPage/PreviewPage',
       ...article.toObject(),
       canApprove,
-      approvePerson
+      approvePerson,
+      publishedAtDate,
+      rejectReason
     });
     // res.json({ ...article.toObject() });
   } catch {
