@@ -172,7 +172,7 @@
       </span>
     </button>
 
-    <%- include('AddReporterModal') %>
+    <%- include('AddEditorModal') %>
     <table id="example" class="display">
       <thead>
         <tr>
@@ -338,8 +338,8 @@
         });
       };
     </script>
-    <script type="module">
-      export function toggleDrawer(id) {
+    <script type="text/javascript">
+      function toggleDrawer(id) {
         const $targetEl = document.getElementById('user-info-drawer');
 
         if (!$targetEl) {
@@ -363,10 +363,22 @@
         document.getElementById('dob-input').value = formattedDate;
         document.getElementById('username-input').value = editor?.accountId?.localAuth?.username ?? '';
         document.getElementById('email-input').value = editor?.accountId?.email ?? '';
+        document.getElementById('editorId-input').value = editor?._id;
         drawer.toggle();
       }
 
       window.toggleDrawer = toggleDrawer;
+    </script>
+
+    <script>
+      const sectionInput = document.getElementById('section-input');
+      sections.forEach((section) => {
+        console.log(section);
+        const option = document.createElement('option');
+        option.value = section._id;
+        option.textContent = section.name;
+        sectionInput.appendChild(option);
+      });
     </script>
   </body>
 </html>

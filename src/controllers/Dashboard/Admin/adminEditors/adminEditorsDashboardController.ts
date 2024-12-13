@@ -5,7 +5,6 @@ import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
 import { Article } from '~/models/Article/articleSchema.js';
-import { getSectionsList } from '~/repo/Section/index.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 interface IEditorAdminDashboard {
   _id: mongoose.Types.ObjectId;
@@ -34,15 +33,14 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
         _id: editor.sectionId._id,
         name: editor.sectionId.name
       },
-      deleteActivate: editor.editArticles.length > 0
+      deleteActivate: editor.editArticles.length === 0
     }));
 
     const sectionList = await Section.find({});
     // Render the page with the formatted data
     res.render('layouts/DashboardLayout/DashboardLayout', {
       body: '../../pages/DashboardPages/Admin/EditorsPage',
-      data: { editors: data, role: 'admin' },
-      sections: sectionList
+      data: { editors: data, role: 'admin', sections: sectionList }
     });
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
@@ -164,7 +162,7 @@ export const adminDeleteEditor = async (req: Request<IDeleteEditor>, res: Respon
     const accountId = editorProfile.accountId;
     const editorAccount = await Account.findByIdAndDelete(accountId);
     if (!editorAccount) {
-      res.status(404).json({ status: 'error', message: 'Account not found' });
+      return res.status(404).json({ status: 'error', message: 'Account not found' });
     }
     editorProfile.editArticles.forEach(async (article) => {
       await Article.findByIdAndDelete(article._id);
