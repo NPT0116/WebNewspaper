@@ -78,8 +78,18 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       const date: Date = article.approved?.publishedAt || new Date();
       publishedAtDate = formatDate(date);
     }
-
     const rejectReason = article.rejected?.rejectReason || '';
+    const rejectPersonId = article.rejected?.editorId || article.rejected?.adminId || '';
+    const editorReject = !article.rejected?.adminId;
+    let rejectPerson: string;
+    if (editorReject) {
+      const editor = await EditorProfile.findById(rejectPersonId);
+      rejectPerson = editor?.name || '';
+    } else {
+      const admin = await AdminProfile.findById(rejectPersonId);
+      rejectPerson = admin?.name || '';
+    }
+    const viewCount = article.views || 0;
 
     res.render('layouts/DashboardLayout/PreviewLayout/PreviewLayout', {
       body: '../../../pages/DashboardPages/PreviewPage/PreviewPage',
@@ -87,7 +97,9 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       canApprove,
       approvePerson,
       publishedAtDate,
-      rejectReason
+      rejectReason,
+      rejectPerson,
+      viewCount
     });
     // res.json({ ...article.toObject() });
   } catch {
