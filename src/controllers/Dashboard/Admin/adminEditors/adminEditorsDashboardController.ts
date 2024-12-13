@@ -5,7 +5,6 @@ import { IAccount } from '~/interfaces/Account/accountInterface.js';
 import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
 import { Article } from '~/models/Article/articleSchema.js';
-import { getSectionsList } from '~/repo/Section/index.js';
 import { Section } from '~/models/Section/sectionSchema.js';
 interface IEditorAdminDashboard {
   _id: mongoose.Types.ObjectId;
@@ -17,6 +16,7 @@ interface IEditorAdminDashboard {
     _id: mongoose.Types.ObjectId;
     name: string;
   };
+  deleteActivate: boolean;
 }
 
 export const renderAdminEditorPage = async (req: Request, res: Response) => {
@@ -32,7 +32,8 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
       sectionId: {
         _id: editor.sectionId._id,
         name: editor.sectionId.name
-      }
+      },
+      deleteActivate: editor.editArticles.length === 0
     }));
 
     const sectionList = await Section.find({});

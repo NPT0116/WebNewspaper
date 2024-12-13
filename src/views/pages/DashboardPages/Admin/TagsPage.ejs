@@ -177,6 +177,7 @@
     <script>
       function toggleEditDrawer(id) {
         const tag = tags.find((tag) => tag._id === id);
+        console.log(tag);
         document.getElementById('_id-input').value = tag._id;
         document.getElementById('name-input').value = tag.name;
         document.getElementById('description-input').value = tag.description;
