@@ -58,6 +58,20 @@
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
+                const canDelete = row?.reportArticles?.length === 0;
+                const body = `<svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                  <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
+                  />
+                </svg>
+                <span>Delete</span>`
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this repoter?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  ${body}
+                </button>
+              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+                  ${body}
+                </button>`
                 // Customize the action buttons for each row
                 return `
                       <div class="flex gap-2">
@@ -68,19 +82,7 @@
                         </button>
 
                         <form id="delete-form-${row._id}" method="POST" action="/dashboard/admin/reporters/delete-reporter/${row._id}">
-                          <button
-                              type="button"
-                              onclick="confirmDelete('${row._id}')"
-                              class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                <path
-                                  d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
-                                />
-                              </svg>
-                              <span>Delete</span>
-                            </button>
+                          ${deleteButton}
                         </form>
                       </div>
                   `;

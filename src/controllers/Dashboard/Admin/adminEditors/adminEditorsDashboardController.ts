@@ -39,8 +39,7 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
     // Render the page with the formatted data
     res.render('layouts/DashboardLayout/DashboardLayout', {
       body: '../../pages/DashboardPages/Admin/EditorsPage',
-      data: { editors: data, role: 'admin' },
-      sections: sectionList
+      data: { editors: data, role: 'admin', sections: sectionList }
     });
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
@@ -162,7 +161,7 @@ export const adminDeleteEditor = async (req: Request<IDeleteEditor>, res: Respon
     const accountId = editorProfile.accountId;
     const editorAccount = await Account.findByIdAndDelete(accountId);
     if (!editorAccount) {
-      res.status(404).json({ status: 'error', message: 'Account not found' });
+      return res.status(404).json({ status: 'error', message: 'Account not found' });
     }
     editorProfile.editArticles.forEach(async (article) => {
       await Article.findByIdAndDelete(article._id);

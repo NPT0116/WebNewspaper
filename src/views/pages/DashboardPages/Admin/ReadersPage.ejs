@@ -183,6 +183,7 @@
         const expiredDate = subscriptionExpiresAt ? dayjs(subscriptionExpiresAt).format('MM-DD-YYYY') : 'N/A';
         document.getElementById('expires-at').value = expiredDate;
         const articleList = document.getElementById('article-list');
+        articleList.innerHTML = '';
         reader?.watchedArticles?.forEach((article) => {
           articleList.innerHTML += `
           <li class="pb-3 sm:pb-4">

@@ -41,15 +41,15 @@ export const renderAdminSectionsPage = async (req: Request, res: Response) => {
 
 interface ICreateNewSection {
   name: string;
-  parentSectionId: mongoose.Types.ObjectId | null;
+  parentSectionId: mongoose.Types.ObjectId | null | '';
 }
 
 export const createNewSection = async (req: Request<{}, {}, ICreateNewSection>, res: Response) => {
   try {
-    const { name, parentSectionId }: ICreateNewSection = req.body;
-    const newSection = new Section({ name, parentSection: parentSectionId });
+    const { name, parentSectionId } = req.body;
+    const newSection = new Section({ name, parentSection: parentSectionId !== '' ? parentSectionId : null });
     await newSection.save();
-    res.json({ status: 'success', message: 'New section created successfully' });
+    res.redirect('/dashboard/admin/sections');
   } catch (e) {
     console.error('Error creating new section:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });

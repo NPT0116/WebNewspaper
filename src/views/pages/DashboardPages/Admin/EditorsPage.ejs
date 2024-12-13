@@ -18,10 +18,10 @@
           d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
         />
       </svg>
-      Add reporter
+      Add editor
     </button>
 
-    <%- include('AddReporterModal') %>
+    <%- include('AddEditorModal') %>
     <table id="example" class="display">
       <thead>
         <tr>
@@ -45,14 +45,15 @@
     <script type="text/javascript">
       const data = <%- JSON.stringify(data) %>;
       const editors = data.editors;
-      console.log(editors.filter(editor => editor.isSubscriber));
+      console.log(editors);
+      const sections = data.sections;
 
       const table = $(document).ready(function () {
         $('#example').DataTable({
           data: editors,
           columns: [
             { data: '_id' },
-            { data: 'accountId.localAuth.username' },
+            { data: 'accountId' },
             {data: 'accountId.email'},
             { data: 'name'},
             {data: 'dob'},
@@ -70,7 +71,7 @@
                               </svg>
                               <span>Info</span>
                         </button>
-                          <form id="delete-form-${row._id}" method="POST" action="/dashboard/admin/reporters/delete">
+                          <form id="delete-form-${row._id}" method="POST" action="/dashboard/admin/editors/delete-editor/${row._id}">
                           <button
                               type="button"
                               onclick="confirmDelete('${row._id}')"
@@ -103,8 +104,8 @@
             },
             {
               targets: 1, // accountId.localAuth.username
-              createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+              render: function (data, type, row, meta) {
+                return `<div class="text-sm text-gray-600 px-4 py-2">${data?.localAuth?.username}</div>`
               }
             },
             {
@@ -188,8 +189,8 @@
         });
       };
     </script>
-    <script type="module">
-      export function toggleDrawer(id) {
+    <script type="text/javascript">
+      function toggleDrawer(id) {
         const $targetEl = document.getElementById('user-info-drawer');
 
         if (!$targetEl) {
@@ -213,10 +214,22 @@
         document.getElementById('dob-input').value = formattedDate;
         document.getElementById('username-input').value = editor?.accountId?.localAuth?.username ?? '';
         document.getElementById('email-input').value = editor?.accountId?.email ?? '';
+        document.getElementById('editorId-input').value = editor?._id;
         drawer.toggle();
       }
 
       window.toggleDrawer = toggleDrawer;
+    </script>
+
+    <script>
+      const sectionInput = document.getElementById('section-input');
+      sections.forEach((section) => {
+        console.log(section);
+        const option = document.createElement('option');
+        option.value = section._id;
+        option.textContent = section.name;
+        sectionInput.appendChild(option);
+      });
     </script>
   </body>
 </html>
