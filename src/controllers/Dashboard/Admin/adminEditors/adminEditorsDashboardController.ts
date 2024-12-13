@@ -17,6 +17,7 @@ interface IEditorAdminDashboard {
     _id: mongoose.Types.ObjectId;
     name: string;
   };
+  deleteActivate: boolean;
 }
 
 export const renderAdminEditorPage = async (req: Request, res: Response) => {
@@ -32,7 +33,8 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
       sectionId: {
         _id: editor.sectionId._id,
         name: editor.sectionId.name
-      }
+      },
+      deleteActivate: editor.editArticles.length > 0
     }));
 
     const sectionList = await Section.find({});
@@ -42,7 +44,6 @@ export const renderAdminEditorPage = async (req: Request, res: Response) => {
       data: { editors: data, role: 'admin' },
       sections: sectionList
     });
-
   } catch (error) {
     console.error('Error retrieving editor profiles:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
