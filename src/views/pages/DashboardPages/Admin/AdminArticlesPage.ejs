@@ -8,7 +8,7 @@
     <!-- Include DataTable CSS -->
 
     <style>
-      /* Custom Pagination Styling */
+      /* Start Custom Pagination Styling */
       .dataTables_wrapper .dataTables_paginate .paginate_button {
         background-color: #f3f4f6 !important;
         padding: 0.5em 0.9em !important;
@@ -16,22 +16,138 @@
       .paginate_button:hover {
         background-color: #d1d5db !important;
       }
+      /* End Custom Pagination Styling */
+
+      /* Start Search Styling*/
+      .input-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 15px;
+        position: relative;
+      }
+
+      /* Styling cho input */
+      .input {
+        border-style: none;
+        height: 40px;
+        width: 30px;
+
+        outline: none;
+        border-radius: 50%;
+        transition: 0.5s ease-in-out;
+        background-color: #c9c9c9;
+        box-shadow: 0px 0px 3px #c9c9c9;
+        padding-right: 40px;
+        color: #333;
+      }
+
+      .input::placeholder,
+      .input {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 17px;
+      }
+
+      .input::placeholder {
+        color: #8f8f8f;
+      }
+
+      /* Styling cho icon */
+      .icon {
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 0px;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        outline: none;
+        border-style: none;
+        border-radius: 50%;
+        background-color: transparent;
+        transition: 0.2s linear;
+      }
+
+      /* Khi input được focus */
+      .input-wrapper.focused .icon {
+        color: #333;
+      }
+
+      /* Khi input được focus */
+      .input-wrapper.focused .icon svg path {
+        stroke: #333; /* Thay đổi màu stroke của icon */
+      }
+      .icon:focus ~ .input,
+      .input:focus {
+        color: #333 !important;
+        box-shadow: none;
+        width: 250px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 3px solid #c9c9c9;
+        transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+      }
+
+      /* End Search Styling */
+
+      /* Start styling table */
+      th.sorting_asc,
+      th.sorting_desc {
+        color: white !important; /* Màu chữ khi được chọn */
+      }
+
+      th {
+        background-color: #212529;
+        color: white;
+      }
+      .input {
+        color: #333;
+        font:
+          1em/1.5 Hind,
+          sans-serif;
+      }
+      #example {
+        table-layout: fixed;
+        width: 100%; /* Hoặc một giá trị cụ thể */
+      }
+      /* End styling table */
     </style>
   </head>
   <body>
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <%- include('../../../components/Dashboard/screenLimitSize.ejs', {limitSize: 1429})  %>
     <div class="flex justify-between">
-      <h1 class="text-2xl font-bold">Article List</h1>
+      <h1 class="text-[40px] font-bold font-serif">Article List</h1>
     </div>
 
-    <div class="flex gap-4 mb-4">
-      <div class="flex gap-1"><%- include('../../../components/Dashboard/StatusFilter') %></div>
+    <div class="flex justify-between mb-4">
+      <div class="flex gap-1 mt-10 mr-4"><%- include('../../../components/Dashboard/StatusFilter') %></div>
       <div class="flex flex-1 gap-2">
-        <label class="flex items-center" for="searchInput">Tags:</label>
         <div class="relative flex-1 mx-auto">
-          <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
-            <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
+          <div class="w-[50%] relative">
+            <div class="input-wrapper ml-auto">
+              <button class="icon">
+                <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                    stroke="#fff"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path d="M22 22L20 20" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+              <input id="searchInput" type="text" placeholder="Type any tags..." class="input px-2 py-1 outline-none w-[200px] z-20" />
+            </div>
+            <div id="tagContainer" class="min-h-[50px] flex flex-nowrap gap-2 border border-gray-300 rounded-lg p-2 overflow-x-auto w-full items-center">
+              <label class="" for="searchInput">Tags:</label>
+            </div>
           </div>
-          <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+
+          <div id="dropdown" class="absolute z-10 left-0 w-[50%] mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
             <div class="text-center text-gray-500 py-2">Loading...</div>
           </div>
           <input type="hidden" name="tags" id="tags" />
@@ -39,17 +155,17 @@
       </div>
     </div>
 
-    <table id="example" class="display">
+    <table id="example" class="display" style="table-layout: fixed">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Published At</th>
-          <th>Views</th>
-          <th>Section</th>
-          <th>Subscribe</th>
-          <th>Actions</th>
+          <th class="w-[17%]">Title</th>
+          <th class="w-[16%]">Description</th>
+          <th class="w-[10%]">Status</th>
+          <th class="w-[12%]">Published At</th>
+          <th class="w-[10%]">Views</th>
+          <th class="w-[10%]">Section</th>
+          <th class="w-[10%]">Subscribe</th>
+          <th class="w-[8%]">Actions</th>
           <!-- New Actions Column -->
         </tr>
       </thead>
@@ -59,205 +175,199 @@
     </table>
 
     <script type="text/javascript">
-      // eslint-disable-next-line
-      const data = <%- JSON.stringify(data) %>;
-      let articles = data.articles
-      const table = $(document).ready(function () {
-        $('#example').DataTable({
-          responsive: true,
-          data: articles,
-          columns: [
-            { data: 'title' },
-            { data: 'description' },
-            { data: 'status' },
-            {data: 'publishedAt'},
-            { data: 'views' },
-            { data: 'sectionId'},
-            {data: 'isSubscribed'},
-            {
-              // Actions column
-              data: null, // `null` because this column doesn't map to any field in the data source
-              render: function (data, type, row) {
-                // Customize the action buttons for each row
-                console.log(row);
-                return `
-                      <div class="flex space-x-2">
-                          <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                            <span>Preview</span>
-                        </a>
-                          <form id="deleteForm-${data._id}" action="/dashboard/admin/${data._id}/delete" method="POST">
-                            <button
-                            type="button"
-                            onclick="confirmDelete('${data._id}')"
-                            class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                          >
-                            <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                              <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                              <path
-                                d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
-                              />
-                            </svg>
-                            <span>Delete</span>
-                          </button>
-                          </form>
+            // eslint-disable-next-line
+            const data = <%- JSON.stringify(data) %>;
+            let articles = data.articles;
+            const table = $(document).ready(function () {
+              $('#example').DataTable({
+                responsive: true,
+                data: articles,
+                columns: [
+                  { data: 'title' },
+                  { data: 'description' },
+                  { data: 'status' },
+                  { data: 'publishedAt' },
+                  { data: 'views' },
+                  { data: 'sectionId' },
+                  { data: 'isSubscribed' },
+                  {
+                    // Actions column
+                    data: null, // `null` because this column doesn't map to any field in the data source
+                    render: function (data, type, row) {
+                      // Customize the action buttons for each row
+                      console.log(row);
+                      return `
+                                        <div class="flex justify-start flex-wrap space-y-2" id="actionButtonsContainer">
+        <a href="/dashboard/${row._id}/preview" target="_blank" data-id="${row._id}" class="action-btn w-[93px] edit-btn text-white flex gap-2 bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span>Preview</span>
+        </a>
+        <form id="deleteForm-${data._id}" action="/dashboard/admin/${data._id}/delete" method="POST">
+          <button type="button" onclick="confirmDelete('${data._id}')" class="action-btn w-[93px] delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/></svg>
+            <span>Delete</span>
+          </button>
+        </form>
+        ${!row.isSubscribed
+          ? `<form id="upgradeForm-${data._id}" action="/dashboard/admin/${data._id}/subscription" method="GET">
+          <button type="button" onclick="confirmUpgrade('${data._id}')" class="action-btn w-[93px] delete-btn text-white gap-2 bg-yellow-300 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
+            <span>Upgrade</span>
+          </button>
+        </form>`
+          : ''
+        }
+      </div>
 
 
-                          ${!row.isSubscribed ? `<form id="upgradeForm-${data._id}" action="/dashboard/admin/${data._id}/subscription" method="GET">
-                            <button
-                            type="button"
-                            onclick="confirmUpgrade('${data._id}')"
-                            class="delete-btn text-white gap-2 bg-yellow-300 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                          >
-                            <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg>
-                            <span>Upgrade</span>
-                          </button>
-                          </form>`: ''}
-                      </div>
-                  `;
-              },
-              orderable: false, // Prevent ordering on the actions column
-              searchable: false // Prevent searching on the actions column
-            }
-          ],
-          columnDefs: [
-            {
-              // Add Tailwind class to the "title" column
-              targets: 0, // 2nd column (title)
-              render: function (data, type, row, meta) {
-                return `<div class="flex gap-2 px-4">
-                  <img class="w-10 h-10 rounded" src="${row.images[0]}" alt="Rounded avatar">
-                  <div>${data}</div>
-                </div>`;
-              }
-            },
-            {
-              // Add Tailwind class to the "description" column
-              targets: 1, // 3rd column (description)
-              createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('text-sm text-gray-600 px-4 py-2');
-              }
-            },
-            {
-              // Add Tailwind class to the "status" column
-              targets: 2, // 5th column (status)
-              render: function (data, type, row, meta) {
-
-              const getColorByStatus = (status) => {
-                switch (status) {
-                  case('draft'):
-                    return {
-                      dot: 'bg-gray-500',
-                      text: 'text-gray-600'
+                                    `;
+                    },
+                    orderable: false, // Prevent ordering on the actions column
+                    searchable: false // Prevent searching on the actions column
                   }
-                  case 'pending':
-                    return {
-                      dot: 'bg-yellow-500',
-                      text: 'text-yellow-600'
+                ],
+                columnDefs: [
+                  {
+                    targets: 0, // 2nd column (title)
+                    render: function (data, type, row, meta) {
+                      return `<div class="flex gap-2 ">
+                                <img class="w-[35%] h-auto object-cover rounded" src="${row.images[0]}" alt="Rounded avatar">
+                                <div class="font-bold font-serif">${data}</div>
+                              </div>`;
                     }
-                  case 'rejected':
-                    return {
-                      dot: 'bg-red-500',
-                      text: 'text-red-600'
+                  },
+                  {
+                    // Add Tailwind class to the "description" column
+                    targets: 1, // 3rd column (description)
+                    createdCell: function (td, cellData, rowData, row, col) {
+                      // Split the cell content into words
+                      const words = cellData.split(' ');
+
+                      // If the number of words exceeds 13, truncate and add "..."
+                      if (words.length > 8) {
+                        $(td).text(words.slice(0, 8).join(' ') + '...'); // Truncate to 13 words and append "..."
+                      } else {
+                        $(td).text(cellData); // No truncation needed
+                      }
+
+                      // Apply Tailwind classes for styling
+                      $(td).addClass('text-[16px] text-gray-600 py-2 overflow-hidden whitespace-nowrap pr-[1px] w-[10%] text-ellipsis');
+                    }
+                  },
+                  {
+                    // Add Tailwind class to the "status" column
+                    targets: 2, // 5th column (status)
+                    render: function (data, type, row, meta) {
+                      const getColorByStatus = (status) => {
+                        switch (status) {
+                          case 'draft':
+                            return {
+                              dot: 'bg-gray-500',
+                              text: 'text-gray-600'
+                            };
+                          case 'pending':
+                            return {
+                              dot: 'bg-yellow-500',
+                              text: 'text-yellow-600'
+                            };
+                          case 'rejected':
+                            return {
+                              dot: 'bg-red-500',
+                              text: 'text-red-600'
+                            };
+
+                          case 'published':
+                            return {
+                              dot: 'bg-green-500',
+                              text: 'text-green-600'
+                            };
+                        }
+                      };
+                      return `<div class="flex gap-2">
+                                    <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
+                                    <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
+                                  </div>`;
+                    }
+                  },
+                  {
+                    // Add Tailwind class to the "publishedAt" column
+                    targets: 3, // 6th column (publishedAt)
+                    render: function (data, type, row, meta) {
+                      if (!data) {
+                        return '<div class="text-[14px] text-gray-500">Undefined date</div>';
+                      }
+
+                      const date = new Date(data);
+
+                      const formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+
+                      const hours = date.getHours() % 12 || 12;
+                      const minutes = date.getMinutes().toString().padStart(2, '0');
+                      const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+                      const formattedTime = hours + ':' + minutes + ' ' + ampm;
+
+                      // Kết hợp ngày và giờ thành một chuỗi
+                      const readableDate = `${formattedDate}, ${formattedTime}`;
+
+                      return `<div class="text-[14px]">${readableDate}</div>`;
+                    }
+                  },
+                  {
+                    targets: 4,
+                    render: function (data, type, row, meta) {
+                      const safeData = data !== undefined && data !== null ? data : 'N/A';
+                      return `<div class="flex gap-2">
+                                    ${safeData}
+                                  </div>`;
+                    }
+                  },
+                  {
+                    targets: 5,
+                    render: function (data, type, row, meta) {
+                      return `<div>${data?.name ? data.name : 'N/A'}</div>`;
+                    }
+                  },
+                  {
+                    targets: 6,
+                    render: function (data, type, row, meta) {
+                      if (data)
+                        return `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+                                    Premium
+                                </span>`;
+
+                      return `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                  <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                  Public
+                              </span>`;
+                    }
                   }
+                ],
+                rowCallback: function (row, data, index) {
+                  // Apply styling to the entire row if necessary
+                  $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
+                  if (data.status === 'Failed') {
+                    $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
+                  }
+                },
+                drawCallback: function (settings) {
+                  // Optional: Apply styles to pagination buttons
+                },
+                language: {
+                  search: 'Search articles:',
+                  searchPlaceholder: 'Type to search...'
+                },
+                lengthChange: false,
+                pageLength: 10 // Default page size
+              });
+            });
 
-                  case 'published':
-                  return {
-                    dot: 'bg-green-500',
-                    text: 'text-green-600'
-                }
-
-                }
-              }
-                  return `<div class="flex gap-2">
-                  <div class="flex items-center"><span class="flex w-2 h-2 ${getColorByStatus(data)?.dot} rounded-full "></span></div>
-                  <div class="flex items-center ${getColorByStatus(data)?.text}">${data}</div>
-                </div>`;
-              },
-            },
-            {
-              // Add Tailwind class to the "publishedAt" column
-              targets: 3, // 6th column (publishedAt)
-              render: function (data, type, row, meta) {
-
-                // Create a Date object
-                const date = new Date(data);
-
-                // Use toLocaleString for a readable format
-                const readableDate = date.toLocaleString('en-US', {
-                  weekday: 'long', // Long weekday name (e.g., "Monday")
-                  year: 'numeric', // Full year (e.g., 2024)
-                  month: 'long', // Full month name (e.g., "November")
-                  day: 'numeric', // Day of the month (e.g., 20)
-                  hour: '2-digit', // Hour in 2-digit format (e.g., "03")
-                  minute: '2-digit', // Minute in 2-digit format (e.g., "22")
-                  second: '2-digit', // Second in 2-digit format (e.g., "47")
-                  hour12: true // 12-hour format (AM/PM)
-                });
-
-                return `<div class="text-xs">${readableDate}</div>`;
-              }
-            },
-            {
-              targets: 4,
-              render: function(data, type, row, meta) {
-                const safeData = data !== undefined && data !== null ? data : "N/A";
-                return `<div class="flex gap-2">
-                  <svg class="flex align-items-center" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
-                  ${safeData}
-                </div>`
-              }
-            },
-            {
-              targets: 5,
-              render: function(data, type, row, meta) {
-                return `<div>${data?.name ? data.name : "N/A"}</div>`
-              }
-            },
-            {
-              targets: 6,
-              render: function(data, type, row, meta) {
-                if(data ) return `<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                  <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
-                  Premium
-              </span>`
-
-              return `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
-                Public
-            </span>`
-              }
-            }
-          ],
-          rowCallback: function (row, data, index) {
-            // Apply styling to the entire row if necessary
-            $(row).addClass('bg-white hover:bg-gray-100'); // Hover effect
-            if (data.status === 'Failed') {
-              $(row).addClass('bg-red-100'); // Add red background for rows with "Failed" status
-            }
-          },
-          drawCallback: function (settings) {
-            // Optional: Apply styles to pagination buttons
-          },
-          language: {
-            // Custom language settings (optional)
-            search: 'Search articles:',
-            lengthMenu: 'Show _MENU_ entries per page'
-          },
-          pageLength: 10, // Default page size
-          lengthMenu: [10, 25, 50] // Options for page size selection
-        });
-      });
-
-
-
-
-      // Handle delete button click
-      $('#example').on('click', '.delete-btn', function () {
-        const id = $(this).data('id');
-        console.log('Delete ID:', id);
-        // Add your delete logic here
-      });
+            // Handle delete button click
+            $('#example').on('click', '.delete-btn', function () {
+              const id = $(this).data('id');
+              console.log('Delete ID:', id);
+              // Add your delete logic here
+            });
     </script>
     <script>
       function confirmUpgrade(id) {
@@ -378,28 +488,48 @@
         const tagContainer = document.getElementById('tagContainer');
         const tagWrappers = document.getElementsByClassName('tag-wrapper');
         const tagsInput = document.getElementById('tags');
+
+        // Xóa tất cả các thẻ hiện tại
         Array.from(tagWrappers).forEach((wrapper) => tagContainer.removeChild(wrapper));
+
+        // Lặp qua danh sách tags và chèn vào container
         tags?.forEach((tag) => {
           console.log(tag);
+
+          // Tạo thẻ mới
           const ele = document.createElement('span');
           ele.classList.add('tag-wrapper');
-          ele.innerHTML = `<span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">${tag.name}
-          <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
+          ele.innerHTML = `
+          <span class="whitespace-nowrap rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">
+            ${tag.name}
+            <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
           </span>`;
-          // Insert at the beginning of the container
-          tagContainer.insertBefore(ele, tagContainer.firstChild);
+
+          // Chèn sau phần tử cuối cùng trong container
+          const lastChild = tagContainer.lastElementChild;
+          if (lastChild) {
+            tagContainer.insertBefore(ele, lastChild.nextSibling);
+          } else {
+            tagContainer.appendChild(ele); // Nếu không có phần tử nào, thêm vào container
+          }
+
+          // Cập nhật giá trị input
           tagsInput.value = tags.map((tag) => tag._id.toString()).join(',');
 
           console.log(tagsInput.value);
         });
+
+        // Thêm sự kiện click cho nút "x" trong từng tag
         const tagElements = document.getElementsByClassName('tag');
         Array.from(tagElements).forEach((tag) => {
           tag.addEventListener('click', (e) => {
             const data = e.currentTarget.getAttribute('data');
             console.log(data);
-            removeTag(JSON.parse(data)); // Call the function to remove the tag
+            removeTag(JSON.parse(data)); // Gọi hàm xóa tag
           });
         });
+
+        // Render dropdown (nếu cần)
         renderDropdown(results);
       }
 
@@ -453,6 +583,39 @@
           dropdown.classList.add('hidden');
         }
       });
+      document.addEventListener('DOMContentLoaded', () => {
+        const input = document.querySelector('#searchInput');
+        const wrapper = document.querySelector('.input-wrapper');
+
+        // Khi input được focus
+        input.addEventListener('focus', () => {
+          wrapper.classList.add('focused');
+        });
+
+        // Khi input mất focus
+        input.addEventListener('blur', () => {
+          wrapper.classList.remove('focused');
+        });
+      });
+      window.onload = function () {
+        // Lấy tất cả các nút có lớp 'action-btn'
+        const actionButtons = document.querySelectorAll('.action-btn');
+
+        actionButtons.forEach((button) => {
+          // Kiểm tra xem nội dung của nút có tràn ra ngoài không
+          if (button.scrollWidth > button.clientWidth) {
+            // Nếu có tràn, thay đổi chiều rộng của nút thành 'w-[100%]'
+            button.classList.remove('w-[93px]');
+            button.classList.add('w-[100%]');
+
+            // Ẩn icon nếu nó tồn tại
+            const svgIcon = button.querySelector('svg');
+            if (svgIcon) {
+              svgIcon.style.display = 'none';
+            }
+          }
+        });
+      };
     </script>
   </body>
 </html>

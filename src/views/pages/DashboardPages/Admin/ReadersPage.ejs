@@ -4,16 +4,156 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      /* Start styling table */
+      th.sorting_asc,
+      th.sorting_desc {
+        color: white !important; /* Màu chữ khi được chọn */
+      }
+
+      th {
+        background-color: #212529;
+        color: white;
+      }
+      .input {
+        color: #333;
+        font:
+          1em/1.5 Hind,
+          sans-serif;
+      }
+      #example {
+        table-layout: fixed;
+        width: 100%;
+      }
+      /* End styling table */
+      /* Start button edit1 styling */
+      .buttonEdit1 {
+        --color: #249aff;
+        font-family: inherit;
+
+        width: 100px;
+        height: 2.6em;
+        line-height: 2.5em;
+        margin: 20px 0;
+        margin-right: 20px;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        border: 2px solid var(--color);
+        transition: color 0.5s;
+        z-index: 1;
+        font-size: 17px;
+        border-radius: 6px;
+        font-weight: 500;
+        color: var(--color);
+      }
+
+      .buttonEdit1:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        background: var(--color);
+        height: 150px;
+        width: 200px;
+        border-radius: 50%;
+      }
+
+      .buttonEdit1:hover {
+        color: #fff;
+      }
+
+      .buttonEdit1:before {
+        top: 100%;
+        left: 100%;
+        transition: all 0.7s;
+      }
+
+      .buttonEdit1:hover:before {
+        top: -30px;
+        left: -30px;
+      }
+
+      .buttonEdit1:active:before {
+        background: #249aff;
+        transition: background 0s;
+      }
+      /* End button edit1 */
+      th#id {
+        text-align: center !important;
+      }
+      th#reader-type {
+        text-align: center !important;
+      }
+
+      th#action {
+        padding-left: 4px !important  ;
+      }
+
+      /* End button edit1 styling */
+      /* Start button edit2 styling */
+
+      .buttonEdit2 {
+        --glow-color: white;
+        --glow-spread-color: #3ea65a;
+        --enhanced-glow-color: ư;
+        --btn-color: #3ea65a;
+        border: 0.25em solid var(--glow-color);
+        padding: 14px 14px;
+        color: var(--glow-color);
+        font-size: 12px;
+        font-weight: bold;
+        background-color: var(--btn-color);
+        border-radius: 1em;
+        outline: none;
+
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      .buttonEdit2::after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        top: 120%;
+        left: 0;
+        height: 100%;
+        width: 100%;
+
+        opacity: 0.7;
+      }
+
+      .buttonEdit2:hover {
+        color: var(--btn-color);
+        background-color: var(--glow-color);
+        box-shadow:
+          0 0 0.25em 0.25em var(--glow-color),
+          0 0 0.25em 0.25em var(--glow-spread-color),
+          inset 0 0 0.75em 0.25em var(--glow-color);
+      }
+
+      .buttonEdit2:active {
+        box-shadow:
+          0 0 0.6em 0.25em var(--glow-color),
+          0 0 2.5em 2em var(--glow-spread-color),
+          inset 0 0 0.5em 0.25em var(--glow-color);
+      }
+      /* End button edit2 styling */
+      #example td {
+        padding-left: 10px !important; /* Xóa padding cho tất cả các ô trong bảng */
+      }
+    </style>
   </head>
   <body>
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <h1 class="text-[40px] font-bold font-serif">Reader</h1>
     <table id="example" class="display">
       <thead>
         <tr>
-          <th>_id</th>
+          <th id="id">ID</th>
           <th>Name</th>
           <th>Date of birth</th>
-          <th>Reader Type</th>
-          <th>Actions</th>
+          <th id="reader-type">Reader Type</th>
+          <th id="action" class="pl-4">Actions</th>
           <!-- New Actions Column -->
         </tr>
       </thead>
@@ -21,7 +161,6 @@
         <!-- Table rows will be populated here by DataTables -->
       </tbody>
     </table>
-
     <%- include('ReaderInfoDrawer') %>
 
     <script src="/js/time.js"></script>
@@ -46,13 +185,13 @@
                     // Customize the action buttons for each row
                     const isButtonDisabled = row?.accountId?.isSubscriber === true;
                     console.log(isButtonDisabled);
-                    const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default" class="relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default" class="font-bold text-[14px] relative flex items-center gap-2 bg-blue-500 text-white font-semibold p-[14px] rounded-xl hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                  <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
                  </svg>
                Upgrade
-             </button>` : `<button onclick="toggleUpgradeConfirm('${row._id}')" type="button" data-tooltip-target="tooltip-default" class="relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+             </button>` : `<button onclick="toggleUpgradeConfirm('${row._id}')" type="button" data-tooltip-target="tooltip-default" class="buttonEdit2 relative flex items-center gap-2 bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
              >
           <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
             <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
@@ -60,11 +199,12 @@
         Upgrade
       </button>`
                     return `
-                          <div class="flex space-x-2">
-                            <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+
+                          <div class="flex space-x-2 items-center justify-start">
+                            <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info buttonEdit1  gap-2 rounded-lg px-4 py-2 flex items-center">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                                 </svg>
-                                <span>Info</span>
+                                Info
                               </button>
                             <form id="upgrade-form-${row._id}" action="/dashboard/admin/readers/upgrade-reader/${row._id}" method="POST">${buttonElement}</form>
                           </div>
@@ -76,17 +216,17 @@
               ],
               columnDefs: [
                 {
-                  // Add Tailwind class to the "name" column
+                  // Add Tailwind class to the "id" column
                   targets: 0,
                   createdCell: function (td, cellData, rowData, row, col) {
-                    $(td).addClass('text-sm text-gray-600 px-4 py-2');
+                    $(td).addClass('text-sm text-[#0082FF] px-4 py-2 font-mono text-center');
                   }
                 },
                 {
                   // Add Tailwind class to the "username" column
                   targets: 1,
                   render: function (data, type, row, meta) {
-                    return `<div>${data}</div>`;
+                    return `<div class="font-bold font-serif text-[20px]">${data}</div>`;
                   }
                 },
                 {
@@ -94,7 +234,7 @@
                   targets: 2,
                   render: function (data, type, row, meta) {
 
-                    return `<div class="text-xs">${formatDateTime(data, true)}</div>`;
+                    return `<div class="text-[14px]">${formatDateTime(data, true)}</div>`;
                   }
                 },
                 {
@@ -103,13 +243,13 @@
                   render: function (data, type, row, meta) {
                     const isSubscriber = data?.isSubscriber === true;
                     if(isSubscriber)
-                      return `<div class="text-sm flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-yellow-300 text-white">
+                      return `<div class="text-sm flex w-[121px] justify-center mx-auto items-center gap-2 px-4 py-2 rounded-full bg-yellow-300 text-black">
                         <svg fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                           <path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/>
                         </svg>
                         <span>Subscriber</span>
                       </div>`;
-                    return `<div class="text-sm flex w-fit items-center gap-2 px-4 py-2 rounded-full bg-gray-300 text-black">
+                    return `<div class="text-sm flex w-[121px] mx-auto justify-center items-center gap-2 px-4 py-2 rounded-full bg-gray-300 text-black">
                       <svg fill="currentColor" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <path d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z"/>
                       </svg>
@@ -129,12 +269,11 @@
                 // Optional: Apply styles to pagination buttons
               },
               language: {
-                // Custom language settings (optional)
-                search: 'Reader name:',
-                lengthMenu: 'Show _MENU_ entries per page'
-              },
-              pageLength: 10, // Default page size
-              lengthMenu: [10, 25, 50] // Options for page size selection
+            search: 'Search readers:',
+            searchPlaceholder: "Type to search..."
+          },
+          lengthChange: false,
+          pageLength: 10 // Default page size
             });
           });
 
@@ -183,18 +322,23 @@
         const expiredDate = subscriptionExpiresAt ? dayjs(subscriptionExpiresAt).format('MM-DD-YYYY') : 'N/A';
         document.getElementById('expires-at').value = expiredDate;
         const articleList = document.getElementById('article-list');
+        articleList.innerHTML = '';
         reader?.watchedArticles?.forEach((article) => {
           articleList.innerHTML += `
           <li class="pb-3 sm:pb-4">
             <div class="flex items-center space-x-4 rtl:space-x-reverse">
               <div class="flex-shrink-0">
-                <img class="w-8 h-8 rounded-full" src="${article?.articleId?.images ? article?.articleId.images[0] : ''}" />
+                <img class="w-[100px]  rounded-lg" src="${article?.articleId?.images ? article?.articleId.images[0] : ''}" />
               </div>
-              <div class="flex-1 min-w-0">
+              <div class="flex-1 w-[60%]">
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">${article?.articleId?.title}</p>
                 <p class="text-sm text-gray-500 truncate dark:text-gray-400">An in-depth exploration of Bugatti, its history, iconic models, and its impact on the automotive industry.</p>
               </div>
-              <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">${formatDateTime(article.viewedAt)}</div>
+<div
+  class="w-[40%] text-[14px] text-gray-400 dark:text-white whitespace-nowrap"
+>
+  , ${formatDateTime(article.viewedAt)}
+</div>
             </div>
           </li>`;
         });
