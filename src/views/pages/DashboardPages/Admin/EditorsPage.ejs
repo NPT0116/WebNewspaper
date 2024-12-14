@@ -226,7 +226,18 @@
     </script>
 
     <script>
-      const sectionInput = document.getElementById('sectionId-input');
+      const sectionIdInput = document.getElementById('sectionId-input');
+      sections.forEach((section) => {
+        console.log(section);
+        const option = document.createElement('option');
+        option.value = section._id;
+        option.textContent = section.name;
+        sectionIdInput.appendChild(option);
+      });
+    </script>
+
+    <script>
+      const sectionInput = document.getElementById('section-input');
       sections.forEach((section) => {
         console.log(section);
         const option = document.createElement('option');
