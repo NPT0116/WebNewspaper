@@ -2164,9 +2164,6 @@ input:checked + .toggle-bg {
 .bg-white\/30 {
   background-color: rgb(255 255 255 / 0.3);
 }
-.bg-white\/40 {
-  background-color: rgb(255 255 255 / 0.4);
-}
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
 }
