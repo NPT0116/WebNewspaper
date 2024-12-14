@@ -78,17 +78,22 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
       const date: Date = article.approved?.publishedAt || new Date();
       publishedAtDate = formatDate(date);
     }
-    const rejectReason = article.rejected?.rejectReason || '';
-    const rejectPersonId = article.rejected?.editorId || article.rejected?.adminId || '';
-    const editorReject = !article.rejected?.adminId;
-    let rejectPerson: string;
-    if (editorReject) {
-      const editor = await EditorProfile.findById(rejectPersonId);
-      rejectPerson = editor?.name || '';
-    } else {
-      const admin = await AdminProfile.findById(rejectPersonId);
-      rejectPerson = admin?.name || '';
+    let rejectReason: string = '';
+    let rejectPerson: string = '';
+    if (article.status === 'rejected') {
+      rejectReason = article.rejected?.rejectReason || '';
+      const rejectPersonId = article.rejected?.editorId || article.rejected?.adminId || '';
+      const editorReject = !article.rejected?.adminId;
+      if (editorReject) {
+        const editor = await EditorProfile.findById(rejectPersonId);
+        rejectPerson = editor?.name || '';
+      } else {
+        const admin = await AdminProfile.findById(rejectPersonId);
+        console.log('clm');
+        rejectPerson = admin?.name || '';
+      }
     }
+
     const viewCount = article.views || 0;
 
     res.render('layouts/DashboardLayout/PreviewLayout/PreviewLayout', {

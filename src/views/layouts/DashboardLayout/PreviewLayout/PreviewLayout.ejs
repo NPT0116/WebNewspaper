@@ -14,11 +14,14 @@
       referrerpolicy="no-referrer"
     />
     <title><%= title %></title>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
   </head>
 
   <body>
-    <div id="banner-container" class="hidden lg:flex h-screen">
-      <div data-id="1" id="banner-layout-1" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+    <!-- Banner container -->
+    <div id="banner-container" class="lg:flex h-screen" data-carousel="slide">
+      <!-- Layout 1 -->
+      <div data-id="1" id="banner-layout-l1" class="h-full w-full flex flex-row justify-center items-center" data-carousel-item>
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
@@ -32,7 +35,9 @@
           <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
         </div>
       </div>
-      <div data-id="2" id="banner-layout-2" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+
+      <!-- Layout 2 -->
+      <div data-id="2" id="banner-layout-l2" class="hidden h-full w-full flex flex-row justify-center items-center" data-carousel-item>
         <div
           id="banner-introduction-layout-content"
           class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4 bg-black text-white"
@@ -51,7 +56,9 @@
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
       </div>
-      <div data-id="3" id="banner-layout-3" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
+
+      <!-- Layout 3 -->
+      <div data-id="3" id="banner-layout-l3" class="hidden h-full w-full flex flex-row justify-center items-center" data-carousel-item>
         <div
           id="banner-introduction-layout-content"
           class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-screen flex flex-col justify-center items-center text-center gap-4"
@@ -61,8 +68,35 @@
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
           <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
         </div>
-        <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
+        <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua">
+          <img class="object-cover h-full w-full" src="<%=images%>" alt="" />
+        </div>
       </div>
+      <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Layout 1" data-carousel-slide-to="0"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Layout 2" data-carousel-slide-to="1"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Layout 3" data-carousel-slide-to="2"></button>
+      </div>
+      <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        >
+          <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
     </div>
     <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
     <% if (canApprove && status === 'pending') { %>
@@ -137,6 +171,23 @@
     <% } %>
   </body>
   <script>
+    function showBannerLayout() {
+      // Get the selected option
+      const selectedOption = document.getElementById('banner-selector').value;
+
+      // Hide all banner layouts
+      const banners = document.querySelectorAll('[id^=banner-layout-l]');
+      banners.forEach((banner) => {
+        banner.classList.add('hidden');
+      });
+
+      // Show the selected banner layout
+      const selectedBanner = document.querySelector(`[data-id="${selectedOption}"]`);
+      if (selectedBanner) {
+        selectedBanner.classList.remove('hidden');
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       // Layout For Banner
       const layoutIndex = 2;
