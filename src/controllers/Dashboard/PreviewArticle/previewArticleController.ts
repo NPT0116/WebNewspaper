@@ -89,7 +89,6 @@ export const getPreviewPage = async (req: Request<IArticleDetailPreviewParams>, 
         rejectPerson = editor?.name || '';
       } else {
         const admin = await AdminProfile.findById(rejectPersonId);
-        console.log('clm');
         rejectPerson = admin?.name || '';
       }
     }
