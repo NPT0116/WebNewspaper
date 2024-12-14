@@ -3,6 +3,7 @@ import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { ISectionBasicInfo, ISectionTree } from '~/interfaces/Section/sectionInterface.js';
 import { countArticles, getListArticleInfoCards } from '~/repo/Article/articleRepo.js';
 import { getAllSections, getSectionTree } from '~/repo/Section/index.js';
+import { getAllTags, getTagIdBySlug, ITagBasicInfo } from '~/repo/Tag/index.js';
 import { AppError } from '~/utils/appError.js';
 
 interface ISearchPageRequestQuery {
@@ -11,6 +12,7 @@ interface ISearchPageRequestQuery {
   sections: string[];
   pageNumber: number;
   pageSize: number;
+  tags: string;
 }
 
 interface ISearchPageData {
@@ -19,8 +21,10 @@ interface ISearchPageData {
   time: string;
   searchValue: string;
   selectedSections: string[];
+  selectedTags: string[];
   articles: IArticleCard[];
   sectionTree: ISectionTree | null;
+  allTags: ITagBasicInfo[];
   pagination: {
     pageSize: number;
     currentPageNumber: number;
@@ -224,11 +228,19 @@ const containsOnlyStopWords = (value: string) => {
 
 export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQuery>, res: Response, next: NextFunction) => {
   try {
-    const { time = 'all', searchValue = '', sections = [], pageNumber, pageSize } = req.query;
+    const { time = 'all', searchValue = '', sections = [], pageNumber, pageSize, tags } = req.query;
+
+    let tagSlugList: string[] = [];
+    if (tags && tags.length > 0) {
+      tagSlugList = tags.split(', ');
+      console.log(tagSlugList);
+    }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
+    const selectedTags = Array.isArray(tagSlugList) ? tagSlugList : [tagSlugList].filter(Boolean);
     const allSections = await getAllSections();
     const sectionTree = await getSectionTree();
+    const allTags = await getAllTags();
 
     const currentPageNumber = pageNumber ? parseInt(pageNumber as unknown as string, 10) : 1;
     const size = pageSize ? parseInt(pageSize as unknown as string, 10) : 10;
@@ -247,7 +259,6 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       const escapedSearchValue = escapeRegex(searchValue); // Escape the search value
 
       if (isStopWordSearch) {
-        console.log('stop words');
         query = {
           ...query,
           $or: [
@@ -269,6 +280,15 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     // Filter by sections
     if (selectedSections.length > 0 && selectedSections[0] !== 'Any') {
       query.sectionId = { $in: selectedSections };
+    }
+
+    if (tagSlugList.length > 0) {
+      const tagList: string[] = [];
+      for (const tagSlug of tagSlugList) {
+        const tagId = await getTagIdBySlug(tagSlug);
+        tagList.push(tagId);
+      }
+      query.tags = { $all: tagList };
     }
 
     // Filter by time
@@ -299,8 +319,10 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       time,
       searchValue,
       selectedSections,
+      selectedTags,
       articles,
       sectionTree,
+      allTags,
       pagination: {
         pageSize: size,
         currentPageNumber,

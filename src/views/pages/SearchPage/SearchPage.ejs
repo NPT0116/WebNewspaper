@@ -1,11 +1,7 @@
-
-
-<div class="container mx-auto px-4 py-6 ">
-
-  
+<div class="mx-auto px-4 py-6 ">
   <!-- Filter Form -->
   <form action="/search-page" method="GET" class="space-y-4 mt-10 " autocomplete="off">
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col justify-center items-center mb-1">
       <!-- Search Input -->
       <div class="w-full flex justify-center items-center">
         <div class="flex rounded-full border-2 border-gray-500 overflow-hidden font-serif" style="width: 60%;">
@@ -36,10 +32,10 @@
     
       <!-- Section Filter and Date Range Filter -->
       <div class="flex flex-row justify-center items-center w-full my-1">
-        <div class=" flex flex-row justify-center gap-14 items-center" style="width: 60%;">
-          <div class="w-2/4">
+        <div class="flex flex-row justify-center gap-14 items-center" style="width: 80%;">
+          <div class="w-1/4">
             <div class="relative">
-              <label for="sections" class="block font-bold text-sm">Section</label>
+              <label for="sections" class="block font-bold text-sm mb-1">Section</label>
               <button
                 type="button"
                 id="sectionToggle"
@@ -82,13 +78,13 @@
               </div>
             </div>
           </div>
-          <div class="w-2/4">
+          <div class="w-1/4">
             <div>
               <label for="time" class="block font-bold text-sm mb-1">Date Range</label>
               <select
                 name="time"
                 id="time"
-                class="border border-gray-300 rounded p-2 w-full"
+                class="border border-gray-300 rounded w-full p-2"
                 onchange="this.form.submit();"
               >
                 <option value="all" <% if (time === 'all') { %>selected<% } %>>All</option>
@@ -96,6 +92,36 @@
                 <option value="last-week" <% if (time === 'last-week') { %>selected<% } %>>Last Week</option>
                 <option value="last-month" <% if (time === 'last-month') { %>selected<% } %>>Last Month</option>
               </select>
+            </div>
+          </div>
+          <div class="w-2/4">
+            <label for="tags" class="block font-bold text-sm mt-2 mb-2">Tags</label>
+            <div class="container flex items-start">
+              <div class="custom-select relative w-full flex items-center">
+                <div class="select-box border border-gray-300 rounded p-2 w-[500px] cursor-pointer flex items-center">
+                  <input type="text" class="tags_input" name="tags" hidden />
+                  <div class="selected-options flex flex-wrap mt-0 w-5/6">
+                    <% selectedTags.forEach(tag => { %>
+                      <span class="tag bg-gray-300 text-black rounded-md mr-1 py-[4px] px-[14px] flex items-center" data-value="<%= tag %>"><%= tag %><span class="remove-tag ml-2 cursor-pointer" data-value="<%= tag %>">&times;</span></span>
+                    <% }) %>
+                  </div>
+                  <div class="arrow my-0 mx-3 w-1/6 flex justify-end">
+                    <i class="fa fa-angle-down text-zinc-600 text-3xl"></i>
+                  </div>
+                </div>
+                <input type="submit" class="btn_submit py-[15px] px-6 bg-[#4caf50] text-white border-0 cursor-pointer text-base rounded-md" value="Apply"> 
+                <div class="options absolute w-full bg-white border-2 border-stone-300 border-t-0 max-h-56 overflow-y-auto z-10 shadow-lg">
+                  <div class="option-search-tags bg-white border-2 border-gray-300 py-2 px-0 m-2">
+                    <input type="text" class="search-tags w-full border-0 outline-none p-2 text-sm" placeholder="Search tags..." />
+                    <button type="button" class="clear absolute border-none bg-transparent cursor-pointer text-sm font-semibold p-0 text-black top-6 left-auto right-5"><i class="fa fa-close"></i></button>
+                  </div>
+                  <!-- <div class="option all-tags" data-value="All">Select All</div> -->
+                    <% allTags.forEach(tag => { %>
+                      <div class="option p-3 cursor-pointer hover:bg-gray-100 <% if (selectedTags.includes(tag.slug)) { %>active<% } %>" data-value="<%= tag.slug %>"><%= tag.name %></div>
+                    <% }) %>
+                    <div class="no-result-message pt-0 pr-0 pb-3 pl-3" style="display: none;">No result match</div>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
@@ -167,14 +193,13 @@
           </a>
         </nav>
       
-        <!-- Results Info -->
-        <div class="mt-4 text-sm text-gray-700">
-          Results: <%= (pagination.currentPageNumber - 1) * 10 + 1 %> - 
-          <%= Math.min(pagination.currentPageNumber * 10, pagination.totalArticlesCount) %> of 
-          <%= pagination.totalArticlesCount %>
-        </div>
+          <!-- Results Info -->
+          <div class="mt-4 text-sm text-gray-700">
+            Results: <%= (pagination.currentPageNumber - 1) * 10 + 1 %> - 
+            <%= Math.min(pagination.currentPageNumber * 10, pagination.totalArticlesCount) %> of 
+            <%= pagination.totalArticlesCount %>
+          </div>
       </div>
     </div>
   </div>
-  
 </div>
