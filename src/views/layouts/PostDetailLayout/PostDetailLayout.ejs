@@ -13,16 +13,12 @@
 
   <body>
     <%- include('../partials/HeaderTitle.ejs', { profile:profile }) %>
-    <div id="banner-container" class="hidden lg:flex h-screen">
+    <div id="banner-container" class="hidden lg:flex">
       <div data-id="1" id="banner-layout-1" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
-        <div
-          id="banner-introduction-layout-content"
-          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4"
-          style="padding-bottom: 96px; padding-left: 20px; padding-right: 20px"
-        >
+        <div id="banner-introduction-layout-content" class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4" style="padding-left: 20px; padding-right: 20px">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
           <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
@@ -32,7 +28,7 @@
         <div
           id="banner-introduction-layout-content"
           class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4 bg-black text-white"
-          style="padding-bottom: 96px; padding-left: 20px; padding-right: 20px"
+          style="padding-left: 20px; padding-right: 20px"
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
@@ -48,11 +44,7 @@
         </div>
       </div>
       <div data-id="3" id="banner-layout-3" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
-        <div
-          id="banner-introduction-layout-content"
-          class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-screen flex flex-col justify-center items-center text-center gap-4"
-          style="padding-bottom: 96px"
-        >
+        <div id="banner-introduction-layout-content" class="absolute left-0 top-24 bg-black w-full bg-opacity-50 text-white h-full flex flex-col justify-center items-center text-center gap-4">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
           <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
@@ -71,6 +63,9 @@
   </body>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
+      // height of banner in article detail
+      document.getElementById('banner-container').style.height = `${window.innerHeight - 96}px`;
+
       // Layout For Banner
       const layoutIndex = parseInt(`<%=layout%>`);
       console.log(layoutIndex);
@@ -87,7 +82,6 @@
         document.getElementById('header').style.backgroundColor = 'black';
         console.log(document.getElementById('header'));
       }
-
       // The Scrolling Of Background
       let lastY = 0;
       let isTop = true;
@@ -101,7 +95,7 @@
         lastY = window.scrollY;
         if (isTop && directionalScroll) {
           window.scrollTo({
-            top: window.innerHeight,
+            top: window.innerHeight - 96,
             behavior: 'smooth'
           });
           if (layoutIndex === 2) {

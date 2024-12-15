@@ -24,8 +24,8 @@
     const cardSection4 = document.querySelector('#card-section4');
     let itemsToShow = window.innerWidth >= 1024 ? 4 : window.innerWidth < 768 ? 1 : 2;
 
-    // const totalItems = carouselItems.children.length;
-    const totalItems = 8;
+    const totalItems = carouselItems.children.length;
+    // const totalItems = 8;
 
     let carouselWrapperWidth = carouselWrapper.offsetWidth;
     let itemWidth = cardSection4.offsetWidth;
@@ -46,6 +46,7 @@
       offsetMove = itemWidth + distance;
 
       cardElements.forEach((element) => {
+        element.style.width = `${itemWidth}px`;
         element.style.minWidth = `${itemWidth}px`;
       });
     });
