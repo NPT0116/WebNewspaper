@@ -2,7 +2,7 @@
   <a
     href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
     class="flex flex-col sm:flex-row justify-between items-center w-full border-b-2 border-gray-600"
-    style="height: 40vh; padding-left: 20px; padding: 40px 20px"
+    style="height: 50vh; padding-left: 20px; padding: 40px 20px"
   >
     <div class="w-full sm:w-4/5" style="height: 30vh; padding-right: 20px">
       <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
@@ -15,10 +15,10 @@
       </div>
 
       <div class="sm:h-4/5 w-full font-serif flex justify-between items-start flex-col">
-        <h2 class="text-center sm:text-left text-3xl font-bold hover:underline <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
+        <h2 class="text-center sm:text-left sm:text-3xl text-sm font-bold hover:underline <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
         <h1 class="w-full relative hidden md:block text-lg">
           <% if(!article.isSubscribed) { %>
-          <h1 class="font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
+          <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
           <% } %>
         </h1>
         <div class="sm:text-sm text-[10px] self-end font-bold text-black hover:underline transition-color duration-200">By <%= article.author.name %></div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="w-full h-4/5 sm:w-4/5 sm:h-full flex justify-end items-center">
-      <img class="object-cover rounded-lg shadow-lg hover:scale-105 transition-all duration-300 w-full h-full" src="<%= article.images[0] %>" alt="<%= article.title %>" />
+      <img class="object-cover sm:rounded-lg rounded-md shadow-lg hover:scale-105 transition-all duration-300 w-full h-full" src="<%= article.images[0] %>" alt="<%= article.title %>" />
     </div>
   </a>
 </div>

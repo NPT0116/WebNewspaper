@@ -17,7 +17,7 @@
       <div class="">
         <h1 class="text-center text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
       </div>
-      <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 20px">
+      <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 10px">
         <% articles.forEach(article => { %>
         <%- include('../../components/Article/ArticleCard.ejs',{ article: article}) %>
         <% }) %>
