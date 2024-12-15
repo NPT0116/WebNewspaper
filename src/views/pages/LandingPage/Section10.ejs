@@ -1,10 +1,10 @@
-<div id="card-container" class="relative mt-4 mb-4 z-0 flex flex-col justify-center items-center overflow-hidden" style="border-bottom: 1px solid black">
+<div id="card-container" class="relative mt-4 mb-4 z-0 flex flex-col justify-center items-center" style="border-bottom: 1px solid black">
   <div class="w-[50px] h-[50px] flex justify-center items-center"><img class="object-center w-full h-full" src="/images/landingPageComponents/2.webp" alt="" /></div>
   <div class="relative text-center py-4 font-bold font-serif text-4xl"><%= title %></div>
 
   <!-- Carousel Wrapper -->
-  <div id="carousel-wrapper" class="relative overflow-hidden mb-4;">
-    <div id="carousel-items" class="flex gap-4 transition-transform duration-500">
+  <div id="carousel-wrapper" class="flex justify-start items-start relative overflow-hidden mb-4;" style="width: 100%">
+    <div id="carousel-items" class="flex justify-start items-start gap-4 transition-transform duration-500">
       <% articles.forEach((article) => { %>
       <div id="card-element" class="p-4 bg-white shadow-xl rounded-lg" style="height: 75vh">
         <%- include('../../components/Newspaper/NewspaperCardTopSection', { article: article, latestArticle: article.latestArticle }) %>
@@ -25,7 +25,7 @@
     let itemsToShow = window.innerWidth >= 1024 ? 4 : window.innerWidth < 768 ? 1 : 2;
 
     // const totalItems = carouselItems.children.length;
-    const totalItems = 7;
+    const totalItems = 8;
 
     let carouselWrapperWidth = carouselWrapper.offsetWidth;
     let itemWidth = cardSection4.offsetWidth;
@@ -34,6 +34,7 @@
     let offsetMove = itemWidth + distance;
 
     cardElements.forEach((element) => {
+      element.style.width = `${itemWidth}px`;
       element.style.minWidth = `${itemWidth}px`;
     });
 
