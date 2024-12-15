@@ -32,23 +32,21 @@
     <% } %>
   </div>
 
-  <div id="header-navbar-small" class="lg:hidden w-11/12 flex flex-row justify-between items-center border-y-2">
+  <div id="header-navbar-small" class="lg:hidden w-11/12 flex flex-row justify-between items-center">
     <% if (profile) { %>
-    <span class="text-lg xl:text-lg"><a href="/profile"><%= profile.profileName %></a></span>
-    <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/logout">Logout</a>
-    <a href="/search-page">
+    <a class="text-sm xl:text-lg hover:underline hover:text-gray-400 w-1/3 flex justify-center items-center" href="/profile"><%= profile.profileName %></a>
+    <a class="text-sm xl:text-lg hover:underline hover:text-gray-400 w-1/3 flex justify-center items-center" href="/logout">Logout</a>
+    <a href="/search-page" class="text-center w-1/3 flex justify-center items-center">
       <svg class="w-4 h-4 text-gray-500 hover:text-gray-700 hover:scale-110 transition-all" focusable="false">
-        <title>Search</title>
-        <path fill="#000" fill-rule="evenodd" clip-rule="evenodd" d="M12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Zm-1.126 4.582a6 6 0 1 1 .707-.707l3.773 3.771-.707.708-3.773-3.772Z"></path>
+        <path class="self-end" fill="#000" fill-rule="evenodd" clip-rule="evenodd" d="M12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Zm-1.126 4.582a6 6 0 1 1 .707-.707l3.773 3.771-.707.708-3.773-3.772Z"></path>
       </svg>
     </a>
     <% } else { %>
-    <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/login">Login</a>
-    <a class="text-lg xl:text-lg hover:underline hover:text-gray-400" href="/register">Register</a>
-    <a href="/search-page">
+    <a class="text-sm xl:text-lg hover:underline hover:text-gray-400 w-1/3 flex justify-center items-center" href="/login">Login</a>
+    <a class="text-sm xl:text-lg hover:underline hover:text-gray-400 w-1/3 flex justify-center items-center" href="/register">Register</a>
+    <a href="/search-page" class="text-center w-1/3 flex justify-center items-center">
       <svg class="w-4 h-4 text-gray-500 hover:text-gray-700 hover:scale-110 transition-all" focusable="false">
-        <title>Search</title>
-        <path fill="#000" fill-rule="evenodd" clip-rule="evenodd" d="M12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Zm-1.126 4.582a6 6 0 1 1 .707-.707l3.773 3.771-.707.708-3.773-3.772Z"></path>
+        <path class="self-end" fill="#000" fill-rule="evenodd" clip-rule="evenodd" d="M12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Zm-1.126 4.582a6 6 0 1 1 .707-.707l3.773 3.771-.707.708-3.773-3.772Z"></path>
       </svg>
     </a>
     <% } %>
