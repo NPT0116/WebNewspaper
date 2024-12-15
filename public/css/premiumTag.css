@@ -1,4 +1,4 @@
-span {
+custom a {
   position: absolute;
   overflow: hidden;
   width: 150px;
@@ -10,7 +10,7 @@ span {
   justify-content: center;
 }
 
-span::before {
+custom a::before {
   content: 'Premium';
   position: absolute;
   width: 150%;
@@ -28,7 +28,7 @@ span::before {
   z-index: 10;
 }
 
-span::after {
+custom a::after {
   content: '';
   position: absolute;
   width: 10px;

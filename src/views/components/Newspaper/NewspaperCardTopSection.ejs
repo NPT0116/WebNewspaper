@@ -1,6 +1,8 @@
 <div class="relative flex flex-col justitfy-between items-center z-0 h-full">
   <% if (latestArticle.isSubscribed) {%>
-  <span> </span>
+  <custom>
+    <a href="/profile" style="z-index: 100"></a>
+  </custom>
   <%} %>
   <div
     id="card-cat"
@@ -32,7 +34,7 @@
           ><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %>
         </a>
         <% if (latestArticle.isSubscribed) {%>
-        <div class="w-full h-1/2" style="position: absolute; background-color: rgba(255, 255, 255, 0.186); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+        <div class="w-full h-full" style="position: absolute; background-color: rgba(255, 255, 255, 0.186); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
         <%} %>
       </h1>
       <div id="card-author" class="h-full flex justify-end items-end font-bold self-end text-sm w-full italic">
