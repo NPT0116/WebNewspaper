@@ -1,7 +1,7 @@
 <div class="relative flex flex-col justitfy-between items-center z-0 h-full">
   <% if (latestArticle.isSubscribed) {%>
   <custom>
-    <a href="/profile" style="z-index: 100"></a>
+    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>" style="z-index: 100"></a>
   </custom>
   <%} %>
   <div

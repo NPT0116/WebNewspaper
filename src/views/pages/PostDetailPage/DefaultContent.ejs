@@ -8,11 +8,23 @@
     >Try Flipping Mode</a
   >
 </div>
-<div id="article-content" class="flex flex-col gap-9 justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]"><%-content%></div>
+<div id="article-content" class="flex flex-col gap-9 justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]">
+  <div id="video-ytb-container" class="w-full hidden sm:flex" style="position: relative; padding-bottom: 56.25%; height: 0">
+    <iframe
+      class="absolute top-0 left-0 w-full h-full"
+      src="https://www.youtube.com/embed/5J1Ds1L4w8A"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <%-content%>
+</div>
 <script>
   const currentUrl = window.location.href;
   const urlParts = currentUrl.split('?');
   urlParts.pop();
   const modifiedUrl = urlParts.join('/') + '/flipping' + (currentUrl.includes('?isSubscribed') ? currentUrl.substring(currentUrl.indexOf('?isSubscribed')) : '');
   document.getElementById('go-to-flip-mode').href = modifiedUrl;
+  console.log(window.location.href);
 </script>

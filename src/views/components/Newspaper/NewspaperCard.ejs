@@ -1,7 +1,7 @@
 <div class="relative flex flex-col jusitfy-between items-center z-0 h-full">
   <% if (article.isSubscribed) {%>
   <custom>
-    <a href="/profile" style="z-index: 100"></a>
+    <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" style="z-index: 100"></a>
   </custom>
   <%} %>
   <div id="card-image" class="h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">

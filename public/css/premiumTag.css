@@ -11,7 +11,7 @@ custom a {
 }
 
 custom a::before {
-  content: 'Premium';
+  content: 'Subscribe';
   position: absolute;
   width: 150%;
   height: 40px;
