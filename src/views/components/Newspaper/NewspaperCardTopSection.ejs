@@ -33,7 +33,7 @@
         <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>"
           ><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %>
         </a>
-        <% if (latestArticle.isSubscribed) {%>
+        <% if (latestArticle.isSubscribed && !profile.isSubscriber) {%>
         <div class="w-full h-full" style="position: absolute; background-color: rgba(255, 255, 255, 0.186); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
         <%} %>
       </h1>
