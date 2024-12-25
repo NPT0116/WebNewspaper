@@ -309,10 +309,10 @@
 </style>
 <div class="border-2 p-5 rounded-lg sm:w-[95%] w-[100%]" >
   <div id="comment-header" class="flex sm:flex-row flex-col justify-between items-center">
-    <h1 class="text-2xl font-bold flex flex-row" class="mr-2">Comments (<div id="comment-length" > <%=comments.length%></div>)</h1>
+    <h1 class="md:text-2xl text-xl font-bold flex flex-row" class="mr-2">Comments (<div id="comment-length" > <%=comments.length%></div>)</h1>
     <%if (profile) {%>
     <%} else {%>
-    <div id="comment-guest-nav" class="text-center">
+    <div id="comment-guest-nav" class="text-center md:text-base text-sm">
       <a href="/login" class="text-blue-500 font-bold hover:text-blue-700 cursor-pointer">Login</a>
       |
       <a href="/register" class="text-blue-500 font-bold hover:text-blue-700 cursor-pointer">Register</a>
@@ -334,7 +334,7 @@
           <%=profile ? '' : 'disabled' %>
         ></textarea>
 
-        <div class="flex justify-between">
+        <div class="flex justify-between gap-4">
           <!-- <button type="submit" class="text-[10px] sm:text-xl rounded-lg <%=profile ? 'bg-gray-900 hover:bg-gray-500' : 'bg-gray-500' %>   px-4 py-2 text-white font-bold transition-all duration-200" <%=profile ? '' : 'disabled' %>>Submit</button> -->
           <button type="submit" class="comment-button sm:w-[200px] w-[190px] text-sm p-2">
             <div class="outline"></div>

@@ -1,7 +1,9 @@
 <div class="relative px-8 sm:px-10 z-0 bg-white flex flex-col justify-center items-center" style="width: 100vw">
-  <%- include('../../layouts/partials/Header', { sections: sections }) %> <%- include('./DefaultContent.ejs', {content: content})%>
+  <div id="navbar-container" class="w-full">
+    <%- include('../../layouts/partials/Header', { sections: sections }) %> 
+  </div>
+  <%- include('./DefaultContent.ejs', {content, author, published})%>
   <hr />
-
-  <div class="mt-8 w-full flex justify-center items-center"><%- include('CommentList', { articleSlug: articleSlug, sectionSlug: sectionSlug, comments: comments, profile: profile }) %></div>
-  <div class="mt-8 w-full"><%- include('ReadMore', { articles: articles }) %></div>
+  <div id="comment-list-container" class="mt-8 w-full flex justify-center items-center"><%- include('CommentList', { articleSlug: articleSlug, sectionSlug: sectionSlug, comments: comments, profile: profile }) %></div>
+  <div id="readmore-container" class="mt-8 w-full"><%- include('ReadMore', { articles: articles }) %></div>
 </div>
