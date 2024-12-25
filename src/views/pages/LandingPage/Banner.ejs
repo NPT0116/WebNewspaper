@@ -2,19 +2,21 @@
 <div class="relative grid grid-cols-1 md:grid-cols-2 h-screen shadow-xl rounded">
   <div class="relative h-full w-full flex justify-center items-center flex-col p-5">
     <div id="top-title" class="text-4xl font-dancing text-center">
-      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.title %></a>
+      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline <% if (article.isSubscribed) {%> text-red-600 <%}%>"><%= article.title %></a>
     </div>
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
-      <p class="text-center font-dancing text-lg italic">
-        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.description %></a>
-      </p>
+      <% if (article.isSubscribed && profile.isSubscriber || !article.isSubscribed) {%>
+        <p class="text-center font-dancing text-lg italic">
+          <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline"><%= article.description %></a>
+        </p>
+      <%}%>
     </div>
 
     <div id="top-author" class="self-end font-sans italic font-bold" class="hover: underline">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
   </div>
-  <div class="relative h-full w-full bg-violet-500 rounded">
-    <a href="">
+  <div class="relative h-full w-full  rounded">
+    <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>">
       <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
     </a>
   </div>
@@ -22,21 +24,23 @@
 <% } else {%>
 
 <div class="relative grid grid-cols-1 md:grid-cols-2 h-screen shadow-xl rounded">
-  <div class="relative h-full w-full bg-violet-500 rounded">
-    <a href="">
+  <div class="relative h-full w-full  rounded">
+    <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>">
       <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
     </a>
   </div>
 
   <div class="relative h-full w-full flex justify-center items-center flex-col p-5">
     <div id="top-title" class="text-4xl font-dancing text-center">
-      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="hover:underline"><%= article.title %></a>
+      <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline <%if (article.isSubscribed) {%> text-red-600 <%}%>"><%= article.title %></a>
     </div>
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
-      <p class="text-center font-dancing text-lg italic">
-        <a href="section/<%=article.section.slug%>/article/<%=article.slug%>" class="text-gray-700 hover:text-gray-900"><%= article.description %></a>
-      </p>
+      <% if (article.isSubscribed && profile.isSubscriber || !article.isSubscribed) {%>
+        <p class="text-center font-dancing text-lg italic">
+          <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline"><%= article.description %></a>
+        </p>
+      <%}%>
     </div>
 
     <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
