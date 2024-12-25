@@ -34,9 +34,42 @@
 </style>
 
 <div id="article-content" class="pt-[40px] relative  flex flex-row  justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]" style="height: fit-content">
+
+  <div id="article-detail-container" class="flex  flex-col justify-center items-center gap-8 mb-[20px]">
+    <div id="title-author" class="flex flex-col gap-6 justify-between items-center w-full ">
+      <div class="flex sm:text-5xl md:text-4xl text-2xl font-serif text-center"><%=title%></div>
+
+      <div class="flex flex-row gap-4 w-full bg-gray-100 p-2 rounded-lg">
+        <img src="/images/articleDetailComponents/author.jpg" class="w-12 h-12 rounded-full border-2 border-black" alt="author-avatar" class="w-6 h-6">
+        <div class="w-full flex flex-col justify-between">
+          <div class="md:text-lg text-base">
+            <%=author%>
+          </div>
+          <div id="date-published" class="text-sm">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="video-ytb-container" class="w-full hidden sm:flex" style="position: relative; padding-bottom: 56.25%; height: 0">
+      <iframe
+        class="absolute top-0 left-0 w-full h-full"
+        src="https://www.youtube.com/embed/5J1Ds1L4w8A"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div id="main-content" class="w-full">
+      <%-content%>
+    </div>
+
+  </div>
+
   <div id="support-bar-container" class="relative w-0 " >
-    <div id="sticky-support-bar" class="sticky right-full transform -translate-x-[80px] w-[40px] hidden lg:flex flex-col gap-4 justify-between items-center bg-gray-300 p-2 shadow-xl rounded-xl" style="top: 150px">
-      <div id="flipping-mode-icon" class="relative group cursor-pointer">
+    <div id="sticky-support-bar" class="sticky right-full transform translate-x-[60px] w-[40px] hidden lg:flex flex-col gap-4 justify-between items-center bg-gray-300 p-2 shadow-xl rounded-xl" style="top: 150px">
+      <div id="flipping-mode-icon" class="relative group cursor-pointer hover:scale-105 transition-all duration-300">
         <span id="go-to-flip-mode"  class="text-gray-500 hover:text-blue-500 transition-all duration-300 ">
             <img src="/images/articleDetailComponents/flipping.svg" alt="Icon" class="w-6 h-6">
         </span>
@@ -79,7 +112,7 @@
           </a>
   
         </span>
-        <div class="absolute left-full transform -translate-x-1/3 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2">
+        <div class="hidden group-hover:block absolute left-full transform -translate-x-1/3 bg-gray-800 text-white text-xs rounded py-1 px-2">
           comment
         </div>
       </div>
@@ -105,38 +138,6 @@
       </div>
 
     </div>
-  </div>
-
-  <div id="article-detail-container" class="flex  flex-col justify-center items-center gap-8 mb-[20px]">
-    <div id="title-author" class="flex flex-col gap-6 justify-between items-center w-full ">
-      <div class="flex sm:text-5xl md:text-4xl text-2xl font-serif text-center"><%=title%></div>
-
-      <div class="flex flex-row gap-4 w-full bg-gray-100 p-2 rounded-lg">
-        <img src="/images/articleDetailComponents/author.jpg" class="w-12 h-12 rounded-full border-2 border-black" alt="author-avatar" class="w-6 h-6">
-        <div class="w-full flex flex-col justify-between">
-          <div class="md:text-lg text-base">
-            <%=author%>
-          </div>
-          <div id="date-published" class="text-sm">
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div id="video-ytb-container" class="w-full hidden sm:flex" style="position: relative; padding-bottom: 56.25%; height: 0">
-      <iframe
-        class="absolute top-0 left-0 w-full h-full"
-        src="https://www.youtube.com/embed/5J1Ds1L4w8A"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
-
-    <div id="main-content" class="w-full">
-      <%-content%>
-    </div>
-
   </div>
 </div>
 
