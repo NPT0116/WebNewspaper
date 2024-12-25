@@ -4,11 +4,13 @@
   <div class="pb-10 border-b-2 border-black animate__animated animate__fadeIn"><%- include('Section', { title: 'Hot News', articles: data.hotNews.slice(0, 5), profile }) %></div>
 
   <div class="pb-10 border-b-2 border-black animate__animated animate__fadeInUp">
-    <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5), profile }) %> <%- include('Banner', { article: data.mostViewedArticles[0], code: 1, profile }) %>
+    <%- include('Section', { title: 'Most Viewed Articles', articles: data.mostViewedArticles.slice(1, 5), profile }) %> 
+    <%- include('Banner', { article: data.mostViewedArticles[0], code: 1, profile }) %>
   </div>
 
   <div class="pb-10 border-b-2 border-black animate__animated animate__fadeInLeft">
-    <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5), profile }) %> <%- include('Banner', { article: data.latestArticles[0], code: 2, profile }) %>
+    <%- include('Section', { title: 'Latest Articles', articles: data.latestArticles.slice(1, 5), profile }) %> 
+    <%- include('Banner', { article: data.latestArticles[0], code: 2, profile }) %>
   </div>
 
   <div class="animate__animated animate__fadeInRight"><%- include('Section10', { title: 'Top Sections', articles:data.topSections, profile })%></div>

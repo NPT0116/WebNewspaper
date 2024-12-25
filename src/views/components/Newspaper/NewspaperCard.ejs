@@ -23,8 +23,8 @@
       </h1>
       <h1 id="card-description" class="relative text-[1rem] h-full flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300 self-end">
         <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class=""><%= article.description %> </a>
-        <% if (article.isSubscribed && !profile.isSubscriber) {%>
-        <div class="w-full h-full absolute" style="background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
+        <% if (article.isSubscribed && profile && !profile.isSubscriber || article.isSubscribed && !profile) {%>
+            <div class="w-full h-full absolute" style="background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
         <%} %>
       </h1>
       <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic mt-5">

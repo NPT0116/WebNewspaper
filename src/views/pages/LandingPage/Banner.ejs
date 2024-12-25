@@ -6,11 +6,11 @@
     </div>
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
-      <% if (article.isSubscribed && profile.isSubscriber || !article.isSubscribed) {%>
+      <% if (article.isSubscribed && profile && profile.isSubscriber || !article.isSubscribed) {%>
         <p class="text-center font-dancing text-lg italic">
           <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline"><%= article.description %></a>
         </p>
-      <%}%>
+      <%} %>
     </div>
 
     <div id="top-author" class="self-end font-sans italic font-bold" class="hover: underline">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
@@ -36,11 +36,11 @@
     </div>
 
     <div id="top-content" class="flex justify-center items-center flex-col my-3">
-      <% if (article.isSubscribed && profile.isSubscriber || !article.isSubscribed) {%>
+      <% if (article.isSubscribed && profile && profile.isSubscriber || !article.isSubscribed) {%>
         <p class="text-center font-dancing text-lg italic">
           <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>" class="hover:underline"><%= article.description %></a>
         </p>
-      <%}%>
+      <%} %>
     </div>
 
     <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
