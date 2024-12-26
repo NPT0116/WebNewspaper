@@ -40,6 +40,7 @@ export const seedTags = async () => {
       { name: 'Digital Economy', description: 'Online economy trends', slug: '' },
       { name: 'Esports', description: 'Competitive gaming news', slug: '' },
       { name: 'Video Games', description: 'Gaming updates', slug: '' },
+      { name: 'Video', description: 'Articles with Video', slug: '' },
       { name: 'Football', description: 'Football news', slug: '' },
       { name: 'Tactics', description: 'Game strategies', slug: '' },
       { name: "Women's Sports", description: "News on women's sports", slug: '' },
