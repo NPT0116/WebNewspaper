@@ -42,7 +42,15 @@
                 class="w-full text-left bg-white border border-gray-300 rounded p-2 flex items-center justify-between space-x-2 mt-1"
                 onclick="toggleDropdown()"
               >
-                <span onclick="toggleDropdown()">Section</span>
+                <span onclick="toggleDropdown()">
+                  <% if (selectedSectionsName.length === 0) { %>
+                    Section
+                  <% } else { %>
+                    <% selectedSectionsName.forEach(name => { %>
+                      <%- name %>, 
+                    <% }) %>
+                  <% } %>
+                </span>
                 <div class="my-0 mx-3 w-1/6 flex justify-end" onclick="toggleDropdown()">
                   <i class="fa fa-angle-down text-zinc-600 text-md"></i>
                 </div>

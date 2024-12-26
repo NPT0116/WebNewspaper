@@ -118,10 +118,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
       return next(new AppError('Article not found in the database', 404));
     }
 
-    if (!title) {
-      console.log('Title is required');
-      return res.redirect(`/dashboard/reporter/write-article/${articleId}`);
-    }
+    console.log(req.body);
 
     // Update fields if provided
     article.title = title || article.title;
