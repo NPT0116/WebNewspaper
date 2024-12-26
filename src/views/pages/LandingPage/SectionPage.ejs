@@ -10,16 +10,19 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div><%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %></div>
-    <div><%- include('../../layouts/partials/Header', { sections: sections }) %></div>
+    <div class="w-full h-[130px] fixed top-0 z-50 bg-white">
+      <div><%- include('../../layouts/partials/HeaderTitle', { profile }) %></div>
+      <div><%- include('../../layouts/partials/Header', {sections }) %></div>
+    </div>
 
-    <div class="flex justify-center items-center flex-col">
+
+    <div class="flex justify-center items-center flex-col pt-[130px]">
       <div class="">
-        <h1 class="text-center text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
+        <h1 class="text-left text-5xl font-bold font-serif" style="padding-top: 30px; padding-bottom: 30px"><%= section.name %></h1>
       </div>
-      <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 20px">
+      <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 10px">
         <% articles.forEach(article => { %>
-        <%- include('../../components/Article/ArticleCard.ejs',{ article: article}) %>
+        <%- include('../../components/Article/ArticleCard.ejs',{ article, profile }) %>
         <% }) %>
       </div>
     </div>
