@@ -516,8 +516,15 @@ const sectionSelect = document.getElementById('section');
 //   sectionSelect.appendChild(option);
 // });
 
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
   const title = document.getElementById('title')?.value;
+  if (!title) {
+    const modal = document.getElementById('empty-title-alert');
+    modal.classList.remove('hidden');
+    return;
+  }
   const description = document.getElementById('desc')?.value;
   const layout = document.getElementById('layout')?.value;
   const theme = document.getElementById('theme')?.value;
@@ -534,6 +541,8 @@ const handleSubmit = async () => {
       body: JSON.stringify({ title, description, layout, bannerTheme: theme, images, content, sectionId: section, authorId: '673d5607e42ae42bd084fb02', tags: tags.map((tag) => tag._id) })
     });
     console.log(await res.json());
+    const form = document.getElementById('editor-form');
+    form.submit();
   } catch (error) {
     console.log(error);
   }
