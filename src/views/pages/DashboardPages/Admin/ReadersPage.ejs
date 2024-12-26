@@ -109,8 +109,7 @@
         position: relative;
         transition: all 0.3s;
       }
-
-      .buttonEdit2::after {
+      .buttonEdit2.disable .buttonEdit2::after {
         pointer-events: none;
         content: '';
         position: absolute;
@@ -141,6 +140,25 @@
       #example td {
         padding-left: 10px !important; /* Xóa padding cho tất cả các ô trong bảng */
       }
+
+      /* Start upgrade modal */
+      .custom-swal-popup {
+        border: 3px solid #333;
+        border-radius: 10px; /* Bo góc cho modal */
+      }
+
+      .custom-swal-confirm-btn,
+      .custom-swal-cancel-btn {
+        border-radius: 20px; /* Bo góc cho các nút */
+        width: 100px;
+      }
+
+      .custom-swal-text {
+        font-weight: bold;
+        color: #9c9c9c;
+      }
+
+      /* End upgrade modal */
     </style>
   </head>
   <body>
@@ -151,7 +169,7 @@
         <tr>
           <th id="id">ID</th>
           <th>Name</th>
-          <th>Date of birth</th>
+          <th>DOB</th>
           <th id="reader-type">Reader Type</th>
           <th id="action" class="pl-4">Actions</th>
           <!-- New Actions Column -->
@@ -185,7 +203,7 @@
                     // Customize the action buttons for each row
                     const isButtonDisabled = row?.accountId?.isSubscriber === true;
                     console.log(isButtonDisabled);
-                    const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default" class="font-bold text-[14px] relative flex items-center gap-2 bg-blue-500 text-white font-semibold p-[14px] rounded-xl hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    const buttonElement = isButtonDisabled ? `<button disabled data-tooltip-target="tooltip-default"  class="p-[14px] text-[12px] relative flex items-center gap-2 bg-blue-500 text-white font-semibold   px-4 rounded-lg hover:bg-blue-600 transition ease-in-out duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-none"
                     >
                  <svg class="w-5 h-5" fill='currentColor' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/>
@@ -351,14 +369,24 @@
     <script>
       const toggleUpgradeConfirm = (id) => {
         Swal.fire({
-          title: 'Upgrade this user?',
-          text: 'This action cannot be undone.',
-          icon: 'info',
+          title: '<span style="color: #0998EC; font-weight: bold">Upgrade this user</span>',
+          html: '<span class="custom-swal-text">Are you sure to upgrade this reader to be a subscriber?</span>',
+          imageUrl: '/icon/premium.gif',
+          imageWidth: 100,
+          imageHeight: 100,
           showCancelButton: true,
-          confirmButtonText: 'Yes',
+          confirmButtonText: 'Upgrade',
           cancelButtonText: 'Cancel',
           confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33'
+          cancelButtonColor: '#d33',
+          customClass: {
+            popup: 'custom-swal-popup', // Tùy chỉnh modal
+            title: 'custom-swal-title', // Tùy chỉnh title
+            html: 'custom-swal-text',
+            image: 'custom-swal-image', // Tùy chỉnh hình ảnh
+            confirmButton: 'custom-swal-confirm-btn', // Tùy chỉnh confirm button
+            cancelButton: 'custom-swal-cancel-btn' // Tùy chỉnh cancel button
+          }
         }).then((result) => {
           if (result.isConfirmed) {
             // Find the form by ID and submit it

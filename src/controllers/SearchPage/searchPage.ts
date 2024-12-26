@@ -30,6 +30,7 @@ interface ISearchPageData {
   pagination: {
     pageSize: number;
     currentPageNumber: number;
+    selectedSectionsName: string[];
     totalPagesCount: number;
     totalArticlesCount: number;
     hasPrevPage: boolean;
@@ -286,11 +287,8 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
         if (!section) {
           console.log('Error getting section by ' + section);
         }
-        selectedSectionsName.push(section?.name);
-      }
-      for (const sectionId of selectedSections) {
-        const section = await Section.findById(sectionId);
         section?.childSections?.forEach((childSection) => selectedSections.push(childSection.toString()));
+        selectedSectionsName.push(section?.name);
       }
       query.sectionId = { $in: selectedSections };
     }
