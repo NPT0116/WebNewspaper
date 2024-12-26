@@ -118,6 +118,8 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
       return next(new AppError('Article not found in the database', 404));
     }
 
+    console.log(req.body);
+
     // Update fields if provided
     article.title = title || article.title;
     article.description = description || article.description;
