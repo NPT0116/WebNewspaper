@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirm modal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
       /* Modal nền */
       .hidden {
@@ -48,7 +47,7 @@
   </head>
   <body>
     <div id="confirmModal" class="hidden fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
-      <div id="confirmItem" class="group select-none w-[400px] flex flex-col p-4 relative items-center justify-center bg-white border-4 border-black shadow-lg rounded-2xl">
+      <div id="confirmItem" class="group select-none w-[500px] flex flex-col p-4 relative items-center justify-center bg-white border-4 border-black shadow-lg rounded-2xl">
         <div class="">
           <div class="text-center p-3 flex-auto justify-center">
             <svg fill="currentColor" viewBox="0 0 20 20" class="group-hover:animate-bounce w-12 h-12 flex items-center text-gray-600 fill-[#c4c4c4] mx-auto mb-4" xmlns="http://www.w3.org/2000/svg">
@@ -58,22 +57,22 @@
                 fill-rule="evenodd"
               ></path>
             </svg>
-            <h2 class="text-xl font-bold py-4 text-black font-poppins">Are you sure?</h2>
+            <div class="font-bold py-4 text-[#333] text-[30px]" style="font-family: Arial, sans-serif">Are you sure?</div>
 
-            <p class="font-bold text-[16px] text-gray-500 px-2">Do you really want to continue to delete this article?</p>
+            <p class="font-bold text-[20px] text-gray-500 px-2">Do you really want to continue to delete this <%= item || "" %>?</p>
           </div>
           <div class="p-2 mt-2 text-center space-x-1 md:block">
+            <button
+              id="confirmButton"
+              class="bg-red-500 hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 hover:border-red-500 text-white hover:text-red-500 rounded-full transition ease-in duration-300"
+            >
+              Delete
+            </button>
             <button
               id="cancelButton"
               class="mb-2 md:mb-0 bg-[#c4c4c4] px-5 py-2 text-sm shadow-sm font-medium tracking-wider border-2 border-gray-200 hover:border-gray-300 text-black rounded-full hover:shadow-lg hover:bg-[#afafaf] transition ease-in duration-300"
             >
               Cancel
-            </button>
-            <button
-              id="confirmButton"
-              class="bg-red-500 hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 hover:border-red-500 text-white hover:text-red-500 rounded-full transition ease-in duration-300"
-            >
-              Confirm
             </button>
           </div>
         </div>

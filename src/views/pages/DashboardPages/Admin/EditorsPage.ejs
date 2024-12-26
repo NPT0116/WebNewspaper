@@ -150,9 +150,11 @@
   </style>
   <body>
     <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <%- include('../../../components/Dashboard/deleteConfirmModal.ejs', {item: "editor"}) %>
+
     <h1 class="text-[40px] font-bold font-serif">Editor</h1>
     <button type="button" class="button mt-4" data-modal-target="crud-modal" data-modal-toggle="crud-modal">
-      <span class="button__text">Add Reporter</span>
+      <span class="button__text">Add Editor</span>
       <span class="button__icon"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +182,7 @@
           <th>Username</th>
           <th>Email</th>
           <th>Name</th>
-          <th>Date of birth</th>
+          <th>DOB</th>
           <th id="gender">Gender</th>
           <th>Section</th>
           <th>Actions</th>
@@ -223,10 +225,10 @@
                   />
                 </svg>
                 <span>Delete</span>`
-                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this tag?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this tag?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-[14px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   ${body}
                 </button>
-              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-[14px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
                   ${body}
                 </button>`
                 return `
@@ -322,24 +324,40 @@
       });
     </script>
     <script>
-      const confirmDelete = (id) => {
-        Swal.fire({
-          title: 'Are you sure to delete this reporter?',
-          text: 'This action cannot be undone.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          cancelButtonText: 'Cancel',
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Find the form by ID and submit it
-            const form = document.getElementById(`delete-form-${id}`);
-            if (form) form.submit();
-          }
+      function confirmDelete(id) {
+        const modal = document.getElementById('confirmModal');
+        const modalItem = document.getElementById('confirmItem');
+        const cancelButton = document.getElementById('cancelButton');
+        const confirmButton = document.getElementById('confirmButton');
+
+        // Hiển thị modal và modalItem
+        modal.classList.remove('hidden'); // Hiển thị modal nền
+        modalItem.classList.add('modal'); // Thêm trạng thái mặc định cho modalItem
+        setTimeout(() => {
+          modalItem.classList.add('modal-active'); // Kích hoạt hiệu ứng thu nhỏ/phóng to trên modalItem
+        }, 0);
+
+        // Xử lý nút hủy
+        cancelButton.addEventListener('click', () => {
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300); // Thời gian trùng với transition
         });
-      };
+
+        // Xử lý nút xác nhận
+        confirmButton.addEventListener('click', () => {
+          const form = document.getElementById(`delete-form-${id}`);
+          if (form) form.submit();
+
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300);
+        });
+      }
     </script>
     <script type="text/javascript">
       function toggleDrawer(id) {
