@@ -7,15 +7,6 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
     <link rel="stylesheet" href="/css/editor.css" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
-      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   </head>
   <body>
     <div class="">
@@ -32,6 +23,7 @@
                   <div class="text-center text-gray-500 py-2">Loading...</div>
                 </div>
               </div>
+  
               <select name="sectionId" id="section" placeholder="Section" class="input-field-inline">
                 <% data.sections && data.sections.forEach(function(section) { %>
                   <% if (data.sectionId?.toString() === section._id?.toString()) { %>
@@ -218,6 +210,5 @@
       import {editorInstance} from '/js/editor.js'
       console.log(editorInstance);
     </script>
-    <div><%- include('alertModal') %></div>
   </body>
 </html>
