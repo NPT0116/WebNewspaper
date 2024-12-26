@@ -70,16 +70,19 @@
         </div>
       </div>
     </div>
-    
-    <div id="video-ytb-container" class="w-full hidden sm:flex" style="position: relative; padding-bottom: 56.25%; height: 0">
-      <iframe
-        class="absolute top-0 left-0 w-full h-full"
-        src="https://www.youtube.com/embed/5J1Ds1L4w8A"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
+    <!-- https://www.youtube.com/watch?v=uXbi3JqZiGA -->
+    <% if (videoUrl) {%>
+      <div id="video-ytb-container" class="w-full hidden sm:flex" style="position: relative; padding-bottom: 56.25%; height: 0">
+        <iframe
+          class="absolute top-0 left-0 w-full h-full"
+          src="<%=videoUrl%>"
+          
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    <%}%>
 
     <div id="main-content" class="relative w-full">
       <%-content%>

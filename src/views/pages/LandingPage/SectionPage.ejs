@@ -6,6 +6,8 @@
     <title><%= section.name %></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
@@ -22,7 +24,7 @@
       </div>
       <div class="flex flex-col justify-center items-center w-11/12" style="padding: 0px 10px">
         <% articles.forEach(article => { %>
-        <%- include('../../components/Article/ArticleCard.ejs',{ article, profile }) %>
+          <%- include('../../components/Article/ArticleCard.ejs',{ article, profile }) %>
         <% }) %>
       </div>
     </div>

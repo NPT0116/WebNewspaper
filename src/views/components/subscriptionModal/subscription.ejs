@@ -1,57 +1,129 @@
-<style>
-  #subscription-modal.hidden {
-    display: none;
-  }
-</style>
-<div id="subscription-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg lg:w-1/3 w-5/6">
-    <h2 class="text-xl font-bold mb-4">Access Restricted</h2>
-    <p class="mb-4">This article is for subscribers only. Please purchase a subscription to access it.</p>
-    <div class="flex justify-end">
-      <button id="close-modal" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Close</button>
-    </div>
-  </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('subscription-modal');
-    const closeModal = document.getElementById('close-modal');
     const links = document.querySelectorAll('a[href*="isSubscribed=true"]');
+    const isLoggedIn = <%- JSON.stringify(isAuthenticated) %>;
+    const profile = <%- JSON.stringify(profile) %>;
+
+    const isSubscriber = profile ? profile.isSubscriber : false;
+    console.log(isSubscriber);
 
     links.forEach((link) => {
-      link.addEventListener('click', async (event) => {
-        event.preventDefault(); // Prevent the default behavior of the link
+      link.addEventListener('click', (event) => {
+        const isSubscribed = link.getAttribute('href').includes('isSubscribed=true');
 
-        const url = link.getAttribute('href');
+        if (isSubscribed && (!isLoggedIn || !isSubscriber)) {
+          event.preventDefault(); // Prevent the default behavior of the link
 
-        try {
-          const response = await fetch(url, { method: 'GET' });
-
-          if (response.status === 403) {
-            // If the server responds with 403, show the modal
-            modal.classList.remove('hidden');
-          } else if (response.ok) {
-            // Redirect if the user has access
-            window.location.href = url;
+          if (!isLoggedIn) {
+            // Case 1: User is not logged in
+            Swal.fire({
+              title: 'Access Restricted',
+              text: 'This article is for subscribers only. Please log in to your account.',
+              imageUrl: '/icon/login-.gif', // Use your custom icon here
+              imageWidth: 100,
+              imageHeight: 100,
+              showCancelButton: true,
+              cancelButtonText: 'Close',
+              confirmButtonText: 'Login',
+              customClass: {
+                popup: 'swal-popup-login',
+                title: 'swal-title-login',
+                content: 'swal-content',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button'
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = '/login'; // Redirect to login page
+              }
+            });
           } else {
-            console.error('Unexpected error:', response.statusText);
+            // Case 2: User is logged in but not a subscriber
+            Swal.fire({
+              title: 'Access Restricted',
+              text: 'This article is for subscribers only. Please update your subscription.',
+              imageUrl: '/icon/diamond 2.gif', // Use your custom icon here
+              imageWidth: 100,
+              imageHeight: 100,
+              showCancelButton: true,
+              confirmButtonText: 'Purchase Subscription',
+              cancelButtonText: 'Close',
+              customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-content',
+                confirmButton: 'swal-confirm-button-gold',
+                cancelButton: 'swal-cancel-button'
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = '/profile'; // Redirect to profile page
+              }
+            });
           }
-        } catch (error) {
-          console.error('Error fetching article:', error);
         }
       });
     });
-
-    // Close modal
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden'); // Hide modal
-    });
-
-    // Close modal when clicking outside
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) {
-        modal.classList.add('hidden');
-      }
-    });
   });
 </script>
+
+<style>
+  .swal-popup {
+    background-color: #fff;
+    color: #000;
+    font-family: 'Arial', sans-serif;
+    border: 4px solid #d6ab56;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .swal-popup-login {
+    background-color: #fff;
+    color: #000;
+    font-family: 'Arial', sans-serif;
+    border: 4px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .swal-title {
+    color: #d6ab56;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .swal-title-login {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 1000;
+  }
+  .swal-content {
+    color: #000;
+    font-size: 1rem;
+    font-weight: medium;
+    margin-bottom: 20px;
+  }
+  .swal-confirm-button {
+    background-color: #37cdcd;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  .swal-confirm-button-gold {
+    background-color: #fff;
+    color: #d6ab56;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: 2px solid #d6ab56;
+    transition: all 0.5s ease;
+  }
+  .swal-confirm-button-gold:hover {
+    background-color: #d6ab56;
+    color: #fff;
+  }
+  .swal-cancel-button {
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+</style>

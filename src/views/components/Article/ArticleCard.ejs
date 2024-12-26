@@ -17,7 +17,7 @@
       <div class="sm:h-4/5 w-full  font-serif flex flex-col gap-2 justify-between items-center">
         <h2 class=" lg:text-center text-left sm:text-3xl text-xl font-bold hover:underline <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
         <h1 class="w-full relative hidden md:block text-lg">
-          <% if(article.isSubscribed && profile.isSubscriber || !article.isSubscribed) { %>
+          <% if(article.isSubscribed && profile && profile.isSubscriber || !article.isSubscribed) { %>
             <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
           <% } %>
         </h1>
