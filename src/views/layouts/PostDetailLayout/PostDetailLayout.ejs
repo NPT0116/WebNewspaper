@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
     <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
     <title><%= title %></title>
   </head>
 
   <body>
-    <div id="header-post-detail" class="w-full sticky top-0 z-50 ">
-      <%- include('../partials/HeaderTitle.ejs', { profile:profile }) %>
-    </div>
+    <div id="header-post-detail" class="w-full sticky top-0 z-50"><%- include('../partials/HeaderTitle.ejs', { profile:profile }) %></div>
     <div id="banner-container" class="hidden lg:flex">
       <div data-id="1" id="banner-layout-1" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
@@ -66,13 +66,11 @@
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       // add bg white if above 1024
-      const headerPostDetail = document.getElementById('header-post-detail')
+      const headerPostDetail = document.getElementById('header-post-detail');
       if (window.innerWidth < 1024) {
-        if (!headerPostDetail.classList.contains('bg-white'))
-          headerPostDetail.classList.add('bg-white')
+        if (!headerPostDetail.classList.contains('bg-white')) headerPostDetail.classList.add('bg-white');
       } else {
-        if (headerPostDetail.classList.contains('bg-white'))
-          headerPostDetail.classList.remove('bg-white')
+        if (headerPostDetail.classList.contains('bg-white')) headerPostDetail.classList.remove('bg-white');
       }
       // height of banner in article detail
       document.getElementById('banner-container').style.height = `${window.innerHeight - 96}px`;
