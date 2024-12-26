@@ -1,10 +1,149 @@
-<div class="relative px-10 z-0 bg-white flex flex-col justify-center items-center" style="padding-bottom: 100px">
-  <div id="reader-mode-1" class="flex flex-col justify-center items-center w-full lg:pt-[100px]">
-    <%- include('../../PostDetailPage2/ContentDisplayLayout/DefaultContent.ejs', {content: content})%>
-    <hr />
+<div class="flex flex-row px-10 items-start">
+  <div class="sticky w-96 my-10">
+    <ol class="relative text-gray-500 border-s border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      <li class="mb-10 ms-6">
+        <% if (status === 'draft' || status === 'pending' || status === 'approved' || status === 'rejected' || status === 'published') { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
+          <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5" />
+          </svg>
+        </span>
+        <% } else { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              fill-rule="evenodd"
+              d="M15.514 3.293a1 1 0 0 0-1.415 0L12.151 5.24a.93.93 0 0 1 .056.052l6.5 6.5a.97.97 0 0 1 .052.056L20.707 9.9a1 1 0 0 0 0-1.415l-5.193-5.193ZM7.004 8.27l3.892-1.46 6.293 6.293-1.46 3.893a1 1 0 0 1-.603.591l-9.494 3.355a1 1 0 0 1-.98-.18l6.452-6.453a1 1 0 0 0-1.414-1.414l-6.453 6.452a1 1 0 0 1-.18-.98l3.355-9.494a1 1 0 0 1 .591-.603Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <% } %>
+        <h3 class="font-medium leading-tight">Draft</h3>
+        <p class="text-sm">First words of article</p>
+      </li>
+      <li class="mb-10 ms-6">
+        <% if (status === 'pending' || status === 'approved' || status === 'rejected' || status === 'published') { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
+          <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5" />
+          </svg>
+        </span>
+        <% } else { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Z" />
+            <path
+              fill-rule="evenodd"
+              d="M11 7V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm4.707 5.707a1 1 0 0 0-1.414-1.414L11 14.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <% } %>
+        <h3 class="font-medium leading-tight">Submitted</h3>
+        <p class="text-sm">Article will be reviewed by an editor</p>
+      </li>
+      <li class="mb-10 ms-6">
+        <% if (status === 'approved' || status === 'published') { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
+          <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5" />
+          </svg>
+        </span>
+        <% } else if (status === 'rejected') { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-red-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-red-900">
+          <svg class="w-6 h-6 text-red-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
+          </svg>
+        </span>
+        <% } else { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              fill-rule="evenodd"
+              d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <% } %>
+        <h3 class="font-medium leading-tight">Editor in review</h3>
+        <% if (status === 'rejected') { %>
+        <p class="text-sm">Article is rejected</p>
+        <p class="text-sm underline text-blue-400 cursor-pointer" data-modal-target="popup-modal" data-modal-toggle="popup-modal">See reason</p>
+        <% } else if (status === 'approved' || status === 'published') { %>
+        <p class="text-sm">Article will be published at</p>
+        <p class="text-sm"><%= publishedAtDate %></p>
+        <% } %>
+      </li>
+      <li class="mb-10 ms-6">
+        <% if (status === 'published') { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
+          <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5" />
+          </svg>
+        </span>
+        <% } else { %>
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              fill-rule="evenodd"
+              d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11.5c.07 0 .14-.007.207-.021.095.014.193.021.293.021h2a2 2 0 0 0 2-2V7a1 1 0 0 0-1-1h-1a1 1 0 1 0 0 2v11h-2V5a2 2 0 0 0-2-2H5Zm7 4a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm-6 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1ZM7 6a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H7Zm1 3V8h1v1H8Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <% } %>
+        <h3 class="font-medium leading-tight">Published</h3>
+        <% if (status === 'published') { %>
+        <p class="text-sm"><%= viewCount %> viewed</p>
+        <% } %>
+      </li>
+    </ol>
   </div>
-  <div id="reader-mode-2" class="hidden">
-    <%- include('../../PostDetailPage2/ContentDisplayLayout/FlipContent.ejs', {title: title, content: content, image: images, author: author})%>
-    <hr />
+
+  <div class="relative px-10 z-0 bg-white flex flex-col justify-center items-center" style="padding-bottom: 100px">
+    <div class="flex flex-col justify-center items-center lg:pt-[100px]" style="width: 1100px">
+      <div class="my-4 flex flex-col justify-between items-center gap-4">
+        <div class="flex sm:text-5xl text-4xl font-serif text-center"><%=title%></div>
+      </div>
+      <div class="flex flex-col justify-between items-center font-dancing xl:text-xl text-lg text-justify sm:w-[70%] w-[95%]"><%-content%></div>
+      <hr />
+    </div>
+  </div>
+</div>
+
+<div
+  id="popup-modal"
+  tabindex="-1"
+  class="animate__animated animate__bounceInDown hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="w-full flex justify-center">
+        <div class="w-1/3 flex justify-center items-center">
+          <img class="object-center" src="/gif/thumb-down2.gif" alt="Intro Image" />
+        </div>
+      </div>
+      <div class="p-4 md:p-5 text-start">
+        <div class="flex flex-row gap-2">
+          <h2 class="mb-5 text-lg font-semibold text-gray-700 dark:text-gray-400">Rejected by:</h2>
+          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><%- rejectPerson %></h3>
+        </div>
+        <div class="flex flex-row gap-2">
+          <h2 class="mb-5 text-lg font-semibold text-gray-700 dark:text-gray-400">Reason:</h2>
+          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><%- rejectReason %></h3>
+        </div>
+
+        <button
+          data-modal-hide="popup-modal"
+          type="button"
+          class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+        >
+          OK
+        </button>
+      </div>
+    </div>
   </div>
 </div>

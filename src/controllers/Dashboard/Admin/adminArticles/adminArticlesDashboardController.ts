@@ -238,7 +238,6 @@ interface IAdminChangeSubscriptionArticle {
 }
 export const adminChangeSubscriptionArticle = async (req: Request<IAdminChangeSubscriptionArticle>, res: Response) => {
   try {
-    console.log('clm');
     const { articleId } = req.params;
     if (!articleId) {
       res.redirect('/dashboard/admin');

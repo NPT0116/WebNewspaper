@@ -54,7 +54,7 @@
 
       /* Styling cho icon */
       .icon {
-        z-index: 50;
+        z-index: 30;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -118,6 +118,7 @@
   <body>
     <%-include('../../../components/Dashboard/introScreen.ejs')%>
     <%- include('../../../components/Dashboard/screenLimitSize.ejs', {limitSize: 1429})  %>
+    <%- include('../../../components/Dashboard/confirmModal.ejs') %>
     <div class="flex justify-between">
       <h1 class="text-[40px] font-bold font-serif">Article List</h1>
     </div>
@@ -336,8 +337,8 @@
                                     Premium
                                 </span>`;
 
-                      return `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                  <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                      return `<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ">
+                                  <span class="w-2 h-2 me-1 bg-green-500 rounded-full "></span>
                                   Public
                               </span>`;
                     }
@@ -389,21 +390,37 @@
       }
 
       function confirmDelete(id) {
-        Swal.fire({
-          title: 'Are you sure?',
-          text: 'This action cannot be undone.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          cancelButtonText: 'Cancel',
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Find the form by ID and submit it
-            const form = document.getElementById(`deleteForm-${id}`);
-            if (form) form.submit();
-          }
+        const modal = document.getElementById('confirmModal');
+        const modalItem = document.getElementById('confirmItem');
+        const cancelButton = document.getElementById('cancelButton');
+        const confirmButton = document.getElementById('confirmButton');
+
+        // Hiển thị modal và modalItem
+        modal.classList.remove('hidden'); // Hiển thị modal nền
+        modalItem.classList.add('modal'); // Thêm trạng thái mặc định cho modalItem
+        setTimeout(() => {
+          modalItem.classList.add('modal-active'); // Kích hoạt hiệu ứng thu nhỏ/phóng to trên modalItem
+        }, 0);
+
+        // Xử lý nút hủy
+        cancelButton.addEventListener('click', () => {
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300); // Thời gian trùng với transition
+        });
+
+        // Xử lý nút xác nhận
+        confirmButton.addEventListener('click', () => {
+          const form = document.getElementById(`deleteForm-${id}`);
+          if (form) form.submit();
+
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300);
         });
       }
     </script>
@@ -539,6 +556,7 @@
 
       // Render dropdown with search results
       function renderDropdown(results) {
+        const button = document.querySelector('.icon');
         if (!results.length) {
           dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">No results found</div>';
         } else {
@@ -552,6 +570,10 @@
           const dropdownItems = dropdown.querySelectorAll('[data-result]');
           dropdownItems.forEach((item) => {
             item.addEventListener('click', (e) => {
+              if (event.target !== button) {
+                // Đặt focus lại cho button
+                button.focus();
+              }
               const result = JSON.parse(e.currentTarget.getAttribute('data-result'));
               if (!tags?.some((tag) => tag._id === result._id)) addTag(result);
               else removeTag(result);

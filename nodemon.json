@@ -1,7 +1,8 @@
 {
   "watch": [
     "src",
-    ".env"
+    ".env",
+    "public/css"
   ],
   "ext": ".ts,.js",
   "ignore": [],

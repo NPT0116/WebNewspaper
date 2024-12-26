@@ -18,6 +18,7 @@ interface IArticleData {
   images: string[];
   sectionId: string;
   tags: string[];
+  videoUrl: string;
 }
 
 const getRandomNumberInRange = (min: number, max: number): number => {
@@ -165,7 +166,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         approved: {
           editorId: editorId,
           publishedAt: publishedDate
-        }
+        },
+        videoUrl: articleData.videoUrl
       });
 
       await article.save();
