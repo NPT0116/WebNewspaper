@@ -17,7 +17,7 @@
         color: #000;
         border-radius: 5px;
         margin-right: 5px;
-        padding: 6px 14px;
+        padding: 3px 14px;
         display: flex;
         align-items: center;
       }
@@ -25,8 +25,21 @@
         margin-left: 6px;
         cursor: pointer;
       }
+      .select-box {
+        position: relative;
+        width: 100%; /* Ensure the select-box defines the container's width */
+        max-width: 500px; /* Optional: Set a maximum width */
+      }
       .options {
-        display: none;
+        position: absolute;
+        top: 100%; /* Position right below the select-box */
+        left: 0;
+        z-index: 10;
+        display: none; /* Initially hidden */
+        background-color: #fff;
+        border: 1px solid #ccc;
+        max-height: 200px; /* Limit height */
+        overflow-y: auto; /* Scroll if content overflows */
       }
       .open .options {
         display: block;
@@ -190,6 +203,8 @@
             option.addEventListener('click', function () {
               option.classList.toggle('active');
               updateSelectedOptions(customSelect);
+              const form = document.getElementById('search-form');
+              form.submit();
             });
           });
         });
@@ -209,6 +224,8 @@
             //   allTagsOption.classList.remove('active');
             // }
             updateSelectedOptions(customSelect);
+            const form = document.getElementById('search-form');
+            form.submit();
           }
         });
 
@@ -233,6 +250,8 @@
 
             customSelect.querySelector('.option.all-tags').classList.remove('active');
             updateSelectedOptions(customSelect);
+            const form = document.getElementById('search-form');
+            form.submit();
           });
         }
 

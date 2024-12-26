@@ -1,6 +1,6 @@
 <div class="mx-auto px-4 py-6 ">
   <!-- Filter Form -->
-  <form action="/search-page" method="GET" class="space-y-4 mt-10 " autocomplete="off">
+  <form id="search-form" action="/search-page" method="GET" class="space-y-4 mt-10 " autocomplete="off">
     <div class="flex flex-col justify-center items-center mb-1">
       <!-- Search Input -->
       <div class="w-full flex justify-center items-center">
@@ -35,17 +35,17 @@
         <div class="flex flex-row justify-center gap-14 items-center" style="width: 80%;">
           <div class="w-1/4">
             <div class="relative">
-              <label for="sections" class="block font-bold text-sm mb-1">Section</label>
+              <label for="sections" class="block font-bold text-sm">Section</label>
               <button
                 type="button"
                 id="sectionToggle"
-                class="w-full text-left bg-white border border-gray-300 rounded p-2 flex items-center justify-start space-x-2 mt-1"
+                class="w-full text-left bg-white border border-gray-300 rounded p-2 flex items-center justify-between space-x-2 mt-1"
                 onclick="toggleDropdown()"
               >
-                <span>Section</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="w-4 h-4">
-                  <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
-                </svg>
+                <span onclick="toggleDropdown()">Section</span>
+                <div class="my-0 mx-3 w-1/6 flex justify-end" onclick="toggleDropdown()">
+                  <i class="fa fa-angle-down text-zinc-600 text-md"></i>
+                </div>
               </button>
               <div
                 id="sectionDropdown"
@@ -80,11 +80,11 @@
           </div>
           <div class="w-1/4">
             <div>
-              <label for="time" class="block font-bold text-sm mb-1">Date Range</label>
+              <label for="time" class="block font-bold text-sm">Date Range</label>
               <select
                 name="time"
                 id="time"
-                class="border border-gray-300 rounded w-full p-2"
+                class="border border-gray-300 rounded w-full mt-1 p-2"
                 onchange="this.form.submit();"
               >
                 <option value="all" <% if (time === 'all') { %>selected<% } %>>All</option>
@@ -95,10 +95,10 @@
             </div>
           </div>
           <div class="w-2/4">
-            <label for="tags" class="block font-bold text-sm mt-2 mb-2">Tags</label>
-            <div class="container flex items-start">
-              <div class="custom-select relative w-full flex items-center">
-                <div class="select-box border border-gray-300 rounded p-2 w-[500px] cursor-pointer flex items-center">
+            <label for="tags" class="block font-bold text-sm">Tags</label>
+            <div class="container relative flex items-start">
+              <div class="custom-select w-full flex items-center">
+                <div class="select-box relative border border-gray-300 rounded p-[7px] w-[500px] cursor-pointer flex items-center mt-1">
                   <input type="text" class="tags_input" name="tags" hidden />
                   <div class="selected-options flex flex-wrap mt-0 w-5/6">
                     <% selectedTags.forEach(tag => { %>
@@ -106,13 +106,12 @@
                     <% }) %>
                   </div>
                   <div class="arrow my-0 mx-3 w-1/6 flex justify-end">
-                    <i class="fa fa-angle-down text-zinc-600 text-3xl"></i>
+                    <i class="fa fa-angle-down text-zinc-600 text-lg"></i>
                   </div>
                 </div>
-                <input type="submit" class="btn_submit py-[15px] px-6 bg-[#4caf50] text-white border-0 cursor-pointer text-base rounded-md" value="Apply"> 
-                <div class="options absolute w-full bg-white border-2 border-stone-300 border-t-0 max-h-56 overflow-y-auto z-10 shadow-lg">
+                <div class="w-[500px] options absolute bg-white border-2 border-stone-300 border-t-0 max-h-56 overflow-y-auto z-10 shadow-lg">
                   <div class="option-search-tags bg-white border-2 border-gray-300 py-2 px-0 m-2">
-                    <input type="text" class="search-tags w-full border-0 outline-none p-2 text-sm" placeholder="Search tags..." />
+                    <input type="text" class="search-tags w-full focus:outline-none focus:ring-0 focus:border-0 border-none p-2 text-sm" placeholder="Search tags..." />
                     <button type="button" class="clear absolute border-none bg-transparent cursor-pointer text-sm font-semibold p-0 text-black top-6 left-auto right-5"><i class="fa fa-close"></i></button>
                   </div>
                   <!-- <div class="option all-tags" data-value="All">Select All</div> -->
@@ -133,7 +132,7 @@
     <div class="flex flex-col justify-center items-center">
       <% if (articles.length > 0) { %> 
         <% articles.forEach(article => { %>
-          <%- include('../../components/Article/ArticleCard.ejs', { article: article }) %>
+          <%- include('../../components/Article/ArticleCard.ejs', { article: article, profile }) %>
         <% }) %>
       <% } %>
     </div>
