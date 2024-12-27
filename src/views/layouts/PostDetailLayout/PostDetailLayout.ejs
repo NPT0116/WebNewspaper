@@ -45,19 +45,19 @@
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
       </div>
-      <div data-id="3" id="banner-layout-3" class="h-full w-full flex flex-row justify-center items-center" style="display: none">
-        <div id="banner-introduction-layout-content" class="absolute left-0 top-24 bg-black w-full bg-opacity-50 text-white h-full flex flex-col justify-center items-center text-center gap-4">
+      <div data-id="3" id="banner-layout-3" class="relative w-full flex flex-row justify-center items-center" style="display: none;">
+        <div id="banner-introduction-layout-content" class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-full flex flex-col justify-center items-center text-center gap-4">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
           <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
         </div>
-        <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
+        <div id="banner-introduction-layout-image" class="h-full w-full"><img class="object-cover h-full w-full" src="<%=images%>" alt="" /></div>
       </div>
     </div>
 
     <div class="flex justify-center flex-col">
       <%-include(body, {title: title, content: content, images: images, author: author.name, sections: sections, articles: relatedArticle, articleSlug: slug, sectionSlug: sectionId.slug,comments:
-      comments, profile: profile, published: approved.publishedAt})%>
+      comments, profile: profile, published: approved.publishedAt, videoUrl})%>
     </div>
 
     <div id="footer-container"><%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %></div>
