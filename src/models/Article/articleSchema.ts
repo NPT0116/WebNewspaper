@@ -46,14 +46,13 @@ const articleSchema = new Schema<IArticle>(
   }
 );
 
-// Middleware để tạo slug tự động trước khi lưu
 articleSchema.pre('save', async function (next) {
-  if (!this.slug) {
+  if (this.isModified('title') || !this.slug) {
     const baseSlug = generateSlug(this.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
-    // Kiểm tra slug trùng lặp
+    // Check for duplicate slugs
     while (await mongoose.models.Article.findOne({ slug: uniqueSlug })) {
       uniqueSlug = `${baseSlug}-${count}`;
       count++;
@@ -64,21 +63,22 @@ articleSchema.pre('save', async function (next) {
   next();
 });
 
-// Middleware để cập nhật slug khi tiêu đề thay đổi
 articleSchema.pre('findOneAndUpdate', async function (next) {
-  const update = this.getUpdate() as Partial<IArticle>;
+  const update = this.getUpdate() as Partial<{ title: string; slug: string }>;
+
   if (update && update.title) {
     const baseSlug = generateSlug(update.title);
     let uniqueSlug = baseSlug;
     let count = 1;
 
-    // Kiểm tra slug trùng lặp
+    // Check for duplicate slugs
     while (await mongoose.models.Article.findOne({ slug: uniqueSlug })) {
       uniqueSlug = `${baseSlug}-${count}`;
       count++;
     }
 
     update.slug = uniqueSlug;
+    this.setUpdate(update); // Apply the modified update object
   }
   next();
 });
