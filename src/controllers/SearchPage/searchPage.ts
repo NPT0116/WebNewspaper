@@ -299,7 +299,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
         const tagId = await getTagIdBySlug(tagSlug);
         tagList.push(tagId);
       }
-      query.tags = { $all: tagList };
+      query.tags = { $in: tagList };
     }
 
     // Filter by time
