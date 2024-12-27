@@ -5,10 +5,11 @@
   aria-labelledby="drawer-js-label"
 >
   <form method="POST" action="/dashboard/admin/reporters/update-reporter">
-    <h5 id="drawer-js-label" class="mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400">
+    <h5 id="drawer-js-label" class="mb-4 inline-flex items-center text-base font-semibold text-[#249AFF] dark:text-gray-400">
       <svg class="me-2 h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-      >Info
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+      </svg>
+      Info
     </h5>
     <button
       id="drawer-hide-button"
@@ -22,26 +23,27 @@
       <span class="sr-only">Close menu</span>
     </button>
     <div class="p-3">
-      <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center justify-center mb-2">
         <a href="#">
           <img
-            class="w-10 h-10 rounded-full"
+            class="w-[100px] h-[100px] rounded-full"
             src="https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
             alt="Jese Leos"
           />
         </a>
       </div>
-      <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
-        <a href="#" id="name"></a>
-      </p>
-      <p class="mb-3 text-sm font-normal">
-        <a href="#" id="username" class="hover:underline"></a>
-      </p>
+      <div class="flex flex-col items-center">
+        <p class="text-[20px] font-bold font-serif leading-none text-gray-900 dark:text-white">
+          <a href="#" id="name"></a>
+        </p>
+        <p class="mb-3 text-sm font-normal">
+          <a href="#" id="username" class="hover:underline text-[#8d8d8d]"></a>
+        </p>
+      </div>
 
-      <div class="p-6 bg-white rounded-lg shadow">
-
-        <input type="hidden" id="_id-input" name="_id">
-        <input type="hidden" id="accountId-input" name="accountId">
+      <div class="p-6 bg-white rounded-lg shadow mb-6">
+        <input type="hidden" id="_id-input" name="_id" />
+        <input type="hidden" id="accountId-input" name="accountId" />
 
         <!-- Name Fields -->
         <div class="mb-4 flex gap-2 justify-between">
@@ -57,89 +59,68 @@
             />
           </div>
         </div>
-        <!-- Name Fields -->
-        <div class="mb-4 flex gap-2 justify-between">
-          <label class="text-sm font-medium text-gray-700 mb-2 flex items-center w-1/4">Name</label>
-          <div class="flex flex-1 space-x-4">
-            <input
-              id="name-input"
-              name="name"
-              type="text"
-              placeholder="First Name"
-              class="w-full border  border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              value="Amélie"
-            />
-          </div>
-        </div>
 
         <!-- Email Address Field -->
         <div class="mb-4 flex gap-2 justify-between">
           <label class="text-sm font-medium text-gray-700 mb-2 flex items-center w-1/4">Email address</label>
-          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-            <input
-              type="email"
-              id="email-input"
-              name="email"
-              placeholder="Email Address"
-              class="w-full border-0 focus:ring-0 focus:outline-none pl-2 "
-              value="amelie@untitledui.com"
-            />
+          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-1 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+            <input type="email" id="email-input" name="email" placeholder="Email Address" class="w-full border-0 focus:ring-0 focus:outline-none" value="amelie@untitledui.com" />
           </div>
         </div>
 
         <!-- Username Field -->
         <div class="mb-4 flex gap-2 justify-between">
-          <label class="block text-sm font-medium text-gray-700 mb-2 w-1/4">Username</label>
-          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-            <input name="username" type="text" id="username-input" placeholder="Username" class="w-full border-0 focus:ring-0 focus:outline-none pl-2 />
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fill-rule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1.94-6.06a.75.75 0 011.06-.02L10 12.37l1.94-2.43a.75.75 0 011.06 1.06l-2.5 3.14a.75.75 0 01-1.06 0l-2.5-3.14a.75.75 0 01-.02-1.06z"
-                clip-rule="evenodd"
-              />
-            </svg>
+          <label class="text-sm font-medium text-gray-700 mb-2 flex items-center w-1/4">Username</label>
+          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-2 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+            <input name="username" type="text" id="username-input" placeholder="Username" class="w-full border-0 focus:ring-0 focus:outline-none pl-2" />
           </div>
         </div>
         <div class="mb-4 flex gap-2 justify-between">
-          <label for="gender" class="block text-sm font-medium text-gray-700 mb-2 w-1/4">Gender</label>
-          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+          <label for="gender" class="flex items-center text-sm font-medium text-gray-700 mb-2 w-1/4">Gender</label>
+          <div class="flex flex-1 items-center border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
             <select
-                name="gender"
-                id="gender-input"
-                class="bg-gray-50 border-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-0 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Gender"
-                required=""
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
+              name="gender"
+              id="gender-input"
+              class="bg-gray-50 border-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-0 block w-full px-4 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Gender"
+              required=""
+            >
+              <option value="male" class="py-4">Male</option>
+              <option value="female" class="py-4">Female</option>
+              <option value="other" class="py-4">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-4 flex gap-2 justify-between">
+          <label class="flex items-center text-sm font-medium text-gray-700 mb-2 w-1/4">Date of birth</label>
+          <div class="flex flex-1 items-center border border-gray-300 rounded-md px-1 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+            <input datepicker datepicker-format="mm-dd-yyyy" name="dob" datepicker id="dob-input" type="text" class="w-full border-0 focus:ring-0 focus:outline-none pl-2" placeholder="Select date" />
           </div>
         </div>
       </div>
 
-      <div class="mb-4 flex gap-2 justify-between">
-        <label class="block text-sm font-medium text-gray-700 mb-2 w-1/4">Date of birth</label>
-        <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-            <input datepicker datepicker-format="mm-dd-yyyy" name="dob" datepicker id="dob-input" type="text" class="w-full border-0 focus:ring-0 focus:outline-none pl-2  " placeholder="Select date" />
-        </div>
-      </div>
-      
       <strong class="text-xxl">Recently written articles:</strong>
-      
       <div id="article-list"></div>
-          
-      <div data-dial-init class="fixed end-6 bottom-6 group">
-          <button data-tooltip-target="tooltip-hover" data-tooltip-trigger="hover" type="submit" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-              <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-              <span class="sr-only">Open actions menu</span>
-          </button>
-      </div>
-      
-      <div id="tooltip-hover" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-          Save
-          <div class="tooltip-arrow" data-popper-arrow></div>
-      </div>
+    </div>
+    <div data-dial-init class="fixed end-6 bottom-6 group">
+      <button
+        data-tooltip-target="tooltip-hover"
+        data-tooltip-trigger="hover"
+        type="submit"
+        class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800"
+      >
+        <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+          />
+        </svg>
+        <span class="sr-only">Open actions menu</span>
+      </button>
+    </div>
+    <div id="tooltip-hover" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      Save
+      <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
   </form>
 </div>

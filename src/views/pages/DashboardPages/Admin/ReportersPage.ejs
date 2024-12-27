@@ -181,7 +181,7 @@
           <th id="id">Reporter ID</th>
           <th>Name</th>
           <th id="gender">Gender</th>
-          <th>Date of Birth</th>
+          <th>DOB</th>
           <th>Actions</th>
           <!-- New Actions Column -->
         </tr>
@@ -219,10 +219,10 @@
                   />
                 </svg>
                 <span>Delete</span>`
-                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this repoter?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this repoter?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-[14px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   ${body}
                 </button>
-              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-[14px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
                   ${body}
                 </button>`
                 // Customize the action buttons for each row
@@ -350,11 +350,11 @@
         reporter.reportArticles.forEach((article) => {
           // Create the article container
           const articleDiv = document.createElement('div');
-          articleDiv.className = 'p-4 bg-white shadow rounded-lg hover:shadow-lg transition';
+          articleDiv.className = 'p-4 bg-white shadow rounded-lg hover:shadow-lg transition border border-[#c4c4c4] mb-4';
 
           // Create and append the title
           const title = document.createElement('h3');
-          title.className = 'text-lg font-semibold text-blue-600';
+          title.className = 'text-lg font-bold font-sans';
           title.textContent = article.title;
           articleDiv.appendChild(title);
 
@@ -372,9 +372,9 @@
 
           // Create and append the "Read More" link
           const readMoreLink = document.createElement('a');
-          readMoreLink.className = 'mt-4 inline-block text-blue-500 hover:underline text-sm font-medium';
+          readMoreLink.className = 'mt-4 inline-block text-blue-500 hover:underline text-sm font-medium underline';
           readMoreLink.href = `/dashboard/${article._id}/preview`; // Replace '#' with the actual article URL
-          readMoreLink.textContent = 'Read More';
+          readMoreLink.textContent = 'Read More...';
           readMoreLink.target = '_blank';
           articleDiv.appendChild(readMoreLink);
 
