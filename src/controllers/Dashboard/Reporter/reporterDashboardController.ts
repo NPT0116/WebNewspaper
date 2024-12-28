@@ -10,6 +10,7 @@ import { Section } from '~/models/Section/sectionSchema.js';
 import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
+import { generateSlug } from '~/utils/common.js';
 
 // Request params and body for updating an article
 interface UpdateArticleParams {
