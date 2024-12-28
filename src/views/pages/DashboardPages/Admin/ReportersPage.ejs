@@ -4,30 +4,183 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      /* Start styling table */
+      th.sorting_asc,
+      th.sorting_desc {
+        color: white !important; /* Màu chữ khi được chọn */
+      }
+
+      th {
+        background-color: #212529;
+        color: white;
+      }
+      .input {
+        color: #333;
+        font:
+          1em/1.5 Hind,
+          sans-serif;
+      }
+      #example {
+        table-layout: fixed;
+        width: 100%;
+      }
+      /* End styling table */
+
+      /* Start button styling */
+      .button {
+        position: relative;
+        width: 170px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px solid #34974d;
+        background-color: #3ec27c;
+      }
+
+      .button,
+      .button__icon,
+      .button__text {
+        transition: all 0.3s;
+      }
+
+      .button .button__text {
+        transform: translateX(10px);
+        padding: 0 10px;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .button .button__icon {
+        position: absolute;
+        transform: translateX(130px);
+        height: 100%;
+        width: 39px;
+        background-color: #12a155;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .button .svg {
+        width: 30px;
+        stroke: #fff;
+      }
+
+      .button:hover {
+        background: #12a155;
+      }
+
+      .button:hover .button__text {
+        color: transparent;
+      }
+
+      .button:hover .button__icon {
+        width: 148px;
+        transform: translateX(10px);
+      }
+
+      .button:active .button__icon {
+        background-color: #12a155;
+      }
+
+      .button:active {
+        border: 1px solid #12a155;
+      }
+      /* End button styling */
+      th#id {
+        text-align: center;
+      }
+      th#gender {
+        text-align: center;
+      }
+      /* Start button edit1 styling */
+      .buttonEdit1 {
+        --color: #249aff;
+        font-family: inherit;
+
+        width: 100px;
+        height: 2.6em;
+        line-height: 2.5em;
+        margin: 20px 0;
+        margin-right: 20px;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        border: 2px solid var(--color);
+        transition: color 0.5s;
+        z-index: 1;
+        font-size: 17px;
+        border-radius: 6px;
+        font-weight: 500;
+        color: var(--color);
+      }
+
+      .buttonEdit1:before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        background: var(--color);
+        height: 150px;
+        width: 200px;
+        border-radius: 50%;
+      }
+
+      .buttonEdit1:hover {
+        color: #fff;
+      }
+
+      .buttonEdit1:before {
+        top: 100%;
+        left: 100%;
+        transition: all 0.7s;
+      }
+
+      .buttonEdit1:hover:before {
+        top: -30px;
+        left: -30px;
+      }
+
+      .buttonEdit1:active:before {
+        background: #249aff;
+        transition: background 0s;
+      }
+      /* End button edit1 */
+    </style>
   </head>
   <body>
-    <button
-      type="button"
-      data-modal-target="crud-modal"
-      data-modal-toggle="crud-modal"
-      class="flex gap-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-    >
-      <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-        <path
-          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
-        />
-      </svg>
-      Add reporter
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <h1 class="text-[40px] font-bold font-serif">Reporter</h1>
+
+    <button type="button" class="button mt-4" data-modal-target="crud-modal" data-modal-toggle="crud-modal">
+      <span class="button__text">Add Reporter</span>
+      <span class="button__icon"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke="currentColor"
+          height="24"
+          fill="none"
+          class="svg"
+        >
+          <line y2="19" y1="5" x2="12" x1="12"></line>
+          <line y2="12" y1="12" x2="19" x1="5"></line>
+        </svg>
+      </span>
     </button>
 
     <%- include('AddReporterModal') %>
     <table id="example" class="display">
       <thead>
         <tr>
-          <th>ID</th>
+          <th id="id">Reporter ID</th>
           <th>Name</th>
-          <th>Gender</th>
+          <th id="gender">Gender</th>
           <th>Date of Birth</th>
           <th>Actions</th>
           <!-- New Actions Column -->
@@ -58,29 +211,31 @@
               // Actions column
               data: null, // `null` because this column doesn't map to any field in the data source
               render: function (data, type, row) {
+                const canDelete = row?.reportArticles?.length === 0;
+                const body = `<svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                  <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
+                  />
+                </svg>
+                <span>Delete</span>`
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this repoter?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  ${body}
+                </button>
+              ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+                  ${body}
+                </button>`
                 // Customize the action buttons for each row
                 return `
-                      <div class="flex gap-2">
-                        <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info bg-teal-500 text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-300 gap-2 rounded-lg px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      <div class="flex gap-2 items-center">
+                        <button onclick="toggleDrawer('${row._id}')" data-user-id="${row._id}" class="show-user-info buttonEdit1   gap-2 rounded-lg px-4 py-2 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                               <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
                               </svg>
                               <span>Info</span>
                         </button>
 
                         <form id="delete-form-${row._id}" method="POST" action="/dashboard/admin/reporters/delete-reporter/${row._id}">
-                          <button
-                              type="button"
-                              onclick="confirmDelete('${row._id}')"
-                              class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              <svg width="20px" height="20px" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                                <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                <path
-                                  d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7L288 480l9.4 0L512 480c17.7 0 32-14.3 32-32s-14.3-32-32-32l-124.1 0L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416l-9.4 0-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"
-                                />
-                              </svg>
-                              <span>Delete</span>
-                            </button>
+                          ${deleteButton}
                         </form>
                       </div>
                   `;
@@ -93,7 +248,7 @@
             {
               targets: 0, // (_id)
               render: function (data, type, row, meta) {
-                return `<div class="text-sm flex gap-2 px-4">
+                return `<div class="text-sm text-[#0082FF] px-4 py-2 font-mono text-center">
                   <div>${data}</div>
                 </div>`;
               }
@@ -101,13 +256,13 @@
             {
               targets: 1, // name
               createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+                $(td).addClass('font-bold font-serif text-[20px]');
               }
             },
             {
               targets: 2, // gender
               render: function (data, type, row, meta) {
-                  return `<div class="flex gap-2">
+                  return `<div class="text-center">
                   ${data}
                 </div>`;
               },
@@ -115,7 +270,7 @@
             {
               targets: 3, // dob
               render: function (data, type, row, meta) {
-                return `<div class="text-xs">${formatDateTime(data, true)}</div>`;
+                return `<div class="text-[14px]">${formatDateTime(data, true)}</div>`;
               }
             },
 
@@ -131,12 +286,11 @@
             // Optional: Apply styles to pagination buttons
           },
           language: {
-            // Custom language settings (optional)
-            search: 'Search editors:',
-            lengthMenu: 'Show _MENU_ entries per page'
+            search: 'Search reporters:',
+            searchPlaceholder: "Type to search..."
           },
-          pageLength: 10, // Default page size
-          lengthMenu: [10, 25, 50] // Options for page size selection
+          lengthChange: false,
+          pageLength: 10 // Default page size
         });
       });
     </script>
