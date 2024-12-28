@@ -143,8 +143,10 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : 0; // Ensure it's a number
       return dateB - dateA;
     });
+    const videoUrl = false
     res.render('layouts/PostDetailLayout/PostDetailLayout', {
       body: '../../pages/PostDetailPage/PostDetailPage',
+      videoUrl,
       ...article.toObject(),
       comments: commentWithNames,
       relatedArticle,

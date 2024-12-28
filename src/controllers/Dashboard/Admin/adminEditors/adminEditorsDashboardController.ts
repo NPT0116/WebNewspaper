@@ -59,6 +59,7 @@ interface ICreateEditor {
 }
 
 export const adminCreateEditor = async (req: Request<{}, {}, ICreateEditor>, res: Response) => {
+  console.log('hehe clm');
   try {
     const { name, dob, gender, sectionId, email, username, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);

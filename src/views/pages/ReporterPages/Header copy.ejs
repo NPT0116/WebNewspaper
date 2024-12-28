@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/editor.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="input-group">
+      <input type="text" id="title" name="title" placeholder="Title" class="input-field" value="<%= data.title %>" />
+    </div>
+    <div class="input-group-inline">
+      <textarea class="input-field" name="description" id="desc" rows="4" placeholder="Description"><%= data.description %></textarea>
+    </div>
+    <div class="input-group-inline">
+      <select id="layout" placeholder="Background" name="layout" class="input-field-inline" onchange="">
+        <!-- <option>Choose a layout</option> -->
+        <option value="1">Text on the left</option>
+        <option value="2">Text on the right</option>
+        <option value="3">Default</option>
+      </select>
+      <select id="theme" name="theme" placeholder="Background Color" class="input-field-inline">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+    <section class="header-container">
+      <div class="header-card">
+        <div class="header-content">
+          <div id="image-preview" class="header-image-upload">
+            <label for="upload" class="header-upload-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="header-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              <h5 class="header-title">Upload picture</h5>
+              <p class="header-description">Choose photo size should be less than <b class="header-highlight">2mb</b></p>
+              <p class="header-description">and should be in <b class="header-highlight">JPG, PNG, or GIF</b> format.</p>
+              <span id="filename" class="header-filename"></span>
+            </label>
+            <div id="image-preview-container"></div>
+          </div>
+          <div class="header-submit-container">
+            <div class="header-button-container">
+              <label class="header-submit-button">
+                <span class="header-button-text">Upload</span>
+              </label>
+            </div>
+          </div>
+          <input id="upload" type="file" class="hidden" accept="image/*" />
+          <input type="hidden" id="image-urls" name="images" />
+        </div>
+      </div>
+    </section>
+    <div id="layout-preview"></div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded' , () => {
+        const data = <%- JSON.stringify(data) %>;
+        console.log(data);
+        const imagePreview = document.getElementById('image-preview');
+        const uploadInput = document.getElementById('upload');
+        let filenameLabel = document.getElementById('filename');
+        const imageUrlsInput = document.getElementById('image-urls');
+        let imageUrl = null; // This will hold the image data (base64 or server URL)
+        let serverImageUrl = null; // The URL from the server after uploading
+
+        const existingImageUrl = data.images && data.images[0];
+        let imageUrls = []; // Array to store image URLs
+
+        if (existingImageUrl) {
+          imagePreview.innerHTML = `<img src="${existingImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Existing image preview" />`;
+          filenameLabel.textContent = 'Existing image'; // Optionally set a label for the existing image
+          imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
+          imageUrl = existingImageUrl; // Set the initial image URL
+          imageUrls = [existingImageUrl]
+        }
+        let isClickListenerAdded = false;
+        if(!isClickListenerAdded) {
+          imagePreview.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('click');
+            uploadInput.click();
+          });
+          isClickListenerAdded = true;
+        }
+        uploadInput.addEventListener('change', async (event) => {
+          console.log('change');
+          const file = event.target.files[0];
+          if (file) {
+            filenameLabel.textContent = file.name;
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+              imagePreview.innerHTML = `<img src="${e.target.result}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+              imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
+
+              // Add event listener for image preview only once
+
+              console.log(layout.value);
+            // Update the hidden input field value with the image URLs array
+
+            };
+
+            try {
+              const formData = new FormData();
+              formData.append('upload', file);
+
+              const response = await fetch('/api/upload-image', {
+                method: 'POST',
+                body: formData
+              });
+
+              if (!response.ok) {
+                throw new Error('Failed to upload image');
+              }
+
+              const result = await response.json();
+              serverImageUrl = result.url; // Assuming server returns { url: 'image_url' }
+              imageUrls = [serverImageUrl]; // Example: ['url1', 'url2']
+              imageUrlsInput.value = [serverImageUrl];
+
+              console.log('Image uploaded successfully:', serverImageUrl);
+
+              // Optionally update the preview with the server URL
+              imagePreview.innerHTML = `<img src="${serverImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+            } catch (error) {
+              console.error('Error uploading image:', error);
+            }
+
+            reader.readAsDataURL(file);
+          } else {
+            filenameLabel.textContent = '';
+            imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
+            imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
+          }
+        });
+
+      })
+    </script>
+  </body>
+</html>
