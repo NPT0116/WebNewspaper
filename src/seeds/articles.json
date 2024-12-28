@@ -6,7 +6,7 @@
     "images": ["https://accesstrade.vn/wp-content/uploads/2024/03/chat-gpt-la-gi.jpeg"],
     "sectionId": "Technology",
     "tags": ["Technology", "AI", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=uXbi3JqZiGA"
+    "videoUrl": "https://www.youtube.com/embed/uXbi3JqZiGA"
   },
   {
     "title": "The Future of 5G: What It Means for Global Connectivity",
@@ -15,7 +15,7 @@
     "images": ["https://cdn.thuvienphapluat.vn/uploads/tintuc/2024/10/15/dung-duoc-5g.jpg"],
     "sectionId": "Technology",
     "tags": ["Technology", "5G", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=b2IRUWLaflg"
+    "videoUrl": "https://www.youtube.com/embed/b2IRUWLaflg"
   },
   {
     "title": "Blockchain: The Future of Secure Transactions",
@@ -24,7 +24,7 @@
     "images": ["https://media.vneconomy.vn/images/upload/2021/04/20/cong-nghe-blockchain-chia-se-thong-tin-minh-bach-va-bao-mat-cao-1513055874727-33-0-876-1500-crop-1513055882564.jpg"],
     "sectionId": "Technology",
     "tags": ["Blockchain", "Technology", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=SSo_EIwHSd4"
+    "videoUrl": "https://www.youtube.com/embed/SSo_EIwHSd4"
   },
   {
     "title": "The Role of AI in Cybersecurity: A New Era of Protection",
@@ -392,7 +392,7 @@
     "images": ["https://imgcdn.tapchicongthuong.vn/cartime-media/24/6/24/foto-toyota-c-hr-2023-immagini-photogallery_6678f6644b647.jpg"],
     "sectionId": "Cars",
     "tags": ["Toyota", "Innovation", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=apa86WoP374"
+    "videoUrl": "https://www.youtube.com/embed/apa86WoP374"
   },
   {
     "title": "Beefsteak: A Culinary Delight",
@@ -539,7 +539,7 @@
     "images": ["https://www.chiropractic-singapore.com.sg/wp-content/uploads/2023/10/Bad-Posture-4-1-scaled.jpg"],
     "sectionId": "Health",
     "tags": ["Chiropractic", "Health", "Wellness", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=33IlvJa8-NY"
+    "videoUrl": "https://www.youtube.com/embed/33IlvJa8-NY"
   },
   {
     "title": "The World of Tennis: History, Rules, Major Tournaments, and Current Trends",
@@ -548,7 +548,7 @@
     "images": ["https://www.decathlon.vn/blog/wp-content/uploads/2023/12/luat-danh-tennis.jpg"],
     "sectionId": "Tennis",
     "tags": ["Tennis", "Sports", "Athletics", "Wellness", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=1P_Das6OjAk"
+    "videoUrl": "https://www.youtube.com/embed/1P_Das6OjAk"
   },
   {
     "title": "Roger Federer: A Tennis Legend",
@@ -581,7 +581,7 @@
     "images": ["https://images.squarespace-cdn.com/content/v1/5f2864b6ee63644ee0b157d3/1716229125379-G9HM9JYWTP3JMQZCU166/feet+massage+pressure+points.jpg"],
     "sectionId": "Health",
     "tags": ["Massage", "Wellness", "Relaxation", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=FvwWVFukyRY"
+    "videoUrl": "https://www.youtube.com/embed/FvwWVFukyRY"
   },
   {
     "title": "Understanding Obesity: Causes, Effects, and Solutions",
@@ -590,7 +590,7 @@
     "images": ["https://cdn.britannica.com/36/189336-050-8D1DAA2C/Obesity-body-fat-accumulation-conditions.jpg"],
     "sectionId": "Health",
     "tags": ["Obesity", "Health", "Nutrition", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=W8FQTDjp0uE"
+    "videoUrl": "https://www.youtube.com/embed/W8FQTDjp0uE"
   },
   {
     "title": "Understanding Stress: Causes, Effects, and Management Techniques",
@@ -607,7 +607,7 @@
     "images": ["https://collegeinfogeek.com/wp-content/uploads/2018/11/Essential-Books.jpg"],
     "sectionId": "Book",
     "tags": ["Reading", "Literature", "Education", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=e46AGbBctQk"
+    "videoUrl": "https://www.youtube.com/embed/e46AGbBctQk"
   },
   {
     "title": "The Magic of Harry Potter: A Journey Through J.K. Rowling's Wizarding World",
@@ -632,7 +632,7 @@
     "images": ["https://static1.srcdn.com/wordpress/wp-content/uploads/2021/02/Marvel-Vs-DC.jpg"],
     "sectionId": "Book",
     "tags": ["Marvel", "DC", "Superheroes", "Video"],
-    "videoUrl": "https://www.youtube.com/watch?v=CFl2ldp3_Gw"
+    "videoUrl": "https://www.youtube.com/embed/CFl2ldp3_Gw"
   },
   {
     "title": "The Enduring Legacy of Sherlock Holmes: A Journey into Arthur Conan Doyle's Masterpiece",
