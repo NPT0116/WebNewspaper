@@ -4,21 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      /* Start styling table */
+      th.sorting_asc,
+      th.sorting_desc {
+        color: white !important; /* Màu chữ khi được chọn */
+      }
+
+      th {
+        background-color: #212529;
+        color: white;
+      }
+      .input {
+        color: #333;
+        font:
+          1em/1.5 Hind,
+          sans-serif;
+      }
+      #example {
+        table-layout: fixed;
+        width: 100%; /* Hoặc một giá trị cụ thể */
+      }
+      /* End styling table */
+      th#id {
+        text-align: center !important;
+      }
+      /* Start button styling */
+      .button {
+        position: relative;
+        width: 200px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px solid #34974d;
+        background-color: #3ec27c;
+      }
+
+      .button,
+      .button__icon,
+      .button__text {
+        transition: all 0.3s;
+      }
+
+      .button .button__text {
+        transform: translateX(5px);
+        padding: 0 10px;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .button .button__icon {
+        position: absolute;
+        transform: translateX(160px);
+        height: 100%;
+        width: 39px;
+        background-color: #12a155;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .button .svg {
+        width: 30px;
+        stroke: #fff;
+      }
+
+      .button:hover {
+        background: #12a155;
+      }
+
+      .button:hover .button__text {
+        color: transparent;
+      }
+
+      .button:hover .button__icon {
+        width: 148px;
+        transform: translateX(30px);
+      }
+
+      .button:active .button__icon {
+        background-color: #12a155;
+      }
+
+      .button:active {
+        border: 1px solid #12a155;
+      }
+      /* End button styling */
+    </style>
   </head>
   <body>
-    <button
-      data-modal-target="create-section-modal"
-      data-modal-toggle="create-section-modal"
-      type="button"
-      class="flex gap-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-    >
-      <svg class="w-5 h-5" fill="'currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-        <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-        <path
-          d="M64.9 96C67.1 84.4 73.7 76.2 86 70.6c13.8-6.2 34.8-8.9 61.2-4.5c8.8 1.4 36.1 7.1 44.1 9.3c17 4.8 34.7-5.1 39.5-22.2s-5.1-34.7-22.2-39.5c-11.1-3.1-41-9.2-50.9-10.8C123-2.7 88.3-.6 59.7 12.3C29.9 25.8 7.5 50.9 1.6 86.5c-.1 .5-.2 1.1-.2 1.6c-2.2 19.7 .3 37.9 8.1 54.1c7.7 16.1 19.4 28 32 36.9c.6 .5 1.3 .9 2 1.4C22.3 194.2 6.5 215.1 1.7 243c-.1 .6-.2 1.1-.2 1.7c-2.3 19.3 .4 37.1 8.4 53c7.9 15.6 19.8 27 32.3 35.5c22.4 15.2 51.9 24 75.4 31c0 0 0 0 0 0l3.7 1.1c27.2 8.2 46.9 14.6 59.4 23.8c5.5 4 8.2 7.6 9.5 10.9c1.3 3.2 2.6 8.6 .9 18.1c-1.7 10.1-7.7 18-20.7 23.5c-14 6-35.4 8.5-62 4.4c-12.8-2.1-35.1-9.7-54.1-16.2c0 0 0 0 0 0c-4.3-1.5-8.5-2.9-12.3-4.2C25.3 420 7.2 429.1 1.6 445.8s3.5 34.9 20.3 40.5c2.6 .8 5.7 1.9 9.2 3.1c18.6 6.3 48.5 16.6 67.3 19.6c0 0 0 0 0 0l.2 0c34.5 5.4 68.8 3.4 97.2-8.7c29.4-12.6 52.5-36.5 58.5-71.5c3.3-19.3 1.9-37.4-5-53.9c-6.3-15-16.4-26.4-27.6-35.2c16.5-13.9 28.5-33.2 32.6-58.2c3.2-19.8 1.9-38.3-4.8-55.1c-6.7-16.8-17.8-29.4-30.2-39c-22.8-17.6-53.6-27.4-77.7-35l-1.4-.5c-27.4-8.7-47.8-15.3-61.5-25c-6.1-4.4-9.5-8.5-11.4-12.4c-1.8-3.7-3.2-9.3-2.3-18.5zm76.7 208.5l-.6-.2-1.4-.4c-27.4-8.2-47.9-14.5-61.7-23.8c-6.2-4.2-9.3-7.9-11-11.3c-1.5-3-2.9-7.7-2.1-15.7c1.9-9.7 7.9-17.3 20.5-22.7c14-6 35.4-8.5 62.1-4.3l16.4 2.6c6.3 2.9 11.7 6 16.2 9.5c5.5 4.2 8.4 8.2 10 12.2c1.6 4 2.8 10.4 1.1 20.9c-2.4 14.7-12.8 26.4-37.1 31l-12.4 2.3z"
-        />
-      </svg>
-      Create new section
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <div class="flex justify-between">
+      <h1 class="text-[40px] font-bold font-serif">Section List</h1>
+    </div>
+    <button type="button" class="button mt-4" data-modal-target="create-section-modal" data-modal-toggle="create-section-modal">
+      <span class="button__text">Create new section</span>
+      <span class="button__icon">
+        <svg class="w-5 h-5" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+          <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+          <path
+            d="M64.9 96C67.1 84.4 73.7 76.2 86 70.6c13.8-6.2 34.8-8.9 61.2-4.5c8.8 1.4 36.1 7.1 44.1 9.3c17 4.8 34.7-5.1 39.5-22.2s-5.1-34.7-22.2-39.5c-11.1-3.1-41-9.2-50.9-10.8C123-2.7 88.3-.6 59.7 12.3C29.9 25.8 7.5 50.9 1.6 86.5c-.1 .5-.2 1.1-.2 1.6c-2.2 19.7 .3 37.9 8.1 54.1c7.7 16.1 19.4 28 32 36.9c.6 .5 1.3 .9 2 1.4C22.3 194.2 6.5 215.1 1.7 243c-.1 .6-.2 1.1-.2 1.7c-2.3 19.3 .4 37.1 8.4 53c7.9 15.6 19.8 27 32.3 35.5c22.4 15.2 51.9 24 75.4 31c0 0 0 0 0 0l3.7 1.1c27.2 8.2 46.9 14.6 59.4 23.8c5.5 4 8.2 7.6 9.5 10.9c1.3 3.2 2.6 8.6 .9 18.1c-1.7 10.1-7.7 18-20.7 23.5c-14 6-35.4 8.5-62 4.4c-12.8-2.1-35.1-9.7-54.1-16.2c0 0 0 0 0 0c-4.3-1.5-8.5-2.9-12.3-4.2C25.3 420 7.2 429.1 1.6 445.8s3.5 34.9 20.3 40.5c2.6 .8 5.7 1.9 9.2 3.1c18.6 6.3 48.5 16.6 67.3 19.6c0 0 0 0 0 0l.2 0c34.5 5.4 68.8 3.4 97.2-8.7c29.4-12.6 52.5-36.5 58.5-71.5c3.3-19.3 1.9-37.4-5-53.9c-6.3-15-16.4-26.4-27.6-35.2c16.5-13.9 28.5-33.2 32.6-58.2c3.2-19.8 1.9-38.3-4.8-55.1c-6.7-16.8-17.8-29.4-30.2-39c-22.8-17.6-53.6-27.4-77.7-35l-1.4-.5c-27.4-8.7-47.8-15.3-61.5-25c-6.1-4.4-9.5-8.5-11.4-12.4c-1.8-3.7-3.2-9.3-2.3-18.5zm76.7 208.5l-.6-.2-1.4-.4c-27.4-8.2-47.9-14.5-61.7-23.8c-6.2-4.2-9.3-7.9-11-11.3c-1.5-3-2.9-7.7-2.1-15.7c1.9-9.7 7.9-17.3 20.5-22.7c14-6 35.4-8.5 62.1-4.3l16.4 2.6c6.3 2.9 11.7 6 16.2 9.5c5.5 4.2 8.4 8.2 10 12.2c1.6 4 2.8 10.4 1.1 20.9c-2.4 14.7-12.8 26.4-37.1 31l-12.4 2.3z"
+          />
+        </svg>
+      </span>
     </button>
 
     <%- include('CreateSectionForm') %>
@@ -27,7 +116,7 @@
     <table id="example" class="display">
       <thead>
         <tr>
-          <th>ID</th>
+          <th id="id">ID</th>
           <th>Name</th>
           <th>Created At</th>
           <th>Updated At</th>
@@ -104,7 +193,7 @@
             {
               targets: 0, // (_id)
               render: function (data, type, row, meta) {
-                return `<div class="text-sm flex gap-2 px-4">
+                return `<div class="text-sm text-[#0082FF] px-4 py-2 font-mono text-center">
                   <div>${data}</div>
                 </div>`;
               }
@@ -112,13 +201,13 @@
             {
               targets: 1, // name
               createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+                $(td).addClass('font-bold font-serif text-[20px]');
               }
             },
             {
               targets: 2, // slug
               render: function (data, type, row, meta) {
-                  return `<div class="flex gap-2">
+                  return `<div class="flex gap-2 text-[#525252]">
                     ${formatDateTime(data)}
                 </div>`;
               },
@@ -126,7 +215,7 @@
             {
               targets: 3, // createdAt
               render: function (data, type, row, meta) {
-                  return `<div class="flex gap-2">
+                  return `<div class="flex gap-2 text-[#525252]">
                   ${formatDateTime(data)}
                 </div>`;
               },
@@ -144,12 +233,11 @@
             // Optional: Apply styles to pagination buttons
           },
           language: {
-            // Custom language settings (optional)
-            search: 'Search editors:',
-            lengthMenu: 'Show _MENU_ entries per page'
+            search: 'Search articles:',
+            searchPlaceholder: 'Type to search...'
           },
-          pageLength: 10, // Default page size
-          lengthMenu: [10, 25, 50] // Options for page size selection
+          lengthChange: false,
+          pageLength: 10 // Default page size
         });
       });
     </script>

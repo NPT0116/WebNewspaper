@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IArticleCard } from '~/interfaces/Article/articleInterface.js';
 import { ISectionBasicInfo, ISectionTree } from '~/interfaces/Section/sectionInterface.js';
+import { Section } from '~/models/Section/sectionSchema.js';
 import { countArticles, getListArticleInfoCards } from '~/repo/Article/articleRepo.js';
 import { getAllSections, getSectionTree } from '~/repo/Section/index.js';
 import { getAllTags, getTagIdBySlug, ITagBasicInfo } from '~/repo/Tag/index.js';
@@ -28,6 +29,7 @@ interface ISearchPageData {
   pagination: {
     pageSize: number;
     currentPageNumber: number;
+    selectedSectionsName: string[];
     totalPagesCount: number;
     totalArticlesCount: number;
     hasPrevPage: boolean;
@@ -233,10 +235,10 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     let tagSlugList: string[] = [];
     if (tags && tags.length > 0) {
       tagSlugList = tags.split(', ');
-      console.log(tagSlugList);
     }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
+    const selectedSectionsName = [];
     const selectedTags = Array.isArray(tagSlugList) ? tagSlugList : [tagSlugList].filter(Boolean);
     const allSections = await getAllSections();
     const sectionTree = await getSectionTree();
@@ -279,6 +281,14 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     // Filter by sections
     if (selectedSections.length > 0 && selectedSections[0] !== 'Any') {
+      for (const sectionId of selectedSections) {
+        const section = await Section.findById(sectionId);
+        if (!section) {
+          console.log('Error getting section by ' + section);
+        }
+        section?.childSections?.forEach((childSection) => selectedSections.push(childSection.toString()));
+        selectedSectionsName.push(section?.name);
+      }
       query.sectionId = { $in: selectedSections };
     }
 
@@ -319,6 +329,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       time,
       searchValue,
       selectedSections,
+      selectedSectionsName,
       selectedTags,
       articles,
       sectionTree,
