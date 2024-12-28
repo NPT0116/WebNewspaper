@@ -5,139 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/editor.css" />
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
   </head>
   <body>
-    <div class="input-group">
-      <input type="text" id="title" name="title" placeholder="Title" class="input-field" value="<%= data.title %>" />
-    </div>
-    <div class="input-group-inline">
-      <textarea class="input-field" name="description" id="desc" rows="4" placeholder="Description"><%= data.description %></textarea>
-    </div>
-    <div class="input-group-inline">
-      <select id="layout" placeholder="Background" name="layout" class="input-field-inline" onchange="">
-        <!-- <option>Choose a layout</option> -->
-        <option value="1">Text on the left</option>
-        <option value="2">Text on the right</option>
-        <option value="3">Default</option>
-      </select>
-      <select id="theme" name="theme" placeholder="Background Color" class="input-field-inline">
-        <option value="dark">Dark</option>
-        <option value="light">Light</option>
-      </select>
-    </div>
-    <section class="header-container">
-      <div class="header-card">
-        <div class="header-content">
-          <div id="image-preview" class="header-image-upload">
-            <label for="upload" class="header-upload-label">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="header-icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-              </svg>
-              <h5 class="header-title">Upload picture</h5>
-              <p class="header-description">Choose photo size should be less than <b class="header-highlight">2mb</b></p>
-              <p class="header-description">and should be in <b class="header-highlight">JPG, PNG, or GIF</b> format.</p>
-              <span id="filename" class="header-filename"></span>
-            </label>
-            <div id="image-preview-container"></div>
+    <aside class="fixed left-0 top-0 h-full w-64 bg-gray-800 text-white shadow-lg overflow-y-auto z-50">
+      <div class="p-4">
+        <a href="/dashboard/reporter" class="flex mb-4 underline text-[14px]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[20px] h-[14px] mt-[3px] mr-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+          </svg>
+          Go back</a
+        >
+        <h2 class="text-xl font-bold mb-4">Write Article</h2>
+        <div>
+          <div class="mb-4">
+            <label for="title" class="block mb-2">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" value="<%= data.title %>" />
           </div>
-          <div class="header-submit-container">
-            <div class="header-button-container">
-              <label class="header-submit-button">
-                <span class="header-button-text">Upload</span>
-              </label>
+          <div class="mb-4">
+            <label for="desc" class="block mb-2">Description</label>
+            <textarea class="w-full p-2 bg-gray-700 border border-gray-600 rounded" name="description" id="desc" rows="4" placeholder="Description"><%= data.description %></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="title" class="block mb-2">Video url</label>
+            <input type="text" id="videoUrl" name="videoUrl" placeholder="Link" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" value="<%= data.videoUrl %>" />
+          </div>
+          <div class="mb-4">
+            <label for="layout" class="block mb-2">Layout</label>
+            <select id="layout" name="layout" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+              <option value="1">Layout 1</option>
+              <option value="2">Layout 2</option>
+              <option value="3">Layout 3</option>
+            </select>
+          </div>
+          <section class="header-container">
+            <label for="title" class="block mb-2 text-left">Topic image</label>
+            <div class="header-card">
+              <div class="header-content">
+                <div id="image-preview" class="header-image-upload">
+                  <label for="upload" class="header-upload-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="header-icon flex mx-auto">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                    </svg>
+                    <h5 class="header-title">Upload picture</h5>
+                    <p class="header-description">Choose photo size should be less than <b class="header-highlight">2mb</b></p>
+                    <p class="header-description">and should be in <b class="header-highlight">JPG, PNG, or GIF</b> format.</p>
+                    <span id="filename" class="header-filename"></span>
+                  </label>
+                  <div id="image-preview-container"></div>
+                </div>
+                <input id="upload" type="file" class="hidden" accept="image/*" />
+                <input type="hidden" id="image-urls" name="images" />
+                <div class="header-submit-container">
+                  <div class="header-button-container">
+                    <label class="header-submit-button">
+                      <span class="header-button-text">Upload</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <input id="upload" type="file" class="hidden" accept="image/*" />
-          <input type="hidden" id="image-urls" name="images" />
+          </section>
         </div>
       </div>
-    </section>
+      <!-- Modal for cropping image -->
+      <div id="crop-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white rounded-lg p-4 w-[80%] h-[90%] max-h-[90%] flex flex-col overflow-y-auto">
+          <div class="flex-1 flex justify-center items-center h-full">
+            <img id="crop-image" class="max-w-full max-h-full object-contain" alt="Crop preview" />
+          </div>
+          <div class="flex justify-end gap-4 mt-4">
+            <div id="cancel-crop" class="px-4 py-2 bg-gray-500 text-white rounded cursor-pointer">Cancel</div>
+            <div id="confirm-crop" class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">Crop & Save</div>
+          </div>
+        </div>
+      </div>
+    </aside>
     <div id="layout-preview"></div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded' , () => {
-        const data = <%- JSON.stringify(data) %>;
-        console.log(data);
-        const imagePreview = document.getElementById('image-preview');
-        const uploadInput = document.getElementById('upload');
-        let filenameLabel = document.getElementById('filename');
-        const imageUrlsInput = document.getElementById('image-urls');
-        let imageUrl = null; // This will hold the image data (base64 or server URL)
-        let serverImageUrl = null; // The URL from the server after uploading
+          document.addEventListener('DOMContentLoaded', () => {
+          const data = <%- JSON.stringify(data) %>;
+          const imagePreview = document.getElementById('image-preview');
+          const uploadInput = document.getElementById('upload');
+          const imageUrlsInput = document.getElementById('image-urls');
+          const cropModal = document.getElementById('crop-modal');
+          const cropImage = document.getElementById('crop-image');
+          const cancelCrop = document.getElementById('cancel-crop');
+          const confirmCrop = document.getElementById('confirm-crop');
+          const uploadButton = document.querySelector('.header-submit-container');
 
-        const existingImageUrl = data.images && data.images[0];
-        let imageUrls = []; // Array to store image URLs
+          let cropper = null;
+          let serverImageUrl = null;
 
-        if (existingImageUrl) {
-          imagePreview.innerHTML = `<img src="${existingImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Existing image preview" />`;
-          filenameLabel.textContent = 'Existing image'; // Optionally set a label for the existing image
-          imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
-          imageUrl = existingImageUrl; // Set the initial image URL
-          imageUrls = [existingImageUrl]
-        }
-        let isClickListenerAdded = false;
-        if(!isClickListenerAdded) {
-          imagePreview.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('click');
-            uploadInput.click();
-          });
-          isClickListenerAdded = true;
-        }
-        uploadInput.addEventListener('change', async (event) => {
-          console.log('change');
-          const file = event.target.files[0];
-          if (file) {
-            filenameLabel.textContent = file.name;
+          const existingImageUrl = data.images && data.images[0];
+          let imageIsCropped = false;
 
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-              imagePreview.innerHTML = `<img src="${e.target.result}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
+          // Hiển thị ảnh đã có từ data vào preview
+          if (existingImageUrl) {
+              imagePreview.innerHTML = `<img src="${existingImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Existing image preview" />`;
+              console.log('a')
               imagePreview.classList.remove('border-dashed', 'border-2', 'border-gray-400');
-
-              // Add event listener for image preview only once
-
-              console.log(layout.value);
-            // Update the hidden input field value with the image URLs array
-
-            };
-
-            try {
-              const formData = new FormData();
-              formData.append('upload', file);
-
-              const response = await fetch('/api/upload-image', {
-                method: 'POST',
-                body: formData
-              });
-
-              if (!response.ok) {
-                throw new Error('Failed to upload image');
-              }
-
-              const result = await response.json();
-              serverImageUrl = result.url; // Assuming server returns { url: 'image_url' }
-              imageUrls = [serverImageUrl]; // Example: ['url1', 'url2']
-              imageUrlsInput.value = [serverImageUrl];
-
-              console.log('Image uploaded successfully:', serverImageUrl);
-
-              // Optionally update the preview with the server URL
-              imagePreview.innerHTML = `<img src="${serverImageUrl}" style="max-height:192px; max-width:100%; margin-left:auto; margin-right:auto" class="max-h-48 rounded-lg mx-auto" alt="Image preview" />`;
-            } catch (error) {
-              console.error('Error uploading image:', error);
-            }
-
-            reader.readAsDataURL(file);
-          } else {
-            filenameLabel.textContent = '';
-            imagePreview.innerHTML = `<div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center text-gray-500">No image preview</div>`;
-            imagePreview.classList.add('border-dashed', 'border-2', 'border-gray-400');
+              imageUrlsInput.value = existingImageUrl;
+              imageIsCropped = true;
           }
-        });
 
-      })
+          // Tiếp tục xử lý upload button
+          uploadButton.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              confirmCrop.classList.remove('hidden');
+              uploadInput.click();
+          });
+
+          // Xử lý sự kiện click vào ảnh preview
+          imagePreview.addEventListener('click', () => {
+              const currentImageUrl = imageUrlsInput.value || existingImageUrl;
+
+              if (imageIsCropped) {
+                  cropImage.src = currentImageUrl;
+                  cropModal.classList.remove('hidden');
+                  confirmCrop.classList.add('hidden');
+                  cropImage.classList.add('flex', 'mx-auto', 'my-auto');
+              } else {
+                  if (currentImageUrl) {
+                      cropImage.src = currentImageUrl;
+                      cropModal.classList.remove('hidden');
+
+                      if (cropper) {
+                          cropper.destroy(); // Destroy the previous cropper instance if it exists
+                      }
+                      cropper = new Cropper(cropImage, {
+                          aspectRatio: 16 / 9, // Tỉ lệ cắt
+                          viewMode: 1,
+                          autoCropArea: 1
+                      });
+                  }
+              }
+          });
+
+          // Xử lý khi người dùng upload ảnh
+          uploadInput.addEventListener('change', async (event) => {
+              const file = event.target.files[0];
+              if (file) {
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                      cropImage.src = reader.result;
+                      cropModal.classList.remove('hidden');
+                      cropper = new Cropper(cropImage, {
+                          aspectRatio: 16 / 9,
+                          viewMode: 1,
+                          autoCropArea: 1
+                      });
+                      imageIsCropped = false;
+                  };
+                  reader.readAsDataURL(file);
+              }
+          });
+
+          // Hủy cắt ảnh
+          cancelCrop.addEventListener('click', () => {
+              cropModal.classList.add('hidden');
+              if (cropper) {
+                  cropper.destroy();
+                  cropper = null;
+              }
+          });
+
+          // Xác nhận cắt ảnh
+          confirmCrop.addEventListener('click', async () => {
+              if (cropper) {
+                  const croppedCanvas = cropper.getCroppedCanvas();
+                  const croppedImage = croppedCanvas.toDataURL('image/jpeg');
+
+                  // Hiển thị ảnh đã cắt trong preview
+                  imagePreview.innerHTML = `<img src="${croppedImage}" class="max-h-48 rounded-lg mx-auto" alt="Cropped image preview" />`;
+
+                  // Upload ảnh đã cắt lên server
+                  const blob = await new Promise((resolve) => croppedCanvas.toBlob(resolve, 'image/jpeg'));
+                  const formData = new FormData();
+                  formData.append('upload', blob);
+
+                  try {
+                      // Gửi ảnh đã cắt lên server mà không reload trang
+                      const response = await fetch('/api/upload-image', {
+                          method: 'POST',
+                          body: formData
+                      });
+
+                      if (!response.ok) {
+                          throw new Error('Failed to upload cropped image');
+                      }
+
+                      const result = await response.json();
+                      serverImageUrl = result.url; // URL ảnh từ server
+                      imageUrlsInput.value = serverImageUrl; // Lưu URL vào input form
+                      imageIsCropped = true; // Đánh dấu ảnh đã cắt và upload
+
+                      // Cập nhật giao diện sau khi upload
+                      const successMessage = document.createElement('div');
+                      successMessage.classList.add('alert', 'alert-success');
+                      successMessage.textContent = 'Image uploaded successfully!';
+                      document.body.appendChild(successMessage);
+
+                      // Ẩn modal và hủy Cropper.js
+                      cropModal.classList.add('hidden');
+                      cropper.destroy();
+                      cropper = null;
+                  } catch (error) {
+                      console.error('Error uploading cropped image:', error);
+
+                      // Hiển thị thông báo lỗi nếu upload thất bại
+                      const errorMessage = document.createElement('div');
+                      errorMessage.classList.add('alert', 'alert-danger');
+                      errorMessage.textContent = 'Error uploading image. Please try again!';
+                      document.body.appendChild(errorMessage);
+                  }
+              }
+          });
+      });
     </script>
   </body>
 </html>
