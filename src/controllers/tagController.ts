@@ -6,7 +6,7 @@ export const tagQuery = async (req: Request, res: Response, next: NextFunction):
   try {
     const { search_value, pageNumber = 1, pageSize = 10 } = req.query;
     const pageNum = parseInt(pageNumber as string, 10);
-    const size = parseInt(pageSize as string, 10);
+    const size = parseInt(pageSize as string, 1000);
 
     // Tạo điều kiện tìm kiếm
     let query: Record<string, any> = {};

@@ -26,10 +26,10 @@ interface ISearchPageData {
   articles: IArticleCard[];
   sectionTree: ISectionTree | null;
   allTags: ITagBasicInfo[];
+  selectedSectionsName: string[];
   pagination: {
     pageSize: number;
     currentPageNumber: number;
-    selectedSectionsName: string[];
     totalPagesCount: number;
     totalArticlesCount: number;
     hasPrevPage: boolean;
@@ -238,7 +238,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
-    const selectedSectionsName = [];
+    const selectedSectionsName: string[] = [];
     const selectedTags = Array.isArray(tagSlugList) ? tagSlugList : [tagSlugList].filter(Boolean);
     const allSections = await getAllSections();
     const sectionTree = await getSectionTree();
@@ -287,7 +287,9 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
           console.log('Error getting section by ' + section);
         }
         section?.childSections?.forEach((childSection) => selectedSections.push(childSection.toString()));
-        selectedSectionsName.push(section?.name);
+        if (section?.name) {
+          selectedSectionsName.push(section?.name);
+        }
       }
       query.sectionId = { $in: selectedSections };
     }
@@ -298,7 +300,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
         const tagId = await getTagIdBySlug(tagSlug);
         tagList.push(tagId);
       }
-      query.tags = { $all: tagList };
+      query.tags = { $in: tagList };
     }
 
     // Filter by time
