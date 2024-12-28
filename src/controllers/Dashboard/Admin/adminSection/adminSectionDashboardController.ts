@@ -29,6 +29,7 @@ export const renderAdminSectionsPage = async (req: Request, res: Response) => {
         };
       })
     );
+    console.log(data);
     res.render('layouts/DashboardLayout/DashboardLayout', {
       body: '../../pages/DashboardPages/Admin/SectionsPage',
       data: { sections: data, role: 'admin' }
