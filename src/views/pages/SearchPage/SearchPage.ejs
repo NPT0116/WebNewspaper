@@ -46,13 +46,14 @@
                   <% if (selectedSectionsName.length === 0) { %>
                     Section
                   <% } else { %>
-                    <% selectedSectionsName.forEach(name => { %>
-                      <%- name %>, 
-                    <% }) %>
-                  <% } %>
+                    <% for (let i = 0; i < selectedSectionsName.length; i++)  { %>
+                      <% if (i < 2) { %>
+                        <%- selectedSectionsName[i]%><% } else { %> <% if (selectedSectionsName.length > 3) { %>
+                         
+                         +<%- selectedSectionsName.length - 3 %><% break %><% } %><% } %><% if (i < 1) { %>,<% } %><% } %><% } %>
                 </span>
                 <div class="my-0 mx-3 w-1/6 flex justify-end" onclick="toggleDropdown()">
-                  <i class="fa fa-angle-down text-zinc-600 text-md"></i>
+                  <i class="fa fa-angle-down text-zinc-600 text-md" onclick="toggleDropdown()"></i>
                 </div>
               </button>
               <div

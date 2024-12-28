@@ -71,7 +71,7 @@
       html += String(String($(window).width() * 0.45));
       html += `px"/></div>`;
       html += `<div class="hard text-4xl text-center"><%=title%><small><%=author.name%></small></div>`;
-      const content = stripHTML(`<%=content%>`);
+      const content = stripHTML(`<%-content%>`);
       const numsOfPage = Math.ceil(content.length / limitContent);
       let count = 0;
       for (let i = 0; i < numsOfPage; i++) {

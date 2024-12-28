@@ -1,3 +1,10 @@
+export const getRandomNumberInRange = (min: number, max: number): number => {
+  if (min > max) {
+    throw new Error('Min value cannot be greater than max value.');
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export const generateSlug = (title: string): string => {
   //Đổi chữ hoa thành chữ thường
   let slug = title.toLowerCase();
@@ -23,6 +30,7 @@ export const generateSlug = (title: string): string => {
   //Xóa các ký tự gạch ngang ở đầu và cuối
   slug = '@' + slug + '@';
   slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+  slug += `-${getRandomNumberInRange(1, 1000000000)}`;
 
   return slug;
 };
