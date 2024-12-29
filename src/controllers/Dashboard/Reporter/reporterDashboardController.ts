@@ -224,7 +224,7 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         layout: article.layout,
         images: article.images,
         status: article.status,
-        videoUrl: article.videoUrl!
+        videoUrl: article.videoUrl || ''
       }
     };
 
