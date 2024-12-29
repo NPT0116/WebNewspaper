@@ -5,6 +5,11 @@
   >
     <div class="w-full sm:w-4/5 sm:pr-[20px] ">
       <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
+        <div class="bg-red-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300 cursor-pointer">
+          <a  href="/search-page?section=<%=article.sectionId.slug%>">
+            #<%=article.sectionId.name%>
+          </a>
+        </div>
         <% article.tags.forEach(tag => { %>
         <a 
           class="bg-gray-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300"

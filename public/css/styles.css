@@ -2464,6 +2464,9 @@ input:checked + .toggle-bg {
   padding-top: 7px;
   padding-bottom: 7px;
 }
+.pb-1 {
+  padding-bottom: 0.25rem;
+}
 .pb-10 {
   padding-bottom: 2.5rem;
 }
@@ -2524,8 +2527,8 @@ input:checked + .toggle-bg {
 .pt-20 {
   padding-top: 5rem;
 }
-.pt-4 {
-  padding-top: 1rem;
+.pt-6 {
+  padding-top: 1.5rem;
 }
 .pt-\[130px\] {
   padding-top: 130px;
@@ -2588,6 +2591,9 @@ input:checked + .toggle-bg {
 }
 .text-\[12px\] {
   font-size: 12px;
+}
+.text-\[13px\] {
+  font-size: 13px;
 }
 .text-\[14px\] {
   font-size: 14px;

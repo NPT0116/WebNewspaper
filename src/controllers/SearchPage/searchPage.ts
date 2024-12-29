@@ -349,6 +349,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     };
 
     res.render('layouts/SearchPageLayout/SearchPageLayout', searchPageData);
+    // res.json(searchPageData);
   } catch (error) {
     console.error('Error in getSearchPage:', error);
     next(new AppError('Error fetching search page data.', 500));
