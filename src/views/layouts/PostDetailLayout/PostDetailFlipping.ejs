@@ -12,7 +12,7 @@
   </head>
   <body>
     <div id="flip-mode-container" class="flex flex-col justify-between items-center" style="width: 100%; height: 100vh">
-      <div class="flipbook-container" style="width: 100%; height: 90%; background-image: url('/images/flippingBackground/paper2.jpg')">
+      <div class="flipbook-container p-2" style="width: 100%; height: 90%; background-image: url('/images/flippingBackground/paper2.jpg')">
         <div class="flipbook font-serif"></div>
       </div>
       <div id="flip-nav" class="flex flex-row justify-center items-center gap-4" style="width: 100%; height: 10%">
@@ -60,19 +60,24 @@
 
     // Content of Flipbook
     const content650 = String(createContent(650));
+    function stripHTML(html) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || '';
+    }
     function createContent(limitContent) {
       let html = '';
       html += `<div class="w-full h-full"><img src="<%=images%>" class="w-full h-full object-cover" alt="" style="width: `;
       html += String(String($(window).width() * 0.45));
       html += `px"/></div>`;
       html += `<div class="hard text-4xl text-center"><%=title%><small><%=author.name%></small></div>`;
-      const content = `<%=content%>`;
+      const content = stripHTML(`<%-content%>`);
       const numsOfPage = Math.ceil(content.length / limitContent);
       let count = 0;
       for (let i = 0; i < numsOfPage; i++) {
         const splitContent = content.slice(count, count + limitContent);
         count += limitContent;
-        html += `<div><div class="xl:text-xl lg:text-lg text-sm text-justify" style="padding: 0px 50px">${splitContent}</div></div>`;
+        html += `<div><div class="xl:text-xl lg:text-lg text-sm text-justify" style="padding: 0px 50px">${splitContent}-</div></div>`;
       }
       html += `<div class="hard text-xl" style="background-color: black; color: white" >END.</div>`;
       return html;

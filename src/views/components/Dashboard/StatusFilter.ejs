@@ -12,11 +12,12 @@
       --color-draft: #afb0ab;
       --color-pending: #fff398;
       --color-rejected: #ff5757;
+      --color-approved: #96e2e2;
 
       --link-bg-color: var(--color-all); /* Màu nền mặc định */
       --link-color: var(--text-color); /* Màu chữ mặc định */
 
-      --text-color-pending: #333;
+      --text-color-black: #333;
       --text-color: white;
     }
 
@@ -43,8 +44,8 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      width: 150px;
-      padding: 12px 36px;
+      width: 120px;
+      padding: 12px 10px;
       border-radius: 16px;
       overflow: hidden;
       transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
@@ -163,6 +164,10 @@
       background-color: var(--color-published);
     }
 
+    .submenu .submenu-link.approved::before {
+      background-color: var(--color-approved);
+    }
+
     .submenu .submenu-link.pending::before {
       background-color: var(--color-pending);
     }
@@ -184,9 +189,13 @@
       font-weight: bold;
       color: #333;
     }
+    .submenu .approved:hover {
+      font-weight: bold;
+      color: #333;
+    }
   </style>
   <body>
-    <div class="flex items-center">
+    <div class="flex items-center space-x-4">
       <label for="statusFilter">Filter by Status:</label>
       <div class="menu">
         <div class="item">
@@ -207,13 +216,16 @@
               <a href="#" class="submenu-link all" data-color="var(--color-all)" text-color="var(--text-color)" data-status="All"> All </a>
             </div>
             <div class="submenu-item">
+              <a href="#" class="submenu-link approved" data-color="var(--color-approved)" text-color="var(--text-color-black)" data-status="approved"> Approved </a>
+            </div>
+            <div class="submenu-item">
               <a href="#" class="submenu-link draft" data-color="var(--color-draft)" text-color="var(--text-color)" data-status="draft"> Draft </a>
             </div>
             <div class="submenu-item">
               <a href="#" class="submenu-link published" data-color="var(--color-published)" text-color="var(--text-color)" data-status="published"> Published </a>
             </div>
             <div class="submenu-item">
-              <a href="#" class="submenu-link pending" data-color="var(--color-pending)" text-color="var(--text-color-pending)" data-status="pending"> Pending </a>
+              <a href="#" class="submenu-link pending" data-color="var(--color-pending)" text-color="var(--text-color-black)" data-status="pending"> Pending </a>
             </div>
             <div class="submenu-item">
               <a href="#" class="submenu-link rejected" data-color="var(--color-rejected)" text-color="var(--text-color)" data-status="rejected"> Rejected </a>

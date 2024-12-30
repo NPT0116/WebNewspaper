@@ -5,20 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+  <style>
+    /* Start styling table */
+    th.sorting_asc,
+    th.sorting_desc {
+      color: white !important; /* Màu chữ khi được chọn */
+    }
+
+    th {
+      background-color: #212529;
+      color: white;
+    }
+    .input {
+      color: #333;
+      font:
+        1em/1.5 Hind,
+        sans-serif;
+    }
+    #example {
+      table-layout: fixed;
+      width: 100%; /* Hoặc một giá trị cụ thể */
+    }
+    /* End styling table */
+    th#id {
+      text-align: center !important;
+    }
+    /* Start button styling */
+    .button {
+      position: relative;
+      width: 175px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      border: 1px solid #34974d;
+      background-color: #3ec27c;
+    }
+
+    .button,
+    .button__icon,
+    .button__text {
+      transition: all 0.3s;
+    }
+
+    .button .button__text {
+      transform: translateX(5px);
+      padding: 0 10px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .button .button__icon {
+      position: absolute;
+      transform: translateX(135px);
+      height: 100%;
+      width: 39px;
+      background-color: #12a155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button .svg {
+      width: 30px;
+      stroke: #fff;
+    }
+
+    .button:hover {
+      background: #12a155;
+    }
+
+    .button:hover .button__text {
+      color: transparent;
+    }
+
+    .button:hover .button__icon {
+      width: 148px;
+      transform: translateX(15px);
+    }
+
+    .button:active .button__icon {
+      background-color: #12a155;
+    }
+
+    .button:active {
+      border: 1px solid #12a155;
+    }
+    /* End button styling */
+  </style>
   <body>
-    <button
-      data-modal-target="crud-modal"
-      data-modal-toggle="crud-modal"
-      class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-    >
-      <span class="flex gap-2 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-        <svg class="w-5 h-5" fill="'currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+    <%-include('../../../components/Dashboard/introScreen.ejs')%>
+    <%- include('../../../components/Dashboard/deleteConfirmModal.ejs', {item: "tag"}) %>
+    <div class="flex justify-between">
+      <h1 class="text-[40px] font-bold font-serif">Tag List</h1>
+    </div>
+    <button type="button" class="button mt-4" data-modal-target="crud-modal" data-modal-toggle="crud-modal">
+      <span class="button__text">Create new tag</span>
+      <span class="button__icon">
+        <svg class="w-5 h-5" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
           <path
             d="M0 80L0 229.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0L418.7 317.3c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
           />
         </svg>
-        Create new tags
       </span>
     </button>
 
@@ -28,7 +117,7 @@
     <table id="example" class="display">
       <thead>
         <tr>
-          <th>ID</th>
+          <th id="id">ID</th>
           <th>Name</th>
           <th>Slug</th>
           <th>Description</th>
@@ -74,10 +163,10 @@
                               </svg>
                               <span>Delete</span>`
                 const canDelete = row.deleteActivate;
-                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this tag?')" class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                const deleteButton = canDelete ? `<button type='button' onclick="confirmDelete('${row._id}', 'Are you sure to delete this tag?')" class="delete-btn w-[93px] text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     ${body}
                   </button>
-                ` : `<button type='button' disabled class="delete-btn text-white gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
+                ` : `<button type='button' disabled class="delete-btn text-white w-[93px] gap-2 bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed disabled:bg-red-300">
                     ${body}
                   </button>`
                 const editButton = `
@@ -113,7 +202,7 @@
             {
               targets: 0, // (_id)
               render: function (data, type, row, meta) {
-                return `<div class="text-sm flex gap-2 px-4">
+                return `<div class="text-sm text-[#0082FF] px-4 py-2 font-mono text-center">
                   <div>${data}</div>
                 </div>`;
               }
@@ -121,21 +210,21 @@
             {
               targets: 1, // name
               createdCell: function (td, cellData, rowData, row, col) {
-                $(td).addClass('text-sm text-gray-600 px-4 py-2');
+                $(td).addClass('font-bold font-serif text-[20px]');
               }
             },
             {
-              targets: 2, // gender
+              targets: 2, //slug
               render: function (data, type, row, meta) {
-                  return `<div class="flex gap-2">
-                  ${data}
+                  return `<div class="flex gap-2 italic">
+                  /${data}/
                 </div>`;
               },
             },
             {
               targets: 3, // dob
               render: function (data, type, row, meta) {
-                return `<div class="text-xs">${data}</div>`;
+                return `<div class="text-[14px]">${data}</div>`;
               }
             },
             {
@@ -163,16 +252,15 @@
             // Optional: Apply styles to pagination buttons
           },
           language: {
-            // Custom language settings (optional)
-            search: 'Search editors:',
-            lengthMenu: 'Show _MENU_ entries per page'
+            search: 'Search articles:',
+            searchPlaceholder: 'Type to search...'
           },
-          pageLength: 10, // Default page size
-          lengthMenu: [10, 25, 50] // Options for page size selection
+          lengthChange: false,
+          pageLength: 10 // Default page size
         });
       });
     </script>
-    <script src="/js/swal.js"></script>
+    <!-- <script src="/js/swal.js"></script> -->
     <script src="/js/drawer.js"></script>
     <script>
       function toggleEditDrawer(id) {
@@ -183,6 +271,56 @@
         document.getElementById('description-input').value = tag.description;
         toggleDrawer('tag-info-drawer');
       }
+    </script>
+    <script>
+      function confirmDelete(id) {
+        const modal = document.getElementById('confirmModal');
+        const modalItem = document.getElementById('confirmItem');
+        const cancelButton = document.getElementById('cancelButton');
+        const confirmButton = document.getElementById('confirmButton');
+
+        // Hiển thị modal và modalItem
+        modal.classList.remove('hidden'); // Hiển thị modal nền
+        modalItem.classList.add('modal'); // Thêm trạng thái mặc định cho modalItem
+        setTimeout(() => {
+          modalItem.classList.add('modal-active'); // Kích hoạt hiệu ứng thu nhỏ/phóng to trên modalItem
+        }, 0);
+
+        // Xử lý nút hủy
+        cancelButton.addEventListener('click', () => {
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300); // Thời gian trùng với transition
+        });
+
+        // Xử lý nút xác nhận
+        confirmButton.addEventListener('click', () => {
+          const form = document.getElementById(`delete-form-${id}`);
+          if (form) form.submit();
+
+          modalItem.classList.remove('modal-active'); // Thu nhỏ lại modalItem
+          setTimeout(() => {
+            modalItem.classList.remove('modal'); // Loại trạng thái mặc định
+            modal.classList.add('hidden'); // Ẩn modal nền
+          }, 300);
+        });
+      }
+    </script>
+    <script>
+      const closeBtnElement = document.getElementById('drawer-hide-button');
+      closeBtnElement.addEventListener('click', () => {
+        const drawerElement = document.getElementById('tag-info-drawer');
+        drawerElement.classList.remove('transform-none');
+        drawerElement.removeAttribute('aria-modal');
+        drawerElement.removeAttribute('role');
+        drawerElement.classList.add('translate-x-full');
+        drawerElement.setAttribute('aria-hidden', 'true');
+        const backdrop = document.querySelector('[drawer-backdrop]');
+        backdrop.remove();
+        document.body.classList.remove('overflow-hidden');
+      });
     </script>
   </body>
 </html>

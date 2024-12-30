@@ -2,57 +2,247 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>CKEditor 5 Sample</title>
+    <title>Writing Article</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'/%3E%3C/svg%3E"
+    />
+
     <!-- <link rel="stylesheet" href="/css/styles.css" /> -->
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
     <link rel="stylesheet" href="/css/editor.css" />
     <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <style>
+      /* Nút chung */
+      .btn {
+        display: inline-block;
+        padding: 10px 50px;
+        font-size: 20px;
+        font-weight: 700;
+        border: 3px solid;
+        cursor: pointer;
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+        overflow: hidden;
+        z-index: 1;
+        font-family: inherit;
+        color: black;
+        transition: color 0.3s;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        z-index: -1;
+      }
+
+      .btn:hover {
+        color: white;
+      }
+
+      .btn:hover::before {
+        transform: translateX(0);
+      }
+
+      /* Các nút chung */
+      .btn-save,
+      .btn-submit,
+      .btn-preview {
+        position: relative;
+        border-style: solid;
+        border-width: 2px;
+        color: black;
+        transition: all 0.3s;
+      }
+
+      .btn-save::before,
+      .btn-submit::before,
+      .btn-preview::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        transition: transform 0.3s;
+      }
+
+      /* Nút Save */
+      .btn-save {
+        border-color: rgb(70, 130, 252); /* Xanh dương */
+      }
+
+      .btn-save::before {
+        background-color: rgb(70, 130, 252);
+        transform: translateX(-100%);
+      }
+
+      .btn-save:hover {
+        color: white;
+      }
+
+      .btn-save:hover::before {
+        transform: translateX(0);
+      }
+
+      /* Nút Submit */
+      .btn-submit {
+        border-color: rgb(252, 70, 100); /* Đỏ */
+      }
+
+      .btn-submit::before {
+        background-color: rgb(252, 70, 100);
+      }
+
+      /* Nút Preview */
+      .btn-preview {
+        border-color: rgb(34, 139, 34); /* Xanh lá */
+      }
+
+      .btn-preview::before {
+        background-color: rgb(34, 139, 34);
+      }
+
+      /* Ẩn chữ và hiển thị icon */
+      .btn-save .btn-text,
+      .btn-submit .btn-text,
+      .btn-preview .btn-text {
+        display: inline-block;
+        transition: opacity 0.3s;
+      }
+
+      .btn-save:hover .btn-text,
+      .btn-submit:hover .btn-text,
+      .btn-preview:hover .btn-text {
+        opacity: 0; /* Ẩn chữ khi hover */
+      }
+
+      .btn-save .btn-icon,
+      .btn-submit .btn-icon,
+      .btn-preview .btn-icon {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .btn-save:hover .btn-icon,
+      .btn-submit:hover .btn-icon,
+      .btn-preview:hover .btn-icon {
+        display: inline-block;
+      }
+
+      /* Add transition effect for sliding up and down */
+      #buttons-container {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      #action-buttons-container {
+        transition: height 0.3s ease-in-out;
+      }
+
+      #action-buttons-container.collapsed {
+        padding-top: 60px;
+        height: 50px;
+      }
+
+      .slide-up {
+        transform: translateY(-100%);
+      }
+
+      .slide-down {
+        transform: translateY(0);
+      }
+    </style>
   </head>
   <body>
-    <div class="">
-      <div class="edit-article-container">
-        <div class="edit-article-wrapper">
-          <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
-            <div><%- include('Header') %></div>
-            <div class="input-group-inline">
-              <div class="relative w-1/2 mx-auto">
-                <div id="tagContainer" class="flex flex-wrap w-full items-center gap-2 border border-gray-300 rounded-lg p-2 overflow-hidden">
-                  <input id="searchInput" type="text" placeholder="Search..." class="px-2 py-1 outline-none w-[200px] z-20" />
-                </div>
-                <div id="dropdown" class="absolute z-10 left-0 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                  <div class="text-center text-gray-500 py-2">Loading...</div>
+    <div class="flex">
+      <!-- Sidebar -->
+      <form id="editor-form" method="post" action="/dashboard/reporter/write-article/<%= data._id %>/save">
+        <%- include("Header") %>
+        <!-- Main Content -->
+        <div class="mb-4"></div>
+        <div class="ml-72 w-[100%] flex flex-col">
+          <div class="mb-4 pl-4">
+            <div class="flex space-x-4 items-end">
+              <label for="title" class="block mb-2 font-serif font-bold text-[20px]">Title</label>
+              <div id="title-error" class="text-red-500 mb-[11px] text-[14px] hidden">Please add your title</div>
+            </div>
+            <input type="text" id="title" name="title" placeholder="Title" class="w-[1500px] p-2 bg-white border border-gray-600 rounded" value="<%= data.title %>" />
+          </div>
+          <div class="pl-4">
+            <label for="desc" class="block mb-2 font-bold">Description</label>
+            <textarea class="w-[1500px] p-2 bg-white border border-gray-600 rounded" name="description" id="desc" rows="4" placeholder="Description"><%= data.description %></textarea>
+          </div>
+          <div class="pl-4 pt-4 flex-1 relative w-full">
+            <input type="hidden" name="content" id="editor-content" />
+            <input type="hidden" name="tags" id="tags" />
+            <div class="mt-4 font-bold font-serif text-[30px]">Main content</div>
+            <div class="no-tailwindcss-base z-10 min-w-[1500px] max-w-[1500px]" style="display: flex; justify-content: center">
+              <div class="main-container" style="width: 100%">
+                <div class="editor-container editor-container_classic-editor" id="editor-container">
+                  <div class="editor-container__editor"><div id="editor"><%- data.content %></div></div>
                 </div>
               </div>
-  
-              <select name="sectionId" id="section" placeholder="Section" class="input-field-inline">
-                <% data.sections && data.sections.forEach(function(section) { %>
-                  <% if (data.sectionId?.toString() === section._id?.toString()) { %>
-                    <option value="<%= section._id %>" selected><%= section.name %></option>
-                  <% } else { %>
-                    <option value="<%= section._id %>"><%= section.name %></option>
-                  <% } %>
-                <% }); %>
-              </select>
-              <input type="hidden" name="content" id="editor-content" />
-              <input type="hidden" name="tags" id="tags">
-              <button id="save-button" type="submit" class="save-button-inline">Save</button>
-              <a class="save-button-inline" href="/dashboard/reporter/<%= data._id %>/submit">Submit</a>
-            </form>
-              <a class="preview-button-inline" href="/dashboard/<%= data._id %>/preview" target="_blank">
-                Preview
-              </a>
+            </div>
           </div>
-        </div>
-      </div>
+          <!-- Fixed Buttons -->
+          <div class="fixed top-0 right-0 flex flex-col gap-4 p-4 bg-white border border-gray-300 shadow-lg z-40" id="action-buttons-container">
+            <div id="buttons-container" class="flex flex-col gap-4 transition-transform duration-300 ease-in-out">
+              <button id="save-button" class="btn btn-save text-center" type="submit">
+                <span class="btn-text">Save</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" class="btn-icon size-6">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                  />
+                </svg>
+              </button>
 
-      <div class="no-tailwindcss-base" style="display: flex; justify-content: center">
-        <div class="main-container" style="width: 96%">
-          <div class="editor-container editor-container_classic-editor" id="editor-container">
-            <div class="editor-container__editor"><div id="editor"><%- data.content %></div></div>
+              <a class="btn btn-submit text-center" href="/dashboard/reporter/<%= data._id %>/submit">
+                <span class="btn-text">Submit</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" class="btn-icon size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+              </a>
+
+              <a class="btn btn-preview text-center" href="/dashboard/<%= data._id %>/preview" target="_blank">
+                <span class="btn-text">Preview</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" class="btn-icon size-6">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+              </a>
+
+              <!-- Button to toggle visibility -->
+              <div id="toggle-button" class="btn-toggle text-center border-2 border-black py-2 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.0" stroke="currentColor" class="btn-icon w-[30px] flex mx-auto">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
+
     <script type="importmap">
       {
         "imports": {
@@ -61,11 +251,23 @@
         }
       }
     </script>
-    <script></script>
+
     <script type="module" src="/js/editor.js"></script>
     <script>
+      document.getElementById('editor-form').addEventListener('submit', function (event) {
+        const titleInput = document.getElementById('title');
+        const errorDiv = document.getElementById('title-error');
+
+        if (titleInput.value.trim() === '') {
+          event.preventDefault();
+          errorDiv.classList.remove('hidden');
+        } else {
+          errorDiv.classList.add('hidden');
+        }
+      });
+    </script>
+    <script>
       const data1 = <%- JSON.stringify(data) %>;
-      console.log(data1);
       const searchInput = document.getElementById('searchInput');
       const dropdown = document.getElementById('dropdown');
 
@@ -78,137 +280,227 @@
           debounceTimeout = setTimeout(() => func(...args), delay);
         };
       }
-
       let results;
 
-      // Simulate search API request
-      async function fetchSearchResults(query) {
-        dropdown.classList.remove('hidden'); // Show dropdown
-        dropdown.innerHTML = `
-      <div role="status" class="flex justify-center p-4">
-          <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-          </svg>
-          
-      </div>
-      `; // Show loading text
-
-        try {
-          // Simulate server delay
-          await new Promise((resolve) => setTimeout(resolve, 500));
-          console.log(query);
-          const params = new URLSearchParams({
-            search_value: query
-          });
-          const response = await fetch(`/api/tags?search_value=${query}`);
-          const jsonResponse = await response.json();
-          results = jsonResponse.data.tags;
-          renderDropdown(results);
-        } catch (error) {
-          console.error('Search error:', error);
-          dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">Error loading results</div>';
-        }
-      }
-
-      let tags = data1.tags;
-
-      function addTag(tag) {
-        if (!tags.some((_tag) => _tag._id === tag._id)) {
-          tags.push(tag);
-          updateTags();
-        }
-      }
-
-      function removeTag(tag) {
-        tags = tags.filter((_tag) => _tag._id !== tag._id);
-        updateTags();
-      }
-
-      // Update the input field with selected tags
-      function updateTags() {
+      document.addEventListener('DOMContentLoaded', () => {
+        const dropdown = document.getElementById('dropdown');
+        const searchInput = document.getElementById('searchInput');
         const tagContainer = document.getElementById('tagContainer');
-        const tagWrappers = document.getElementsByClassName('tag-wrapper');
-        const tagsInput = document.getElementById('tags');
-        Array.from(tagWrappers).forEach((wrapper) => tagContainer.removeChild(wrapper));
-        tags.forEach((tag) => {
-          console.log(tag);
-          const ele = document.createElement('span');
-          ele.classList.add('tag-wrapper');
-          ele.innerHTML = `<span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">${tag.name} 
-          <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
-          </span>`;
-          // Insert at the beginning of the container
-          tagContainer.insertBefore(ele, tagContainer.firstChild);
-          tagsInput.value = tags.map((tag) => tag._id.toString()).join(',');
+        let results = [];
+        let tags = data1.tags || [];
 
-          console.log(tagsInput.value);
-        });
-        const tagElements = document.getElementsByClassName('tag');
-        Array.from(tagElements).forEach((tag) => {
-          tag.addEventListener('click', (e) => {
-            const data = e.currentTarget.getAttribute('data');
-            console.log(data);
-            removeTag(JSON.parse(data)); // Call the function to remove the tag
-          });
-        });
-        renderDropdown(results);
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        updateTags();
-      })
-
-      // Render dropdown with search results
-      function renderDropdown(results) {
-        if (!results.length) {
-          dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">No results found</div>';
-        } else {
-          const resultItems = results
-            .map((result) => {
-              if (!tags.some((tag) => tag._id === result._id)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.name}</div>`;
-              return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>`;
-            })
-            .join('');
-          dropdown.innerHTML = resultItems;
-          const dropdownItems = dropdown.querySelectorAll('[data-result]');
-          dropdownItems.forEach((item) => {
-            item.addEventListener('click', (e) => {
-              const result = JSON.parse(e.currentTarget.getAttribute('data-result'));
-              if (!tags.some((tag) => tag._id === result._id)) addTag(result);
-              else removeTag(result);
-            });
-          });
+        // Hàm tải danh sách tag mặc định
+        async function loadDefaultTags() {
+          try {
+            showLoading();
+            const response = await fetch('/api/tags');
+            const jsonResponse = await response.json();
+            results = jsonResponse.data.tags;
+            renderDropdown(results);
+          } catch (error) {
+            console.error('Error loading default tags:', error);
+            showError('Error loading tags');
+          }
         }
-      }
 
-      // Listen to input events with debounce
-      searchInput.addEventListener(
-        'input',
-        debounce((event) => {
-          const query = event.target.value.trim();
+        // Hàm tìm kiếm
+        async function fetchSearchResults(query) {
+          try {
+            showLoading();
+            const params = new URLSearchParams({ search_value: query });
+            const response = await fetch(`/api/tags?${params.toString()}`);
+            const jsonResponse = await response.json();
+            results = jsonResponse.data.tags;
+            renderDropdown(results);
+          } catch (error) {
+            console.error('Search error:', error);
+            showError('Error loading results');
+          }
+        }
 
-          if (query.length) {
-            fetchSearchResults(query);
+        // Hàm hiển thị loading
+        function showLoading() {
+          dropdown.classList.remove('hidden');
+          dropdown.innerHTML = `
+                    <div role="status" class="flex justify-center p-4">
+                      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.59C100 78.205 77.614 100.591 50 100.591 22.386 100.591 0 78.205 0 50.59 0 22.977 22.386 0.591 50 0.591 77.614 0.591 100 22.977 100 50.59Z" fill="currentColor"/>
+                        <path d="M93.968 39.041C96.393 38.404 97.862 35.912 97.008 33.554 95.293 28.823 92.871 24.369 89.817 20.348 85.845 15.119 80.883 10.724 75.212 7.413 69.542 4.102 63.275 1.94 56.77 1.051 51.767 0.368 46.698 0.447 41.735 1.279 39.261 1.693 37.813 4.198 38.45 6.623 39.087 9.049 41.569 10.472 44.051 10.107 47.851 9.549 51.719 9.527 55.54 10.049 60.864 10.777 65.993 12.546 70.633 15.255 75.274 17.965 79.335 21.562 82.585 25.841 84.917 28.912 86.8 32.291 88.181 35.876 89.083 38.216 91.542 39.678 93.968 39.041Z" fill="currentFill"/>
+                      </svg>
+                    </div>`;
+        }
+
+        // Hàm hiển thị lỗi
+        function showError(message) {
+          dropdown.innerHTML = `<div class="text-center text-gray-500 py-2">${message}</div>`;
+        }
+
+        // Hàm render danh sách tag
+        function renderDropdown(tags) {
+          if (tags.length === 0) {
+            showError('No tags found');
+            return;
+          }
+          dropdown.classList.remove('hidden');
+          dropdown.innerHTML = tags.map((tag) => `<div class="p-2 cursor-pointer hover:bg-[#1F2937]">${tag.name}</div>`).join('');
+        }
+
+        // Sự kiện tìm kiếm
+        searchInput.addEventListener(
+          'input',
+          debounce((event) => {
+            const query = event.target.value.trim();
+            if (query) {
+              fetchSearchResults(query);
+            } else {
+              loadDefaultTags();
+            }
+          }, 500) // Độ trễ debounce
+        );
+
+        // Sự kiện focus
+        searchInput.addEventListener('focus', async () => {
+          const query = searchInput.value.trim();
+          if (!query) {
+            await loadDefaultTags();
           } else {
+            dropdown.classList.remove('hidden');
+          }
+        });
+
+        // Ẩn dropdown khi click ngoài vùng dropdown
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.relative')) {
             dropdown.classList.add('hidden');
           }
-        }, 500) // Adjust debounce delay here
-      );
-      searchInput.addEventListener('focus', () => {
-        dropdown.classList.remove('hidden');
-        // positionDropdown();
-      });
-      document.getElementById('tagContainer').addEventListener('click', () => searchInput.focus());
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.relative')) {
+        });
+
+        // Click vào container focus input
+        tagContainer.addEventListener('click', () => searchInput.focus());
+
+        // Khởi tạo danh sách tag mặc định
+        if (!searchInput.value.trim()) {
           dropdown.classList.add('hidden');
         }
+        console.log(tags);
+        function addTag(tag) {
+          if (!tags.some((_tag) => _tag._id === tag._id)) {
+            tags.push(tag);
+            updateTags();
+          }
+        }
+
+        function removeTag(tag) {
+          tags = tags.filter((_tag) => _tag._id !== tag._id);
+          updateTags();
+        }
+
+        // Update the input field with selected tags
+        function updateTags() {
+          const tagWrappers = document.getElementsByClassName('tag-wrapper');
+          const tagsInput = document.getElementById('tags');
+          // Xóa tất cả các thẻ hiển thị hiện có
+          Array.from(tagWrappers).forEach((wrapper) => tagContainer.removeChild(wrapper));
+          // Tạo thẻ mới cho mỗi tag
+          tags.forEach((tag) => {
+            const ele = document.createElement('span');
+            ele.classList.add('tag-wrapper');
+            ele.innerHTML = `
+            <span class="rounded-md bg-gray-300 text-black px-2 py-1 flex gap-2">
+              ${tag.name}
+              <div class="cursor-pointer tag" data='${JSON.stringify(tag)}'>x</div>
+            </span>`;
+            // Thêm thẻ vào container
+            tagContainer.insertBefore(ele, tagContainer.firstChild);
+            tagsInput.value = tags.map((tag) => tag._id.toString()).join(',');
+          });
+          // Gắn sự kiện xóa tag
+          const tagElements = document.getElementsByClassName('tag');
+          Array.from(tagElements).forEach((tag) => {
+            tag.addEventListener('click', (e) => {
+              const data = e.currentTarget.getAttribute('data');
+              removeTag(JSON.parse(data)); // Xóa tag khi click
+            });
+          });
+          renderDropdown(results);
+        }
+
+        // Khởi tạo giao diện với tags ban đầu
+        updateTags();
+
+        document.addEventListener('DOMContentLoaded', function () {
+          updateTags();
+        });
+
+        // Render dropdown with search results
+        function renderDropdown(results) {
+          if (!results.length) {
+            dropdown.innerHTML = '<div class="text-center text-gray-500 py-2 z-10">No results found</div>';
+          } else {
+            const resultItems = results
+              .map((result) => {
+                if (!tags.some((tag) => tag._id === result._id)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-[#3e526e] cursor-pointer z-10">${result.name}</div>`;
+                return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>`;
+              })
+              .join('');
+            dropdown.innerHTML = resultItems;
+            const dropdownItems = dropdown.querySelectorAll('[data-result]');
+            dropdownItems.forEach((item) => {
+              item.addEventListener('click', (e) => {
+                const result = JSON.parse(e.currentTarget.getAttribute('data-result'));
+                if (!tags.some((tag) => tag._id === result._id)) addTag(result);
+                else removeTag(result);
+              });
+            });
+          }
+        }
       });
-</script>
-    <script type="module">
-      import {editorInstance} from '/js/editor.js'
-      console.log(editorInstance);
+
+      // Simulate search API request
+      // async function fetchSearchResults(query) {
+      //   const dropdown = document.getElementById('dropdown');
+      //   if (!query.trim()) {
+      //     await loadDefaultTags();
+      //     return;
+      //   }
+
+      //   dropdown.classList.remove('hidden');
+      //   dropdown.innerHTML = `<div role="status" class="flex justify-center p-4">
+      //                           <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+      //                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+      //                             <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+      //                           </svg>
+      //                         </div>`;
+      //   try {
+      //     const response = await fetch(`/api/tags?search_value=${query}`);
+      //     const jsonResponse = await response.json();
+      //     results = jsonResponse.data.tags;
+      //     renderDropdown(results);
+      //   } catch (error) {
+      //     console.error('Search error:', error);
+      //     dropdown.innerHTML = '<div class="text-center text-gray-500 py-2">Error loading results</div>';
+      //   }
+      // }
+
+      let tags = data1.tags;
+    </script>
+    <script>
+      // Handle toggle button click
+      document.getElementById('toggle-button').addEventListener('click', function () {
+        const buttonsContainer = document.getElementById('buttons-container');
+        const actionButtonsContainer = document.getElementById('action-buttons-container');
+
+        // Toggle between sliding up and down
+        if (buttonsContainer.classList.contains('slide-up')) {
+          buttonsContainer.classList.remove('slide-up');
+          buttonsContainer.classList.add('slide-down');
+          actionButtonsContainer.classList.remove('collapsed'); // Set height to auto
+        } else {
+          buttonsContainer.classList.remove('slide-down');
+          buttonsContainer.classList.add('slide-up');
+          actionButtonsContainer.classList.add('collapsed'); // Set a small height
+        }
+      });
     </script>
   </body>
 </html>

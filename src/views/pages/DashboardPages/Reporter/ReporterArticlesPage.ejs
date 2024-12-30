@@ -207,14 +207,15 @@
         --pex: -24px;
       }
       /* End create new article css */
+
+      /* Start styling table */
       th.sorting_asc,
       th.sorting_desc {
         color: white !important; /* Màu chữ khi được chọn */
-        background-color: #7c7c7c !important; /* Nền khi được chọn */
       }
 
       th {
-        background-color: #333;
+        background-color: #212529;
         color: white;
       }
       .input {
@@ -223,12 +224,16 @@
           1em/1.5 Hind,
           sans-serif;
       }
+      #example {
+        table-layout: fixed;
+        width: 100%; /* Hoặc một giá trị cụ thể */
+      }
+      /* End styling table */
     </style>
   </head>
   <body>
     <%-include('../../../components/Dashboard/introScreen.ejs')%>
-    <%- include('../../../components/Dashboard/screenLimitSize.ejs')  %>
-
+    <%- include('../../../components/Dashboard/screenLimitSize.ejs', {limitSize: 1244})  %>
     <div class="flex justify-between">
       <h1 class="text-[40px] font-bold font-serif">Article List</h1>
       <div>
@@ -258,12 +263,12 @@
     <table id="example" class="display border-collapse border border-slate-400">
       <thead>
         <tr class="bg-[#e0e0e0] text-[#000]">
-          <th class="w-[5%] px-4 py-2">A.No</th>
-          <th class="w-[40%] px-4 py-2">Title</th>
-          <th class="w-[18%] px-4 py-2">Description</th>
-          <th class="w-[12%] px-4 py-2">Status</th>
-          <th class="w-[15%] px-4 py-2">Published At</th>
-          <th class="w-[10%] px-4 py-2 action">Actions</th>
+          <th class="w-[7%] px-4 py-2">A.No</th>
+          <th class="w-[30%] px-4 py-2">Title</th>
+          <th class="w-[33%] px-4 py-2">Description</th>
+          <th class="w-[10%] px-4 py-2">Status</th>
+          <th class="w-[10%] px-4 py-2">Published At</th>
+          <th class="w-[15%] px-4 py-2 action">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -400,7 +405,7 @@
               targets: 1, // 2nd column (title)
               render: function (data, type, row, meta) {
                 return `<div class="flex items-center gap-2 ">
-                                                  <img class="w-[200px]  rounded" src="${row.images[0]}" alt="Rounded avatar">
+                                                  <img class="w-[30%]  rounded" src="${row.images[0]}" alt="Rounded avatar">
                                                   <div class="font-bold font-serif">${data}</div>
                                                 </div>`;
               }
@@ -420,7 +425,7 @@
                 }
 
                 // Apply Tailwind classes for styling
-                $(td).addClass('text-[16px] text-gray-600 px-4 py-2 overflow-hidden whitespace-nowrap');
+                $(td).addClass('text-[16px] text-gray-600 px-4 py-2 overflow-hidden whitespace-nowrap pr-1');
               }
             },
             {
@@ -517,8 +522,6 @@
         Swal.fire({
           title: 'Are you sure?',
           text: 'This action cannot be undone.',
-          icon: 'warning',
-          showCancelButton: true,
           confirmButtonText: 'Yes, delete it!',
           cancelButtonText: 'Cancel',
           confirmButtonColor: '#3085d6',

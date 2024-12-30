@@ -59,7 +59,7 @@
   text-align: center;
 }
 
-.save-button {
+/* .save-button {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
@@ -76,7 +76,7 @@
 
 .save-button:active {
   background-color: #004494;
-}
+} */
 
 .input-group-inline {
   display: flex;
@@ -156,14 +156,13 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 0;
   text-align: center;
 }
 
 .header-card {
   max-width: 24rem;
   margin: 0 auto;
-  background-color: white;
+  background-color: #374151;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -182,7 +181,7 @@
   max-width: 24rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
-  background-color: #f7fafc;
+  background-color: #374151;
   border: 2px dashed #e2e8f0;
   border-radius: 10px;
   cursor: pointer;
@@ -198,29 +197,29 @@
 .header-icon {
   width: 2rem;
   height: 2rem;
-  color: #4a5568;
+  color: #b1b1b1;
   margin-bottom: 1rem;
 }
 
 .header-title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #4a5568;
+  color: #b1b1b1;
   margin-bottom: 0.5rem;
 }
 
 .header-description {
   font-size: 0.875rem;
-  color: gray;
+  color: #a5a4a4;
   margin-top: 0.25rem;
 }
 
 .header-highlight {
-  color: #2d3748;
+  color: #a5a4a4;
 }
 
 .header-filename {
-  color: #4a5568;
+  color: white;
   background-color: #edf2f7;
 }
 

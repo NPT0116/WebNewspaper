@@ -176,14 +176,18 @@
       </div>
     </div>
   </div>
-  <div>This page is available for screens larger than 1577px.</div>
+  <div>
+    This page is available for screens larger than
+    <%= limitSize %>
+    px
+  </div>
 </div>
 <!-- Alert Message -->
 
 <script>
   function checkScreenSize() {
     const message = document.getElementById('responsiveMessage');
-    if (window.innerWidth <= 1577) {
+    if (window.innerWidth <= <%=limitSize %>) {
       message.classList.remove('hidden');
     } else {
       message.classList.add('hidden');

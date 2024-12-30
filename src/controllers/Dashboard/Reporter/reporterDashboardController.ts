@@ -10,6 +10,7 @@ import { Section } from '~/models/Section/sectionSchema.js';
 import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
+import { generateSlug } from '~/utils/common.js';
 
 // Request params and body for updating an article
 interface UpdateArticleParams {
@@ -85,6 +86,7 @@ interface writeArticleResponse {
     layout: 1 | 2 | 3;
     images: string[];
     status: string;
+    videoUrl: string;
   };
 }
 
@@ -117,6 +119,8 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     if (!article) {
       return next(new AppError('Article not found in the database', 404));
     }
+
+    console.log(req.body);
 
     // Update fields if provided
     article.title = title || article.title;
@@ -219,9 +223,11 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         tags: article.tags as unknown as ITag[],
         layout: article.layout,
         images: article.images,
-        status: article.status
+        status: article.status,
+        videoUrl: article.videoUrl || ''
       }
     };
+
     res.render('pages/ReporterPages/ArticleEditPage', response);
     // res.json(response);
   } catch (e) {

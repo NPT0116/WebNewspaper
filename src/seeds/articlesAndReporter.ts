@@ -8,7 +8,7 @@ import { EditorProfile } from '~/models/Profile/editorProfile.js';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
 import path from 'path';
-import { generateSlug } from '~/utils/common.js';
+import { generateSlug, getRandomNumberInRange } from '~/utils/common.js';
 import { fileURLToPath } from 'url';
 
 interface IArticleData {
@@ -18,14 +18,8 @@ interface IArticleData {
   images: string[];
   sectionId: string;
   tags: string[];
+  videoUrl: string;
 }
-
-const getRandomNumberInRange = (min: number, max: number): number => {
-  if (min > max) {
-    throw new Error('Min value cannot be greater than max value.');
-  }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
 function getRandomDate(start: Date, end: Date): string {
   const startTime = start.getTime();
@@ -105,10 +99,10 @@ export const seedArticlesWithReporterAndEditor = async () => {
         password: await bcrypt.hash('truonganhngocpassword', 10)
       }
     });
-    await reporterAccount2.save();
+    await reporterAccount3.save();
 
     const reporterProfile3 = new ReporterProfile({
-      accountId: reporterAccount2._id,
+      accountId: reporterAccount3._id,
       name: 'Trương Anh Ngọc',
       dob: new Date('1976-01-19'),
       gender: 'male',
@@ -165,7 +159,8 @@ export const seedArticlesWithReporterAndEditor = async () => {
         approved: {
           editorId: editorId,
           publishedAt: publishedDate
-        }
+        },
+        videoUrl: articleData.videoUrl
       });
 
       await article.save();

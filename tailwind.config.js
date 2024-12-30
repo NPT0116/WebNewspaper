@@ -11,6 +11,9 @@ export default {
       },
       transitionTimingFunction: {
         'header-ease': 'cubic-bezier(0.4, 0, 0.2, 1)' // Smooth easing
+      },
+      backgroundImage: {
+        'gradient-45': 'linear-gradient(45deg, #ff6547 0%, #ffb144 51%, #ff7053 100%)'
       }
     }
   },

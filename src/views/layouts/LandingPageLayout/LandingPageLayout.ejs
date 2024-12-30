@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/fonts.css" />
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="https://png.pngtree.com/png-clipart/20231101/original/pngtree-vietnam-button-with-flag-symbol-photo-png-image_13471749.png" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <title>The Elon Musk</title>
@@ -15,6 +15,8 @@
     <div id="header" class="fixed top-0 w-full h-24 bg-white z-10 hidden">
       <%- include('../../layouts/partials/HeaderTitle', { profile:profile }) %>
     </div>
+
+
     <div class="relative top-0 hidden md:flex">
       <video autoplay loop muted class="w-screen h-screen object-cover">
         <source src="/images/Background/1211.mp4" type="video/mp4"></source>
@@ -23,8 +25,10 @@
         <h1 class="text-white text-7xl font-extrabold animate__animated animate__fadeInRight " style="font-family: 'MyCustomFont'; color: black;">THE ELON MUSK</h1>
       </div>
     </div>
+
     <div class="flex justify-center mt-24"><%- include(body, {data: data, sections: sections}) %></div>
     <%- include('../partials/Footer', { section1: sections.slice(0, 5), section2: sections.slice(5, 10) }) %>
+
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const header = document.getElementById('header');

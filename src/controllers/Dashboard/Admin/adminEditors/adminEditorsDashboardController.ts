@@ -59,6 +59,7 @@ interface ICreateEditor {
 }
 
 export const adminCreateEditor = async (req: Request<{}, {}, ICreateEditor>, res: Response) => {
+  console.log('hehe clm');
   try {
     const { name, dob, gender, sectionId, email, username, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -162,7 +163,8 @@ export const adminDeleteEditor = async (req: Request<IDeleteEditor>, res: Respon
     const accountId = editorProfile.accountId;
     const editorAccount = await Account.findByIdAndDelete(accountId);
     if (!editorAccount) {
-      return res.status(404).json({ status: 'error', message: 'Account not found' });
+      res.status(404).json({ status: 'error', message: 'Account not found' });
+      return;
     }
     editorProfile.editArticles.forEach(async (article) => {
       await Article.findByIdAndDelete(article._id);
