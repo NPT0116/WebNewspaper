@@ -176,7 +176,10 @@
         <div class="mb-4"></div>
         <div class="ml-72 w-[100%] flex flex-col">
           <div class="mb-4 pl-4">
-            <label for="title" class="block mb-2 font-serif font-bold text-[20px]">Title</label>
+            <div class="flex space-x-4 items-end">
+              <label for="title" class="block mb-2 font-serif font-bold text-[20px]">Title</label>
+              <div id="title-error" class="text-red-500 mb-[11px] text-[14px] hidden">Please add your title</div>
+            </div>
             <input type="text" id="title" name="title" placeholder="Title" class="w-[1500px] p-2 bg-white border border-gray-600 rounded" value="<%= data.title %>" />
           </div>
           <div class="pl-4">
@@ -250,6 +253,19 @@
     </script>
 
     <script type="module" src="/js/editor.js"></script>
+    <script>
+      document.getElementById('editor-form').addEventListener('submit', function (event) {
+        const titleInput = document.getElementById('title');
+        const errorDiv = document.getElementById('title-error');
+
+        if (titleInput.value.trim() === '') {
+          event.preventDefault();
+          errorDiv.classList.remove('hidden');
+        } else {
+          errorDiv.classList.add('hidden');
+        }
+      });
+    </script>
     <script>
       const data1 = <%- JSON.stringify(data) %>;
       const searchInput = document.getElementById('searchInput');

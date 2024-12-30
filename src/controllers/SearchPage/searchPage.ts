@@ -313,10 +313,21 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       query.publishedAt = { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) };
     }
 
+    const isSubscriber = req.user ? req.user.isSubscriber : false;
+
+    console.log('user');
+    console.log(req.user);
+
+    const sort: any = searchValue
+      ? { score: { $meta: 'textScore' } }
+      : isSubscriber
+        ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
+        : { publishedAt: -1 }; // Latest first for non-subscribers
+
     console.log('Constructed Query:', JSON.stringify(query, null, 2));
 
     // Fetch articles and pagination data
-    const articles = await getListArticleInfoCards(query, skip, size);
+    const articles = await getListArticleInfoCards(query, skip, size, sort);
     const totalArticlesCount = await countArticles(query);
     const totalPagesCount = Math.ceil(totalArticlesCount / size);
 
@@ -349,6 +360,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     };
 
     res.render('layouts/SearchPageLayout/SearchPageLayout', searchPageData);
+    // res.json(searchPageData);
   } catch (error) {
     console.error('Error in getSearchPage:', error);
     next(new AppError('Error fetching search page data.', 500));

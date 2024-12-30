@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css" />
-
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk"></script>
     <title>Register</title>
   </head>
   <body>
@@ -28,16 +28,17 @@
         ></div>
       </div>
       <div id="left-register-form" class="flex flex-col justify-center items-center" style="width: 45vw; height: 100vh; padding: 0px 40px">
-        <form action="/register" method="POST" class="flex flex-col justify-evenly items-center" style="width: 100%; height: 85%">
+        <form id="register-form" action="/register" method="POST" class="flex flex-col justify-evenly items-center" style="width: 100%; height: 85%">
           <h2 class="font-niconne italic text-center text-5xl">Register</h2>
           <%-include ('../components/Authentication/InputBox', { title: "Username", type: "text", name:"username", id:"username" })%>
+          <p id="username-warning" class="hidden text-sm text-red-600 dark:text-red-500"></p>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Email", type: "email", name:"email", id:"email" })%>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Password", type: "password", name:"password", id:"password" })%>
           <div id="dob-gender" class="flex flex-row justify-between items-center" style="width: 100%">
             <%-include ('../components/Authentication/InputBox', { title: "Date Of Birth", type: "date", name:"dob", id:"dob" })%>
             <div class="flex flex-col justify-center items-center" style="width: 37%; padding: 0; margin: 0">
-              <select name="gender" id="gender" class="w-full border rounded" required style="border-radius: 50px; height: 8vh">
-                <option value="male" disabled selected>Gender</option>
+              <select name="gender" id="gender" class="w-full border rounded" style="border-radius: 50px; height: 8vh" required>
+                <option value="" disabled selected>Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -45,6 +46,10 @@
             </div>
           </div>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
+          <div id="recaptcha-container">
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+          </div>
           <div>
             <p>Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
           </div>
@@ -56,57 +61,61 @@
         <% } %>
       </div>
     </div>
-
-    <div class="sm:hidden flex flex-row justify-center items-center" style="width: 100vw; height: 100vh">
-      <div id="right-register-container" style="width: 100vw; height: 100vh; padding: 20px">
-        <div
-          style="
-            width: 100%;
-            height: 100%;
-            background-image: url('https://i.pinimg.com/736x/0d/9c/d8/0d9cd8a4d395471040aa1b9db1b10121.jpg');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            transform: scaleX(-1);
-            border-radius: 50px;
-            box-shadow: black 1px 1px 10px;
-          "
-        ></div>
-      </div>
-      <div id="left-register-form" class="absolute flex flex-col justify-center items-center" style="width: 45vw; height: 100vh; padding: 0px 40px">
-        <form action="/register" method="POST" class="flex flex-col justify-evenly items-center" style="width: 70vw; height: 85%; background-color: white; border-radius: 20px; padding: 20px">
-          <h2 class="font-niconne italic text-center text-5xl">Register</h2>
-          <%-include ('../components/Authentication/InputBox', { title: "Username", type: "text", name:"username", id:"username" })%>
-          <%-include ('../components/Authentication/InputBox', { title: "Enter Email", type: "email", name:"email", id:"email" })%>
-          <%-include ('../components/Authentication/InputBox', { title: "Enter Password", type: "password", name:"password", id:"password" })%>
-          <%-include ('../components/Authentication/InputBox', { title: "Date Of Birth", type: "date", name:"dob", id:"dob" })%>
-
-          <div class="flex flex-col justify-center items-center" style="width: 100%; padding: 0; margin: 0">
-            <select name="gender" id="gender" class="w-full border rounded" required style="border-radius: 50px; height: 8vh">
-              <option value="male" disabled selected>Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
-          <div>
-            <p style="font-size: 12px">Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
-          </div>
-
-          <%-include('../components/Authentication/SubmitButton', { title: 'Register' })%>
-        </form>
-        <% if (locals.flash && locals.flash.error) { %>
-        <div class="bg-red-500 text-black p-3 rounded mb-4"><%= locals.flash.error %></div>
-        <% } %>
-      </div>
-    </div>
   </body>
   <script>
-    const dob = document.querySelector('#dob');
+    const d_o_b = document.querySelector('#dob');
     console.log('keke');
-    if (dob) {
-      dob.parentElement.style.width = '60%';
+    if (d_o_b) {
+      d_o_b.parentElement.style.width = '60%';
+    }
+
+    function isValidUsername(username) {
+      // Define the username format rules using a regular expression
+      const usernameRegex = /^[a-z][a-z0-9_]{4,14}$/;
+
+      // Test the username against the regex
+      if (usernameRegex.test(username)) {
+        return true; // Username is valid
+      } else {
+        return false; // Username is invalid
+      }
+    }
+
+    document.getElementById('register-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      let canSubmit = true;
+
+      const usernameElement = document.getElementById('username');
+      const username = usernameElement.value;
+      const emailElement = document.getElementById('email');
+      const email = emailElement.value;
+      const passwordElement = document.getElementById('password');
+      const password = passwordElement.value;
+      const dobElement = document.getElementById('dob');
+      const dob = dobElement.value;
+      const genderElement = document.getElementById('gender');
+      const gender = genderElement.value;
+      const nameElement = document.getElementById('name');
+      const name = nameElement.value;
+
+      if (!isValidUsername(username)) {
+        const warning = document.getElementById('username-warning');
+        warning.innerText = 'Username must be between 5-15 characters, lowercase and contains only letter, number and underscore';
+        warning.classList.remove('hidden');
+        canSubmit = false;
+      }
+
+      if (canSubmit) {
+        this.submit();
+      }
+    });
+  </script>
+  <script>
+    function onClick(e) {
+      e.preventDefault();
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute('6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk', { action: 'REGISTER' });
+      });
     }
   </script>
 </html>

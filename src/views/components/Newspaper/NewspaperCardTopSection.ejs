@@ -19,8 +19,11 @@
       />
     </a>
   </div>
-
+  
+  
+  <div id="top-publish-time-<%=latestArticle.slug%>" class="w-full text-center text-sm self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%=latestArticle.publishedAt%></div>
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
+
     <div class="flex justify-start items-start flex-col h-full pt-2">
       <h1 id="card-title" class="xl:text-xl text-lg flex justify-start items-start font-bold font-serif hover:underline" style="margin-bottom: 10px; margin-top: 10px">
         <a
@@ -44,3 +47,6 @@
   </div>
 </div>
 <link rel="stylesheet" href="/css/premiumTag.css" />
+<script>
+  document.getElementById(`top-publish-time-<%=latestArticle.slug%>`).textContent = `<%=latestArticle.publishedAt%>`.split('GMT')[0]
+</script>
