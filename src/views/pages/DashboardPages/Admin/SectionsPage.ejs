@@ -158,13 +158,13 @@
 
     <script>
       const select = document.getElementById('parentSection-input');
-      const drawerSelect = document.getElementById('parentSection-input-drawer');
+      const drawerSelect = document.getElementById('parentSection-input-inside-drawer');
       sections.forEach((section) => {
         const option = document.createElement('option');
         option.value = section._id;
         option.textContent = section.name;
-        select.appendChild(option);
-        drawerSelect.appendChild(option);
+        <!-- select.appendChild(option); -->
+        drawerSelect?.appendChild(option);
       });
     </script>
 
