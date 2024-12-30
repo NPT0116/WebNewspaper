@@ -314,15 +314,12 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     }
 
     const isSubscriber = req.user ? req.user.isSubscriber : false;
-
-    console.log('user');
-    console.log(req.user);
-
-    const sort: any = searchValue
-      ? { score: { $meta: 'textScore' } }
-      : isSubscriber
-        ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
-        : { publishedAt: -1 }; // Latest first for non-subscribers
+    const sort: any =
+      searchValue && isSubscriber
+        ? { score: { $meta: 'textScore' }, isSubscribed: -1 }
+        : isSubscriber
+          ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
+          : { publishedAt: -1 }; // Latest first for non-subscribers
 
     console.log('Constructed Query:', JSON.stringify(query, null, 2));
 

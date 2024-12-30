@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css" />
-
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk"></script>
     <title>Register</title>
   </head>
   <body>
@@ -46,6 +46,10 @@
             </div>
           </div>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
+          <div id="recaptcha-container">
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+          </div>
           <div>
             <p>Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
           </div>
@@ -61,6 +65,8 @@
   <script>
     const d_o_b = document.querySelector('#dob');
     console.log('keke');
+    if (d_o_b) {
+      d_o_b.parentElement.style.width = '60%';
     if (d_o_b) {
       d_o_b.parentElement.style.width = '60%';
     }
@@ -105,5 +111,13 @@
         this.submit();
       }
     });
+  </script>
+  <script>
+    function onClick(e) {
+      e.preventDefault();
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute('6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk', { action: 'REGISTER' });
+      });
+    }
   </script>
 </html>

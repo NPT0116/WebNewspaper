@@ -176,9 +176,9 @@ export const countArticlesBySectionIds = async (sectionIds: string[]) => {
   return await Article.countDocuments({ sectionId: { $in: sectionIds } });
 };
 
-export const findArticlesBySectionIds = async (sectionIds: string[], skip: number, limit: number) => {
+export const findArticlesBySectionIds = async (sectionIds: string[], skip: number, limit: number, sort: Record<string, 1 | -1>) => {
   return await Article.find({ sectionId: { $in: sectionIds } })
-    .sort({ publishedAt: -1 })
+    .sort(sort)
     .skip(skip)
     .limit(limit)
     .populate<{ sectionId: ISection }>('sectionId', 'name slug')

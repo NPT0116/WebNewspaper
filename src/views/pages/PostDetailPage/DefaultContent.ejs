@@ -115,7 +115,7 @@
                 </defs>
             </svg>
           </span>    
-          <div class="absolute left-full transform -translate-x-1/3 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2">
+          <div class="absolute left-full transform -translate-x-1/4 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2">
             print
           </div>
         </div>  
@@ -136,7 +136,7 @@
           </a>
   
         </span>
-        <div class="hidden group-hover:block absolute left-full transform -translate-x-1/3 bg-gray-800 text-white text-xs rounded py-1 px-2">
+        <div class="hidden group-hover:block absolute left-full transform -translate-x-1/4 bg-gray-800 text-white text-xs rounded py-1 px-2">
           comment
         </div>
       </div>
@@ -156,7 +156,7 @@
                 </defs>
             </svg>
         </span>
-        <div class="hidden group-hover:block absolute left-full transform -translate-x-1/3 bg-gray-800 text-white text-xs rounded py-1 px-2">
+        <div id="get-link-content" class="hidden group-hover:block absolute left-full transform -translate-x-1/4 bg-gray-800 text-white text-xs rounded py-1 px-2">
           link
         </div>
       </div>
@@ -183,12 +183,15 @@
     })
 
     // print mode
-    document.getElementById('print-icon').addEventListener('click', () => {
-      window.print()
-    })
+    if (document.getElementById('print-icon')) {
+      document.getElementById('print-icon').addEventListener('click', () => {
+        window.print()
+      })
+    }
 
     // take current href for copy href mode
-    document.getElementById('get-link-icon').addEventListener('click', () => {
+    let changeContent;
+    document.getElementById('get-link-icon').addEventListener('click', (e) => {
       const tempInput = document.createElement('input')
       document.body.appendChild(tempInput)
       tempInput.value = window.location.href
@@ -196,8 +199,15 @@
       tempInput.select();
       document.execCommand('copy')
 
+
       document.body.removeChild(tempInput)
-      alert('URL copied to clipboard!')
+      if (changeContent) {
+        clearTimeout(changeContent)
+      }
+      document.getElementById('get-link-content').textContent = 'copied'
+      changeContent = setTimeout(() => {
+        document.getElementById('get-link-content').textContent = 'link'
+      }, 2000)
     })
   })
 </script>
