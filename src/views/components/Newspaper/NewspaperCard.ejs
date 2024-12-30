@@ -11,16 +11,19 @@
   </div>
 
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
-    <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300" style="top: -5%; left: 4%">
-      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : article.sectionId && article.sectionId.slug ? article.sectionId.slug : ''  %>" class="bg-red-600 p-2">
+    <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300 hover:scale-105" style="top: -5%; left: 3%">
+      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : article.sectionId && article.sectionId.slug ? article.sectionId.slug : ''  %>" class="bg-red-600 p-2 ">
         <%= article.section && article.section.name ? article.section.name : article.sectionId && article.sectionId.name ? article.sectionId.name : "Unknown section" %>
       </a>
     </div>
+    <div id="publish-time-<%=article.slug%>" class="absolute top-0 text-[13px] self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%=article.publishedAt%></div>
 
-    <div class="flex justify-start items-center flex-col h-full pt-4">
+
+    <div class="flex justify-start items-center flex-col h-full pt-6">
       <h1 id="card-title" class="text-xl flex justify-start items-start font-bold font-serif hover:underline transition-all duration-300" style="margin-bottom: 15px; margin-top: 20px">
         <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class="<% if (article.isSubscribed) { %> text-red-700 <% } %>"><%= article.title %> </a>
       </h1>
+      
       <h1 id="card-description" class="relative text-[1rem] h-full flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300 self-end">
         <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class=""><%= article.description %> </a>
         <% if (article.isSubscribed && profile && !profile.isSubscriber || article.isSubscribed && !profile) {%>
@@ -34,3 +37,6 @@
   </div>
 </div>
 <link rel="stylesheet" href="/css/premiumTag.css" />
+<script>
+  document.getElementById(`publish-time-<%=article.slug%>`).textContent = `<%=article.publishedAt%>`.split('GMT')[0]
+</script>
