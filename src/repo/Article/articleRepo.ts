@@ -111,9 +111,10 @@ export const getAllArticles = async () => {
     });
 };
 
-export const getListArticleInfoCards = async (query: any, skip: number, limit: number): Promise<IArticleCard[]> => {
+export const getListArticleInfoCards = async (query: any, skip: number, limit: number, sort: Record<string, 1 | -1>): Promise<IArticleCard[]> => {
   try {
     const articles = await Article.find(query)
+      .sort(sort)
       .skip(skip)
       .limit(limit)
       .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
