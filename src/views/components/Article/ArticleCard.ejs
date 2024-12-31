@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center flex-col animate__animated animate__fadeInRight" style="width: 80vw">
+<div class="flex justify-center items-center flex-col animate__animated animate__fadeInRight cursor-pointer" id="article-card-<%=article.slug%>" style="width: 80vw">
   <div
     class="flex flex-col sm:flex-row justify-between items-center w-full border-b-2 border-gray-600"
     style="height: 60vh; padding-left: 20px; padding: 40px 20px"
@@ -23,8 +23,9 @@
       </div>
 
       <a 
-        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5"
+        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5 "
         href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
+        id="article-link-<%=article.slug%>"
       >
         <h2 class=" text-left sm:text-3xl text-xl font-bold hover:underline  <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
         <h1 class="w-full relative hidden md:block text-lg">
@@ -32,7 +33,7 @@
           <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
           <% } %>
         </h1>
-        <div class="sm:text-sm text-[12px] self-end font-bold text-black hover:underline transition-color duration-200 italic">"<%= article.author.name %>"</div>
+        <div class="sm:text-sm text-[12px] self-end font-bold text-black  transition-color duration-200 italic" style="cursor: text !important;">"<%= article.author.name %>"</div>
       </a>
     </div>
 
@@ -44,3 +45,11 @@
     </a>
   </div>
 </div>
+<script>
+  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', () => {
+    const articleLink = document.getElementById(`article-link-<%=article.slug%>`)
+    if (articleLink) {
+      articleLink.click()
+    }
+  })
+</script>

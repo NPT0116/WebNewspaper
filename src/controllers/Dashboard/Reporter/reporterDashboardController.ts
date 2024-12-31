@@ -27,6 +27,7 @@ interface UpdateArticleBody {
   layout?: 1 | 2 | 3;
   images?: string[];
   videoUrl?: string;
+  isSubscribed?: string;
 }
 
 // Create Article
@@ -87,6 +88,7 @@ interface writeArticleResponse {
     images: string[];
     status: string;
     videoUrl: string;
+    isSubscribed: boolean;
   };
 }
 
@@ -112,7 +114,7 @@ interface UpdateArticleResponse {
 export const updateArticle = async (req: Request<UpdateArticleParams, {}, UpdateArticleBody>, res: Response<UpdateArtifactResponse>, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const { title, description, content, sectionId, tags, layout, images, videoUrl } = req.body;
+    const { title, description, content, sectionId, tags, layout, images, videoUrl, isSubscribed } = req.body;
 
     // Validate article ID
     const article = (await Article.findById(articleId)) as IArticle | null;
@@ -131,6 +133,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
+    article.isSubscribed = isSubscribed === 'on';
 
     const updatedArticle = await article.save();
 
@@ -224,7 +227,8 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         layout: article.layout,
         images: article.images,
         status: article.status,
-        videoUrl: article.videoUrl || ''
+        videoUrl: article.videoUrl || '',
+        isSubscribed: article.isSubscribed
       }
     };
 
