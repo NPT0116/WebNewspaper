@@ -26,7 +26,6 @@ interface ISearchPageData {
   articles: IArticleCard[];
   sectionTree: ISectionTree | null;
   allTags: ITagBasicInfo[];
-  selectedSectionsName: string[];
   pagination: {
     pageSize: number;
     currentPageNumber: number;

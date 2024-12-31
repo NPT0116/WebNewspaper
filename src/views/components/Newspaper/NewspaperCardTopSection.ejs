@@ -21,7 +21,18 @@
   </div>
   
   
-  <div id="top-publish-time-<%=latestArticle.slug%>" class="w-full text-center text-sm self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%=latestArticle.publishedAt%></div>
+  <div id="top-publish-time-<%=latestArticle.slug%>" class="w-full text-center text-sm self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black">
+    <%= new Date(latestArticle.publishedAt).toLocaleString('en-GB', { 
+        weekday: 'short', 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    }).replace(', ', ' ') %>
+
+  </div>
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
 
     <div class="flex justify-start items-start flex-col h-full pt-2">
@@ -49,7 +60,6 @@
 </div>
 <link rel="stylesheet" href="/css/premiumTag.css" />
 <script>
-  document.getElementById(`top-publish-time-<%=latestArticle.slug%>`).textContent = `<%=latestArticle.publishedAt%>`.split('GMT')[0]
   document.getElementById(`card-top-<%=latestArticle.slug%>`).addEventListener('click', () => {
     const articleTopLink = document.getElementById(`card-top-link-<%=latestArticle.slug%>`)
     if (articleTopLink) {

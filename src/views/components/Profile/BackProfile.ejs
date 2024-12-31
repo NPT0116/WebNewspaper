@@ -121,6 +121,7 @@
         <input type="email" class="pb-4 border-0 bg-transparent focus:bg-transparent focus:ring-0 focus:outline-none py-0 pl-0 w-full flex items-center" name="email" value="<%= account.email %>" />
       </div>
     </div>
+    <% if(account.localAuth && account.localAuth.username) { %>
     <div class="flex space-x-[27px] w-full mb-4">
       <div class="">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
@@ -131,13 +132,14 @@
           />
         </svg>
       </div>
-      <% if(account.localAuth && account.localAuth.username) { %>
+ 
       <div class="border-b border-[#EEEEEE] w-full">
         <div class="text-[#8F918F] text-[14px] font-medium">Username</div>
         <input type="text" class="pb-4 border-0 focus:ring-0 focus:outline-none py-0 pl-0 w-full" name="username" value="<%= account.localAuth.username %>" />
       </div>
-      <% } %>
+
     </div>
+    <% } %>
   </div>
   <div class="font-bold text-[30px] mt-[70px] mb-[25px]">Personal Information</div>
   <div class="">
@@ -156,21 +158,29 @@
         <input type="text" class="pb-4 border-0 focus:ring-0 focus:outline-none py-0 pl-0 w-full" name="fullname" value="<%= readerProfile.name %>" />
       </div>
     </div>
+
     <div class="flex space-x-[27px] w-full mb-4">
       <div class="">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-[24px]">
           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
-          />
+            d="M9 1V3H15V1H17V3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9ZM20 11H4V19H20V11ZM7 5H4V9H20V5H17V7H15V5H9V7H7V5Z"
+          ></path>
         </svg>
       </div>
+
       <div class="border-b border-[#EEEEEE] w-[100%]">
         <div class="text-[#8F918F] text-[14px] font-medium">DATE OF BIRTH</div>
-        <input type="date" class="pb-4 border-0 focus:ring-0 focus:outline-none py-0 pl-0 w-full" name="dob" value="<%= readerProfile.dob.toISOString().split('T')[0] %>" />
+        <input 
+        type="date" 
+        class="pb-4 border-0 focus:ring-0 focus:outline-none py-0 pl-0 w-full" 
+        name="dob" 
+        value="<%= readerProfile.dob ? readerProfile.dob.toISOString().split('T')[0] : '' %>" 
+      />
+      
       </div>
+
     </div>
+
     <div class="flex space-x-[27px] w-full mb-4">
       <div class="">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">

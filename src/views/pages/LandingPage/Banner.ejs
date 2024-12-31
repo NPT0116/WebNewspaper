@@ -14,7 +14,17 @@
     </div>
 
     <div class="flex flex-row justify-between w-full px-2">
-      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif "><%=article.publishedAt%></div>
+      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif ">
+        <%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        }).replace(', ', ' ') %>  
+      </div>
       <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
     </div>
   </div>
@@ -46,12 +56,19 @@
       <%} %>
     </div>
     <div class="flex flex-row justify-between w-full px-2">
-      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif "><%=article.publishedAt%></div>
+      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif ">
+        <%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        }).replace(', ', ' ') %>  
+      </div>
       <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
     </div>
   </div>
 </div>
 <% } %>
-<script>
-  document.getElementById(`banner-publish-time-<%=article.slug%>`).textContent = `<%=article.publishedAt%>`.split('GMT')[0]
-</script>

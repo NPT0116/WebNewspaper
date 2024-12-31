@@ -19,7 +19,7 @@ import { redirectIfLogin } from '~/utils/redirectIfLogin.js';
 
 const accountRouter = express.Router();
 
-accountRouter.post(PATH.AUTHENTICATION.REGISTER, registerValidationRules, validateRequest, registerUser).get(PATH.AUTHENTICATION.REGISTER, (req: Request, res: Response) => {
+accountRouter.post(PATH.AUTHENTICATION.REGISTER, registerValidationRules, registerUser).get(PATH.AUTHENTICATION.REGISTER, (req: Request, res: Response) => {
   res.render('authentication/register', {
     flash: req.flash()
   });
