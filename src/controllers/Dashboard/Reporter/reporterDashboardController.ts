@@ -21,7 +21,7 @@ interface UpdateArticleBody {
   description?: string;
   content?: string;
   sectionId?: mongoose.Types.ObjectId;
-
+  isSubscribed?: boolean;
   tags?: string;
   layout?: 1 | 2 | 3;
   images?: string[];
@@ -85,6 +85,7 @@ interface writeArticleResponse {
     layout: 1 | 2 | 3;
     images: string[];
     status: string;
+    isSubscribed: boolean;
   };
 }
 
@@ -110,7 +111,7 @@ interface UpdateArticleResponse {
 export const updateArticle = async (req: Request<UpdateArticleParams, {}, UpdateArticleBody>, res: Response<UpdateArtifactResponse>, next: NextFunction) => {
   try {
     const { articleId } = req.params;
-    const { title, description, content, sectionId, tags, layout, images, videoUrl } = req.body;
+    const { title, description, content, sectionId, tags, layout, images, videoUrl, isSubscribed } = req.body;
 
     // Validate article ID
     const article = (await Article.findById(articleId)) as IArticle | null;
@@ -129,7 +130,7 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
-
+    article.isSubscribed = isSubscribed || article.isSubscribed;
     const updatedArticle = await article.save();
 
     res.redirect(`/dashboard/reporter/write-article/${updatedArticle._id}`);
@@ -221,7 +222,8 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         tags: article.tags as unknown as ITag[],
         layout: article.layout,
         images: article.images,
-        status: article.status
+        status: article.status,
+        isSubscribed: article.isSubscribed
       }
     };
     res.render('pages/ReporterPages/ArticleEditPage', response);

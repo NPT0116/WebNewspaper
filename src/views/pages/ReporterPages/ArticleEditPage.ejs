@@ -101,7 +101,7 @@
           const params = new URLSearchParams({
             search_value: query
           });
-          const response = await fetch(`/api/tags?search_value=${query}`);
+          const response = await fetch(/api/tags?search_value=${query});
           const jsonResponse = await response.json();
           results = jsonResponse.data.tags;
           renderDropdown(results);
@@ -166,8 +166,8 @@
         } else {
           const resultItems = results
             .map((result) => {
-              if (!tags.some((tag) => tag._id === result._id)) return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.name}</div>`;
-              return `<div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>`;
+              if (!tags.some((tag) => tag._id === result._id)) return <div data-result='${JSON.stringify(result)}' class="px-4 py-2 hover:bg-gray-100 cursor-pointer z-10">${result.name}</div>;
+              return <div data-result='${JSON.stringify(result)}' class="px-4 py-2 bg-blue-200 hover:bg-blue-300 cursor-pointer z-10">${result.name}</div>;
             })
             .join('');
           dropdown.innerHTML = resultItems;
