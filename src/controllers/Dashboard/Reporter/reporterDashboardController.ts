@@ -10,6 +10,7 @@ import { Section } from '~/models/Section/sectionSchema.js';
 import { deleteArticle, getArticleByReporterId } from '~/repo/Article/articleRepo.js';
 import { AppError } from '~/utils/appError.js';
 import { reporterDashboardPage } from '~/utils/pages/page.js';
+import { generateSlug } from '~/utils/common.js';
 
 // Request params and body for updating an article
 interface UpdateArticleParams {
@@ -26,6 +27,7 @@ interface UpdateArticleBody {
   layout?: 1 | 2 | 3;
   images?: string[];
   videoUrl?: string;
+  isSubscribed?: string;
 }
 
 // Create Article
@@ -85,6 +87,7 @@ interface writeArticleResponse {
     layout: 1 | 2 | 3;
     images: string[];
     status: string;
+    videoUrl: string;
     isSubscribed: boolean;
   };
 }
@@ -130,7 +133,8 @@ export const updateArticle = async (req: Request<UpdateArticleParams, {}, Update
     article.layout = layout || article.layout;
     article.images = images || article.images;
     article.videoUrl = videoUrl || article.videoUrl;
-    article.isSubscribed = isSubscribed || article.isSubscribed;
+    article.isSubscribed = isSubscribed === 'on';
+
     const updatedArticle = await article.save();
 
     res.redirect(`/dashboard/reporter/write-article/${updatedArticle._id}`);
@@ -223,9 +227,11 @@ export const writeArticle = async (req: Request<writeArticleParams>, res: Respon
         layout: article.layout,
         images: article.images,
         status: article.status,
+        videoUrl: article.videoUrl || '',
         isSubscribed: article.isSubscribed
       }
     };
+
     res.render('pages/ReporterPages/ArticleEditPage', response);
     // res.json(response);
   } catch (e) {

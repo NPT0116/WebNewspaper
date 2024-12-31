@@ -216,8 +216,13 @@ export const getArticlesBySectionSlug = async (req: Request<GetArticlesBySlugPar
       return;
     }
 
+    const isSubscriber = req.user ? req.user.isSubscriber : false;
+    const sort: any = isSubscriber
+      ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
+      : { publishedAt: -1 }; // Latest first for non-subscribers
+
     // Find articles
-    const articles = await findArticlesBySectionIds(sectionIds, skip, size);
+    const articles = await findArticlesBySectionIds(sectionIds, skip, size, sort);
 
     // Map articles for response
     const response: IArticleCard[] = articles.map((article) => ({

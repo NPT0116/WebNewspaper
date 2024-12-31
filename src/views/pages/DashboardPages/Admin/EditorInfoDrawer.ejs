@@ -4,7 +4,7 @@
   tabindex="10"
   aria-labelledby="drawer-js-label"
 >
-  <form method="POST" action="/dashboard/admin/editors/update-editor">
+  <form id="edit-editor-form" method="POST" action="/dashboard/admin/editors/update-editor">
     <h5 id="drawer-js-label" class="mb-4 inline-flex items-center text-base font-semibold text-[#249AFF] dark:text-gray-400">
       <svg class="me-2 h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
@@ -71,6 +71,7 @@
             <input name="username" type="text" id="username-input" placeholder="Username" class="w-full border-0 focus:ring-0 focus:outline-none pl-2" />
           </div>
         </div>
+        <p id="username-warning2" class="hidden mt-2 text-sm text-red-600 dark:text-red-500"></p>
         <div class="mb-4 flex gap-2 justify-between">
           <label class="block text-sm font-medium text-gray-700 mb-2 w-1/4">Date of birth</label>
           <div class="flex flex-1 items-center border border-gray-300 rounded-md px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
@@ -103,3 +104,31 @@
     </div>
   </form>
 </div>
+<script>
+  document.getElementById('edit-editor-form').addEventListener('submit', function (event) {
+    // Prevent the default form submission
+    event.preventDefault();
+    let canSubmit = true;
+
+    const usernameElement = document.getElementById('username-input');
+
+    usernameElement.addEventListener('input', () => {
+      usernameElement.className =
+        'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500';
+      document.getElementById('username-warning2').classList.add('hidden');
+      canSubmit = true;
+    });
+
+    if (!isValidUsername(usernameElement.value)) {
+      document.getElementById('username-warning2').classList.remove('hidden');
+      document.getElementById('username-warning2').innerText = 'Username must be between 5-15 characters, lowercase and only contain letter, number and underscore';
+      usernameElement.className =
+        'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500';
+      canSubmit = false;
+    }
+
+    if (canSubmit) {
+      this.submit();
+    }
+  });
+</script>

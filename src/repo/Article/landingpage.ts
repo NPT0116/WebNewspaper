@@ -1,24 +1,16 @@
-import mongoose from 'mongoose';
 import { IAuthor, ISection, ITag } from '~/interfaces/Article/articleInterface.js';
 import { Article } from '~/models/Article/articleSchema.js';
 import { Section } from '~/models/Section/sectionSchema.js';
-import { Tag } from '~/models/Tag/tagSchema.js';
 // Lấy bài viết nổi bật nhất trong tuần qua
 export const getHotNews = async () => {
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-  const hotNewsTag = await Tag.findOne({ name: 'Hot News' });
-  if (!hotNewsTag) {
-    console.log("Can't find tag hot news");
-    return null;
-  }
+  const currentDate = new Date();
+  const sevenDaysAgo = new Date(currentDate.setDate(currentDate.getDate() - 7));
 
   const hotNews = await Article.find({
     status: 'published',
-    tags: { $in: [hotNewsTag._id] }
+    publishedAt: { $gte: sevenDaysAgo }
   })
-    .sort({ publishedAt: -1 })
+    .sort({ views: -1, publishedAt: -1 })
     .limit(4)
     .populate<{ sectionId: ISection }>('sectionId', 'name slug') // Include slug for section
     .populate<{ tags: ITag[] }>('tags', 'name slug') // Include slug for tags

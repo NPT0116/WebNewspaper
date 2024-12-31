@@ -10,6 +10,7 @@ import crypto from 'crypto';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { IReaderProfile } from '~/interfaces/Profile/profileBaseInterface.js';
+import { validationResult } from 'express-validator';
 interface IAccountRegister {
   username: string;
   password: string;
@@ -19,12 +20,24 @@ interface IAccountRegister {
   gender: 'male' | 'female' | 'other' | null;
 }
 // Đăng ký người dùng
-export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: Response, next: NextFunction) => {
+export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password, email, dob, name, gender } = req.body;
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash(
+        'error',
+        errors
+          .array()
+          .map((err) => err.msg)
+          .join(', ')
+      );
+      return res.redirect('/register');
+    }
     const existingUser = await Account.findOne({
       $or: [{ 'localAuth.username': username }, { email }]
     });
+
     if (existingUser) {
       req.flash('error', 'Username or email already exists.');
       return res.redirect('/register'); // Quay lại trang đăng ký

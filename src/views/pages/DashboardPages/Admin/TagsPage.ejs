@@ -308,5 +308,19 @@
         });
       }
     </script>
+    <script>
+      const closeBtnElement = document.getElementById('drawer-hide-button');
+      closeBtnElement.addEventListener('click', () => {
+        const drawerElement = document.getElementById('tag-info-drawer');
+        drawerElement.classList.remove('transform-none');
+        drawerElement.removeAttribute('aria-modal');
+        drawerElement.removeAttribute('role');
+        drawerElement.classList.add('translate-x-full');
+        drawerElement.setAttribute('aria-hidden', 'true');
+        const backdrop = document.querySelector('[drawer-backdrop]');
+        backdrop.remove();
+        document.body.classList.remove('overflow-hidden');
+      });
+    </script>
   </body>
 </html>

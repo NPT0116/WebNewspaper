@@ -1,7 +1,7 @@
-<div class="relative flex flex-col justitfy-between items-center z-0 h-full">
+<div class="relative flex flex-col justitfy-between items-center z-0 h-full cursor-pointer" id="card-top-<%=latestArticle.slug%>">
   <% if (latestArticle.isSubscribed) {%>
   <custom>
-    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>" style="z-index: 100"></a>
+    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>" style="z-index: 100"></a>
   </custom>
   <%} %>
   <div
@@ -11,7 +11,7 @@
     <a href="section/<%= article.slug%>"><%= article.sectionName%></a>
   </div>
   <div id="card-image" class="relative w-full h-2/5 bg-violet-400 transition-all">
-    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>">
+    <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>">
       <img
         class="w-full h-full object-cover"
         src="<%= latestArticle && latestArticle.images ? latestArticle.images[0] : '' %>"
@@ -19,28 +19,51 @@
       />
     </a>
   </div>
+  
+  
+  <div id="top-publish-time-<%=latestArticle.slug%>" class="w-full text-center text-sm self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black">
+    <%= new Date(latestArticle.publishedAt).toLocaleString('en-GB', { 
+        weekday: 'short', 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    }).replace(', ', ' ') %>
 
+  </div>
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
+
     <div class="flex justify-start items-start flex-col h-full pt-2">
       <h1 id="card-title" class="xl:text-xl text-lg flex justify-start items-start font-bold font-serif hover:underline" style="margin-bottom: 10px; margin-top: 10px">
         <a
-          href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>"
+          href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>"
           class="<% if (latestArticle.isSubscribed) { %> text-red-700 <% } %>"
+          id="card-top-link-<%=latestArticle.slug%>"
           ><%= latestArticle && latestArticle.title ? latestArticle.title : 'Unknown title' %>
         </a>
       </h1>
       <h1 id="card-description-top" class="relative text-[1rem] h-3/6 flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300">
-        <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed %>"
+        <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>"
           ><%= latestArticle && latestArticle.description ? latestArticle.description : 'Unknown description' %>
         </a>
         <% if (latestArticle.isSubscribed && profile && !profile.isSubscriber || latestArticle.isSubscribed && !profile) {%>
         <div class="w-full h-full" style="position: absolute; background-color: rgba(255, 255, 255, 0.186); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
         <%} %>
       </h1>
-      <div id="card-author" class="h-full flex justify-end items-end font-bold self-end text-sm w-full italic">
-        <a href="#" class="text-black hover:text-gray-800">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
+      <div id="card-author" class="h-full flex justify-end items-end font-bold self-end text-sm w-full italic" >
+        <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>" class="text-black hover:text-gray-800" style="cursor: text !important">"<%= latestArticle && latestArticle.author && latestArticle.author.name ? latestArticle.author.name : 'Unknown author' %>"</a>
       </div>
     </div>
   </div>
 </div>
 <link rel="stylesheet" href="/css/premiumTag.css" />
+<script>
+  document.getElementById(`card-top-<%=latestArticle.slug%>`).addEventListener('click', () => {
+    const articleTopLink = document.getElementById(`card-top-link-<%=latestArticle.slug%>`)
+    if (articleTopLink) {
+      articleTopLink.click()
+    }
+  })
+</script>

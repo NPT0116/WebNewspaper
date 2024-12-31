@@ -5,11 +5,12 @@ export const uploadFile = async (req: Request<{}, {}, { file?: Express.MulterS3.
     console.log('Run here');
     // Ensure `req.file` is properly typed
     const file = req.file as Express.MulterS3.File | undefined;
-    console.log(file);
+    // console.log(file);
 
     if (file) {
       // Construct the URL for the uploaded image
       const imageUrl = `${file.location}`;
+      console.log(imageUrl);
 
       // Create the new image metadata object
       //   const newImage = {

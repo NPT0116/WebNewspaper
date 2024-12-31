@@ -246,13 +246,13 @@
 
     <script>
       const select = document.getElementById('parentSection-input');
-      const drawerSelect = document.getElementById('parentSection-input-drawer');
+      const drawerSelect = document.getElementById('parentSection-input-inside-drawer');
       sections.forEach((section) => {
         const option = document.createElement('option');
         option.value = section._id;
         option.textContent = section.name;
-        select.appendChild(option);
-        drawerSelect.appendChild(option);
+        <!-- select.appendChild(option); -->
+        drawerSelect?.appendChild(option);
       });
     </script>
 
@@ -265,6 +265,20 @@
         document.getElementById('name-input').value = section.name;
         toggleDrawer('section-info-drawer');
       }
+    </script>
+    <script>
+      const closeBtnElement = document.getElementById('drawer-hide-button');
+      closeBtnElement.addEventListener('click', () => {
+        const drawerElement = document.getElementById('section-info-drawer');
+        drawerElement.classList.remove('transform-none');
+        drawerElement.removeAttribute('aria-modal');
+        drawerElement.removeAttribute('role');
+        drawerElement.classList.add('translate-x-full');
+        drawerElement.setAttribute('aria-hidden', 'true');
+        const backdrop = document.querySelector('[drawer-backdrop]');
+        backdrop.remove();
+        document.body.classList.remove('overflow-hidden');
+      });
     </script>
   </body>
 </html>

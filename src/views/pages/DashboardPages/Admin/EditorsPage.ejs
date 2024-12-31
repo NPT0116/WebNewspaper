@@ -379,6 +379,8 @@
 
         const drawer = new Drawer($targetEl, options);
         const editor = editors.find((u) => u._id == id);
+        console.log(editor);
+        document.getElementById('sectionId-input').value = editor?.sectionId?._id;
         document.getElementById('name-input').value = editor.name;
         const formattedDate = dayjs(editor.dob).format('MM-DD-YYYY');
         document.getElementById('dob-input').value = formattedDate;
@@ -389,6 +391,21 @@
       }
 
       window.toggleDrawer = toggleDrawer;
+    </script>
+
+    <script>
+      const closeBtnElement = document.getElementById('drawer-hide-button');
+      closeBtnElement.addEventListener('click', () => {
+        const drawerElement = document.getElementById('user-info-drawer');
+        drawerElement.classList.remove('transform-none');
+        drawerElement.removeAttribute('aria-modal');
+        drawerElement.removeAttribute('role');
+        drawerElement.classList.add('translate-x-full');
+        drawerElement.setAttribute('aria-hidden', 'true');
+        const backdrop = document.querySelector('[drawer-backdrop]');
+        backdrop.remove();
+        document.body.classList.remove('overflow-hidden');
+      });
     </script>
 
     <script>
