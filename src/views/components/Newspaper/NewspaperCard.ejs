@@ -16,7 +16,16 @@
         <%= article.section && article.section.name ? article.section.name : article.sectionId && article.sectionId.name ? article.sectionId.name : "Unknown section" %>
       </a>
     </div>
-    <div id="publish-time-<%=article.slug%>" class="absolute top-0 text-[13px] self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%=article.publishedAt%></div>
+    <div id="publish-time-<%=article.slug%>" class="absolute top-0 text-[13px] self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+      weekday: 'short', 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit' 
+  }).replace(', ', ' ') %>
+  </div>
 
 
     <div class="flex justify-start items-center flex-col h-full pt-6">
@@ -39,12 +48,12 @@
 
 <link rel="stylesheet" href="/css/premiumTag.css" />
 <script>
-  document.getElementById(`publish-time-<%=article.slug%>`).textContent = `<%=article.publishedAt%>`.split('GMT')[0]
-  console.log(`card-<%=article.slug%>`)
-  document.getElementById(`card-<%=article.slug%>`).addEventListener('click', () => {
-    const articleLink = document.getElementById(`card-link-<%=article.slug%>`)
-    if (articleLink) {
-      articleLink.click()
-    }
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById(`card-<%=article.slug%>`).addEventListener('click', () => {
+      const articleLink = document.getElementById(`card-link-<%=article.slug%>`)
+      if (articleLink) {
+        articleLink.click()
+      }
+    })
   })
 </script>

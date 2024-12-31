@@ -13,7 +13,7 @@
         <ul class="hidden group-hover:flex flex-col justify-center items-center bg-gray-200">
           <% section.childSections.forEach((child) => {%>
           <li id="" value="" class="w-full hover:bg-gray-300 flex justify-center items-center p-2">
-            <a id="sub-item" href="/section/<%= child.slug %>" class="h-full w-full"><%=child.name%></a>
+            <a class="w-full h-full" id="sub-item" href="/section/<%= child.slug %>"><%=child.name%></a>
           </li>
           <%}) %>
         </ul>
