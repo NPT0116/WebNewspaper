@@ -28,13 +28,13 @@
         ></div>
       </div>
       <div id="left-register-form" class="flex flex-col justify-center items-center" style="width: 45vw; height: 100vh; padding: 0px 40px">
-        <form id="register-form" action="/register" method="POST" class="flex flex-col justify-evenly items-center" style="width: 100%; height: 85%">
+        <form id="register-form" action="/register" method="POST" class="flex flex-col justify-evenly items-center  gap-4" style="width: 100%; height: 90%">
           <h2 class="font-niconne italic text-center text-5xl">Register</h2>
           <%-include ('../components/Authentication/InputBox', { title: "Username", type: "text", name:"username", id:"username" })%>
           <p id="username-warning" class="hidden text-sm text-red-600 dark:text-red-500"></p>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Email", type: "email", name:"email", id:"email" })%>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Password", type: "password", name:"password", id:"password" })%>
-          <div id="dob-gender" class="flex flex-row justify-between items-center" style="width: 100%">
+          <div id="dob-gender" class="flex flex-row justify-between items-center gap-4 " style="width: 100%">
             <%-include ('../components/Authentication/InputBox', { title: "Date Of Birth", type: "date", name:"dob", id:"dob" })%>
             <div class="flex flex-col justify-center items-center" style="width: 37%; padding: 0; margin: 0">
               <select name="gender" id="gender" class="w-full border rounded" style="border-radius: 50px; height: 8vh" required>
@@ -62,8 +62,6 @@
   <script>
     const d_o_b = document.querySelector('#dob');
 
-    if (d_o_b) {
-      d_o_b.parentElement.style.width = '60%';
     if (d_o_b) {
       d_o_b.parentElement.style.width = '60%';
     }
@@ -126,13 +124,5 @@
         this.submit();
       }
     });
-  </script>
-  <script>
-    function onClick(e) {
-      e.preventDefault();
-      grecaptcha.enterprise.ready(async () => {
-        const token = await grecaptcha.enterprise.execute('6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk', { action: 'REGISTER' });
-      });
-    }
   </script>
 </html>
