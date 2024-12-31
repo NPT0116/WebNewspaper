@@ -218,9 +218,9 @@
       /* Start checkbox editing */
       .checkbox-wrapper {
         --checkbox-size: 25px;
-        --checkbox-color: #F74E50;
+        --checkbox-color: #f74e50;
         --checkbox-shadow: #ffaeae;
-        --checkbox-border: #F74E50;
+        --checkbox-border: #f74e50;
         display: flex;
         align-items: center;
         position: relative;
@@ -256,7 +256,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: linear-gradient(45deg, var(--checkbox-color), #F11F20);
+        background: linear-gradient(45deg, var(--checkbox-color), #f11f20);
         opacity: 0;
         transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         transform: scale(0) rotate(-45deg);
@@ -387,23 +387,21 @@
           <div class="pl-4 pt-4 flex-1 relative w-full">
             <input type="hidden" name="content" id="editor-content" />
             <input type="hidden" name="tags" id="tags" />
-            
-           
-            
-           <div class="flex items-end space-x-[65%]">
-            <div class="mt-4 font-bold font-serif text-[30px]">Main content</div>
-            <div class="flex items-end ml-4">
-              <label class="checkbox-wrapper" for="isSubscribed">
-                <input type="checkbox" class="mb-2 ml-2" id="isSubscribed" name="isSubscribed"  <%= data.isSubscribed ? 'checked' : '' %> />
-                <div class="checkmark">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <span class="label">Subscribed</span>
-              </label>
+
+            <div class="flex items-end space-x-[65%]">
+              <div class="mt-4 font-bold font-serif text-[30px]">Main content</div>
+              <div class="flex items-end ml-4">
+                <label class="checkbox-wrapper" for="isSubscribed">
+                  <input type="checkbox" class="mb-2 ml-2" id="isSubscribed" name="isSubscribed"  <%= data.isSubscribed ? 'checked' : '' %> />
+                  <div class="checkmark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <span class="label">Subscribed</span>
+                </label>
+              </div>
             </div>
-           </div>
             <div class="no-tailwindcss-base z-10 min-w-[1500px] max-w-[1500px]" style="display: flex; justify-content: center">
               <div class="main-container" style="width: 100%">
                 <div class="editor-container editor-container_classic-editor" id="editor-container">
@@ -455,9 +453,7 @@
           </div>
         </div>
       </form>
-      
     </div>
-    
 
     <script type="importmap">
       {
@@ -469,6 +465,23 @@
     </script>
 
     <script type="module" src="/js/editor.js"></script>
+    <script>
+      document.getElementById('save-button').addEventListener('click', () => {
+        const videoUrlInput = document.getElementById('videoUrl');
+        const videoUrl = videoUrlInput.value.trim();
+
+        // Extract the YouTube video ID from the URL
+        const videoIdMatch = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
+        if (videoIdMatch && videoIdMatch[1]) {
+          const videoId = videoIdMatch[1];
+          const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
+          videoUrlInput.value = embeddedUrl; // Update the input value
+        }
+
+        // Submit the form after processing
+        videoUrlInput.closest('form').submit();
+      });
+    </script>
     <script>
       document.getElementById('editor-form').addEventListener('submit', function (event) {
         const titleInput = document.getElementById('title');
