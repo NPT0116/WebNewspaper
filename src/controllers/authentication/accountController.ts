@@ -25,6 +25,7 @@ export const registerUser = async (req: Request<{}, {}, IAccountRegister>, res: 
     const existingUser = await Account.findOne({
       $or: [{ 'localAuth.username': username }, { email }]
     });
+
     if (existingUser) {
       req.flash('error', 'Username or email already exists.');
       return res.redirect('/register'); // Quay lại trang đăng ký

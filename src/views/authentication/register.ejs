@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Register</title>
   </head>
   <body>
@@ -46,10 +46,7 @@
             </div>
           </div>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
-          <div id="recaptcha-container">
-            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
-          </div>
+          <div class="g-recaptcha" data-sitekey="6Lc866kqAAAAAJyzhZ5g3Y_nUVf3csbGIFdbEh3J"></div>
           <div>
             <p>Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
           </div>
@@ -57,14 +54,16 @@
           <%-include('../components/Authentication/SubmitButton', { title: 'Register' })%>
         </form>
         <% if (locals.flash && locals.flash.error) { %>
-        <div class="bg-red-500 text-black p-3 rounded mb-4"><%= locals.flash.error %></div>
+        <div class="bg-red-500 text-black p-3 rounded mb-4 error"><%= locals.flash.error %></div>
         <% } %>
       </div>
     </div>
   </body>
   <script>
     const d_o_b = document.querySelector('#dob');
-    console.log('keke');
+
+    if (d_o_b) {
+      d_o_b.parentElement.style.width = '60%';
     if (d_o_b) {
       d_o_b.parentElement.style.width = '60%';
     }
@@ -105,6 +104,24 @@
         canSubmit = false;
       }
 
+      // Check if reCAPTCHA is verified
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (recaptchaResponse.length === 0) {
+        const warning = document.querySelector('.error'); // Tìm phần tử có class "error"
+
+        // Nếu phần tử không tồn tại, tạo mới phần tử warning
+        if (!warning) {
+          const newWarning = document.createElement('div');
+          newWarning.classList.add('bg-red-500', 'text-black', 'p-3', 'rounded', 'mb-4', 'error');
+          newWarning.innerText = 'Please verify you are human by checking the reCAPTCHA box.';
+          document.getElementById('register-form').appendChild(newWarning);
+        } else {
+          // Nếu đã có phần tử warning, cập nhật lại nội dung
+          warning.innerText = 'Please verify you are human by checking the reCAPTCHA box.';
+        }
+
+        canSubmit = false;
+      }
       if (canSubmit) {
         this.submit();
       }
