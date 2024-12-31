@@ -1,32 +1,55 @@
-<div class="flex justify-center items-center flex-col animate__animated animate__fadeInRight" style="width: 80vw">
-  <a
-    href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
+<div class="flex justify-center items-center flex-col animate__animated animate__fadeInRight cursor-pointer" id="article-card-<%=article.slug%>" style="width: 80vw">
+  <div
     class="flex flex-col sm:flex-row justify-between items-center w-full border-b-2 border-gray-600"
-    style="height: 50vh; padding-left: 20px; padding: 40px 20px"
+    style="height: 60vh; padding-left: 20px; padding: 40px 20px"
   >
-    <div class="w-full sm:w-4/5 sm:pr-[20px]">
+    <div class="w-full sm:w-4/5 sm:pr-[20px] ">
       <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
+        <div class="bg-red-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300 cursor-pointer">
+          <a  href="/search-page?section=<%=article.sectionId.slug%>">
+            #<%=article.sectionId.name%>
+          </a>
+        </div>
         <% article.tags.forEach(tag => { %>
-        <div class="bg-gray-700 text-xs text-white rounded-lg p-2 font-bold transition-color duration-300">#<%= tag.name %></div>
+        <a 
+          class="bg-gray-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300"
+          href="/search-page?tags=<%=tag.slug%>">
+          #<%= tag.name %>
+        </a>
         <% }) %>
         <% if (article.isSubscribed) { %>
-        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:bg-yellow-600 transition-color duration-300">#Subscribe</div>
+        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 transition-color duration-300">#Subscribe</div>
         <% } %>
       </div>
 
-      <div class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center">
-        <h2 class="lg:text-center text-left sm:text-3xl text-xl font-bold hover:underline <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
+      <a 
+        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5 "
+        href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
+        id="article-link-<%=article.slug%>"
+      >
+        <h2 class=" text-left sm:text-3xl text-xl font-bold hover:underline  <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
         <h1 class="w-full relative hidden md:block text-lg">
           <% if(article.isSubscribed && profile && profile.isSubscriber || !article.isSubscribed) { %>
           <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
           <% } %>
         </h1>
-        <div class="sm:text-sm text-[12px] self-end font-bold text-black hover:underline transition-color duration-200 italic">"<%= article.author.name %>"</div>
-      </div>
+        <div class="sm:text-sm text-[12px] self-end font-bold text-black  transition-color duration-200 italic" style="cursor: text !important;">"<%= article.author.name %>"</div>
+      </a>
     </div>
 
-    <div class="w-full h-4/5 sm:w-4/5 sm:h-full flex justify-end items-center">
+    <a 
+      class="w-full h-4/5 sm:w-4/5 sm:h-full flex justify-end items-center"     
+      href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
+    >
       <img class="object-cover sm:rounded-lg rounded-md shadow-lg hover:scale-105 transition-all duration-300 w-full h-full" src="<%= article.images[0] %>" alt="<%= article.title %>" />
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
+<script>
+  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', () => {
+    const articleLink = document.getElementById(`article-link-<%=article.slug%>`)
+    if (articleLink) {
+      articleLink.click()
+    }
+  })
+</script>
