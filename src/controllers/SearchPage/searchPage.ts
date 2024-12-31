@@ -238,7 +238,6 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
-    console.log(selectedSections);
     const selectedSectionsName: string[] = [];
     const selectedTags = Array.isArray(tagSlugList) ? tagSlugList : [tagSlugList].filter(Boolean);
     const allSections = await getAllSections();
