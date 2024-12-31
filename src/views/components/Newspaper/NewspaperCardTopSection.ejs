@@ -4,12 +4,13 @@
     <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>" style="z-index: 100"></a>
   </custom>
   <%} %>
-  <div
-    id="card-cat"
+
+  <a     
+    id="card-top-section"
     class="z-50 relative h-1/12 bg-red-600 hover:bg-red-700 font-serif text-white text-center p-1 pl-2 pr-2 text-xl transition-all duration-300 w-full <% if (latestArticle.isSubscribed) {%> <%}%>"
-  >
-    <a id="card-top-section" href="section/<%= article.slug%>"><%= article.sectionName%></a>
-  </div>
+    href="section/<%= article.slug%>">
+    <%= article.sectionName%>
+  </a>
   <div id="card-image" class="relative w-full h-2/5 bg-violet-400 transition-all">
     <a href="section/<%= article.slug%>/article/<%=latestArticle && latestArticle.slug ? latestArticle.slug : ''%>/?isSubscribed=<%= latestArticle.isSubscribed%>">
       <img
