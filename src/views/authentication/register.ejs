@@ -64,8 +64,6 @@
 
     if (d_o_b) {
       d_o_b.parentElement.style.width = '60%';
-    if (d_o_b) {
-      d_o_b.parentElement.style.width = '60%';
     }
 
     function isValidUsername(username) {
@@ -126,13 +124,5 @@
         this.submit();
       }
     });
-  </script>
-  <script>
-    function onClick(e) {
-      e.preventDefault();
-      grecaptcha.enterprise.ready(async () => {
-        const token = await grecaptcha.enterprise.execute('6Lf9uakqAAAAAJDpJmdM7WdUpFbP66M3vo7GZMEk', { action: 'REGISTER' });
-      });
-    }
   </script>
 </html>
