@@ -4,26 +4,30 @@
     style="height: 60vh; padding-left: 20px; padding: 40px 20px"
   >
     <div class="w-full sm:w-4/5 sm:pr-[20px] ">
-      <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
+      <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%; z-index: 1000;">
         <div class="bg-red-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300 cursor-pointer">
-          <a  href="/search-page?section=<%=article.sectionId.slug%>">
+          <a  href="/search-page?section=<%=article.sectionId.slug%>" id="article-jump-to-section">
             #<%=article.sectionId.name%>
           </a>
         </div>
         <% article.tags.forEach(tag => { %>
         <a 
           class="bg-gray-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300"
-          href="/search-page?tags=<%=tag.slug%>">
+          href="/search-page?tags=<%=tag.slug%>"
+          id="article-jump-to-tag"
+        >
           #<%= tag.name %>
         </a>
         <% }) %>
         <% if (article.isSubscribed) { %>
-        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 transition-color duration-300">#Subscribe</div>
+        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 transition-color duration-300" id="subscribe-node">
+          #Subscribe
+        </div>
         <% } %>
       </div>
 
       <a 
-        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5 "
+        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5"
         href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
         id="article-link-<%=article.slug%>"
       >
@@ -46,9 +50,9 @@
   </div>
 </div>
 <script>
-  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', () => {
+  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', (e) => {
     const articleLink = document.getElementById(`article-link-<%=article.slug%>`)
-    if (articleLink) {
+    if (e.target.id !== 'article-jump-to-section' && e.target.id !== 'article-jump-to-tag' && e.target.id !== 'subscribe-node') {
       articleLink.click()
     }
   })
