@@ -38,7 +38,8 @@ export const relatedArticleFunc = async (sectionSlug: string) => {
         _id: article.author._id
       },
       images: article.images,
-      isSubscribed: article.isSubscribed
+      isSubscribed: article.isSubscribed,
+      publishedAt: article.publishedAt
     }));
     return response;
   } catch (e) {
@@ -144,6 +145,12 @@ export const renderArticleDetail = async (req: Request<IArticleDetailParams>, re
       return dateB - dateA;
     });
     const videoUrl = false;
+    // res.json({
+    //   ...article.toObject(),
+    //   comments: commentWithNames,
+    //   relatedArticle,
+    //   sections
+    // });
     res.render('layouts/PostDetailLayout/PostDetailLayout', {
       body: '../../pages/PostDetailPage/PostDetailPage',
       videoUrl,

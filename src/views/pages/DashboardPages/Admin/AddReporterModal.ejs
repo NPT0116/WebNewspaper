@@ -197,7 +197,7 @@
 
   function isValidUsername(username) {
     // Define the username format rules using a regular expression
-    const usernameRegex = /^[a-z][a-z0-9_]{4,14}$/;
+    const usernameRegex = /^[a-z][a-z0-9_]{4,30}$/;
 
     // Test the username against the regex
     if (usernameRegex.test(username)) {
@@ -232,7 +232,7 @@
 
     if (!isValidUsername(username)) {
       document.getElementById('username-warning').classList.remove('hidden');
-      document.getElementById('username-warning').innerText = "Username must be between 5-15 characters, lowercase and only contain letter, number and underscore"
+      document.getElementById('username-warning').innerText = "Username must be between 5-40 characters, lowercase and only contain letter, number and underscore"
       usernameElement.className = "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500";
       canSubmit = false;
     }
