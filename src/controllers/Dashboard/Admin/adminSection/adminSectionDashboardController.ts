@@ -25,7 +25,8 @@ export const renderAdminSectionsPage = async (req: Request, res: Response) => {
           name: section.name,
           createdAt: section.createdAt,
           updatedAt: section.updatedAt,
-          deleteActivate: articleUsingSection || editorUsingSection ? false : true
+          deleteActivate: articleUsingSection || editorUsingSection ? false : true,
+          parentSectionId: section.parentSection
         };
       })
     );
@@ -50,23 +51,33 @@ export const createNewSection = async (req: Request<{}, {}, ICreateNewSection>, 
     const { name, parentSectionId } = req.body;
     const newSection = new Section({ name, parentSection: parentSectionId !== '' ? parentSectionId : null });
     await newSection.save();
+    const parent = await Section.findById(parentSectionId);
+    if (!parent) {
+      res.status(404).json({ status: 'error', message: 'Parent section not found' });
+      return;
+    }
+    if (parent.childSections) {
+      parent.childSections.push(newSection._id);
+    } else {
+      parent.childSections = [newSection._id];
+    }
+    await parent.save();
     res.redirect('/dashboard/admin/sections');
   } catch (e) {
     console.error('Error creating new section:', e);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
-
 interface IUpdateSection {
   _id: mongoose.Types.ObjectId;
   name: string;
-  parentSectionId: mongoose.Types.ObjectId | null;
+  parentSectionId: mongoose.Types.ObjectId | null | '';
 }
 
 export const updateSection = async (req: Request<{}, {}, IUpdateSection>, res: Response) => {
   try {
     const { _id, name, parentSectionId }: IUpdateSection = req.body;
-    await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId });
+    await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId !== '' ? parentSectionId : null });
     res.redirect('/dashboard/admin/sections');
   } catch (e) {
     console.error('Error updating section:', e);

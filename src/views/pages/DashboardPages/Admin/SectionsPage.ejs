@@ -245,13 +245,14 @@
     <script src="/js/swal.js"></script>
 
     <script>
-      const select = document.getElementById('parentSection-input');
+      const select = document.getElementById('parentSection-input-drawer');
       const drawerSelect = document.getElementById('parentSection-input-inside-drawer');
+      console.log(sections);
       sections.forEach((section) => {
         const option = document.createElement('option');
         option.value = section._id;
         option.textContent = section.name;
-        <!-- select.appendChild(option); -->
+        select.appendChild(option);
         drawerSelect?.appendChild(option);
       });
     </script>
@@ -263,6 +264,19 @@
         console.log(section);
         document.getElementById('_id-input').value = section._id;
         document.getElementById('name-input').value = section.name;
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'None';
+        select.appendChild(option);
+        sections?.forEach((section) => {
+          const option = document.createElement('option');
+          option.value = section._id;
+          option.textContent = section.name;
+          select.appendChild(option);
+        });
+        if (select) {
+          select.value = section.parentSectionId || '';
+        }
         toggleDrawer('section-info-drawer');
       }
     </script>
