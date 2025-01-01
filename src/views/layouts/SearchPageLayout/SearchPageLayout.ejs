@@ -129,7 +129,7 @@
             return option.value;
           });
 
-          customSelect.querySelector('.tags_input').value = selectedValues.join(', ');
+          customSelect.querySelector('.tags_input').value = selectedValues.join('+');
 
           let tagsHTML = '';
           if (selectedOptions.length === 0) {
