@@ -33,7 +33,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      callbackURL: 'http://localhost:3001/login/github/callback',
+      callbackURL: 'https://webnewspaper-production.up.railway.app/login/github/callback',
       scope: ['user:email']
     },
     async (accessToken: string, refreshToken: string, profile: githubProfile, done: VerifyCallback) => {

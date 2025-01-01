@@ -380,7 +380,12 @@
         const drawer = new Drawer($targetEl, options);
         const editor = editors.find((u) => u._id == id);
         console.log(editor);
-        document.getElementById('sectionId-input').value = editor?.sectionId?._id;
+        if (document.getElementById('sectionId-input')) {
+          document.getElementById('sectionId-input').value = editor?.sectionId?._id;
+        } else {
+          console.log('sectionId-input not found');
+        }
+        // document.getElementById('sectionId-input').value = editor?.sectionId?._id;
         document.getElementById('name-input').value = editor.name;
         const formattedDate = dayjs(editor.dob).format('MM-DD-YYYY');
         document.getElementById('dob-input').value = formattedDate;
