@@ -141,8 +141,10 @@
 
           <% if (data.role === 'reporter' ) {%>
           <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">REPORTER DASHBOARD</div>
-          <% } else { %>
-          <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">ADMIN DASHBARD</div>
+          <% } else if (data.role === 'editor'){ %>
+          <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">EDITOR DASHBOARD</div>
+          <% } else if (data.role === 'admin'){ %>
+          <div class="text-black font-bold text-[30px]" style="font-family: MyCustomFont">ADMIN DASHBOARD</div>
           <% } %>
           <div class="flex justify-between items-center w-[300px]">
             <a href="" class="text-black text-[20px]"><%= profile.profileName %></a>

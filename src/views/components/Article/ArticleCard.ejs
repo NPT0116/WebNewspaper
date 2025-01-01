@@ -4,33 +4,36 @@
     style="height: 60vh; padding-left: 20px; padding: 40px 20px"
   >
     <div class="w-full sm:w-4/5 sm:pr-[20px] ">
-      <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%">
-        <div class="bg-red-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300 cursor-pointer">
-          <a  href="/search-page?section=<%=article.sectionId.slug%>">
-            #<%=article.sectionId.name%>
-          </a>
-        </div>
+      <div class="sm:h-2/5 hidden sm:flex gap-2 justify-start items-center flex-wrap" style="height: 20%; z-index: 1000;" >  
+        <a  href="/search-page?section=<%=article.sectionId.slug%>" class="bg-red-700 text-xs text-white rounded-lg font-bold hover:scale-105 duration-300 cursor-pointer p-2" id="article-jump-to-section">
+          #<%=article.sectionId.name%>
+        </a>
+
         <% article.tags.forEach(tag => { %>
         <a 
           class="bg-gray-700 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 duration-300"
-          href="/search-page?tags=<%=tag.slug%>">
+          href="/search-page?tags=<%=tag.slug%>"
+          id="article-jump-to-tag"
+        >
           #<%= tag.name %>
         </a>
         <% }) %>
         <% if (article.isSubscribed) { %>
-        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 transition-color duration-300">#Subscribe</div>
+        <div class="bg-gradient-45 text-xs text-white rounded-lg p-2 font-bold hover:scale-105 transition-color duration-300" id="subscribe-node">
+          #Subscribe
+        </div>
         <% } %>
       </div>
 
       <a 
-        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5 "
+        class="sm:h-4/5 w-full font-serif flex flex-col gap-2 justify-between items-center mt-5"
         href="/section/<%= article.sectionId.slug %>/article/<%= article.slug %>?isSubscribed=<%= article.isSubscribed %>"
         id="article-link-<%=article.slug%>"
-      >
-        <h2 class=" text-left sm:text-3xl text-xl font-bold hover:underline  <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
+      > 
+        <h2 class="w-full text-left sm:text-3xl text-xl font-bold hover:underline  <% if (article.isSubscribed) { %>text-red-500<% } %>"><%= article.title %></h2>
         <h1 class="w-full relative hidden md:block text-lg">
           <% if(article.isSubscribed && profile && profile.isSubscriber || !article.isSubscribed) { %>
-          <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300"><%= article.description %></h1>
+          <h1 class="hidden md:block font-dancing italic text-gray-500 hover:text-gray-800 transition-color duration-300 w-full"><%= article.description %></h1>
           <% } %>
         </h1>
         <div class="sm:text-sm text-[12px] self-end font-bold text-black  transition-color duration-200 italic" style="cursor: text !important;">"<%= article.author.name %>"</div>
@@ -46,9 +49,10 @@
   </div>
 </div>
 <script>
-  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', () => {
+  document.getElementById(`article-card-<%=article.slug%>`).addEventListener('click', (e) => {
     const articleLink = document.getElementById(`article-link-<%=article.slug%>`)
-    if (articleLink) {
+    console.log(e.target)
+    if (e.target.id !== 'article-jump-to-section' && e.target.id !== 'article-jump-to-tag' && e.target.id !== 'subscribe-node') {
       articleLink.click()
     }
   })

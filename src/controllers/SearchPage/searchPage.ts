@@ -233,7 +233,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     let tagSlugList: string[] = [];
     if (tags && tags.length > 0) {
-      tagSlugList = tags.split(', ');
+      tagSlugList = tags.split('+');
     }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
@@ -285,7 +285,11 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
         if (!section) {
           console.log('Error getting section by ' + section);
         }
-        section?.childSections?.forEach((childSection) => selectedSections.push(childSection.toString()));
+        section?.childSections?.forEach((childSection) => {
+          if (!selectedSections.includes(childSection.toString())) {
+            selectedSections.push(childSection.toString());
+          }
+        });
         if (section?.name) {
           selectedSectionsName.push(section?.name);
         }
