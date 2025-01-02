@@ -46,7 +46,7 @@
             </div>
           </div>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
-          <div class="g-recaptcha" data-sitekey="6Lc866kqAAAAAJyzhZ5g3Y_nUVf3csbGIFdbEh3J"></div>
+          <div class="g-recaptcha" data-sitekey="<%= hostname === 'localhost' ? '6Lc866kqAAAAAJyzhZ5g3Y_nUVf3csbGIFdbEh3J' : '6LcW2qsqAAAAADZFm0JIN-TgdZRw904XS6OKQ8cp' %>"></div>
           <div>
             <p>Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
           </div>
