@@ -110,6 +110,7 @@
       <div><%= account.email %></div>
     </div>
   </div>
+  <% if(account.localAuth && account.localAuth.username) { %>
   <div class="flex space-x-[27px] w-full mb-4">
     <div class="">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}" stroke="currentColor" class="w-[24px]">
@@ -120,13 +121,13 @@
         />
       </svg>
     </div>
-    <% if(account.localAuth && account.localAuth.username) { %>
+
     <div class="border-b border-[#EEEEEE] pb-4 w-full">
       <div class="text-[#8F918F] text-[14px] font-medium">Username</div>
       <div><%= account.localAuth.username %></div>
     </div>
-    <% } %>
   </div>
+  <% } %>
 </div>
 <div class="font-bold text-[30px] mt-[70px] mb-[25px]">Personal Information</div>
 <div class="">
@@ -155,10 +156,12 @@
     </div>
     <div class="border-b border-[#EEEEEE] pb-4 w-[100%]">
       <div class="text-[#8F918F] text-[14px] font-medium">DATE OF BIRTH</div>
+      <%  if (readerProfile.dob) { %>
       <div>
         <%= (() => { const dob = new Date(readerProfile.dob); const month = String(dob.getMonth() + 1).padStart(2, '0'); const day = String(dob.getDate()).padStart(2, '0'); const year =
         dob.getFullYear(); return `${month}/${day}/${year}`; })() %>
       </div>
+      <% } %>
     </div>
   </div>
   <div class="flex space-x-[27px] w-full mb-4">

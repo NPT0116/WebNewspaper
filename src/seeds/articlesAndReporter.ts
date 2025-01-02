@@ -133,13 +133,14 @@ export const seedArticlesWithReporterAndEditor = async () => {
     const data = await fs.promises.readFile(filePath, 'utf-8');
     // Parse the JSON string into an array of Content objects
     const content: IArticleData[] = JSON.parse(data);
+    const currentDate = new Date();
 
     for (const articleData of content) {
       const sectionId = getSectionId(articleData.sectionId);
       const editorId = getEditorForSection(sectionId);
       const editor = await EditorProfile.findById(editorId);
       const reporter = reporterArr[getRandomNumberInRange(0, reporterArr.length - 1)];
-      const publishedDate = getRandomDate(new Date('2024-11-01T00:00:00Z'), new Date('2024-12-01T00:00:00Z'));
+      const publishedDate = new Date(currentDate.getTime() - (getRandomNumberInRange(0, 6) + 1) * 24 * 60 * 60 * 1000); // Decrease by i days;
       const views = getRandomNumberInRange(10000, 30000);
 
       const article = new Article({
@@ -160,7 +161,9 @@ export const seedArticlesWithReporterAndEditor = async () => {
           editorId: editorId,
           publishedAt: publishedDate
         },
-        videoUrl: articleData.videoUrl
+        videoUrl: articleData.videoUrl,
+        createdAt: publishedDate,
+        updatedAt: publishedDate
       });
 
       await article.save();

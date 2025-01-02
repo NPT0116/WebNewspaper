@@ -12,6 +12,7 @@ interface IReportArticle {
   description: string;
   images: string[];
   createdAt: Date;
+
   status: 'draft' | 'approved' | 'rejected' | 'published' | 'pending';
 }
 interface IReporterAdminDashboard {

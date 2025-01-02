@@ -22,7 +22,6 @@ interface UpdateArticleBody {
   description?: string;
   content?: string;
   sectionId?: mongoose.Types.ObjectId;
-
   tags?: string;
   layout?: 1 | 2 | 3;
   images?: string[];

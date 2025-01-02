@@ -1,36 +1,58 @@
-<div class="relative flex flex-col jusitfy-between items-center z-0 h-full">
+<div class="relative flex flex-col jusitfy-between items-center z-0 h-full cursor-pointer" id="card-<%=article.slug%>">
   <% if (article.isSubscribed) {%>
   <custom>
     <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" style="z-index: 100"></a>
   </custom>
   <%} %>
-  <div id="card-image" class="h-2/5 bg-violet-400 bg-cover bg-no-repeat transition-all">
+  <div id="card-image" class="h-2/5  bg-cover bg-no-repeat transition-all">
     <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>">
       <img class="h-full w-full object-cover" src="<%=article.images%>" alt="Image of <%= article.description%>" />
     </a>
   </div>
 
   <div id="card-content" class="z-0 relative h-1/2 flex flex-col justify-evenly">
-    <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300" style="top: -5%; left: 4%">
-      <a href="/section/<%= article.section && article.section.slug ? article.section.slug : article.sectionId && article.sectionId.slug ? article.sectionId.slug : ''  %>" class="bg-red-600 p-2">
+    <div id="card-cat" class="absolute font-serif text-white p-1 text-sm transition-all duration-300 hover:scale-105" style="top: -5%; left: 3%">
+      <a id="card-cat-link" href="/section/<%= article.section && article.section.slug ? article.section.slug : article.sectionId && article.sectionId.slug ? article.sectionId.slug : ''  %>"  class="bg-red-600 p-2 ">
         <%= article.section && article.section.name ? article.section.name : article.sectionId && article.sectionId.name ? article.sectionId.name : "Unknown section" %>
       </a>
     </div>
+    <div id="publish-time-<%=article.slug%>" class="absolute top-0 text-[13px] self-end font-serif px-2 pt-2 pb-1 italic  border-b-2 border-black"><%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+      weekday: 'short', 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+  }).replace(', ', ' ') %>
+  </div>
 
-    <div class="flex justify-start items-center flex-col h-full pt-4">
+
+    <div class="flex justify-start items-center flex-col h-full pt-6">
       <h1 id="card-title" class="text-xl flex justify-start items-start font-bold font-serif hover:underline transition-all duration-300" style="margin-bottom: 15px; margin-top: 20px">
-        <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class="<% if (article.isSubscribed) { %> text-red-700 <% } %>"><%= article.title %> </a>
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" id="card-link-<%=article.slug%>" class="<% if (article.isSubscribed) { %> text-red-700 <% } %>"><%= article.title %> </a>
       </h1>
+      
       <h1 id="card-description" class="relative text-[1rem] h-full flex justify-start items-start italic font-serif text-gray-600 hover:text-gray-800 transition-all duration-300 self-end">
         <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class=""><%= article.description %> </a>
         <% if (article.isSubscribed && profile && !profile.isSubscriber || article.isSubscribed && !profile) {%>
             <div class="w-full h-full absolute" style="background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px)"></div>
         <%} %>
       </h1>
-      <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic mt-5">
-        <a href="" class="text-black hover:text-gray-800">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</a>
+      <div id="card-author" class="flex justify-end items-center font-bold self-end text-sm w-full italic mt-5" >
+        <a href="/section/<%=section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed %>" class="text-black hover:text-gray-800" style="cursor:text !important;">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</a>
       </div>
     </div>
   </div>
 </div>
+
 <link rel="stylesheet" href="/css/premiumTag.css" />
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById(`card-<%=article.slug%>`).addEventListener('click', (e) => {
+      if (e.target.id !== 'card-cat-link') {
+        const articleLink = document.getElementById(`card-link-<%=article.slug%>`)
+        articleLink.click()
+      }
+    })
+  })
+</script>

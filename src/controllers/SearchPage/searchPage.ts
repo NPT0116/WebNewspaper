@@ -234,7 +234,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
 
     let tagSlugList: string[] = [];
     if (tags && tags.length > 0) {
-      tagSlugList = tags.split(', ');
+      tagSlugList = tags.split('+');
     }
 
     const selectedSections = Array.isArray(sections) ? sections : [sections].filter(Boolean);
@@ -286,7 +286,11 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
         if (!section) {
           console.log('Error getting section by ' + section);
         }
-        section?.childSections?.forEach((childSection) => selectedSections.push(childSection.toString()));
+        section?.childSections?.forEach((childSection) => {
+          if (!selectedSections.includes(childSection.toString())) {
+            selectedSections.push(childSection.toString());
+          }
+        });
         if (section?.name) {
           selectedSectionsName.push(section?.name);
         }
@@ -313,10 +317,18 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       query.publishedAt = { $gte: new Date(currentDate.setMonth(currentDate.getMonth() - 1)) };
     }
 
+    const isSubscriber = req.user ? req.user.isSubscriber : false;
+    const sort: any =
+      searchValue && isSubscriber
+        ? { score: { $meta: 'textScore' }, isSubscribed: -1 }
+        : isSubscriber
+          ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
+          : { publishedAt: -1 }; // Latest first for non-subscribers
+
     console.log('Constructed Query:', JSON.stringify(query, null, 2));
 
     // Fetch articles and pagination data
-    const articles = await getListArticleInfoCards(query, skip, size);
+    const articles = await getListArticleInfoCards(query, skip, size, sort);
     const totalArticlesCount = await countArticles(query);
     const totalPagesCount = Math.ceil(totalArticlesCount / size);
 
@@ -349,6 +361,7 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
     };
 
     res.render('layouts/SearchPageLayout/SearchPageLayout', searchPageData);
+    // res.json(searchPageData);
   } catch (error) {
     console.error('Error in getSearchPage:', error);
     next(new AppError('Error fetching search page data.', 500));

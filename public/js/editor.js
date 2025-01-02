@@ -516,7 +516,7 @@ const sectionSelect = document.getElementById('section');
 //   sectionSelect.appendChild(option);
 // });
 
-const handleSubmit = async () => {
+const handleSubmit = async (event) => {
   const title = document.getElementById('title')?.value;
   const description = document.getElementById('desc')?.value;
   const layout = document.getElementById('layout')?.value;

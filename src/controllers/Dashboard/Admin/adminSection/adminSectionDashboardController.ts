@@ -25,7 +25,8 @@ export const renderAdminSectionsPage = async (req: Request, res: Response) => {
           name: section.name,
           createdAt: section.createdAt,
           updatedAt: section.updatedAt,
-          deleteActivate: articleUsingSection || editorUsingSection ? false : true
+          deleteActivate: articleUsingSection || editorUsingSection ? false : true,
+          parentSectionId: section.parentSection
         };
       })
     );
@@ -60,13 +61,13 @@ export const createNewSection = async (req: Request<{}, {}, ICreateNewSection>, 
 interface IUpdateSection {
   _id: mongoose.Types.ObjectId;
   name: string;
-  parentSectionId: mongoose.Types.ObjectId | null;
+  parentSectionId: mongoose.Types.ObjectId | null | '';
 }
 
 export const updateSection = async (req: Request<{}, {}, IUpdateSection>, res: Response) => {
   try {
     const { _id, name, parentSectionId }: IUpdateSection = req.body;
-    await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId });
+    await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId !== '' ? parentSectionId : null });
     res.redirect('/dashboard/admin/sections');
   } catch (e) {
     console.error('Error updating section:', e);

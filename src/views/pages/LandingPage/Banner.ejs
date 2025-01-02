@@ -13,9 +13,21 @@
       <%} %>
     </div>
 
-    <div id="top-author" class="self-end font-sans italic font-bold" class="hover: underline">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    <div class="flex flex-row justify-between w-full px-2">
+      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif ">
+        <%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+        }).replace(', ', ' ') %>  
+      </div>
+      <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    </div>
   </div>
-  <div class="relative h-full w-full  rounded">
+  <div class="relative h-full w-full  rounded overflow-hidden">
     <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>">
       <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
     </a>
@@ -24,7 +36,7 @@
 <% } else {%>
 
 <div class="relative grid grid-cols-1 md:grid-cols-2 h-screen shadow-xl rounded">
-  <div class="relative h-full w-full  rounded">
+  <div class="relative h-full w-full  rounded overflow-hidden">
     <a href="section/<%=article.section.slug%>/article/<%=article.slug%>?isSubscribed=<%= article.isSubscribed%>">
       <img src="<%=article.images%>" alt="" class="w-full h-full object-cover" />
     </a>
@@ -42,8 +54,19 @@
         </p>
       <%} %>
     </div>
-
-    <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    <div class="flex flex-row justify-between w-full px-2">
+      <div id="banner-publish-time-<%=article.slug%>" class="text-sm italic font-serif ">
+        <%= new Date(article.publishedAt).toLocaleString('en-GB', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+        }).replace(', ', ' ') %>  
+      </div>
+      <div id="top-author" class="self-end font-sans italic font-bold text-gray-800 hover:text-gray-900">"<%= article.author && article.author.name ? article.author.name : 'Unknown author' %>"</div>
+    </div>
   </div>
 </div>
 <% } %>
