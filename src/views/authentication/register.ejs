@@ -46,7 +46,7 @@
             </div>
           </div>
           <%-include ('../components/Authentication/InputBox', { title: "Enter Name", type: "text", name:"name", id:"name" })%>
-          <div class="g-recaptcha" data-sitekey="6Lc866kqAAAAAJyzhZ5g3Y_nUVf3csbGIFdbEh3J"></div>
+          <div class="g-recaptcha" data-sitekey="<%= hostname === 'localhost' ? '6Lc866kqAAAAAJyzhZ5g3Y_nUVf3csbGIFdbEh3J' : '6LcW2qsqAAAAADZFm0JIN-TgdZRw904XS6OKQ8cp' %>"></div>
           <div>
             <p>Already have an account ? <a href="/login" class="font-bold hover:underline">Login</a></p>
           </div>
@@ -68,7 +68,7 @@
 
     function isValidUsername(username) {
       // Define the username format rules using a regular expression
-      const usernameRegex = /^[a-z][a-z0-9_]{4,40}$/;
+      const usernameRegex = /^[a-z][a-z0-9_]{4,14}$/;
 
       // Test the username against the regex
       if (usernameRegex.test(username)) {
@@ -97,7 +97,7 @@
 
       if (!isValidUsername(username)) {
         const warning = document.getElementById('username-warning');
-        warning.innerText = 'Username must be between 5-40 characters, lowercase and contains only letter, number and underscore';
+        warning.innerText = 'Username must be between 5-15 characters, lowercase and contains only letter, number and underscore';
         warning.classList.remove('hidden');
         canSubmit = false;
       }
