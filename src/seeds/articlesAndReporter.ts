@@ -37,7 +37,10 @@ export const seedArticlesWithReporterAndEditor = async () => {
   try {
     // Xóa dữ liệu cũ
     await Article.deleteMany({});
+    await ReporterProfile.deleteMany({});
+    await Account.deleteMany({ role: 'reporter' });
     console.log('Old articles cleared.');
+    console.log('Old reporter profiles cleared.');
     await Article.syncIndexes();
     console.log('Indexes synced successfully.');
 

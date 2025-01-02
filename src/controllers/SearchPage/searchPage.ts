@@ -322,8 +322,10 @@ export const getSearchPage = async (req: Request<{}, {}, {}, ISearchPageRequestQ
       searchValue && isSubscriber
         ? { score: { $meta: 'textScore' }, isSubscribed: -1 }
         : isSubscriber
-          ? { isSubscribed: -1, publishedAt: -1 } // Premium first, then latest
-          : { publishedAt: -1 }; // Latest first for non-subscribers
+          ? { isSubscribed: -1, publishedAt: -1 }
+          : searchValue
+            ? { score: { $meta: 'textScore' }, publishedAt: -1 }
+            : { publishedAt: -1 }; // Latest first for non-subscribers
 
     console.log('Constructed Query:', JSON.stringify(query, null, 2));
 

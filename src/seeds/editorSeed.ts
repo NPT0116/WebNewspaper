@@ -7,7 +7,7 @@ export const seedEditors = async () => {
   try {
     // Xóa dữ liệu cũ nếu cần
     await EditorProfile.deleteMany({});
-    await Account.deleteMany({});
+    await Account.deleteMany({ role: 'editor' });
     console.log('Old editor profiles and accounts cleared');
 
     // Lấy danh sách tất cả các sections
