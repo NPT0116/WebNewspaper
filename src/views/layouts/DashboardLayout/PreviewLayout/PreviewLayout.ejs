@@ -27,14 +27,10 @@
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
-        <div
-          id="banner-introduction-layout-content"
-          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4"
-          style=" padding-left: 20px; padding-right: 20px"
-        >
+        <div id="banner-introduction-layout-content" class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4" style="padding-left: 20px; padding-right: 20px">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-red-100 text-red-800 text-base font-medium me-2 px-4 py-1 rounded-full dark:bg-red-900 dark:text-red-300" style="position: absolute; bottom: 16px; right: 16px">
             Layout 1
           </span>
@@ -50,7 +46,7 @@
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-blue-100 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300z-30" style="position: absolute; bottom: 16px; left: 16px">
             Layout 2
           </span>
@@ -67,13 +63,10 @@
 
       <!-- Layout 3 -->
       <div data-id="3" id="banner-layout-l3" class="hidden h-full w-full flex flex-row justify-center items-center" data-carousel-item>
-        <div
-          id="banner-introduction-layout-content"
-          class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-screen flex flex-col justify-center items-center text-center gap-4"
-        >
+        <div id="banner-introduction-layout-content" class="absolute left-0 bg-black w-full bg-opacity-50 text-white h-screen flex flex-col justify-center items-center text-center gap-4">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author?.name%>"</div>
           <span class="bg-green-100 text-green-800 text-base font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="position: absolute; bottom: 64px"> Layout 3 </span>
         </div>
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua">
@@ -90,7 +83,7 @@
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-blue-100 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300z-30" style="position: absolute; bottom: 16px; left: 16px">
             Layout 2
           </span>
@@ -114,7 +107,7 @@
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author?.name%>"</div>
           <span class="bg-green-100 text-green-800 text-base font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="position: absolute; bottom: 64px"> Layout 3 </span>
         </div>
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua">
@@ -127,14 +120,10 @@
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
-        <div
-          id="banner-introduction-layout-content"
-          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4"
-          style="padding-left: 20px; padding-right: 20px"
-        >
+        <div id="banner-introduction-layout-content" class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4" style="padding-left: 20px; padding-right: 20px">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-red-100 text-red-800 text-base font-medium me-2 px-4 py-1 rounded-full dark:bg-red-900 dark:text-red-300" style="position: absolute; bottom: 16px; right: 16px">
             Layout 1
           </span>
@@ -150,7 +139,7 @@
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 200px">"<%=author?.name%>"</div>
           <span class="bg-green-100 text-green-800 text-base font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="position: absolute; bottom: 64px"> Layout 3 </span>
         </div>
         <div id="banner-introduction-layout-image" class="h-full w-full" style="background-color: aqua">
@@ -167,7 +156,7 @@
         >
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-blue-100 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300z-30" style="position: absolute; bottom: 16px; left: 16px">
             Layout 2
           </span>
@@ -187,14 +176,10 @@
         <div id="banner-introduction-layout-image" class="h-full w-1/2">
           <img class="object-cover object-center h-full w-full" src="<%=images%>" alt="" />
         </div>
-        <div
-          id="banner-introduction-layout-content"
-          class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4"
-          style="padding-left: 20px; padding-right: 20px"
-        >
+        <div id="banner-introduction-layout-content" class="h-full w-1/2 flex flex-col justify-center items-center text-center gap-4" style="padding-left: 20px; padding-right: 20px">
           <div class="hover:underline text-5xl font-serif"><%=title%></div>
           <div class="hover:underline text-xl italic font-serif"><%=description%></div>
-          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author.name%>"</div>
+          <div class="hover:underline text-lg italic font-serif self-end" style="padding-right: 20px">"<%=author?.name%>"</div>
           <span class="bg-red-100 text-red-800 text-base font-medium me-2 px-4 py-1 rounded-full dark:bg-red-900 dark:text-red-300" style="position: absolute; bottom: 16px; right: 16px">
             Layout 1
           </span>
@@ -227,7 +212,7 @@
         </span>
       </button>
     </div>
-    <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author.name})%></div>
+    <div class="flex justify-center flex-col"><%-include(body, {title: title, content: content, images: images, author: author?.name})%></div>
     <% if (canApprove && status === 'pending') { %>
     <div data-dial-init class="fixed end-6 bottom-6 group">
       <div id="speed-dial-menu-square" class="flex flex-col items-center hidden mb-4 space-y-2">
