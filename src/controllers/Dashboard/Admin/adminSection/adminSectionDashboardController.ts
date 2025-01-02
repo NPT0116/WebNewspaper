@@ -75,14 +75,29 @@ interface IUpdateSection {
   name: string;
   parentSectionId: mongoose.Types.ObjectId | null | '';
 }
-
 export const updateSection = async (req: Request<{}, {}, IUpdateSection>, res: Response) => {
   try {
     const { _id, name, parentSectionId }: IUpdateSection = req.body;
+    const oldParentSection = await Section.findOne({ childSections: { $elemMatch: { $eq: _id } } });
+    if (oldParentSection) {
+      if (oldParentSection.childSections) {
+        oldParentSection.childSections = oldParentSection.childSections.filter((id) => id.toString() !== _id.toString());
+      }
+      await oldParentSection.save();
+    }
     await Section.findOneAndUpdate({ _id }, { name, parentSection: parentSectionId !== '' ? parentSectionId : null });
+    const parent = await Section.findById(parentSectionId);
+    if (parent) {
+      if (parent.childSections) {
+        parent.childSections.push(_id);
+      } else {
+        parent.childSections = [_id];
+      }
+      await parent.save();
+    }
     res.redirect('/dashboard/admin/sections');
-  } catch (e) {
-    console.error('Error updating section:', e);
+  } catch (error) {
+    console.error('Error updating section:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
