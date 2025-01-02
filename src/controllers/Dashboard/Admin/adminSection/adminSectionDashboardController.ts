@@ -51,17 +51,19 @@ export const createNewSection = async (req: Request<{}, {}, ICreateNewSection>, 
     const { name, parentSectionId } = req.body;
     const newSection = new Section({ name, parentSection: parentSectionId !== '' ? parentSectionId : null });
     await newSection.save();
-    const parent = await Section.findById(parentSectionId);
-    if (!parent) {
-      res.status(404).json({ status: 'error', message: 'Parent section not found' });
-      return;
+    if (parentSectionId) {
+      const parent = await Section.findById(parentSectionId);
+      if (!parent) {
+        res.status(404).json({ status: 'error', message: 'Parent section not found' });
+        return;
+      }
+      if (parent.childSections) {
+        parent.childSections.push(newSection._id);
+      } else {
+        parent.childSections = [newSection._id];
+      }
+      await parent.save();
     }
-    if (parent.childSections) {
-      parent.childSections.push(newSection._id);
-    } else {
-      parent.childSections = [newSection._id];
-    }
-    await parent.save();
     res.redirect('/dashboard/admin/sections');
   } catch (e) {
     console.error('Error creating new section:', e);
